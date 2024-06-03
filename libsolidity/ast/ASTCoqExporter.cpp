@@ -99,15 +99,15 @@ void ASTCoqExporter::setCoqNode(
 	std::vector<std::pair<std::string, std::string>>&& _attributes
 )
 {
-	m_currentValue = "";
-	m_currentValue += "id: " + nodeId(_node);
-	m_currentValue += "src: " + sourceLocationToString(_node.location());
+	m_currentValue = "(* Beginning of a node! *)\n";
+	m_currentValue += "id: "s + std::to_string(nodeId(_node)) + "\n";
+	m_currentValue += "src: " + sourceLocationToString(_node.location()) + "\n";
 	if (auto const* documented = dynamic_cast<Documented const*>(&_node))
 		if (documented->documentation())
-			m_currentValue += "documentation: " + *documented->documentation();
-	m_currentValue += "nodeType: " + _nodeType;
+			m_currentValue += "documentation: " + *documented->documentation() + "\n";
+	m_currentValue += "nodeType: " + _nodeType + "\n";
 	for (auto& e: _attributes)
-		m_currentValue += e.first + ": " + std::move(e.second);
+		m_currentValue += e.first + ": " + std::move(e.second) + "\n";
 }
 
 std::optional<size_t> ASTCoqExporter::sourceIndexFromLocation(SourceLocation const& _location) const
