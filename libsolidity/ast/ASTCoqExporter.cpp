@@ -144,9 +144,9 @@ std::string ASTCoqExporter::namePathToString(std::vector<ASTString> const& _name
 
 std::string ASTCoqExporter::typePointerToCoq(Type const* _tp, bool _withoutDataLocation)
 {
-	Json typeDescriptions;
-	typeDescriptions["typeString"] = _tp ? Json(_tp->toString(_withoutDataLocation)) : "";
-	typeDescriptions["typeIdentifier"] = _tp ? Json(_tp->identifier()) : "";
+	std::string typeDescriptions;
+	typeDescriptions += "typeString" + (_tp ? _tp->toString(_withoutDataLocation) : "");
+	typeDescriptions += "typeIdentifier" + (_tp ? _tp->identifier() : "");
 
 	return typeDescriptions;
 }
@@ -155,13 +155,14 @@ std::string ASTCoqExporter::typePointerToCoq(std::optional<FuncCallArguments> co
 {
 	if (_tps)
 	{
-		Json arguments = Json::array();
+		std::string arguments = "[";
 		for (auto const& tp: _tps->types)
-			appendMove(arguments, typePointerToCoq(tp));
+			arguments += typePointerToCoq(tp) + ", ";
+		arguments += "]";
 		return arguments;
 	}
 	else
-		return Json();
+		return "";
 }
 
 void ASTCoqExporter::appendExpressionAttributes(
@@ -217,25 +218,26 @@ std::string ASTCoqExporter::toCoq(ASTNode const& _node)
 bool ASTCoqExporter::visit(SourceUnit const& _node)
 {
 	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("license", _node.licenseString() ? Json(*_node.licenseString()) : ""),
+		std::make_pair("license", _node.licenseString() ? *_node.licenseString() : ""),
 		std::make_pair("nodes", toCoq(_node.nodes())),
 	};
 
 	if (_node.experimentalSolidity())
-		attributes.emplace_back("experimentalSolidity", Json(_node.experimentalSolidity()));
+		attributes.emplace_back("experimentalSolidity", std::to_string(_node.experimentalSolidity()));
 
 	if (_node.annotation().exportedSymbols.set())
 	{
-		Json exportedSymbols = Json::object();
+		std::string exportedSymbols = "{";
 		for (auto const& sym: *_node.annotation().exportedSymbols)
 		{
-			exportedSymbols[sym.first] = Json::array();
+			exportedSymbols += sym.first + ": [";
 			for (Declaration const* overload: sym.second)
-				exportedSymbols[sym.first].emplace_back(nodeId(*overload));
+				exportedSymbols += std::to_string(nodeId(*overload)) + ", ";
+			exportedSymbols += "], ";
 		}
+		exportedSymbols += "}";
 
-		// attributes.emplace_back("exportedSymbols", exportedSymbols);
-		attributes.emplace_back("exportedSymbols", "TODO");
+		attributes.emplace_back("exportedSymbols", exportedSymbols);
 	};
 
 	addIfSet(attributes, "absolutePath", _node.annotation().path);
@@ -247,9 +249,10 @@ bool ASTCoqExporter::visit(SourceUnit const& _node)
 
 bool ASTCoqExporter::visit(PragmaDirective const& _node)
 {
-	Json literals = Json::array();
+	std::string literals = "[";
 	for (auto const& literal: _node.literals())
-		literals.emplace_back(literal);
+		literals += literal + ", ";
+	literals += "]";
 	setCoqNode(_node, "PragmaDirective", {
 		std::make_pair("literals", std::move(literals))
 	});
@@ -267,19 +270,21 @@ bool ASTCoqExporter::visit(ImportDirective const& _node)
 	addIfSet(attributes, "absolutePath", _node.annotation().absolutePath);
 
 	attributes.emplace_back("unitAlias", _node.name());
-	attributes.emplace_back("nameLocation", Json(sourceLocationToString(_node.nameLocation())));
+	attributes.emplace_back("nameLocation", sourceLocationToString(_node.nameLocation()));
 
-	Json symbolAliases = Json::array();
+	std::string symbolAliases = "[";
 	for (auto const& symbolAlias: _node.symbolAliases())
 	{
-		Json tuple;
+		std::string tuple = "(";
 		solAssert(symbolAlias.symbol, "");
-		tuple["foreign"] = toCoq(*symbolAlias.symbol);
-		tuple["local"] =  symbolAlias.alias ? Json(*symbolAlias.alias) : "";
-		tuple["nameLocation"] = sourceLocationToString(_node.nameLocation());
-		symbolAliases.emplace_back(tuple);
+		tuple += "foreign: " + toCoq(*symbolAlias.symbol) + ", ";
+		tuple += "local: " + (symbolAlias.alias ? *symbolAlias.alias : "")  + ", ";
+		tuple += "nameLocation: " + sourceLocationToString(_node.nameLocation())  + ", ";
+		tuple += ")";
+		symbolAliases += tuple + ", ";
 	}
-	attributes.emplace_back("symbolAliases", std::move(symbolAliases));
+	symbolAliases += "]";
+	attributes.emplace_back("symbolAliases", symbolAliases);
 	setCoqNode(_node, "ImportDirective", std::move(attributes));
 	return false;
 }
@@ -309,10 +314,11 @@ bool ASTCoqExporter::visit(ContractDefinition const& _node)
 
 	if (!_node.annotation().internalFunctionIDs.empty())
 	{
-		Json internalFunctionIDs;
+		std::string internalFunctionIDs = "{";
 		for (auto const& [functionDefinition, internalFunctionID]: _node.annotation().internalFunctionIDs)
-			internalFunctionIDs[std::to_string(functionDefinition->id())] = internalFunctionID;
-		attributes.emplace_back("internalFunctionIDs", std::move(internalFunctionIDs));
+			internalFunctionIDs += std::to_string(functionDefinition->id()) + ": " + std::to_string(internalFunctionID) + ", ";
+		internalFunctionIDs += "}";
+		attributes.emplace_back("internalFunctionIDs", internalFunctionIDs);
 	}
 
 	setCoqNode(_node, "ContractDefinition", std::move(attributes));
@@ -321,15 +327,15 @@ bool ASTCoqExporter::visit(ContractDefinition const& _node)
 
 bool ASTCoqExporter::visit(IdentifierPath const& _node)
 {
-	Json nameLocations = Json::array();
+	std::string nameLocations = "[";
 
 	for (SourceLocation location: _node.pathLocations())
-		nameLocations.emplace_back(sourceLocationToString(location));
+		nameLocations += sourceLocationToString(location) + ", ";
+	nameLocations += "]";
 
 	setCoqNode(_node, "IdentifierPath", {
 		std::make_pair("name", namePathToString(_node.path())),
-		// std::make_pair("nameLocations", nameLocations),
-		std::make_pair("nameLocations", "TODO"),
+		std::make_pair("nameLocations", nameLocations),
 		std::make_pair("referencedDeclaration", idOrNull(_node.annotation().referencedDeclaration))
 	});
 	return false;
@@ -352,20 +358,22 @@ bool ASTCoqExporter::visit(UsingForDirective const& _node)
 
 	if (_node.usesBraces())
 	{
-		Json functionList = Json::array();
+		std::string functionList = "[";
 		for (auto&& [function, op]: _node.functionsAndOperators())
 		{
-			Json functionNode;
+			std::string functionNode = "{";
 			if (!op.has_value())
-				functionNode["function"] = toCoq(*function);
+				functionNode += "function: " + toCoq(*function) + ", ";
 			else
 			{
-				functionNode["definition"] = toCoq(*function);
-				functionNode["operator"] = std::string(TokenTraits::toString(*op));
+				functionNode += "definition: " + toCoq(*function) + ", ";
+				functionNode += "operator: "s + TokenTraits::toString(*op) + ", ";
 			}
-			functionList.emplace_back(std::move(functionNode));
+			functionNode += "}";
+			functionList += functionNode + ", ";
 		}
-		attributes.emplace_back("functionList", std::move(functionList));
+		functionList += "]";
+		attributes.emplace_back("functionList", functionList);
 	}
 	else
 	{
@@ -672,20 +680,19 @@ bool ASTCoqExporter::visit(InlineAssembly const& _node)
 
 	std::vector<std::pair<std::string, std::string>> attributes = {
 		// std::make_pair("AST", Json(yul::AsmJsonConverter(sourceIndexFromLocation(_node.location()))(_node.operations()))),
-		std::make_pair("AST", "YulJson"),
+		std::make_pair("AST", "TODO YulJson"),
 		std::make_pair("externalReferences", std::move(externalReferencesString)),
 		std::make_pair("evmVersion", dynamic_cast<solidity::yul::EVMDialect const&>(_node.dialect()).evmVersion().name())
 	};
 
 	if (_node.flags())
 	{
-		Json flags = Json::array();
+		std::string flags = "[";
 		for (auto const& flag: *_node.flags())
 			if (flag)
-				flags.emplace_back(*flag);
-			else
-				flags.emplace_back(Json());
-		attributes.emplace_back(std::make_pair("flags", std::move(flags)));
+				flags += *flag + ", ";
+		flags += "]";
+		attributes.emplace_back(std::make_pair("flags", flags));
 	}
 	setCoqNode(_node, "InlineAssembly", std::move(attributes));
 
@@ -810,11 +817,12 @@ bool ASTCoqExporter::visit(RevertStatement const& _node)
 
 bool ASTCoqExporter::visit(VariableDeclarationStatement const& _node)
 {
-	Json varDecs = Json::array();
+	std::string varDecs = "[";
 	for (auto const& v: _node.declarations())
-		appendMove(varDecs, idOrNull(v.get()));
+		varDecs += idOrNull(v.get()) + ", ";
+	varDecs += "]";
 	setCoqNode(_node, "VariableDeclarationStatement", {
-		std::make_pair("assignments", std::move(varDecs)),
+		std::make_pair("assignments", varDecs),
 		std::make_pair("declarations", toCoq(_node.declarations())),
 		std::make_pair("initialValue", toCoqOrNull(_node.initialValue()))
 	});
@@ -856,7 +864,7 @@ bool ASTCoqExporter::visit(Assignment const& _node)
 bool ASTCoqExporter::visit(TupleExpression const& _node)
 {
 	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("isInlineArray", Json(_node.isInlineArray())),
+		std::make_pair("isInlineArray", std::to_string(_node.isInlineArray())),
 		std::make_pair("components", toCoq(_node.components())),
 	};
 	appendExpressionAttributes(attributes, _node.annotation());
@@ -897,12 +905,13 @@ bool ASTCoqExporter::visit(BinaryOperation const& _node)
 
 bool ASTCoqExporter::visit(FunctionCall const& _node)
 {
-	Json names = Json::array();
+	std::string names = "[";
 	for (auto const& name: _node.names())
-		names.push_back(Json(*name));
+		names += *name + ", ";
+	names += "]";
 	std::vector<std::pair<std::string, std::string>> attributes = {
 		std::make_pair("expression", toCoq(_node.expression())),
-		std::make_pair("names", std::move(names)),
+		std::make_pair("names", names),
 		std::make_pair("nameLocations", sourceLocationsToCoq(_node.nameLocations())),
 		std::make_pair("arguments", toCoq(_node.arguments())),
 		std::make_pair("tryCall", std::to_string(_node.annotation().tryCall))
@@ -921,13 +930,14 @@ bool ASTCoqExporter::visit(FunctionCall const& _node)
 
 bool ASTCoqExporter::visit(FunctionCallOptions const& _node)
 {
-	Json names = Json::array();
+	std::string names = "[";
 	for (auto const& name: _node.names())
-		names.emplace_back(Json(*name));
+		names += *name + ", ";
+	names += "]";
 
 	std::vector<std::pair<std::string, std::string>> attributes = {
 		std::make_pair("expression", toCoq(_node.expression())),
-		std::make_pair("names", std::move(names)),
+		std::make_pair("names", names),
 		std::make_pair("options", toCoq(_node.options())),
 	};
 	appendExpressionAttributes(attributes, _node.annotation());
@@ -950,7 +960,7 @@ bool ASTCoqExporter::visit(MemberAccess const& _node)
 {
 	std::vector<std::pair<std::string, std::string>> attributes = {
 		std::make_pair("memberName", _node.memberName()),
-		std::make_pair("memberLocation", Json(sourceLocationToString(_node.memberLocation()))),
+		std::make_pair("memberLocation", sourceLocationToString(_node.memberLocation())),
 		std::make_pair("expression", toCoq(_node.expression())),
 		std::make_pair("referencedDeclaration", idOrNull(_node.annotation().referencedDeclaration)),
 	};
@@ -984,9 +994,10 @@ bool ASTCoqExporter::visit(IndexRangeAccess const& _node)
 
 bool ASTCoqExporter::visit(Identifier const& _node)
 {
-	Json overloads = Json::array();
+	std::string overloads = "[";
 	for (auto const& dec: _node.annotation().overloadedDeclarations)
-		overloads.emplace_back(nodeId(*dec));
+		overloads += idOrNull(dec) + ", ";
+	overloads += "]";
 	setCoqNode(_node, "Identifier", {
 		std::make_pair("name", _node.name()),
 		std::make_pair("referencedDeclaration", idOrNull(_node.annotation().referencedDeclaration)),
@@ -1009,9 +1020,9 @@ bool ASTCoqExporter::visit(ElementaryTypeNameExpression const& _node)
 
 bool ASTCoqExporter::visit(Literal const& _node)
 {
-	Json value = _node.value();
+	std::string value = _node.value();
 	if (!util::validateUTF8(_node.value()))
-		value = Json();
+		value = "";
 	Token subdenomination = Token(_node.subDenomination());
 	std::vector<std::pair<std::string, std::string>> attributes = {
 		std::make_pair("kind", literalTokenKind(_node.token())),
@@ -1020,8 +1031,8 @@ bool ASTCoqExporter::visit(Literal const& _node)
 		std::make_pair(
 			"subdenomination",
 			subdenomination == Token::Illegal ?
-			Json() :
-			Json(TokenTraits::toString(subdenomination))
+			"" :
+			TokenTraits::toString(subdenomination)
 		)
 	};
 	appendExpressionAttributes(attributes, _node.annotation());
@@ -1031,7 +1042,7 @@ bool ASTCoqExporter::visit(Literal const& _node)
 
 bool ASTCoqExporter::visit(StructuredDocumentation const& _node)
 {
-	Json text = *_node.text();
+	std::string text = *_node.text();
 	std::vector<std::pair<std::string, std::string>> attributes = {
 		std::make_pair("text", text)
 	};

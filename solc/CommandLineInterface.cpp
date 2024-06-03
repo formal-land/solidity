@@ -1101,7 +1101,7 @@ void CommandLineInterface::handleCoq()
 	}
 	else
 	{
-		sout() << "Coq AST (compact format):" << std::endl << std::endl;
+		sout() << "Coq AST:" << std::endl << std::endl;
 		for (auto const& sourceCode: m_fileReader.sourceUnits())
 		{
 			sout() << std::endl << "======= " << sourceCode.first << " =======" << std::endl;
