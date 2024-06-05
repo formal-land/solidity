@@ -148,9 +148,13 @@ private:
 	{
 		return _pt ? std::to_string(nodeId(*_pt)) : "null";
 	}
+	// std::optional<std::string> toCoqOrNull(ASTNode const* _node)
+	// {
+	// 	return _node ? std::optional<std::string>(toCoq(*_node)) : std::optional<std::string>();
+	// }
 	std::string toCoqOrNull(ASTNode const* _node)
 	{
-		return _node ? toCoq(*_node) : "null";
+		return _node ? toCoq(*_node) : "";
 	}
 	std::string inlineAssemblyIdentifierToCoq(std::pair<yul::Identifier const* , InlineAssemblyAnnotation::ExternalIdentifierInfo> _info) const;
 	static std::string location(VariableDeclaration::Location _location);
