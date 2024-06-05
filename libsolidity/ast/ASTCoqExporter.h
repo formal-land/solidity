@@ -63,12 +63,23 @@ public:
 	template <class T>
 	std::string toCoq(std::vector<ASTPointer<T>> const& _nodes)
 	{
-		std::string ret = "[";
-		for (auto const& n: _nodes)
-			if (n)
-				ret += toCoq(*n);
-		return ret + "]";
+		std::string ret = "";
+		bool isFirst = true;
+
+		for (auto const& node: _nodes)
+			if (node) {
+				if (!isFirst)
+					ret += "\n";
+				else
+					isFirst = false;
+
+				ret += toCoq(*node);
+			}
+
+		return ret;
 	}
+	std::string indent();
+	std::string paren(std::string const& content);
 	bool visit(SourceUnit const& _node) override;
 	bool visit(PragmaDirective const& _node) override;
 	bool visit(ImportDirective const& _node) override;
@@ -201,6 +212,8 @@ private:
 	bool m_inEvent = false; ///< whether we are currently inside an event or not
 	std::string m_currentValue;
 	std::map<std::string, unsigned> m_sourceIndices;
+	bool m_withParens = false; /// < whether to print the expression with parens or not
+	uint64_t m_indent = 0; ///< current indentation level
 };
 
 }

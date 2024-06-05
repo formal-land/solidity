@@ -149,8 +149,8 @@ std::string ASTCoqExporter::namePathToString(std::vector<ASTString> const& _name
 std::string ASTCoqExporter::typePointerToCoq(Type const* _tp, bool _withoutDataLocation)
 {
 	std::string typeDescriptions;
-	typeDescriptions += "typeString" + (_tp ? _tp->toString(_withoutDataLocation) : "");
-	typeDescriptions += "typeIdentifier" + (_tp ? _tp->identifier() : "");
+	typeDescriptions += "typeString "s + (_tp ? _tp->toString(_withoutDataLocation) : "");
+	typeDescriptions += "typeIdentifier s" + (_tp ? _tp->identifier() : "");
 
 	return typeDescriptions;
 }
@@ -219,6 +219,19 @@ std::string ASTCoqExporter::toCoq(ASTNode const& _node)
 	return m_currentValue;
 }
 
+std::string ASTCoqExporter::indent()
+{
+	return std::string(2 * m_indent, ' ');
+}
+
+std::string ASTCoqExporter::paren(std::string const& content)
+{
+	if (m_withParens)
+		return "("s + content + ")"s;
+	else
+		return content;
+}
+
 bool ASTCoqExporter::visit(SourceUnit const& _node)
 {
 	std::vector<std::pair<std::string, std::string>> attributes = {
@@ -272,7 +285,7 @@ bool ASTCoqExporter::visit(PragmaDirective const& _node)
 		literals += literal;
 	}
 
-	m_currentValue = "(* Pragma "s + literals + " *)"s;
+	m_currentValue = "(* Pragma "s + literals + " *)\n"s;
 
 	return false;
 }
@@ -312,9 +325,9 @@ bool ASTCoqExporter::visit(ImportDirective const& _node)
 		std::replace(importPath.begin(), importPath.end(), '-', '_');
 		// remove '.sol' extension
 		importPath.erase(importPath.end() - 4, importPath.end());
-		m_currentValue = "Import "s + importPath + "."s;
+		m_currentValue = "Require "s + importPath + ".\n"s;
 	} else {
-		m_currentValue = "Missing import absolute path."s;
+		m_currentValue = "Missing import absolute path.\n"s;
 	}
 
 	return false;
@@ -352,7 +365,15 @@ bool ASTCoqExporter::visit(ContractDefinition const& _node)
 		attributes.emplace_back("internalFunctionIDs", internalFunctionIDs);
 	}
 
-	setCoqNode(_node, "ContractDefinition", std::move(attributes));
+	m_indent++;
+	std::string body = toCoq(_node.subNodes());
+	m_indent--;
+
+	m_currentValue = "(* "s + contractKind(_node.contractKind()) + " *)\n"s;
+	m_currentValue += "Module "s + _node.name() + ".\n"s;
+	m_currentValue += body;
+	m_currentValue += "End "s + _node.name() + ".\n"s;
+
 	return false;
 }
 
@@ -434,6 +455,8 @@ bool ASTCoqExporter::visit(StructDefinition const& _node)
 	addIfSet(attributes,"canonicalName", _node.annotation().canonicalName);
 
 	setCoqNode(_node, "StructDefinition", std::move(attributes));
+
+	m_currentValue = indent() + "(* Struct "s + _node.name() + " *)\n"s;
 
 	return false;
 }
@@ -557,7 +580,16 @@ bool ASTCoqExporter::visit(VariableDeclaration const& _node)
 		attributes.emplace_back("indexed", std::to_string(_node.isIndexed()));
 	if (!_node.annotation().baseFunctions.empty())
 		attributes.emplace_back(std::make_pair("baseFunctions", getContainerIds(_node.annotation().baseFunctions, true)));
-	setCoqNode(_node, "VariableDeclaration", std::move(attributes));
+
+	m_indent++;
+	std::string value = _node.value() ? toCoq(*_node.value()) : "undefined";
+	m_indent--;
+
+	m_currentValue = indent() + "Definition "s + _node.name() + " : Value.t :=\n"s;
+	m_indent++;
+	m_currentValue += indent() + value + ".\n"s;
+	m_indent--;
+
 	return false;
 }
 
@@ -628,7 +660,8 @@ bool ASTCoqExporter::visit(ErrorDefinition const& _node)
 	if (m_stackState >= CompilerStack::State::AnalysisSuccessful)
 		_attributes.emplace_back(std::make_pair("errorSelector", _node.functionType(true)->externalIdentifierHex()));
 
-	setCoqNode(_node, "ErrorDefinition", std::move(_attributes));
+	m_currentValue = indent() + "(* Error "s + _node.name() + " *)\n"s;
+
 	return false;
 }
 
@@ -1092,8 +1125,29 @@ bool ASTCoqExporter::visit(Literal const& _node)
 
 	// appendExpressionAttributes(attributes, _node.annotation());
 
-	m_currentValue =
-		"Literal "s + kind + " "s + value + " "s + hexValue + " "s + subdenominationString + "\n"s;
+	switch (_node.token())
+	{
+	case Token::Number:
+		m_currentValue = paren("Value.Integer " + _node.value());
+		break;
+	case Token::StringLiteral:
+		m_currentValue = "string";
+		break;
+	case Token::UnicodeStringLiteral:
+		m_currentValue = "unicodeString";
+		break;
+	case Token::HexStringLiteral:
+		m_currentValue = "hexString";
+		break;
+	case Token::TrueLiteral:
+		m_currentValue = paren("Value.Bool true"s);
+		break;
+	case Token::FalseLiteral:
+		m_currentValue = paren("Value.Bool false"s);
+		break;
+	default:
+		solAssert(false, "Unknown kind of literal token.");
+	}
 
 	return false;
 }
@@ -1143,11 +1197,11 @@ std::string ASTCoqExporter::contractKind(ContractKind _kind)
 	switch (_kind)
 	{
 	case ContractKind::Interface:
-		return "interface";
+		return "Interface";
 	case ContractKind::Contract:
-		return "contract";
+		return "Contract";
 	case ContractKind::Library:
-		return "library";
+		return "Library";
 	}
 
 	// To make the compiler happy

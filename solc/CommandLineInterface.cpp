@@ -1094,9 +1094,9 @@ void CommandLineInterface::handleCoq()
 			std::stringstream data;
 			std::string postfix = "";
 			ASTCoqExporter(m_compiler->state(), m_compiler->sourceIndices()).print(data, m_compiler->ast(sourceCode.first));
-			postfix += "_coq";
 			boost::filesystem::path path(sourceCode.first);
-			createFile(path.filename().string() + postfix + ".ast", data.str());
+			path.replace_extension(".v");
+			createFile(path.filename().string(), data.str());
 		}
 	}
 	else
