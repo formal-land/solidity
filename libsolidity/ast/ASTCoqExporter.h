@@ -212,9 +212,9 @@ private:
 	bool m_inEvent = false; ///< whether we are currently inside an event or not
 	std::string m_currentValue;
 	std::map<std::string, unsigned> m_sourceIndices;
-	bool m_withParens = false; /// < whether to print the expression with parens or not
+	
+	std::stack<bool> m_withParens = std::stack<bool>({false}); /// < whether to print the expression with parens or not
 	uint64_t m_indent = 0; ///< current indentation level
-	bool m_isTopLevel = true; ///< whether we are at the top level of the AST or not
 };
 
 }
