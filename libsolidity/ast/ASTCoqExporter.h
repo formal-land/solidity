@@ -61,7 +61,7 @@ public:
 	void print(std::ostream& _stream, ASTNode const& _node);
 	std::string toCoq(ASTNode const& _node);
 	template <class T>
-	std::string toCoq(std::vector<ASTPointer<T>> const& _nodes)
+	std::string toCoqs(std::string const& separator, std::vector<ASTPointer<T>> const& _nodes)
 	{
 		std::string ret = "";
 		bool isFirst = true;
@@ -69,7 +69,7 @@ public:
 		for (auto const& node: _nodes)
 			if (node) {
 				if (!isFirst)
-					ret += "\n";
+					ret += separator;
 				else
 					isFirst = false;
 
@@ -214,6 +214,7 @@ private:
 	std::map<std::string, unsigned> m_sourceIndices;
 	bool m_withParens = false; /// < whether to print the expression with parens or not
 	uint64_t m_indent = 0; ///< current indentation level
+	bool m_isTopLevel = true; ///< whether we are at the top level of the AST or not
 };
 
 }
