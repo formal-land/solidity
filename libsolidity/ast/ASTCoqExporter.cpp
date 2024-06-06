@@ -336,43 +336,15 @@ bool ASTCoqExporter::visit(ImportDirective const& _node)
 
 bool ASTCoqExporter::visit(ContractDefinition const& _node)
 {
-	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("name", _node.name()),
-		std::make_pair("nameLocation", sourceLocationToString(_node.nameLocation())),
-		std::make_pair("documentation", _node.documentation() ? toCoq(*_node.documentation()) : ""),
-		std::make_pair("contractKind", contractKind(_node.contractKind())),
-		std::make_pair("abstract", std::to_string(_node.abstract())),
-		std::make_pair("baseContracts", toCoqs(", ", _node.baseContracts())),
-		std::make_pair("contractDependencies", getContainerIds(_node.annotation().contractDependencies | ranges::views::keys)),
-		// Do not require call graph because the AST is also created for incorrect sources.
-		std::make_pair("usedEvents", getContainerIds(_node.interfaceEvents(false))),
-		std::make_pair("usedErrors", getContainerIds(_node.interfaceErrors(false))),
-		std::make_pair("nodes", toCoqs("\n", _node.subNodes())),
-		std::make_pair("scope", idOrNull(_node.scope()))
-	};
-	addIfSet(attributes, "canonicalName", _node.annotation().canonicalName);
-
-	if (_node.annotation().unimplementedDeclarations.has_value())
-		attributes.emplace_back("fullyImplemented", std::to_string(_node.annotation().unimplementedDeclarations->empty()));
-	if (!_node.annotation().linearizedBaseContracts.empty())
-		attributes.emplace_back("linearizedBaseContracts", getContainerIds(_node.annotation().linearizedBaseContracts));
-
-	if (!_node.annotation().internalFunctionIDs.empty())
-	{
-		std::string internalFunctionIDs = "{";
-		for (auto const& [functionDefinition, internalFunctionID]: _node.annotation().internalFunctionIDs)
-			internalFunctionIDs += std::to_string(functionDefinition->id()) + ": " + std::to_string(internalFunctionID) + ", ";
-		internalFunctionIDs += "}";
-		attributes.emplace_back("internalFunctionIDs", internalFunctionIDs);
-	}
-
 	m_indent++;
-	std::string body = toCoqs("\n", _node.subNodes());
+	std::string body = toCoqs("\n\n"s + indent(), _node.subNodes());
 	m_indent--;
 
 	m_currentValue = "(* "s + contractKind(_node.contractKind()) + " *)\n"s;
 	m_currentValue += "Module "s + _node.name() + ".\n"s;
-	m_currentValue += body;
+	m_indent++;
+	m_currentValue += indent() + body + "\n"s;
+	m_indent--;
 	m_currentValue += "End "s + _node.name() + ".\n"s;
 
 	return false;
@@ -444,60 +416,36 @@ bool ASTCoqExporter::visit(UsingForDirective const& _node)
 
 bool ASTCoqExporter::visit(StructDefinition const& _node)
 {
-	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("name", _node.name()),
-		std::make_pair("nameLocation", sourceLocationToString(_node.nameLocation())),
-		std::make_pair("documentation", _node.documentation() ? toCoq(*_node.documentation()) : ""),
-		std::make_pair("visibility", Declaration::visibilityToString(_node.visibility())),
-		std::make_pair("members", toCoqs(", ", _node.members())),
-		std::make_pair("scope", idOrNull(_node.scope()))
-	};
-
-	addIfSet(attributes,"canonicalName", _node.annotation().canonicalName);
-
-	setCoqNode(_node, "StructDefinition", std::move(attributes));
-
-	m_currentValue = indent() + "(* Struct "s + _node.name() + " *)\n"s;
+	m_currentValue = "(* Struct "s + _node.name() + " *)"s;
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(EnumDefinition const& _node)
 {
-	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("name", _node.name()),
-		std::make_pair("nameLocation", sourceLocationToString(_node.nameLocation())),
-		std::make_pair("documentation", _node.documentation() ? toCoq(*_node.documentation()) : ""),
-		std::make_pair("members", toCoqs(", ", _node.members()))
-	};
-
-	addIfSet(attributes,"canonicalName", _node.annotation().canonicalName);
-
-	setCoqNode(_node, "EnumDefinition", std::move(attributes));
+	m_currentValue = "(* Enum "s + _node.name() + " *)"s;
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(EnumValue const& _node)
 {
-	setCoqNode(_node, "EnumValue", {
-		std::make_pair("name", _node.name()),
-		std::make_pair("nameLocation", sourceLocationToString(_node.nameLocation())),
-	});
+	m_currentValue = paren("Value.Enum \""s + _node.name() + "\""s);
+
 	return false;
 }
 
 bool ASTCoqExporter::visit(UserDefinedValueTypeDefinition const& _node)
 {
-	solAssert(_node.underlyingType(), "");
-	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("name", _node.name()),
-		std::make_pair("nameLocation", sourceLocationToString(_node.nameLocation())),
-		std::make_pair("underlyingType", toCoq(*_node.underlyingType()))
-	};
-	addIfSet(attributes, "canonicalName", _node.annotation().canonicalName);
+	solAssert(_node.underlyingType(), "expected an underlying type");
 
-	setCoqNode(_node, "UserDefinedValueTypeDefinition", std::move(attributes));
+	m_withParens.push(false);
+	std::string underlyingType = toCoq(*_node.underlyingType());
+	m_withParens.pop();
+
+	m_currentValue =
+		"Axiom user_type_"s + _node.name() + " : Ty.path \""s + _node.name() + "\" = "s +
+		underlyingType + "."s;
 
 	return false;
 }
@@ -557,7 +505,7 @@ bool ASTCoqExporter::visit(FunctionDefinition const& _node)
 	std::string body = _node.isImplemented() ? toCoq(_node.body()) : "not implemented";
 	m_indent -= 2;
 
-	m_currentValue = indent() + "Definition "s + _node.name() + " (α : list Value.t) : M :=\n"s;
+	m_currentValue = "Definition "s + _node.name() + " (α : list Value.t) : M :=\n"s;
 	m_indent++;
 	m_currentValue += indent() + "match α with\n"s;
 	m_currentValue += indent() + "| ["s;
@@ -571,10 +519,10 @@ bool ASTCoqExporter::visit(FunctionDefinition const& _node)
 	}
 	m_currentValue += "] =>\n"s;
 	m_indent++;
-	m_currentValue += body + "\n"s;
+	m_currentValue += indent() + body + "\n"s;
 	m_indent--;
 	m_currentValue += indent() + "| _ => M.impossible \"invalid number of parameters\"\n"s;
-	m_currentValue += indent() + "end.\n"s;
+	m_currentValue += indent() + "end."s;
 	m_indent--;
 
 	return false;
@@ -609,9 +557,9 @@ bool ASTCoqExporter::visit(VariableDeclaration const& _node)
 	std::string value = _node.value() ? toCoq(*_node.value()) : "undefined";
 	m_indent--;
 
-	m_currentValue = indent() + "Definition "s + _node.name() + " : Value.t :=\n"s;
+	m_currentValue = "Definition "s + _node.name() + " : Value.t :=\n"s;
 	m_indent++;
-	m_currentValue += indent() + value + ".\n"s;
+	m_currentValue += indent() + value + "."s;
 	m_indent--;
 
 	return false;
@@ -684,22 +632,15 @@ bool ASTCoqExporter::visit(ErrorDefinition const& _node)
 	if (m_stackState >= CompilerStack::State::AnalysisSuccessful)
 		_attributes.emplace_back(std::make_pair("errorSelector", _node.functionType(true)->externalIdentifierHex()));
 
-	m_currentValue = indent() + "(* Error "s + _node.name() + " *)\n"s;
+	m_currentValue = "(* Error "s + _node.name() + " *)"s;
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(ElementaryTypeName const& _node)
 {
-	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("name", _node.typeName().toString()),
-		std::make_pair("typeDescriptions", typePointerToCoq(_node.annotation().type, true))
-	};
+	m_currentValue = paren("Ty.path \""s + _node.typeName().toString() + "\""s);
 
-	if (_node.stateMutability())
-		attributes.emplace_back(std::make_pair("stateMutability", stateMutabilityToString(*_node.stateMutability())));
-
-	setCoqNode(_node, "ElementaryTypeName", std::move(attributes));
 	return false;
 }
 
@@ -789,11 +730,7 @@ bool ASTCoqExporter::visit(InlineAssembly const& _node)
 
 bool ASTCoqExporter::visit(Block const& _node)
 {
-	// setCoqNode(_node, _node.unchecked() ? "UncheckedBlock" : "Block", {
-	// 	std::make_pair("statements", toCoqs("", _node.statements()))
-	// });
-
-	m_currentValue = toCoqs("", _node.statements());
+	m_currentValue = toCoqs("\n"s + indent(), _node.statements());
 
 	return false;
 }
@@ -813,19 +750,18 @@ bool ASTCoqExporter::visit(IfStatement const& _node)
 	std::string falseBody =
 		_node.falseStatement() ?
 		toCoq(*_node.falseStatement()) :
-		"Value.Tuple []\n"s;
+		"Value.Tuple []"s;
 	m_indent--;
 	m_withParens.pop();
 
-	m_currentValue = indent() + "if "s + condition + " then\n"s;
+	m_currentValue = "if "s + condition + " then\n"s;
 	m_indent++;
-	m_currentValue += indent() + trueBody;
+	m_currentValue += indent() + trueBody + "\n"s;
 	m_indent--;
 	m_currentValue += indent() + "else\n"s;
 	m_indent++;
 	m_currentValue += indent() + falseBody;
 	m_indent--;
-	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
@@ -853,10 +789,24 @@ bool ASTCoqExporter::visit(TryStatement const& _node)
 
 bool ASTCoqExporter::visit(WhileStatement const& _node)
 {
+	m_indent++;
+	m_withParens.push(false);
 	std::string condition = toCoq(_node.condition());
 	std::string body = toCoq(_node.body());
+	m_withParens.pop();
+	m_indent--;
+	
+	std::string whileKind = _node.isDoWhile() ? "DoWhile" : "While";
 
-	m_currentValue = (_node.isDoWhile() ? "DoWhileStatement" : "WhileStatement") + " "s + condition + " "s + body;
+	m_currentValue = "M.while (|\n"s;
+	m_indent++;
+	m_currentValue += indent() + "WhileKind."s + whileKind + ",\n"s;
+	m_currentValue += indent() + condition + ",\n"s;
+	m_currentValue += indent() + body + "\n"s;
+	m_indent--;
+	m_currentValue += indent() + "|)";
+
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
@@ -880,31 +830,46 @@ bool ASTCoqExporter::visit(ForStatement const& _node)
 
 bool ASTCoqExporter::visit(Continue const& _node __attribute__((unused)))
 {
-	m_currentValue = "Continue\n"s;
+	m_currentValue = "M.continue (||)"s;
+
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(Break const& _node __attribute__((unused)))
 {
-	m_currentValue = "Break\n"s;
+	m_currentValue = "M.break (||)"s;
+
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(Return const& _node)
 {
-	std::string expression = toCoqOrNull(_node.expression());
-	std::string functionReturnParameters = idOrNull(_node.annotation().functionReturnParameters);
+	m_indent++;
+	m_withParens.push(false);
+	std::string expression = _node.expression() ? toCoq(*_node.expression()) : "Value.Tuple []"s;
+	m_withParens.pop();
+	m_indent--;
 
-	m_currentValue = "Return "s + expression + " "s + functionReturnParameters + "\n"s;
+	m_currentValue = "M.return (|\n"s;
+	m_indent++;
+	m_currentValue += indent() + expression + "\n"s;
+	m_indent--;
+	m_currentValue += indent() + "|)";
+
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(Throw const& _node __attribute__((unused)))
 {
-	m_currentValue = "Throw\n"s;
+	m_currentValue = "M.throw (||)"s;
+
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
@@ -938,7 +903,7 @@ bool ASTCoqExporter::visit(VariableDeclarationStatement const& _node)
 	}
 	m_indent--;
 
-	m_currentValue = indent() + "let "s;
+	m_currentValue = "let "s;
 	if (_node.declarations().size() != 1)
 		m_currentValue += "'("s;
 	bool isFirst = true;
@@ -952,16 +917,14 @@ bool ASTCoqExporter::visit(VariableDeclarationStatement const& _node)
 	if (_node.declarations().size() != 1)
 		m_currentValue += ")"s;
 	m_currentValue += " :=\n"s;
-	m_currentValue += initialValue + " in\n"s;
+	m_currentValue += initialValue + " in"s;
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(ExpressionStatement const& _node)
 {
-	std::string expression = toCoq(_node.expression());
-
-	m_currentValue = expression + "\n"s;
+	m_currentValue = toCoq(_node.expression());
 
 	return false;
 }
@@ -974,35 +937,26 @@ bool ASTCoqExporter::visit(Conditional const& _node)
 
 	m_currentValue = "Conditional "s + condition + " "s + trueExpression + " "s + falseExpression + "\n"s;
 
-	// appendExpressionAttributes(attributes, _node.annotation());
-
 	return false;
 }
 
 bool ASTCoqExporter::visit(Assignment const& _node)
 {
-	// std::string leftHandSide = toCoq(_node.leftHandSide());
-
-	// std::vector<std::pair<std::string, std::string>> attributes = {
-	// 	std::make_pair("operator", TokenTraits::toString(_node.assignmentOperator())),
-	// 	std::make_pair("leftHandSide", toCoq(_node.leftHandSide())),
-	// 	std::make_pair("rightHandSide", toCoq(_node.rightHandSide()))
-	// };
-
-	m_withParens.push(true);
+	m_withParens.push(false);
 	m_indent++;
 	std::string leftHandSide = toCoq(_node.leftHandSide());
 	std::string rightHandSide = toCoq(_node.rightHandSide());
 	m_indent--;
 	m_withParens.pop();
 
-	m_currentValue = "M.assign(|\n"s;
+	m_currentValue = "M.assign (|\n"s;
 	m_indent++;
 	m_currentValue += indent() + "\""s + TokenTraits::toString(_node.assignmentOperator()) + "\",\n"s;
 	m_currentValue += indent() + leftHandSide + ",\n"s;
 	m_currentValue += indent() + rightHandSide + "\n"s;
 	m_indent--;
 	m_currentValue += indent() + "|)";
+
 	m_currentValue = paren(m_currentValue);
 
 	return false;
@@ -1010,30 +964,41 @@ bool ASTCoqExporter::visit(Assignment const& _node)
 
 bool ASTCoqExporter::visit(TupleExpression const& _node)
 {
-	std::vector<std::pair<std::string, std::string>> attributes = {
-		std::make_pair("isInlineArray", std::to_string(_node.isInlineArray())),
-		std::make_pair("components", toCoqs(", ", _node.components())),
-	};
-	// appendExpressionAttributes(attributes, _node.annotation());
-	setCoqNode(_node, "TupleExpression", std::move(attributes));
+	bool isArray = _node.isInlineArray();
+
+	m_withParens.push(false);
+	m_indent++;
+	std::string components = toCoqs(",\n"s + indent(), _node.components());
+	m_indent--;
+	m_withParens.pop();
+
+	m_currentValue = (isArray ? "Value.Array"s : "Value.Tuple"s) + " [\n"s;
+	m_indent++;
+	m_currentValue += indent() + components + "\n"s;
+	m_indent--;
+	m_currentValue += indent() + "]"s;
+
+	m_currentValue = paren(m_currentValue);
+
 	return false;
 }
 
 bool ASTCoqExporter::visit(UnaryOperation const& _node)
 {
-	m_withParens.push(true);
+	m_withParens.push(false);
 	m_indent++;
 	std::string subExpression = toCoq(_node.subExpression());
 	m_indent--;
 	m_withParens.pop();
 
-	m_currentValue = "M.un_op(|\n"s;
+	m_currentValue = "M.un_op (|\n"s;
 	m_indent++;
-	m_currentValue += indent() + std::to_string(_node.isPrefixOperation()) + ",\n"s;
+	m_currentValue += indent() + (_node.isPrefixOperation() ? "true"s : "false"s) + ",\n"s;
 	m_currentValue += indent() + "\""s + TokenTraits::toString(_node.getOperator()) + "\",\n"s;
 	m_currentValue += indent() + subExpression + "\n"s;
 	m_indent--;
 	m_currentValue += indent() + "|)";
+
 	m_currentValue = paren(m_currentValue);
 
 	return false;
@@ -1048,13 +1013,14 @@ bool ASTCoqExporter::visit(BinaryOperation const& _node)
 	m_indent--;
 	m_withParens.pop();
 
-	m_currentValue = "M.bin_op(|\n"s;
+	m_currentValue = "M.bin_op (|\n"s;
 	m_indent++;
 	m_currentValue += indent() + "\""s + TokenTraits::toString(_node.getOperator()) + "\",\n"s;
 	m_currentValue += indent() + leftExpression + ",\n"s;
 	m_currentValue += indent() + rightExpression + "\n"s;
 	m_indent--;
 	m_currentValue += indent() + "|)";
+
 	m_currentValue = paren(m_currentValue);
 
 	return false;
@@ -1062,51 +1028,27 @@ bool ASTCoqExporter::visit(BinaryOperation const& _node)
 
 bool ASTCoqExporter::visit(FunctionCall const& _node)
 {
-	std::string names = "("s;
-	bool isFirst = true;
-	for (auto const& name: _node.names()) {
-		if (!isFirst)
-			names += ", "s;
-		names += *name;
-		isFirst = false;
-	}
-	names += ")"s;
-
-	// std::string expression = toCoq(_node.expression());
-	std::string nameLocations = sourceLocationsToCoq(_node.nameLocations());
-	// std::string arguments = toCoqs(", ", _node.arguments());
-	std::string tryCall = std::to_string(_node.annotation().tryCall);
-	std::string functionCallKind = "no-call-kind"s;
-
-	// if (_node.annotation().kind.set()) {
-	// 	FunctionCallKind nodeKind = *_node.annotation().kind;
-	// 	functionCallKind = functionCallKind(nodeKind);
-	// }
-
-	m_withParens.push(true);
-	std::string expression = toCoq(_node.expression());
-	m_withParens.pop();
-
-	m_indent++;
 	m_withParens.push(false);
+	m_indent++;
+	std::string expression = toCoq(_node.expression());
+	m_indent++;
 	std::string arguments = toCoqs(",\n"s + indent(), _node.arguments());
+	m_indent--;
 	m_indent--;
 	m_withParens.pop();
 
-	m_currentValue = expression + "(|\n"s;
+	m_currentValue = "M.call (|\n"s;
+	m_indent++;
+	m_currentValue += indent() + expression + ",\n"s;
+	m_currentValue += indent() + "[\n"s;
 	m_indent++;
 	m_currentValue += indent() + arguments + "\n"s;
+	m_indent--;
+	m_currentValue += indent() + "]\n"s;
 	m_indent--;
 	m_currentValue += indent() + "|)"s;
 
 	m_currentValue = paren(m_currentValue);
-
-
-	// m_currentValue =
-	// 	"FunctionCall "s + expression + " "s + names + " "s + arguments + " "s + tryCall + " "s +
-	// 	functionCallKind + " "s + nameLocations + "\n"s;
-
-	// appendExpressionAttributes(attributes, _node.annotation());
 
 	return false;
 }
@@ -1140,35 +1082,48 @@ bool ASTCoqExporter::visit(NewExpression const& _node)
 
 bool ASTCoqExporter::visit(MemberAccess const& _node)
 {
-	// std::string memberName = _node.memberName();
-	std::string memberLocation = sourceLocationToString(_node.memberLocation());
-	// std::string expression = toCoq(_node.expression());
-	std::string referencedDeclaration = idOrNull(_node.annotation().referencedDeclaration);
-
-	// appendExpressionAttributes(attributes, _node.annotation());
 	std::string memberName = _node.memberName();
 
-	m_withParens.push(true);
+	m_withParens.push(false);
+	m_indent++;
 	std::string expression = toCoq(_node.expression());
+	m_indent--;
 	m_withParens.pop();
 
-	m_currentValue = paren(expression + "->[\""s + memberName + "\"]"s);
+	m_currentValue = "M.member_access (|\n"s;
+	m_indent++;
+	m_currentValue += indent() + expression + ",\n"s;
+	m_currentValue += indent() + "\""s + memberName + "\"\n"s;
+	m_indent--;
+	m_currentValue += indent() + "|)";
 
-	// m_currentValue =
-	// 	"MemberAccess "s + expression + " "s + memberName + " "s + memberLocation + " "s +
-	// 	referencedDeclaration + "\n"s;
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(IndexAccess const& _node)
 {
+	m_withParens.push(false);
+	m_indent++;
 	std::string baseExpression = toCoq(_node.baseExpression());
-	std::string indexExpression = toCoqOrNull(_node.indexExpression());
+	m_withParens.push(true);
+	std::string indexExpression =
+		_node.indexExpression() ?
+		"Some "s + toCoq(*_node.indexExpression()) :
+		"None"s;
+	m_withParens.pop();
+	m_indent--;
+	m_withParens.pop();
 
-	// appendExpressionAttributes(attributes, _node.annotation());
+	m_currentValue = "M.index_access (|\n"s;
+	m_indent++;
+	m_currentValue += indent() + baseExpression + ",\n"s;
+	m_currentValue += indent() + indexExpression + "\n"s;
+	m_indent--;
+	m_currentValue += indent() + "|)";
 
-	m_currentValue = "IndexAccess "s + baseExpression + " "s + indexExpression + "\n"s;
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
@@ -1189,32 +1144,16 @@ bool ASTCoqExporter::visit(IndexRangeAccess const& _node)
 
 bool ASTCoqExporter::visit(Identifier const& _node)
 {
-	std::string overloads = "[";
-	for (auto const& dec: _node.annotation().overloadedDeclarations)
-		overloads += idOrNull(dec) + ", ";
-	overloads += "]";
+	m_currentValue = "M.get_name (| \""s + _node.name() + "\" |)"s;
 
-	std::string name = _node.name();
-	std::string referencedDeclaration = idOrNull(_node.annotation().referencedDeclaration);
-	std::string typeDescriptions = typePointerToCoq(_node.annotation().type);
-	std::string argumentTypes = typePointerToCoq(_node.annotation().arguments);
-
-	m_currentValue =
-		"Identifier "s + name + " "s + referencedDeclaration + " "s + overloads + " "s +
-		typeDescriptions + " "s + argumentTypes + "\n"s;
-
-	m_currentValue = "M.get_name(| \""s + _node.name() + "\" |)"s;
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(ElementaryTypeNameExpression const& _node)
 {
-	std::string typeName = toCoq(_node.type());
-
-	// appendExpressionAttributes(attributes, _node.annotation());
-
-	m_currentValue = "ElementaryTypeNameExpression "s + typeName + "\n"s;
+	m_currentValue = toCoq(_node.type());
 
 	return false;
 }
@@ -1235,10 +1174,10 @@ bool ASTCoqExporter::visit(Literal const& _node)
 	switch (_node.token())
 	{
 	case Token::Number:
-		m_currentValue = paren("Value.Integer " + _node.value());
+		m_currentValue = paren("Value.Integer "s + _node.value());
 		break;
 	case Token::StringLiteral:
-		m_currentValue = "string";
+		m_currentValue = paren("Value.String \""s + _node.value() + "\""s);
 		break;
 	case Token::UnicodeStringLiteral:
 		m_currentValue = "unicodeString";
