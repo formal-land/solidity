@@ -602,36 +602,13 @@ bool ASTCoqExporter::visit(ModifierInvocation const& _node)
 
 bool ASTCoqExporter::visit(EventDefinition const& _node)
 {
-	m_inEvent = true;
-	std::vector<std::pair<std::string, std::string>> _attributes = {
-		std::make_pair("name", _node.name()),
-		std::make_pair("nameLocation", sourceLocationToString(_node.nameLocation())),
-		std::make_pair("documentation", _node.documentation() ? toCoq(*_node.documentation()) : ""),
-		std::make_pair("parameters", toCoq(_node.parameterList())),
-		std::make_pair("anonymous", std::to_string(_node.isAnonymous()))
-	};
-	if (m_stackState >= CompilerStack::State::AnalysisSuccessful)
-			_attributes.emplace_back(
-				std::make_pair(
-					"eventSelector",
-					toHex(u256(util::h256::Arith(util::keccak256(_node.functionType(true)->externalSignature()))))
-				));
+	m_currentValue = "(* Event "s + _node.name() + " *)"s;
 
-	setCoqNode(_node, "EventDefinition", std::move(_attributes));
 	return false;
 }
 
 bool ASTCoqExporter::visit(ErrorDefinition const& _node)
 {
-	std::vector<std::pair<std::string, std::string>> _attributes = {
-		std::make_pair("name", _node.name()),
-		std::make_pair("nameLocation", sourceLocationToString(_node.nameLocation())),
-		std::make_pair("documentation", _node.documentation() ? toCoq(*_node.documentation()) : ""),
-		std::make_pair("parameters", toCoq(_node.parameterList()))
-	};
-	if (m_stackState >= CompilerStack::State::AnalysisSuccessful)
-		_attributes.emplace_back(std::make_pair("errorSelector", _node.functionType(true)->externalIdentifierHex()));
-
 	m_currentValue = "(* Error "s + _node.name() + " *)"s;
 
 	return false;
@@ -730,7 +707,16 @@ bool ASTCoqExporter::visit(InlineAssembly const& _node)
 
 bool ASTCoqExporter::visit(Block const& _node)
 {
-	m_currentValue = toCoqs("\n"s + indent(), _node.statements());
+	std::string currentIndent = indent();
+	m_indent++;
+	std::string statements = toCoqs(" in\n"s + currentIndent + "let _ :=\n"s + indent(), _node.statements());
+	m_indent--;
+
+	m_currentValue = "let _ :=\n"s;
+	m_indent++;
+	m_currentValue += indent() + statements + " in\n"s;
+	m_indent--;
+	m_currentValue += indent() + "Value.Tuple []"s;
 
 	return false;
 }
@@ -854,7 +840,7 @@ bool ASTCoqExporter::visit(Return const& _node)
 	m_withParens.pop();
 	m_indent--;
 
-	m_currentValue = "M.return (|\n"s;
+	m_currentValue = "M.return_ (|\n"s;
 	m_indent++;
 	m_currentValue += indent() + expression + "\n"s;
 	m_indent--;
@@ -885,39 +871,48 @@ bool ASTCoqExporter::visit(EmitStatement const& _node)
 
 bool ASTCoqExporter::visit(RevertStatement const& _node)
 {
+	m_withParens.push(false);
+	m_indent++;
 	std::string errorCall = toCoq(_node.errorCall());
+	m_indent--;
+	m_withParens.pop();
 
-	m_currentValue = "RevertStatement "s + errorCall + "\n"s;
+	m_currentValue = "M.revert (|\n"s;
+	m_indent++;
+	m_currentValue += indent() + errorCall + "\n"s;
+	m_indent--;
+	m_currentValue += indent() + "|)";
+
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
 
 bool ASTCoqExporter::visit(VariableDeclarationStatement const& _node)
 {
-	std::string initialValue;
 	m_indent++;
-	if (_node.initialValue()) {
-		initialValue = indent() + toCoq(*_node.initialValue());
-	} else {
-		initialValue = indent() + "Value.Default"s;
-	}
+	std::string initialValue = _node.initialValue() ? toCoq(*_node.initialValue()) : "Value.Default"s;
 	m_indent--;
 
-	m_currentValue = "let "s;
-	if (_node.declarations().size() != 1)
-		m_currentValue += "'("s;
+	m_currentValue = "M.define (|\n"s;
+	m_indent++;
+	m_currentValue += indent() + "["s;
+
 	bool isFirst = true;
 	for (auto const& v: _node.declarations()) {
 		if (!isFirst)
-			m_currentValue += ", ";
+			m_currentValue += ";"s;
 		else
 			isFirst = false;
-		m_currentValue += v->name();
+		m_currentValue += " \""s + v->name() + "\""s;
 	}
-	if (_node.declarations().size() != 1)
-		m_currentValue += ")"s;
-	m_currentValue += " :=\n"s;
-	m_currentValue += initialValue + " in"s;
+
+	m_currentValue += " ],\n"s;
+	m_currentValue += indent() + initialValue + "\n"s;
+	m_indent--;
+	m_currentValue += indent() + "|)"s;
+
+	m_currentValue = paren(m_currentValue);
 
 	return false;
 }
@@ -1006,7 +1001,7 @@ bool ASTCoqExporter::visit(UnaryOperation const& _node)
 
 bool ASTCoqExporter::visit(BinaryOperation const& _node)
 {
-	m_withParens.push(true);
+	m_withParens.push(false);
 	m_indent++;
 	std::string leftExpression = toCoq(_node.leftExpression());
 	std::string rightExpression = toCoq(_node.rightExpression());
@@ -1040,11 +1035,15 @@ bool ASTCoqExporter::visit(FunctionCall const& _node)
 	m_currentValue = "M.call (|\n"s;
 	m_indent++;
 	m_currentValue += indent() + expression + ",\n"s;
-	m_currentValue += indent() + "[\n"s;
-	m_indent++;
-	m_currentValue += indent() + arguments + "\n"s;
-	m_indent--;
-	m_currentValue += indent() + "]\n"s;
+	if (_node.arguments().empty()) {
+		m_currentValue += indent() + "[]\n"s;
+	} else {
+		m_currentValue += indent() + "[\n"s;
+		m_indent++;
+		m_currentValue += indent() + arguments + "\n"s;
+		m_indent--;
+		m_currentValue += indent() + "]\n"s;
+	}
 	m_indent--;
 	m_currentValue += indent() + "|)"s;
 
