@@ -1,4 +1,5 @@
 .CoqMakefile.d
+_CoqProject
 CoqMakefile
 CoqMakefile.conf
 *.vo

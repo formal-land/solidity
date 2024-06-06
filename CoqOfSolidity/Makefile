@@ -1,13 +1,14 @@
 .PHONY: all clean clean-util distclean default
 
-VFILES := $(shell find -L . -name "*.v" | grep -v -f blacklist.txt | sort)
+VFILES := $(shell find . -name "*.v")
 
 default: all
 
-# We use the '@' to avoid displaying this command as the parameters list is
-# very long.
-CoqMakefile: $(VFILES) blacklist.txt
-	@coq_makefile -f _CoqProject -o $@ $(VFILES)
+CoqMakefile: $(VFILES)
+	echo "-R . CoqOfSolidity" > _CoqProject
+	echo "-arg -impredicative-set" >> _CoqProject
+	find . -name "*.v" | sort >> _CoqProject
+	coq_makefile -f _CoqProject -o $@
 
 MAKECOQ := +$(MAKE) -f CoqMakefile
 
