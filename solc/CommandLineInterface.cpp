@@ -367,6 +367,25 @@ void CommandLineInterface::handleIROptimizedAst(std::string const& _contractName
 	}
 }
 
+void CommandLineInterface::handleIRCoq(std::string const& _contractName)
+{
+	solAssert(CompilerInputModes.count(m_options.input.mode) == 1);
+
+	if (!m_options.compiler.outputs.irCoq)
+		return;
+
+	if (!m_options.output.dir.empty())
+		createFile(
+			m_compiler->filesystemFriendlyName(_contractName) + ".v",
+			m_compiler->yulIRCoq(_contractName)
+		);
+	else
+	{
+		sout() << "(* Coq *)" << std::endl;
+		sout() << m_compiler->yulIRCoq(_contractName) << std::endl;
+	}
+}
+
 void CommandLineInterface::handleBytecode(std::string const& _contract)
 {
 	solAssert(
@@ -901,6 +920,7 @@ void CommandLineInterface::compile()
 		pipelineConfig.irOptimization =
 			m_options.compiler.outputs.irOptimized ||
 			m_options.compiler.outputs.irOptimizedAstJson ||
+			m_options.compiler.outputs.irCoq ||
 			m_options.compiler.outputs.yulCFGJson;
 		pipelineConfig.irCodegen =
 			pipelineConfig.irOptimization ||
@@ -1386,7 +1406,7 @@ void CommandLineInterface::outputCompilationResults()
 	// do we need AST output?
 	handleAst();
 
-	handleCoq();
+	// handleCoq();
 
 	CompilerOutputs astOutputSelection;
 	astOutputSelection.astCompactJson = true;
@@ -1411,6 +1431,7 @@ void CommandLineInterface::outputCompilationResults()
 			handleIRAst(contract);
 			handleIROptimized(contract);
 			handleIROptimizedAst(contract);
+			handleIRCoq(contract);
 			handleYulCFGExport(contract);
 			handleSignatureHashes(contract);
 			handleMetadata(contract);
