@@ -159,13 +159,25 @@ private:
 	{
 		return _pt ? std::to_string(nodeId(*_pt)) : "null";
 	}
-	// std::optional<std::string> toCoqOrNull(ASTNode const* _node)
-	// {
-	// 	return _node ? std::optional<std::string>(toCoq(*_node)) : std::optional<std::string>();
-	// }
 	std::string toCoqOrNull(ASTNode const* _node)
 	{
 		return _node ? toCoq(*_node) : "";
+	}
+	std::string toCoqOrUnit(ASTNode const* _node)
+	{
+		return _node ? toCoq(*_node) : paren("Value.Tuple []");
+	}
+	std::string toCoqOption(ASTNode const* _node)
+	{
+		if (_node) {
+			m_withParens.push(true);
+			std::string content = toCoq(*_node);
+			m_withParens.pop();
+
+			return paren("Some " + content);
+		}
+
+		return "None";
 	}
 	std::string inlineAssemblyIdentifierToCoq(std::pair<yul::Identifier const* , InlineAssemblyAnnotation::ExternalIdentifierInfo> _info) const;
 	static std::string location(VariableDeclaration::Location _location);
