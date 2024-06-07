@@ -22,7 +22,8 @@
 #include <libyul/Object.h>
 
 #include <libyul/AsmPrinter.h>
-#include <libyul/AsmJsonConverter.h>
+#include <libyul/AsmCoqConverter.h>
+// #include <libyul/AsmJsonConverter.h>
 #include <libyul/AST.h>
 #include <libyul/Exceptions.h>
 
@@ -89,7 +90,9 @@ Json Object::toJson() const
 
 	Json codeJson;
 	codeJson["nodeType"] = "YulCode";
-	codeJson["block"] = AsmJsonConverter(0 /* sourceIndex */)(*code);
+	// codeJson["block"] = AsmJsonConverter(0 /* sourceIndex */)(*code);
+	std::cout << AsmCoqConverter(0 /* sourceIndex */)(*code);
+	codeJson["block"] = Json(AsmCoqConverter(0 /* sourceIndex */)(*code));
 
 	Json subObjectsJson = Json::array();
 	for (std::shared_ptr<ObjectNode> const& subObject: subObjects)

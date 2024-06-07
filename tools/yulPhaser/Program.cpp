@@ -23,7 +23,8 @@
 
 #include <libyul/AsmAnalysis.h>
 #include <libyul/AsmAnalysisInfo.h>
-#include <libyul/AsmJsonConverter.h>
+#include <libyul/AsmCoqConverter.h>
+// #include <libyul/AsmJsonConverter.h>
 #include <libyul/AsmParser.h>
 #include <libyul/AsmPrinter.h>
 #include <libyul/AST.h>
@@ -110,7 +111,10 @@ std::ostream& phaser::operator<<(std::ostream& _stream, Program const& _program)
 
 std::string Program::toJson() const
 {
-	Json serializedAst = AsmJsonConverter(0)(*m_ast);
+	// Json serializedAst = AsmJsonConverter(0)(*m_ast);
+	std::string coqStr = AsmCoqConverter(0)(*m_ast);
+	Json serializedAst = Json(coqStr);
+
 	return jsonPrettyPrint(removeNullMembers(std::move(serializedAst)));
 }
 

@@ -6,6 +6,8 @@ add_library(yul
 	AsmAnalysisInfo.h
 	AST.h
 	ASTForward.h
+	AsmCoqConverter.h
+	AsmCoqConverter.cpp
 	AsmJsonConverter.h
 	AsmJsonConverter.cpp
 	AsmJsonImporter.h

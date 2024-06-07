@@ -68,7 +68,8 @@
 
 #include <libyul/YulString.h>
 #include <libyul/AsmPrinter.h>
-#include <libyul/AsmJsonConverter.h>
+#include <libyul/AsmCoqConverter.h>
+// #include <libyul/AsmJsonConverter.h>
 #include <libyul/YulStack.h>
 #include <libyul/AST.h>
 #include <libyul/AsmParser.h>
@@ -872,7 +873,8 @@ Json CompilerStack::generatedSources(std::string const& _contractName, bool _run
 				yul::EVMDialect const& dialect = yul::EVMDialect::strictAssemblyForEVM(m_evmVersion);
 				std::shared_ptr<yul::Block> parserResult = yul::Parser{errorReporter, dialect}.parse(charStream);
 				solAssert(parserResult, "");
-				sources[0]["ast"] = yul::AsmJsonConverter{sourceIndex}(*parserResult);
+				// sources[0]["ast"] = yul::AsmJsonConverter{sourceIndex}(*parserResult);
+				sources[0]["ast"] = Json(yul::AsmCoqConverter{sourceIndex}(*parserResult));
 				sources[0]["name"] = sourceName;
 				sources[0]["id"] = sourceIndex;
 				sources[0]["language"] = "Yul";
