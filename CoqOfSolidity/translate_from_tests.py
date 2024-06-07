@@ -22,7 +22,7 @@ for test_folder in test_folders:
 try:
     for index, (root, file) in enumerate(tqdm(files_to_translate)):
         # Run `solc`
-        subprocess.run(
+        result = subprocess.run(
             [
                 "../build/solc/solc",
                 "-o",
@@ -33,5 +33,11 @@ try:
             capture_output=True,
             text=False, # Output in binary format, as sometimes it is not valid Unicode
         )
+
+        # For now we comment this out, as there are too many errors
+        # if result.returncode != 0:
+        #     print(f"Error in {root}/{file}")
+        #     print(result.stderr.decode())
+        #     continue
 except KeyboardInterrupt:
     print("\nProgram stopped with Ctrl-C.")
