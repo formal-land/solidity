@@ -21,17 +21,13 @@ Module L_25.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module L_25.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -73,9 +67,7 @@ Module L_25.
             [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
             M.call (|
               "address",
-              [
-
-              ]
+              []
             |)
           ]
         |) in
@@ -158,9 +150,7 @@ Module L_25.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -171,7 +161,7 @@ Module L_25.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -181,7 +171,7 @@ Module L_25.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -193,9 +183,7 @@ Module L_25.
                         let _ :=
                           M.call (|
                             "external_fun_f",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -211,9 +199,7 @@ Module L_25.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -433,9 +419,7 @@ Module L_25.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -443,7 +427,7 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["offset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.declare (|
@@ -544,49 +528,45 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_tuple_contract_D",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_f",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -796,7 +776,7 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -807,7 +787,7 @@ Module L_25.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -834,9 +814,7 @@ Module L_25.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -963,9 +941,7 @@ Module L_25.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -973,7 +949,7 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["offset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.declare (|
@@ -1024,12 +1000,10 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["pos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1039,9 +1013,7 @@ Module L_25.
                   [Literal.number 0];
                   M.call (|
                     "returndatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -1052,9 +1024,7 @@ Module L_25.
                   M.get (| "pos" |);
                   M.call (|
                     "returndatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -1070,12 +1040,10 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["zero_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1085,37 +1053,35 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["_address"],
-                M.get (| "var_d_address" |)
+                Some (M.get (| "var_d_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_address"],
-                M.get (| "_address" |)
+                Some (M.get (| "_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_20_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_D_to_address",
                   [
                     M.get (| "expr_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_functionSelector"],
-                [Literal.number 0x0c55699c]
+                Some ([Literal.number 0x0c55699c])
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1133,7 +1099,7 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.call (|
@@ -1144,19 +1110,17 @@ Module L_25.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     M.get (| "expr_20_address" |);
                     M.get (| "_1" |);
@@ -1170,7 +1134,7 @@ Module L_25.
                     M.get (| "_1" |);
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -1184,9 +1148,7 @@ Module L_25.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1194,7 +1156,7 @@ Module L_25.
             let _ :=
               M.assign (|
                 ["expr"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.if_ (|
@@ -1203,7 +1165,7 @@ Module L_25.
                   let _ :=
                     M.assign (|
                       ["_4"],
-                      [Literal.number 32]
+                      Some ([Literal.number 32])
                     |) in
                   let _ :=
                     M.if_ (|
@@ -1213,9 +1175,7 @@ Module L_25.
                           M.get (| "_4" |);
                           M.call (|
                             "returndatasize",
-                            [
-
-                            ]
+                            []
                           |)
                         ]
                       |),
@@ -1225,9 +1185,7 @@ Module L_25.
                             ["_4"],
                             M.call (|
                               "returndatasize",
-                              [
-
-                              ]
+                              []
                             |)
                           |) in
                         tt
@@ -1275,6 +1233,6 @@ Module L_25.
     )).
 
     Definition data : string :=
-      "a2646970667358221220d0d5ca61a009960ead439f0bcb9d0cac1df4e105fe503ac07047ed495496e42d64736f6c634300081b0033".
+      "a2646970667358221220f8fbeba75d4d32504015c9f7006b59173ddae523f444a00cd04465c597802a1564736f6c634300081b0033".
   End L_25_deployed.
 End L_25.

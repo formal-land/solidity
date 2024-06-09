@@ -21,17 +21,13 @@ Module C_10.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_10.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -159,7 +151,7 @@ Module C_10.
           let _ :=
             M.assign (|
               ["value"],
-              M.call (|
+              Some (M.call (|
                 "cleanup_uint256",
                 [
                   M.call (|
@@ -169,7 +161,7 @@ Module C_10.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -247,9 +239,7 @@ Module C_10.
                 let _ :=
                   M.call (|
                     "panic_error_0x11",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -277,27 +267,27 @@ Module C_10.
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "read_from_memoryt_uint256",
                 [
                   [Literal.number 128]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.call (|
+              Some (M.call (|
                 "decrement_uint256",
                 [
                   M.get (| "_1" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_3"],
-              M.get (| "_2" |)
+              Some (M.get (| "_2" |))
             |) in
           let _ :=
             M.call (|
@@ -332,9 +322,7 @@ Module C_10.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -358,6 +346,6 @@ Module C_10.
     )).
 
     Definition data : string :=
-      "a264697066735822122094d7c3393109813c8307868bbaecb4d7dee78e8b7bad9ec76798443bb2b7e74064736f6c634300081b0033".
+      "a26469706673582212203686c8af806ec1dc64f1b829ceec70fbde64fa5ac5fdb326d333d564f72a981a64736f6c634300081b0033".
   End C_10_deployed.
 End C_10.

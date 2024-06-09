@@ -21,17 +21,13 @@ Module FixedMath_56.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module FixedMath_56.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -73,9 +67,7 @@ Module FixedMath_56.
             [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
             M.call (|
               "address",
-              [
-
-              ]
+              []
             |)
           ]
         |) in
@@ -151,9 +143,7 @@ Module FixedMath_56.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -177,6 +167,6 @@ Module FixedMath_56.
     )).
 
     Definition data : string :=
-      "a26469706673582212208ba10c1d2885d5078b19489254b0af48e8217cf89f88dd3577f559067b5bf80064736f6c634300081b0033".
+      "a264697066735822122037591ee999abfbb4b8fc70b15b99b9232775156e156be87ede0df7e425d4409864736f6c634300081b0033".
   End FixedMath_56_deployed.
 End FixedMath_56.

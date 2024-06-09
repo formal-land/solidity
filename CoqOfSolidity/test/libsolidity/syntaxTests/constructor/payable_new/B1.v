@@ -20,12 +20,10 @@ Module B1_8.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -101,9 +99,7 @@ Module B1_8.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -127,6 +123,6 @@ Module B1_8.
     )).
 
     Definition data : string :=
-      "a2646970667358221220091ddd58bf4d96f3e2f41ebf86530a341294c6b234602f695b8bc1903e00938264736f6c634300081b0033".
+      "a2646970667358221220921e31023b3f324b181ea7526309bc4c9e5802ed33387dcfc3ca8924a73d042964736f6c634300081b0033".
   End B1_8_deployed.
 End B1_8.

@@ -21,17 +21,13 @@ Module Voting_47.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module Voting_47.
       let _ :=
         M.call (|
           "constructor_Voting",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -202,17 +194,17 @@ Module Voting_47.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x01]
+              Some ([Literal.number 0x01])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -351,12 +343,10 @@ Module Voting_47.
                 let _ :=
                   M.assign (|
                     ["memPtr"],
-                    M.call (|
+                    Some (M.call (|
                       "allocate_unbounded",
-                      [
-
-                      ]
-                    |)
+                      []
+                    |))
                   |) in
                 let _ :=
                   M.call (|
@@ -375,7 +365,7 @@ Module Voting_47.
                 let _ :=
                   M.assign (|
                     ["end"],
-                    M.call (|
+                    Some (M.call (|
                       "abi_encode_stringliteral_c5d2",
                       [
                         M.call (|
@@ -386,7 +376,7 @@ Module Voting_47.
                           ]
                         |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.call (|
@@ -417,7 +407,7 @@ Module Voting_47.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x01]
+              Some ([Literal.number 0x01])
             |) in
           let _ :=
             M.call (|
@@ -458,9 +448,7 @@ Module Voting_47.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -471,7 +459,7 @@ Module Voting_47.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -481,7 +469,7 @@ Module Voting_47.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -493,9 +481,7 @@ Module Voting_47.
                         let _ :=
                           M.call (|
                             "external_fun_renounceOwnership",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -511,9 +497,7 @@ Module Voting_47.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -614,9 +598,7 @@ Module Voting_47.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -654,17 +636,13 @@ Module Voting_47.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -676,38 +654,32 @@ Module Voting_47.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.call (|
                 "fun_renounceOwnership",
-                [
-
-                ]
+                []
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1051,12 +1023,10 @@ Module Voting_47.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -1075,7 +1045,7 @@ Module Voting_47.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_stringliteral",
                         [
                           M.call (|
@@ -1086,7 +1056,7 @@ Module Voting_47.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -1117,32 +1087,30 @@ Module Voting_47.
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "caller",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     [Literal.number 0x00]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -1158,7 +1126,7 @@ Module Voting_47.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1179,9 +1147,7 @@ Module Voting_47.
             let _ :=
               M.call (|
                 "modifier_onlyOwner",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -1190,6 +1156,6 @@ Module Voting_47.
     )).
 
     Definition data : string :=
-      "a26469706673582212202e9871ddc6c5a37c5da1d64b3feaa18f84328f6458cc249ddcfc2774d2d8b2c764736f6c634300081b0033".
+      "a26469706673582212209f9a209775dc527e62cd923af76b586396657bd65bd48962123bca74b2bfdac164736f6c634300081b0033".
   End Voting_47_deployed.
 End Voting_47.

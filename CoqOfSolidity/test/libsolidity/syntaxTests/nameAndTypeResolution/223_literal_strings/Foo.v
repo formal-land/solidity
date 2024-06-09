@@ -21,17 +21,13 @@ Module Foo_17.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module Foo_17.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module Foo_17.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module Foo_17.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module Foo_17.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module Foo_17.
                         let _ :=
                           M.call (|
                             "external_fun_f",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module Foo_17.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -300,9 +288,7 @@ Module Foo_17.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -340,17 +326,13 @@ Module Foo_17.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -362,38 +344,32 @@ Module Foo_17.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.call (|
                 "fun_f",
-                [
-
-                ]
+                []
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -508,7 +484,7 @@ Module Foo_17.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -519,7 +495,7 @@ Module Foo_17.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -546,9 +522,7 @@ Module Foo_17.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -575,9 +549,7 @@ Module Foo_17.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -610,9 +582,7 @@ Module Foo_17.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -650,12 +620,12 @@ Module Foo_17.
             let _ :=
               M.assign (|
                 ["allocSize"],
-                M.call (|
+                Some (M.call (|
                   "array_allocation_size_string",
                   [
                     M.get (| "length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -786,9 +756,7 @@ Module Foo_17.
                 ["converted"],
                 M.call (|
                   "copy_literal_to_memory_9d6e07a8ea0356dd0c0f3a528de01c023832b737c47183fe39f627f46dab1dc2",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -860,9 +828,7 @@ Module Foo_17.
                 ["converted"],
                 M.call (|
                   "copy_literal_to_memory_64e604787cbf194841e7b68d7cd28786f6c9a0a3ab9f8b0a0e87cb4387ab0107",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -880,9 +846,7 @@ Module Foo_17.
                 [
                   M.call (|
                     "convert_stringliteral_9d6e_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -892,9 +856,7 @@ Module Foo_17.
                 [
                   M.call (|
                     "convert_stringliteral_64e6_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -905,6 +867,6 @@ Module Foo_17.
     )).
 
     Definition data : string :=
-      "a2646970667358221220850c3e5c0de347f0d5d4400056ba26bf8d002a1cb0b9cdd480aa9df7d53222b664736f6c634300081b0033".
+      "a264697066735822122070ec189b0d06d56aa9700311a2301b816aa23e65a7b30305a8b9af085654fb3c64736f6c634300081b0033".
   End Foo_17_deployed.
 End Foo_17.

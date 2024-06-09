@@ -21,17 +21,13 @@ Module C_15.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module C_15.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module C_15.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module C_15.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module C_15.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module C_15.
                         let _ :=
                           M.call (|
                             "external_fun_f",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module C_15.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -300,9 +288,7 @@ Module C_15.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -429,12 +415,12 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_string",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -542,17 +528,13 @@ Module C_15.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -564,42 +546,36 @@ Module C_15.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_f",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_string",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -697,7 +673,7 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -708,7 +684,7 @@ Module C_15.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -735,9 +711,7 @@ Module C_15.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -764,9 +738,7 @@ Module C_15.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -799,9 +771,7 @@ Module C_15.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -829,12 +799,12 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["allocSize"],
-                M.call (|
+                Some (M.call (|
                   "array_allocation_size_array_string",
                   [
                     M.get (| "length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -868,9 +838,7 @@ Module C_15.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -908,12 +876,12 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["allocSize"],
-                M.call (|
+                Some (M.call (|
                   "array_allocation_size_string",
                   [
                     M.get (| "length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1002,9 +970,7 @@ Module C_15.
                 ["converted"],
                 M.call (|
                   "copy_literal_to_memory_41b1a0649752af1b28b3dc29a1556eee781e4a4c3a1f7f53f90fa834de098c4d",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -1093,9 +1059,7 @@ Module C_15.
                 ["converted"],
                 M.call (|
                   "copy_literal_to_memory_ec84212b669cc259b42900f38ceafde860a5c8244dff2532ee756ad04953d93d",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -1167,9 +1131,7 @@ Module C_15.
                 ["converted"],
                 M.call (|
                   "copy_literal_to_memory_ac7cfa4e6f852f12e993795e03c7f274164ddf274c9689c79705ae138e9f167f",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -1257,9 +1219,7 @@ Module C_15.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1267,13 +1227,13 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "index" |);
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1369,12 +1329,10 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["zero_string_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_string",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1384,22 +1342,20 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["expr_8_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_memory_array_array_string",
                   [
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2_mpos"],
-                M.call (|
+                Some (M.call (|
                   "convert_stringliteral_41b1_to_string",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1418,12 +1374,10 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["_3_mpos"],
-                M.call (|
+                Some (M.call (|
                   "convert_stringliteral_ec84_to_string",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1442,12 +1396,10 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["_4_mpos"],
-                M.call (|
+                Some (M.call (|
                   "convert_stringliteral_ac7c_to_string",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1466,12 +1418,12 @@ Module C_15.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_mpos"],
-                M.call (|
+                Some (M.call (|
                   "mload",
                   [
                     M.call (|
@@ -1487,17 +1439,17 @@ Module C_15.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_10_mpos"],
-                M.get (| "_mpos" |)
+                Some (M.get (| "_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.get (| "expr_10_mpos" |)
+                Some (M.get (| "expr_10_mpos" |))
               |) in
             let _ :=
               M.declare (|
@@ -1513,6 +1465,6 @@ Module C_15.
     )).
 
     Definition data : string :=
-      "a26469706673582212204a8d2c94909fb99ffbed059dc60512b8f2cd3037fd4682fe444ec9ef1f1e073264736f6c634300081b0033".
+      "a26469706673582212201cea723178967ce1b2134e17e23027a519b897ad52fc4494a1239990ea44d66b64736f6c634300081b0033".
   End C_15_deployed.
 End C_15.

@@ -21,17 +21,13 @@ Module collatz_61.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module collatz_61.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module collatz_61.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module collatz_61.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module collatz_61.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module collatz_61.
                         let _ :=
                           M.call (|
                             "external_fun_evenStep",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -191,9 +181,7 @@ Module collatz_61.
                         let _ :=
                           M.call (|
                             "external_fun_run",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -203,9 +191,7 @@ Module collatz_61.
                         let _ :=
                           M.call (|
                             "external_fun_oddStep",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -221,9 +207,7 @@ Module collatz_61.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -404,9 +388,7 @@ Module collatz_61.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -414,7 +396,7 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["offset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.declare (|
@@ -502,17 +484,13 @@ Module collatz_61.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -520,49 +498,45 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_tuple_uint256",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_evenStep",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -591,17 +565,13 @@ Module collatz_61.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -609,49 +579,45 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_tuple_uint256",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_run",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -680,17 +646,13 @@ Module collatz_61.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -698,49 +660,45 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_tuple_uint256",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_oddStep",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -963,9 +921,7 @@ Module collatz_61.
                   let _ :=
                     M.call (|
                       "panic_error_0x12",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -993,12 +949,10 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["zero_t_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1008,22 +962,22 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var_x" |)
+                Some (M.get (| "var_x" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x02]
+                Some ([Literal.number 0x02])
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "checked_div_uint256",
                   [
                     M.get (| "expr" |);
@@ -1034,7 +988,7 @@ Module collatz_61.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1127,9 +1081,7 @@ Module collatz_61.
                   let _ :=
                     M.call (|
                       "panic_error_0x12",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1200,12 +1152,10 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["zero_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1213,198 +1163,203 @@ Module collatz_61.
                 M.get (| "zero_uint256" |)
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 [Literal.number 1],
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["_1"],
-                    M.get (| "var_x" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr"],
-                    M.get (| "_1" |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["var_y"],
-                    M.get (| "expr" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_1"],
-                    M.get (| "expr" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_2"],
-                    M.get (| "expr_1" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_3"],
-                    [Literal.number 0x01]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_4"],
-                    M.call (|
-                      "gt",
+                ltac:(M.monadic (
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["_1"],
+                      Some (M.get (| "var_x" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr"],
+                      Some (M.get (| "_1" |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["var_y"],
+                      M.get (| "expr" |)
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_1"],
+                      Some (M.get (| "expr" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_2"],
+                      Some (M.get (| "expr_1" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_3"],
+                      Some ([Literal.number 0x01])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_4"],
+                      Some (M.call (|
+                        "gt",
+                        [
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_2" |)
+                            ]
+                          |);
+                          M.call (|
+                            "convert_t_rational_by_to_t_uint256",
+                            [
+                              M.get (| "expr_3" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.call (|
+                        "iszero",
+                        [
+                          M.get (| "expr_4" |)
+                        ]
+                      |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.break (||) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_2"],
+                      Some (M.get (| "var_x" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_5"],
+                      Some (M.get (| "_2" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_6"],
+                      Some ([Literal.number 0x02])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_7"],
+                      Some (M.call (|
+                        "mod_uint256",
+                        [
+                          M.get (| "expr_5" |);
+                          M.call (|
+                            "convert_rational_2_by_1_to_uint256",
+                            [
+                              M.get (| "expr_6" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_8"],
+                      Some ([Literal.number 0x00])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_9"],
+                      Some (M.call (|
+                        "eq",
+                        [
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_7" |)
+                            ]
+                          |);
+                          M.call (|
+                            "convert_rational_0_by_1_to_uint256",
+                            [
+                              M.get (| "expr_8" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.switch (|
+                      M.get (| "expr_9" |),
                       [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_2" |)
-                          ]
-                        |);
-                        M.call (|
-                          "convert_t_rational_by_to_t_uint256",
-                          [
-                            M.get (| "expr_3" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.call (|
-                      "iszero",
-                      [
-                        M.get (| "expr_4" |)
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.break (||) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_2"],
-                    M.get (| "var_x" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_5"],
-                    M.get (| "_2" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_6"],
-                    [Literal.number 0x02]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_7"],
-                    M.call (|
-                      "mod_uint256",
-                      [
-                        M.get (| "expr_5" |);
-                        M.call (|
-                          "convert_rational_2_by_1_to_uint256",
-                          [
-                            M.get (| "expr_6" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_8"],
-                    [Literal.number 0x00]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_9"],
-                    M.call (|
-                      "eq",
-                      [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_7" |)
-                          ]
-                        |);
-                        M.call (|
-                          "convert_rational_0_by_1_to_uint256",
-                          [
-                            M.get (| "expr_8" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.switch (|
-                    M.get (| "expr_9" |),
-                    [
-                      (
-                        Some (Literal.number 0),
-                        ltac:(M.monadic (
-                          let _ :=
-                            M.assign (|
-                              ["_3"],
-                              M.get (| "var_x" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_10"],
-                              M.get (| "_3" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_11"],
-                              M.call (|
-                                "fun_oddStep",
-                                [
-                                  M.get (| "expr_10" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["var_x"],
-                              M.get (| "expr_11" |)
-                            |) in
-                          tt
-                        ))                );
-                      (
-                        None,
-                        ltac:(M.monadic (
-                          let _ :=
-                            M.assign (|
-                              ["_4"],
-                              M.get (| "var_x" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_12"],
-                              M.get (| "_4" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_13"],
-                              M.call (|
-                                "fun_evenStep",
-                                [
-                                  M.get (| "expr_12" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["var_x"],
-                              M.get (| "expr_13" |)
-                            |) in
-                          tt
-                        ))                )              ]
-                  |) in
-                tt
+                        (
+                          Some (Literal.number 0),
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.assign (|
+                                ["_3"],
+                                Some (M.get (| "var_x" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_10"],
+                                Some (M.get (| "_3" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_11"],
+                                Some (M.call (|
+                                  "fun_oddStep",
+                                  [
+                                    M.get (| "expr_10" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["var_x"],
+                                M.get (| "expr_11" |)
+                              |) in
+                            tt
+                          ))                  );
+                        (
+                          None,
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.assign (|
+                                ["_4"],
+                                Some (M.get (| "var_x" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_12"],
+                                Some (M.get (| "_4" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_13"],
+                                Some (M.call (|
+                                  "fun_evenStep",
+                                  [
+                                    M.get (| "expr_12" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["var_x"],
+                                M.get (| "expr_13" |)
+                              |) in
+                            tt
+                          ))                  )                ]
+                    |) in
+                  tt
+                ))
               |) in
             tt
           ))
@@ -1481,13 +1436,13 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["product_raw"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "x" |);
                     M.get (| "y" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1534,9 +1489,7 @@ Module collatz_61.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1594,9 +1547,7 @@ Module collatz_61.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1613,12 +1564,10 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["zero_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1628,22 +1577,22 @@ Module collatz_61.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var_x" |)
+                Some (M.get (| "var_x" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "checked_mul_uint256",
                   [
                     M.call (|
@@ -1654,17 +1603,17 @@ Module collatz_61.
                     |);
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint256",
                   [
                     M.get (| "expr_2" |);
@@ -1675,7 +1624,7 @@ Module collatz_61.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1691,6 +1640,6 @@ Module collatz_61.
     )).
 
     Definition data : string :=
-      "a2646970667358221220c4893647ba1a456dd7ce56b3ab2b68e2ced0cb36c172ece71ae58a523b46759364736f6c634300081b0033".
+      "a264697066735822122057ee052b6b8362b731a706ba72d2e7630c5e350dc993cb6408e613b9129ecda664736f6c634300081b0033".
   End collatz_61_deployed.
 End collatz_61.

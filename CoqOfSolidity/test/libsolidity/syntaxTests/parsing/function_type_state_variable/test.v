@@ -21,17 +21,13 @@ Module test_10.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module test_10.
       let _ :=
         M.call (|
           "constructor_test",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -251,7 +243,7 @@ Module test_10.
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "sub",
                 [
                   M.call (|
@@ -263,7 +255,7 @@ Module test_10.
                   |);
                   [Literal.number 0x010000000000000000]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -348,12 +340,12 @@ Module test_10.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_function_internal_nonpayable_returns_to_function_internal_nonpayable_returns",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -391,17 +383,17 @@ Module test_10.
           let _ :=
             M.assign (|
               ["_functionIdentifier"],
-              M.call (|
+              Some (M.call (|
                 "read_from_storage_split_offset_function_internal_nonpayable_returns",
                 [
                   [Literal.number 0x00]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["expr_functionIdentifier"],
-              M.get (| "_functionIdentifier" |)
+              Some (M.get (| "_functionIdentifier" |))
             |) in
           let _ :=
             M.call (|
@@ -436,9 +428,7 @@ Module test_10.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -462,6 +452,6 @@ Module test_10.
     )).
 
     Definition data : string :=
-      "a26469706673582212205cedc43e1dbcb5d8a0acbb962492ee2a8e5db89b66d307f560a2f49588ff566d64736f6c634300081b0033".
+      "a2646970667358221220e3c7851ab21ef5cc207376035ec0157369fdb4c184f685db3754b83337a7738b64736f6c634300081b0033".
   End test_10_deployed.
 End test_10.

@@ -21,17 +21,13 @@ Module B_18.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module B_18.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -138,17 +132,13 @@ Module B_18.
           M.if_ (|
             M.call (|
               "callvalue",
-              [
-
-              ]
+              []
             |),
             ltac:(M.monadic (
               let _ :=
                 M.call (|
                   "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                  [
-
-                  ]
+                  []
                 |) in
               tt
             ))
@@ -156,16 +146,12 @@ Module B_18.
         let _ :=
           M.call (|
             "fun",
-            [
-
-            ]
+            []
           |) in
         let _ :=
           M.call (|
             "stop",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -513,7 +499,7 @@ Module B_18.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -524,7 +510,7 @@ Module B_18.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -551,9 +537,7 @@ Module B_18.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -631,9 +615,7 @@ Module B_18.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -670,12 +652,10 @@ Module B_18.
             let _ :=
               M.assign (|
                 ["pos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -685,9 +665,7 @@ Module B_18.
                   [Literal.number 0];
                   M.call (|
                     "returndatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -698,9 +676,7 @@ Module B_18.
                   M.get (| "pos" |);
                   M.call (|
                     "returndatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -716,32 +692,32 @@ Module B_18.
             let _ :=
               M.assign (|
                 ["_address"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_contract_A",
                   [
                     [Literal.number 0x00]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_11_address"],
-                M.get (| "_address" |)
+                Some (M.get (| "_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_A_to_address",
                   [
                     M.get (| "expr_11_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_functionSelector"],
-                [Literal.number 0x8a4068dd]
+                Some ([Literal.number 0x8a4068dd])
               |) in
             let _ :=
               M.if_ (|
@@ -760,9 +736,7 @@ Module B_18.
                   let _ :=
                     M.call (|
                       "revert_error_0cc013b6b3b6beabea4e3a74a6d380f0df81852ca99887912475e1f66b2a2c20",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -770,12 +744,10 @@ Module B_18.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -793,7 +765,7 @@ Module B_18.
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.call (|
@@ -804,19 +776,17 @@ Module B_18.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     M.get (| "expr_address" |);
                     M.get (| "_1" |);
@@ -830,7 +800,7 @@ Module B_18.
                     M.get (| "_1" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -844,9 +814,7 @@ Module B_18.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -858,7 +826,7 @@ Module B_18.
                   let _ :=
                     M.assign (|
                       ["_4"],
-                      [Literal.number 0]
+                      Some ([Literal.number 0])
                     |) in
                   let _ :=
                     M.if_ (|
@@ -868,9 +836,7 @@ Module B_18.
                           M.get (| "_4" |);
                           M.call (|
                             "returndatasize",
-                            [
-
-                            ]
+                            []
                           |)
                         ]
                       |),
@@ -880,9 +846,7 @@ Module B_18.
                             ["_4"],
                             M.call (|
                               "returndatasize",
-                              [
-
-                              ]
+                              []
                             |)
                           |) in
                         tt
@@ -920,6 +884,6 @@ Module B_18.
     )).
 
     Definition data : string :=
-      "a2646970667358221220df535e469b1d77373f9ad18e73bcf450f89a10cf2c3792e2f28056ea399e8baa64736f6c634300081b0033".
+      "a2646970667358221220b7d5b7657abe67881ecc5828550e8e31246844339f2e4661dffc91b2a519ad8764736f6c634300081b0033".
   End B_18_deployed.
 End B_18.

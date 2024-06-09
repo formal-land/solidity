@@ -21,17 +21,13 @@ Module FixedFeeRegistrar_352.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module FixedFeeRegistrar_352.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module FixedFeeRegistrar_352.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module FixedFeeRegistrar_352.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module FixedFeeRegistrar_352.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_setAddr",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -191,9 +181,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_addr",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -203,9 +191,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_subRegistrar",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -215,9 +201,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_reserve",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -227,9 +211,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_disown",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -239,9 +221,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_setSubRegistrar",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -251,9 +231,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_content",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -263,9 +241,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_owner",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -275,9 +251,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_record",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -287,9 +261,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_transfer",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -299,9 +271,7 @@ Module FixedFeeRegistrar_352.
                         let _ :=
                           M.call (|
                             "external_fun_setContent",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -317,9 +287,7 @@ Module FixedFeeRegistrar_352.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -525,7 +493,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -536,7 +504,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -563,9 +531,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -592,9 +558,7 @@ Module FixedFeeRegistrar_352.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -627,9 +591,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -722,13 +684,13 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["dst"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "array" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -749,9 +711,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -798,9 +758,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -808,12 +766,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.get (| "offset" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -979,9 +937,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -989,7 +945,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -1000,7 +956,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -1015,9 +971,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1042,7 +996,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["offset_1"],
-                [Literal.number 32]
+                Some ([Literal.number 32])
               |) in
             let _ :=
               M.declare (|
@@ -1094,17 +1048,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1112,18 +1062,16 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"; "param_1"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_stringt_address",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1136,22 +1084,20 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1195,9 +1141,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1205,7 +1149,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -1216,7 +1160,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -1231,9 +1175,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1324,17 +1266,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1342,49 +1280,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_string",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_addr",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple_address",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1413,17 +1347,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1431,49 +1361,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_string",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_subRegistrar",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple_address",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1501,18 +1427,16 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_string",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1524,22 +1448,20 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1669,9 +1591,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1679,7 +1599,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -1690,7 +1610,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -1705,9 +1625,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1732,7 +1650,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["offset_1"],
-                [Literal.number 32]
+                Some ([Literal.number 32])
               |) in
             let _ :=
               M.declare (|
@@ -1764,17 +1682,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1782,18 +1696,16 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"; "param_1"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_stringt_address_payable",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1806,22 +1718,20 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1850,17 +1760,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1868,18 +1774,16 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"; "param_1"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_stringt_address",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1892,22 +1796,20 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2006,17 +1908,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2024,49 +1922,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_string",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_content",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bytes32",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2095,17 +1989,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2113,49 +2003,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_string",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_owner",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple_address",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2260,17 +2146,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2278,43 +2160,39 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_string",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"; "ret_1"; "ret_2"; "ret_3"],
-                M.call (|
+                Some (M.call (|
                   "fun_record",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_address_address_bytes32_address",
                   [
                     M.get (| "memPos" |);
@@ -2323,7 +2201,7 @@ Module FixedFeeRegistrar_352.
                     M.get (| "ret_2" |);
                     M.get (| "ret_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2352,17 +2230,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2370,18 +2244,16 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"; "param_1"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_stringt_address",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2394,22 +2266,20 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2520,9 +2390,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2530,7 +2398,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -2541,7 +2409,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -2556,9 +2424,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2583,7 +2449,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["offset_1"],
-                [Literal.number 32]
+                Some ([Literal.number 32])
               |) in
             let _ :=
               M.declare (|
@@ -2615,17 +2481,13 @@ Module FixedFeeRegistrar_352.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2633,18 +2495,16 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["param"; "param_1"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_stringt_bytes32",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2657,22 +2517,20 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2817,83 +2675,81 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_1_mpos"],
-                M.get (| "var_name_157_mpos" |)
+                Some (M.get (| "var_name_157_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_162_mpos"],
-                M.get (| "_1_mpos" |)
+                Some (M.get (| "_1_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_2_mpos"],
-                M.get (| "expr_162_mpos" |)
+                Some (M.get (| "expr_162_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["var__name_mpos"],
-                M.get (| "_2_mpos" |)
+                Some (M.get (| "_2_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3_mpos"],
-                M.get (| "var__name_mpos" |)
+                Some (M.get (| "var__name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_50_mpos"],
-                M.get (| "_3_mpos" |)
+                Some (M.get (| "_3_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_51_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_50_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_51_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "caller",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -2909,7 +2765,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -2958,7 +2814,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "sub",
                   [
                     M.call (|
@@ -2970,7 +2826,7 @@ Module FixedFeeRegistrar_352.
                     |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3122,12 +2978,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_address_to_address",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3230,12 +3086,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_string",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3311,23 +3167,21 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["pos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["end"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_string",
                   [
                     M.get (| "pos" |);
                     M.get (| "var" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3358,43 +3212,43 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var__a" |)
+                Some (M.get (| "var__a" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_166_mpos"],
-                M.get (| "_mpos" |)
+                Some (M.get (| "_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_167_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_166_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_167_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3407,47 +3261,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_9_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_173_mpos"],
-                M.get (| "_9_mpos" |)
+                Some (M.get (| "_9_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                [Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765]
+                Some ([Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765])
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "packed_hashed_string_to_string",
                   [
                     M.get (| "expr_173_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "_5" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3508,12 +3360,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_address"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3523,48 +3373,48 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_15_mpos"],
-                M.get (| "var_name_264_mpos" |)
+                Some (M.get (| "var_name_264_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_271_mpos"],
-                M.get (| "_15_mpos" |)
+                Some (M.get (| "_15_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_272_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_271_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_272_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -3585,12 +3435,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_address"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3600,48 +3448,48 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_19_mpos"],
-                M.get (| "var_name_278_mpos" |)
+                Some (M.get (| "var_name_278_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_285_mpos"],
-                M.get (| "_19_mpos" |)
+                Some (M.get (| "_19_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_286_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_285_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_286_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -3719,17 +3567,17 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x03bd913e6c1df40000]
+                Some ([Literal.number 0x03bd913e6c1df40000])
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_t_rational_by_to_t_uint256",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3748,73 +3596,73 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_22_mpos"],
-                M.get (| "var_name_61_mpos" |)
+                Some (M.get (| "var_name_61_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_68_mpos"],
-                M.get (| "_22_mpos" |)
+                Some (M.get (| "_22_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_69_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_68_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_rec_slot"],
-                M.get (| "expr_69_slot" |)
+                Some (M.get (| "expr_69_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_23_slot"],
-                M.get (| "var_rec_slot" |)
+                Some (M.get (| "var_rec_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_71_slot"],
-                M.get (| "_23_slot" |)
+                Some (M.get (| "_23_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_71_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -3830,12 +3678,12 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "expr_2" |)
+                Some (M.get (| "expr_2" |))
               |) in
             let _ :=
               M.if_ (|
@@ -3844,27 +3692,23 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.assign (|
                       ["expr_4"],
-                      M.call (|
+                      Some (M.call (|
                         "callvalue",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_5"],
-                      M.call (|
+                      Some (M.call (|
                         "constant_c_fee",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_6"],
-                      M.call (|
+                      Some (M.call (|
                         "iszero",
                         [
                           M.call (|
@@ -3885,7 +3729,7 @@ Module FixedFeeRegistrar_352.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -3902,33 +3746,31 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.assign (|
                       ["expr_7"],
-                      M.call (|
+                      Some (M.call (|
                         "caller",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["_slot"],
-                      M.get (| "var_rec_slot" |)
+                      Some (M.get (| "var_rec_slot" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_80_slot"],
-                      M.get (| "_slot" |)
+                      Some (M.get (| "_slot" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["_3"],
-                      M.call (|
+                      Some (M.call (|
                         "add",
                         [
                           M.get (| "expr_80_slot" |);
                           [Literal.number 3]
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -3941,47 +3783,45 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.assign (|
                       ["_29_mpos"],
-                      M.get (| "var_name_61_mpos" |)
+                      Some (M.get (| "var_name_61_mpos" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_88_mpos"],
-                      M.get (| "_29_mpos" |)
+                      Some (M.get (| "_29_mpos" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["_4"],
-                      [Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765]
+                      Some ([Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765])
                     |) in
                   let _ :=
                     M.assign (|
                       ["_5"],
-                      M.call (|
+                      Some (M.call (|
                         "packed_hashed_string_to_string",
                         [
                           M.get (| "expr_88_mpos" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["_6"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["_7"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_tuple",
                         [
                           M.get (| "_6" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4014,83 +3854,81 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_34_mpos"],
-                M.get (| "var_name_96_mpos" |)
+                Some (M.get (| "var_name_96_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_101_mpos"],
-                M.get (| "_34_mpos" |)
+                Some (M.get (| "_34_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_35_mpos"],
-                M.get (| "expr_101_mpos" |)
+                Some (M.get (| "expr_101_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_name_mpos"],
-                M.get (| "_35_mpos" |)
+                Some (M.get (| "_35_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_36_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.get (| "_36_mpos" |)
+                Some (M.get (| "_36_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "caller",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -4106,7 +3944,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -4357,9 +4195,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "panic_error_0x12",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4461,12 +4297,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["arrayLength"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_struct_Record_storage",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -4486,9 +4322,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4496,12 +4330,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["dataArea"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_struct_Record_storage",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -4557,18 +4391,18 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["shiftBits"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "shiftBytes" |);
                     [Literal.number 8]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_dynamic",
                   [
                     M.get (| "shiftBits" |);
@@ -4579,7 +4413,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -4675,12 +4509,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_bytes32_to_bytes32",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -4733,12 +4567,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes32",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -4880,9 +4712,7 @@ Module FixedFeeRegistrar_352.
                   let _ :=
                     M.call (|
                       "panic_error_0x00",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4949,37 +4779,37 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_39_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.get (| "_39_slot" |)
+                Some (M.get (| "_39_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_40_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_110_mpos"],
-                M.get (| "_40_mpos" |)
+                Some (M.get (| "_40_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_111_mpos"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_string_to_bytes",
                   [
                     M.get (| "expr_110_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "keccak256",
                   [
                     M.call (|
@@ -4995,27 +4825,27 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_bytes32_to_uint256",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                [Literal.number 0x08]
+                Some ([Literal.number 0x08])
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.call (|
+                Some (M.call (|
                   "checked_div_uint256",
                   [
                     M.get (| "expr_1" |);
@@ -5026,18 +4856,18 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"; "_2"],
-                M.call (|
+                Some (M.call (|
                   "storage_array_index_access_struct_Record",
                   [
                     M.get (| "expr_slot" |);
                     M.get (| "expr_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5050,37 +4880,35 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_3"],
-                M.get (| "var_refund" |)
+                Some (M.get (| "var_refund" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.get (| "_3" |)
+                Some (M.get (| "_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_address_payable_to_address",
                   [
                     M.get (| "expr_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.call (|
+                Some (M.call (|
                   "constant_c_fee",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.if_ (|
@@ -5102,7 +4930,7 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.call (|
+                Some (M.call (|
                   "call",
                   [
                     M.get (| "_4" |);
@@ -5113,12 +4941,12 @@ Module FixedFeeRegistrar_352.
                     [Literal.number 0];
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7"],
-                M.call (|
+                Some (M.call (|
                   "cleanup_bool",
                   [
                     M.call (|
@@ -5128,7 +4956,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -5148,47 +4976,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_45_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.get (| "_45_mpos" |)
+                Some (M.get (| "_45_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                [Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765]
+                Some ([Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765])
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "packed_hashed_string_to_string",
                   [
                     M.get (| "expr_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "_7" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5235,83 +5061,81 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_50_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_184_mpos"],
-                M.get (| "_50_mpos" |)
+                Some (M.get (| "_50_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_51_mpos"],
-                M.get (| "expr_184_mpos" |)
+                Some (M.get (| "expr_184_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_name_mpos_1"],
-                M.get (| "_51_mpos" |)
+                Some (M.get (| "_51_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_52_mpos"],
-                M.get (| "var_name_mpos_1" |)
+                Some (M.get (| "var_name_mpos_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.get (| "_52_mpos" |)
+                Some (M.get (| "_52_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "caller",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -5327,7 +5151,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -5356,43 +5180,43 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var__registrar" |)
+                Some (M.get (| "var__registrar" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["_56_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_188_mpos"],
-                M.get (| "_56_mpos" |)
+                Some (M.get (| "_56_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_189_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_188_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_189_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5405,47 +5229,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_58_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_195_mpos"],
-                M.get (| "_58_mpos" |)
+                Some (M.get (| "_58_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                [Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765]
+                Some ([Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765])
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "packed_hashed_string_to_string",
                   [
                     M.get (| "expr_195_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "_5" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5554,12 +5376,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_bytes32"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes32",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5569,48 +5389,48 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_64_mpos"],
-                M.get (| "var_name_292_mpos" |)
+                Some (M.get (| "var_name_292_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_299_mpos"],
-                M.get (| "_64_mpos" |)
+                Some (M.get (| "_64_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_300_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_299_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_300_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_bytes32",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -5631,12 +5451,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_address"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5646,48 +5464,48 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_68_mpos"],
-                M.get (| "var_name_306_mpos" |)
+                Some (M.get (| "var_name_306_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_313_mpos"],
-                M.get (| "_68_mpos" |)
+                Some (M.get (| "_68_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_314_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_313_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_314_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -5711,12 +5529,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_address"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5726,12 +5542,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_t_address"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5741,12 +5555,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_t_bytes32"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes32",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5756,12 +5568,10 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["zero_address_1"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5771,63 +5581,63 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_75_mpos"],
-                M.get (| "var_name_223_mpos" |)
+                Some (M.get (| "var_name_223_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_238_mpos"],
-                M.get (| "_75_mpos" |)
+                Some (M.get (| "_75_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_239_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_238_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_rec_236_slot"],
-                M.get (| "expr_239_slot" |)
+                Some (M.get (| "expr_239_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_76_slot"],
-                M.get (| "var_rec_236_slot" |)
+                Some (M.get (| "var_rec_236_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_242_slot"],
-                M.get (| "_76_slot" |)
+                Some (M.get (| "_76_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_242_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -5837,38 +5647,38 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_79_slot"],
-                M.get (| "var_rec_236_slot" |)
+                Some (M.get (| "var_rec_236_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_247_slot"],
-                M.get (| "_79_slot" |)
+                Some (M.get (| "_79_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_247_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "_4" |)
+                Some (M.get (| "_4" |))
               |) in
             let _ :=
               M.declare (|
@@ -5878,38 +5688,38 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_82_slot"],
-                M.get (| "var_rec_236_slot" |)
+                Some (M.get (| "var_rec_236_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_252_slot"],
-                M.get (| "_82_slot" |)
+                Some (M.get (| "_82_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_252_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_bytes32",
                   [
                     M.get (| "_5" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "_6" |)
+                Some (M.get (| "_6" |))
               |) in
             let _ :=
               M.declare (|
@@ -5919,38 +5729,38 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_85_slot"],
-                M.get (| "var_rec_236_slot" |)
+                Some (M.get (| "var_rec_236_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_257_slot"],
-                M.get (| "_85_slot" |)
+                Some (M.get (| "_85_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_257_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_7" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "_8" |)
+                Some (M.get (| "_8" |))
               |) in
             let _ :=
               M.declare (|
@@ -5969,83 +5779,81 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_88_mpos"],
-                M.get (| "var_name_135_mpos" |)
+                Some (M.get (| "var_name_135_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_140_mpos"],
-                M.get (| "_88_mpos" |)
+                Some (M.get (| "_88_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_89_mpos"],
-                M.get (| "expr_140_mpos" |)
+                Some (M.get (| "expr_140_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_name_mpos"],
-                M.get (| "_89_mpos" |)
+                Some (M.get (| "_89_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_90_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.get (| "_90_mpos" |)
+                Some (M.get (| "_90_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "caller",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -6061,7 +5869,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -6090,43 +5898,43 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var__newOwner" |)
+                Some (M.get (| "var__newOwner" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["_94_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_144_mpos"],
-                M.get (| "_94_mpos" |)
+                Some (M.get (| "_94_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_145_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_144_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_145_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6139,47 +5947,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_96_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_151_mpos"],
-                M.get (| "_96_mpos" |)
+                Some (M.get (| "_96_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                [Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765]
+                Some ([Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765])
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "packed_hashed_string_to_string",
                   [
                     M.get (| "expr_151_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "_5" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6226,83 +6032,81 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_101_mpos"],
-                M.get (| "var_name_201_mpos" |)
+                Some (M.get (| "var_name_201_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_206_mpos"],
-                M.get (| "_101_mpos" |)
+                Some (M.get (| "_101_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_102_mpos"],
-                M.get (| "expr_206_mpos" |)
+                Some (M.get (| "expr_206_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_name_mpos"],
-                M.get (| "_102_mpos" |)
+                Some (M.get (| "_102_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_103_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.get (| "_103_mpos" |)
+                Some (M.get (| "_103_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_address",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "caller",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -6318,7 +6122,7 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -6347,12 +6151,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "not",
                   [
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -6409,12 +6213,12 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_bytes32_to_bytes32",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6452,43 +6256,43 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var__content" |)
+                Some (M.get (| "var__content" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["_107_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_210_mpos"],
-                M.get (| "_107_mpos" |)
+                Some (M.get (| "_107_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_211_slot"],
-                M.call (|
+                Some (M.call (|
                   "fun_m_record",
                   [
                     M.get (| "expr_210_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_211_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6501,47 +6305,45 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_109_mpos"],
-                M.get (| "var_name_mpos" |)
+                Some (M.get (| "var_name_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_217_mpos"],
-                M.get (| "_109_mpos" |)
+                Some (M.get (| "_109_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                [Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765]
+                Some ([Literal.number 0x1cf7652f1f9289dc41763c5bd36534c9772d48aa26021274d212f227d4b69765])
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "packed_hashed_string_to_string",
                   [
                     M.get (| "expr_217_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "_5" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6602,37 +6404,37 @@ Module FixedFeeRegistrar_352.
             let _ :=
               M.assign (|
                 ["_114_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_333_slot"],
-                M.get (| "_114_slot" |)
+                Some (M.get (| "_114_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_115_mpos"],
-                M.get (| "var_name_327_mpos" |)
+                Some (M.get (| "var_name_327_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_339_mpos"],
-                M.get (| "_115_mpos" |)
+                Some (M.get (| "_115_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_340_mpos"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_string_to_bytes",
                   [
                     M.get (| "expr_339_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "keccak256",
                   [
                     M.call (|
@@ -6648,27 +6450,27 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_bytes32_to_uint256",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                [Literal.number 0x08]
+                Some ([Literal.number 0x08])
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.call (|
+                Some (M.call (|
                   "checked_div_uint256",
                   [
                     M.get (| "expr_1" |);
@@ -6679,28 +6481,28 @@ Module FixedFeeRegistrar_352.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"; "_2"],
-                M.call (|
+                Some (M.call (|
                   "storage_array_index_access_struct_Record",
                   [
                     M.get (| "expr_333_slot" |);
                     M.get (| "expr_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_118_slot"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_345_slot"],
-                M.get (| "_118_slot" |)
+                Some (M.get (| "_118_slot" |))
               |) in
             let _ :=
               M.declare (|
@@ -6721,6 +6523,6 @@ Module FixedFeeRegistrar_352.
     )).
 
     Definition data : string :=
-      "a2646970667358221220570d73ba9d32f09eb2c80db952ace23e25e838f5b899da0296fdd154a1b420f564736f6c634300081b0033".
+      "a2646970667358221220794559ebe57995972058d4f5b0d9c44d9916e62065796302d3b90dbcc829c5a564736f6c634300081b0033".
   End FixedFeeRegistrar_352_deployed.
 End FixedFeeRegistrar_352.

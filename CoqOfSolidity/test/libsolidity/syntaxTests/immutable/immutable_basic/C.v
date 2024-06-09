@@ -21,17 +21,13 @@ Module C_4.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_4.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -216,17 +208,17 @@ Module C_4.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x00]
+              Some ([Literal.number 0x00])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -261,9 +253,7 @@ Module C_4.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -287,6 +277,6 @@ Module C_4.
     )).
 
     Definition data : string :=
-      "a2646970667358221220a7433ccec1003fed445becfa9e775bacf87917318b09c530cd417243d4e5988d64736f6c634300081b0033".
+      "a26469706673582212208c562fcc07909807b144c23b79321e1d73812f161f3b85e64236b15670ff94f264736f6c634300081b0033".
   End C_4_deployed.
 End C_4.

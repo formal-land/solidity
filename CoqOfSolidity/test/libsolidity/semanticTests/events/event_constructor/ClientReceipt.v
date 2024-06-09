@@ -21,17 +21,13 @@ Module ClientReceipt_23.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module ClientReceipt_23.
       let _ :=
         M.call (|
           "constructor_ClientReceipt",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -410,73 +402,67 @@ Module ClientReceipt_23.
           let _ :=
             M.assign (|
               ["expr"],
-              M.call (|
+              Some (M.call (|
                 "caller",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.assign (|
               ["expr_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_stringliteral_4e03_to_bytes32",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.assign (|
               ["expr_2"],
-              [Literal.number 0x07]
+              Some ([Literal.number 0x07])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              [Literal.number 0x19dacbf83c5de6658e14cbf7bcae5c15eca2eedecf1c66fbca928e4d351bea0f]
+              Some ([Literal.number 0x19dacbf83c5de6658e14cbf7bcae5c15eca2eedecf1c66fbca928e4d351bea0f])
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.call (|
+              Some (M.call (|
                 "convert_address_to_address",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_3"],
-              M.call (|
+              Some (M.call (|
                 "convert_bytes32_to_bytes32",
                 [
                   M.get (| "expr_1" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_4"],
-              M.call (|
+              Some (M.call (|
                 "allocate_unbounded",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_5"],
-              M.call (|
+              Some (M.call (|
                 "abi_encode_tuple_rational_by",
                 [
                   M.get (| "_4" |);
                   M.get (| "expr_2" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -520,9 +506,7 @@ Module ClientReceipt_23.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -546,6 +530,6 @@ Module ClientReceipt_23.
     )).
 
     Definition data : string :=
-      "a2646970667358221220562aebb193dbd1fe4cc23b21416c4454725636f16740b7b48a918863d7e1929a64736f6c634300081b0033".
+      "a26469706673582212208e91de9e63eb2d91dc0a6217d7c7a3d07872597aec91d34e8f9a5078aafe818364736f6c634300081b0033".
   End ClientReceipt_23_deployed.
 End ClientReceipt_23.

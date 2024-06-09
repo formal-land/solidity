@@ -21,17 +21,13 @@ Module C_27.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_27.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -230,22 +222,22 @@ Module C_27.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x03]
+              Some ([Literal.number 0x03])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.get (| "_1" |)
+              Some (M.get (| "_1" |))
             |) in
           let _ :=
             M.call (|
@@ -258,12 +250,12 @@ Module C_27.
           let _ :=
             M.assign (|
               ["expr_1"],
-              M.get (| "_1" |)
+              Some (M.get (| "_1" |))
             |) in
           let _ :=
             M.assign (|
               ["_3"],
-              M.get (| "expr_1" |)
+              Some (M.get (| "expr_1" |))
             |) in
           let _ :=
             M.call (|
@@ -284,17 +276,17 @@ Module C_27.
           let _ :=
             M.assign (|
               ["_1"],
-              M.get (| "var_x" |)
+              Some (M.get (| "var_x" |))
             |) in
           let _ :=
             M.assign (|
               ["expr"],
-              M.get (| "_1" |)
+              Some (M.get (| "_1" |))
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.get (| "expr" |)
+              Some (M.get (| "expr" |))
             |) in
           let _ :=
             M.call (|
@@ -329,9 +321,7 @@ Module C_27.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -355,6 +345,6 @@ Module C_27.
     )).
 
     Definition data : string :=
-      "a26469706673582212200d8dac9c4642f8ef3414f35602f28ceb46ab3ace3abe7b90f03e151cc8e471eb64736f6c634300081b0033".
+      "a2646970667358221220a1c6f6f3dd132ef3a467d4a5d325059ed4863ca36f442dbcbec03aa5c68d427164736f6c634300081b0033".
   End C_27_deployed.
 End C_27.

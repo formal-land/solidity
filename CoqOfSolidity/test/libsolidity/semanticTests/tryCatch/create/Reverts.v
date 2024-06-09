@@ -21,17 +21,13 @@ Module Reverts_11.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module Reverts_11.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "copy_arguments_for_constructor_object_Reverts",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -56,12 +50,10 @@ Module Reverts_11.
       let _ :=
         M.assign (|
           ["_2"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -211,7 +203,7 @@ Module Reverts_11.
           let _ :=
             M.assign (|
               ["newFreePtr"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "memPtr" |);
@@ -222,7 +214,7 @@ Module Reverts_11.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -261,9 +253,7 @@ Module Reverts_11.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -290,9 +280,7 @@ Module Reverts_11.
               ["memPtr"],
               M.call (|
                 "allocate_unbounded",
-                [
-
-                ]
+                []
               |)
             |) in
           let _ :=
@@ -428,9 +416,7 @@ Module Reverts_11.
                 let _ :=
                   M.call (|
                     "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -438,7 +424,7 @@ Module Reverts_11.
           let _ :=
             M.assign (|
               ["offset"],
-              [Literal.number 0]
+              Some ([Literal.number 0])
             |) in
           let _ :=
             M.declare (|
@@ -469,38 +455,36 @@ Module Reverts_11.
           let _ :=
             M.assign (|
               ["programSize"],
-              M.call (|
+              Some (M.call (|
                 "datasize",
                 [
                   [Literal.string "526576657274735f3131"]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["argSize"],
-              M.call (|
+              Some (M.call (|
                 "sub",
                 [
                   M.call (|
                     "codesize",
-                    [
-
-                    ]
+                    []
                   |);
                   M.get (| "programSize" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memoryDataOffset"],
-              M.call (|
+              Some (M.call (|
                 "allocate_memory",
                 [
                   M.get (| "argSize" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -679,12 +663,10 @@ Module Reverts_11.
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "allocate_unbounded",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.call (|
@@ -703,7 +685,7 @@ Module Reverts_11.
           let _ :=
             M.assign (|
               ["_2"],
-              M.call (|
+              Some (M.call (|
                 "abi_encode_stringliteral_96ae",
                 [
                   M.call (|
@@ -714,7 +696,7 @@ Module Reverts_11.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -755,9 +737,7 @@ Module Reverts_11.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -781,6 +761,6 @@ Module Reverts_11.
     )).
 
     Definition data : string :=
-      "a2646970667358221220c8228f897d4481c320c9eb1aeed55dc337b82d2400925b6753c2009f9cb85f0c64736f6c634300081b0033".
+      "a26469706673582212201c0d0352cc6072efb64d95c423fd41ac76e7445ecf098fd9c38b2095cc71a1cd64736f6c634300081b0033".
   End Reverts_11_deployed.
 End Reverts_11.

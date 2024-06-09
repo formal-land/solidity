@@ -21,17 +21,13 @@ Module C_58.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module C_58.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module C_58.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module C_58.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module C_58.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module C_58.
                         let _ :=
                           M.call (|
                             "external_fun_f",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module C_58.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -300,9 +288,7 @@ Module C_58.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -444,17 +430,13 @@ Module C_58.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -466,36 +448,30 @@ Module C_58.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"; "ret_1"; "ret_2"; "ret_3"],
-                M.call (|
+                Some (M.call (|
                   "fun_f",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bytes4_bytes4_bytes4_bytes4",
                   [
                     M.get (| "memPos" |);
@@ -504,7 +480,7 @@ Module C_58.
                     M.get (| "ret_2" |);
                     M.get (| "ret_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -635,12 +611,10 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["zero_bytes4"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes4",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -650,12 +624,10 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["zero_bytes4_1"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes4",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -665,12 +637,10 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["zero_t_bytes4"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes4",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -680,12 +650,10 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["zero_bytes4_2"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes4",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -695,17 +663,17 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["expr_functionSelector"],
-                [Literal.number 0xb3de648b]
+                Some ([Literal.number 0xb3de648b])
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint32_to_bytes4",
                   [
                     M.get (| "expr_functionSelector" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -715,17 +683,17 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["expr_40_functionSelector"],
-                [Literal.number 0xc6bfd994]
+                Some ([Literal.number 0xc6bfd994])
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint32_to_bytes4",
                   [
                     M.get (| "expr_40_functionSelector" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -735,17 +703,17 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["expr_46_functionSelector"],
-                [Literal.number 0x40dcbb08]
+                Some ([Literal.number 0x40dcbb08])
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint32_to_bytes4",
                   [
                     M.get (| "expr_46_functionSelector" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -755,17 +723,17 @@ Module C_58.
             let _ :=
               M.assign (|
                 ["expr_52_functionSelector"],
-                [Literal.number 0x40dcbb08]
+                Some ([Literal.number 0x40dcbb08])
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint32_to_bytes4",
                   [
                     M.get (| "expr_52_functionSelector" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -779,6 +747,6 @@ Module C_58.
     )).
 
     Definition data : string :=
-      "a26469706673582212200697ca2bf378bfaef37d37a7e8a2318d670a3cbab6c94923506d09078909bb1864736f6c634300081b0033".
+      "a264697066735822122007baed3364a239ceb0cbc332f5be053cff4310315d111babc40d192d9801811364736f6c634300081b0033".
   End C_58_deployed.
 End C_58.

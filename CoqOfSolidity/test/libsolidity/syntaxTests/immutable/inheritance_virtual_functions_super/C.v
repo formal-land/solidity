@@ -21,17 +21,13 @@ Module C_33.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_33.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -145,9 +137,7 @@ Module C_33.
           let _ :=
             M.call (|
               "constructor_B",
-              [
-
-              ]
+              []
             |) in
           tt
         ))
@@ -232,17 +222,17 @@ Module C_33.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x03]
+              Some ([Literal.number 0x03])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -277,9 +267,7 @@ Module C_33.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -303,6 +291,6 @@ Module C_33.
     )).
 
     Definition data : string :=
-      "a26469706673582212201efa79f0b08f28be7de29c58602baef17ba3244b86466175682b49f8e171d3cb64736f6c634300081b0033".
+      "a2646970667358221220010bc0d31e761dab8cb2f4be09a50a5d80427ba4a10bf4500003606f0aeff35364736f6c634300081b0033".
   End C_33_deployed.
 End C_33.

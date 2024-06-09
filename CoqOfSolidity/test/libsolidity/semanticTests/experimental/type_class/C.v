@@ -46,9 +46,7 @@ Module C_120.
         let _ :=
           M.call (|
             "fun_fun$unit$unit$$",
-            [
-
-            ]
+            []
           |) in
         let _ :=
           M.call (|
@@ -68,42 +66,40 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["var_boolResult1"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["var_boolResult2"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "fun_new$fun$unit$t_Cat$$",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_c"],
-                M.get (| "expr" |)
+                Some (M.get (| "expr" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_c" |)
+                Some (M.get (| "var_c" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "fun_alive$fun$t_Cat$bool$$",
                   [
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -113,32 +109,30 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.call (|
+                Some (M.call (|
                   "fun_new$fun$unit$t_Dog$$",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_d"],
-                M.get (| "expr_3" |)
+                Some (M.get (| "expr_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.get (| "var_d" |)
+                Some (M.get (| "var_d" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.call (|
+                Some (M.call (|
                   "fun_alive$fun$t_Dog$bool$$",
                   [
                     M.get (| "expr_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -148,32 +142,32 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.get (| "var_boolResult1" |)
+                Some (M.get (| "var_boolResult1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7"],
-                M.get (| "expr_6" |)
+                Some (M.get (| "expr_6" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_wordResult1"],
-                M.get (| "expr_7" |)
+                Some (M.get (| "expr_7" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_8"],
-                M.get (| "var_boolResult2" |)
+                Some (M.get (| "var_boolResult2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_9"],
-                M.get (| "expr_8" |)
+                Some (M.get (| "expr_8" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_wordResult2"],
-                M.get (| "expr_9" |)
+                Some (M.get (| "expr_9" |))
               |) in
             let _ :=
               M.call (|
@@ -211,12 +205,12 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["var_c"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_c" |)
+                Some (M.get (| "var_c" |))
               |) in
             let _ :=
               M.declare (|
@@ -237,7 +231,7 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["var_w"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.declare (|
@@ -247,12 +241,12 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_w" |)
+                Some (M.get (| "var_w" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "iszero",
                   [
                     M.call (|
@@ -262,7 +256,7 @@ Module C_120.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -283,12 +277,12 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["var_d"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_d" |)
+                Some (M.get (| "var_d" |))
               |) in
             let _ :=
               M.declare (|
@@ -309,12 +303,12 @@ Module C_120.
             let _ :=
               M.assign (|
                 ["var_b"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_b" |)
+                Some (M.get (| "var_b" |))
               |) in
             let _ :=
               M.declare (|

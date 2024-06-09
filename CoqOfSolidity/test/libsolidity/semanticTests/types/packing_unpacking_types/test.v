@@ -21,17 +21,13 @@ Module test_37.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module test_37.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module test_37.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module test_37.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module test_37.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module test_37.
                         let _ :=
                           M.call (|
                             "external_fun_run",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module test_37.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -564,9 +552,7 @@ Module test_37.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -574,7 +560,7 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["offset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.declare (|
@@ -596,7 +582,7 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["offset_1"],
-                [Literal.number 32]
+                Some ([Literal.number 32])
               |) in
             let _ :=
               M.declare (|
@@ -618,7 +604,7 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["offset_2"],
-                [Literal.number 64]
+                Some ([Literal.number 64])
               |) in
             let _ :=
               M.declare (|
@@ -720,17 +706,13 @@ Module test_37.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -738,51 +720,47 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["param"; "param_1"; "param_2"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_boolt_uint32t_uint64",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_run",
                   [
                     M.get (| "param" |);
                     M.get (| "param_1" |);
                     M.get (| "param_2" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1000,13 +978,13 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["product_raw"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "x" |);
                     M.get (| "y" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1053,9 +1031,7 @@ Module test_37.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1173,12 +1149,10 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["zero_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1188,12 +1162,12 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var_a" |)
+                Some (M.get (| "var_a" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.if_ (|
@@ -1202,17 +1176,17 @@ Module test_37.
                   let _ :=
                     M.assign (|
                       ["expr_1"],
-                      [Literal.number 0x01]
+                      Some ([Literal.number 0x01])
                     |) in
                   let _ :=
                     M.assign (|
                       ["_2"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_rational_1_by_1_to_uint256",
                         [
                           M.get (| "expr_1" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -1225,22 +1199,22 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["_3"],
-                M.get (| "var_y" |)
+                Some (M.get (| "var_y" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "_3" |)
+                Some (M.get (| "_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                [Literal.number 0x0100000000]
+                Some ([Literal.number 0x0100000000])
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.call (|
+                Some (M.call (|
                   "checked_mul_uint256",
                   [
                     M.get (| "expr_2" |);
@@ -1251,22 +1225,22 @@ Module test_37.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.get (| "var_b" |)
+                Some (M.get (| "var_b" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.get (| "_4" |)
+                Some (M.get (| "_4" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.call (|
+                Some (M.call (|
                   "cleanup_uint32",
                   [
                     M.call (|
@@ -1276,12 +1250,12 @@ Module test_37.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7"],
-                M.call (|
+                Some (M.call (|
                   "or",
                   [
                     M.get (| "expr_4" |);
@@ -1292,7 +1266,7 @@ Module test_37.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1302,22 +1276,22 @@ Module test_37.
             let _ :=
               M.assign (|
                 ["_5"],
-                M.get (| "var_y" |)
+                Some (M.get (| "var_y" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_8"],
-                M.get (| "_5" |)
+                Some (M.get (| "_5" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_9"],
-                [Literal.number 0x010000000000000000]
+                Some ([Literal.number 0x010000000000000000])
               |) in
             let _ :=
               M.assign (|
                 ["expr_10"],
-                M.call (|
+                Some (M.call (|
                   "checked_mul_uint256",
                   [
                     M.get (| "expr_8" |);
@@ -1328,22 +1302,22 @@ Module test_37.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.get (| "var_c" |)
+                Some (M.get (| "var_c" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_11"],
-                M.get (| "_6" |)
+                Some (M.get (| "_6" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_12"],
-                M.call (|
+                Some (M.call (|
                   "cleanup_uint64",
                   [
                     M.call (|
@@ -1353,12 +1327,12 @@ Module test_37.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_13"],
-                M.call (|
+                Some (M.call (|
                   "or",
                   [
                     M.get (| "expr_10" |);
@@ -1369,7 +1343,7 @@ Module test_37.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1383,6 +1357,6 @@ Module test_37.
     )).
 
     Definition data : string :=
-      "a2646970667358221220f7852bf743fb0fb6f507ef35d23781a2625359aaca6f7dc5f72dc1ab240de86064736f6c634300081b0033".
+      "a2646970667358221220d5af123fc6315f395e0dee806e40bbec3352c58f29485982e8e9eb16d861d49364736f6c634300081b0033".
   End test_37_deployed.
 End test_37.

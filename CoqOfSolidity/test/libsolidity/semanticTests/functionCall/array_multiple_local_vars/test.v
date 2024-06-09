@@ -21,17 +21,13 @@ Module test_77.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module test_77.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module test_77.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module test_77.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module test_77.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module test_77.
                         let _ :=
                           M.call (|
                             "external_fun_f",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module test_77.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -374,9 +362,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -404,9 +390,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "revert_error_15abf5612cd996bc235ba1e55a4a30ac60e6bb601ff7ba4ad3f179b6be8d0490",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -447,9 +431,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "revert_error_81385d8c0b31fffe14be1da910c8bd3a80be4cfa248e04f42ec0faea3132a8ef",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -483,9 +465,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -493,7 +473,7 @@ Module test_77.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -504,7 +484,7 @@ Module test_77.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -519,9 +499,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -626,17 +604,13 @@ Module test_77.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -644,50 +618,46 @@ Module test_77.
             let _ :=
               M.assign (|
                 ["param"; "param_1"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_array_uint256_dyn_calldata_ptr",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_f",
                   [
                     M.get (| "param" |);
                     M.get (| "param_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -914,9 +884,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -990,12 +958,12 @@ Module test_77.
             let _ :=
               M.assign (|
                 ["value"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.get (| "ptr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1144,9 +1112,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1274,9 +1240,7 @@ Module test_77.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1304,12 +1268,10 @@ Module test_77.
             let _ :=
               M.assign (|
                 ["zero_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1319,487 +1281,492 @@ Module test_77.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["var_i"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_0_by_1_to_uint256",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["var_sum"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_0_by_1_to_uint256",
                   [
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 [Literal.number 1],
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["_1"],
-                    M.get (| "var_i" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_2"],
-                    M.get (| "_1" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_3_offset"],
-                    M.get (| "var_seq_offset" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_3_length"],
-                    M.get (| "var_seq_length" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_offset"],
-                    M.get (| "_3_offset" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_17_length"],
-                    M.get (| "_3_length" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_3"],
-                    M.call (|
-                      "array_length_array_uint256_dyn_calldata",
-                      [
-                        M.get (| "expr_offset" |);
-                        M.get (| "expr_17_length" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_4"],
-                    M.call (|
-                      "lt",
-                      [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_2" |)
-                          ]
-                        |);
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_3" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.call (|
-                      "iszero",
-                      [
-                        M.get (| "expr_4" |)
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.break (||) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_2"],
-                    M.get (| "var_i" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_5"],
-                    M.get (| "_2" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["var_idx"],
-                    M.get (| "expr_5" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_3"],
-                    M.get (| "var_idx" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_6"],
-                    M.get (| "_3" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_7"],
-                    [Literal.number 0x0a]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_8"],
-                    M.call (|
-                      "iszero",
-                      [
-                        M.call (|
-                          "lt",
-                          [
-                            M.call (|
-                              "cleanup_uint256",
-                              [
-                                M.get (| "expr_6" |)
-                              ]
-                            |);
-                            M.call (|
-                              "convert_t_rational_by_to_t_uint256",
-                              [
-                                M.get (| "expr_7" |)
-                              ]
-                            |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.get (| "expr_8" |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.break (||) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_offset"],
-                    M.get (| "var_seq_offset" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_length"],
-                    M.get (| "var_seq_length" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_31_offset"],
-                    M.get (| "_offset" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_length"],
-                    M.get (| "_length" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_4"],
-                    M.get (| "var_idx" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_9"],
-                    M.get (| "_4" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_10"],
-                    M.call (|
-                      "read_from_calldatat_uint256",
-                      [
-                        M.call (|
-                          "calldata_array_index_access_uint256_dyn_calldata",
-                          [
-                            M.get (| "expr_31_offset" |);
-                            M.get (| "expr_length" |);
-                            M.get (| "expr_9" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["var_x"],
-                    M.get (| "expr_10" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_5"],
-                    M.get (| "var_x" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_11"],
-                    M.get (| "_5" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_12"],
-                    [Literal.number 0x03e8]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_13"],
-                    M.call (|
-                      "iszero",
-                      [
-                        M.call (|
-                          "lt",
-                          [
-                            M.call (|
-                              "cleanup_uint256",
-                              [
-                                M.get (| "expr_11" |)
-                              ]
-                            |);
-                            M.call (|
-                              "convert_rational_by_to_uint256",
-                              [
-                                M.get (| "expr_12" |)
-                              ]
-                            |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.switch (|
-                    M.get (| "expr_13" |),
-                    [
-                      (
-                        Some (Literal.number 0),
-                        ltac:(M.monadic (
-                          let _ :=
-                            M.assign (|
-                              ["_6"],
-                              M.get (| "var_sum" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_14"],
-                              M.get (| "_6" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_7"],
-                              M.get (| "var_x" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_15"],
-                              M.get (| "_7" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_16"],
+                ltac:(M.monadic (
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["_1"],
+                      Some (M.get (| "var_i" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_2"],
+                      Some (M.get (| "_1" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_3_offset"],
+                      Some (M.get (| "var_seq_offset" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_3_length"],
+                      Some (M.get (| "var_seq_length" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_offset"],
+                      Some (M.get (| "_3_offset" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_17_length"],
+                      Some (M.get (| "_3_length" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_3"],
+                      Some (M.call (|
+                        "array_length_array_uint256_dyn_calldata",
+                        [
+                          M.get (| "expr_offset" |);
+                          M.get (| "expr_17_length" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_4"],
+                      Some (M.call (|
+                        "lt",
+                        [
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_2" |)
+                            ]
+                          |);
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_3" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.call (|
+                        "iszero",
+                        [
+                          M.get (| "expr_4" |)
+                        ]
+                      |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.break (||) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_2"],
+                      Some (M.get (| "var_i" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_5"],
+                      Some (M.get (| "_2" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["var_idx"],
+                      Some (M.get (| "expr_5" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_3"],
+                      Some (M.get (| "var_idx" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_6"],
+                      Some (M.get (| "_3" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_7"],
+                      Some ([Literal.number 0x0a])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_8"],
+                      Some (M.call (|
+                        "iszero",
+                        [
+                          M.call (|
+                            "lt",
+                            [
                               M.call (|
-                                "checked_add_uint256",
+                                "cleanup_uint256",
                                 [
-                                  M.get (| "expr_14" |);
-                                  M.get (| "expr_15" |)
+                                  M.get (| "expr_6" |)
+                                ]
+                              |);
+                              M.call (|
+                                "convert_t_rational_by_to_t_uint256",
+                                [
+                                  M.get (| "expr_7" |)
                                 ]
                               |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["var_y"],
-                              M.get (| "expr_16" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_8"],
-                              M.get (| "var_y" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_17"],
-                              M.get (| "_8" |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["var_sum"],
-                              M.get (| "expr_17" |)
-                            |) in
-                          tt
-                        ))                );
-                      (
-                        None,
-                        ltac:(M.monadic (
-                          let _ :=
-                            M.assign (|
-                              ["_9"],
-                              M.get (| "var_i" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_18"],
-                              M.get (| "_9" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_19"],
-                              [Literal.number 0x01]
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_20"],
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.get (| "expr_8" |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.break (||) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_offset"],
+                      Some (M.get (| "var_seq_offset" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_length"],
+                      Some (M.get (| "var_seq_length" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_31_offset"],
+                      Some (M.get (| "_offset" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_length"],
+                      Some (M.get (| "_length" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_4"],
+                      Some (M.get (| "var_idx" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_9"],
+                      Some (M.get (| "_4" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_10"],
+                      Some (M.call (|
+                        "read_from_calldatat_uint256",
+                        [
+                          M.call (|
+                            "calldata_array_index_access_uint256_dyn_calldata",
+                            [
+                              M.get (| "expr_31_offset" |);
+                              M.get (| "expr_length" |);
+                              M.get (| "expr_9" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["var_x"],
+                      Some (M.get (| "expr_10" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_5"],
+                      Some (M.get (| "var_x" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_11"],
+                      Some (M.get (| "_5" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_12"],
+                      Some ([Literal.number 0x03e8])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_13"],
+                      Some (M.call (|
+                        "iszero",
+                        [
+                          M.call (|
+                            "lt",
+                            [
                               M.call (|
-                                "checked_add_uint256",
+                                "cleanup_uint256",
                                 [
-                                  M.get (| "expr_18" |);
-                                  M.call (|
-                                    "convert_rational_1_by_1_to_uint256",
-                                    [
-                                      M.get (| "expr_19" |)
-                                    ]
-                                  |)
+                                  M.get (| "expr_11" |)
+                                ]
+                              |);
+                              M.call (|
+                                "convert_rational_by_to_uint256",
+                                [
+                                  M.get (| "expr_12" |)
                                 ]
                               |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["var_n"],
-                              M.get (| "expr_20" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_10"],
-                              M.get (| "var_n" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_21"],
-                              M.get (| "_10" |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["var_i"],
-                              M.get (| "expr_21" |)
-                            |) in
-                          let _ :=
-                            M.continue (||) in
-                          tt
-                        ))                )              ]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_11"],
-                    M.get (| "var_sum" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_22"],
-                    M.get (| "_11" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_23"],
-                    [Literal.number 0x01f4]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_24"],
-                    M.call (|
-                      "iszero",
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.switch (|
+                      M.get (| "expr_13" |),
                       [
-                        M.call (|
-                          "lt",
-                          [
-                            M.call (|
-                              "cleanup_uint256",
-                              [
-                                M.get (| "expr_22" |)
-                              ]
-                            |);
-                            M.call (|
-                              "convert_rational_500_by_1_to_uint256",
-                              [
-                                M.get (| "expr_23" |)
-                              ]
-                            |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.get (| "expr_24" |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_12"],
-                          M.get (| "var_sum" |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_25"],
-                          M.get (| "_12" |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["var"],
-                          M.get (| "expr_25" |)
-                        |) in
-                      let _ :=
-                        M.leave (||) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_13"],
-                    M.get (| "var_i" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_14"],
-                    M.call (|
-                      "increment_uint256",
-                      [
-                        M.get (| "_13" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["var_i"],
-                    M.get (| "_14" |)
-                  |) in
-                tt
+                        (
+                          Some (Literal.number 0),
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.assign (|
+                                ["_6"],
+                                Some (M.get (| "var_sum" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_14"],
+                                Some (M.get (| "_6" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_7"],
+                                Some (M.get (| "var_x" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_15"],
+                                Some (M.get (| "_7" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_16"],
+                                Some (M.call (|
+                                  "checked_add_uint256",
+                                  [
+                                    M.get (| "expr_14" |);
+                                    M.get (| "expr_15" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["var_y"],
+                                Some (M.get (| "expr_16" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_8"],
+                                Some (M.get (| "var_y" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_17"],
+                                Some (M.get (| "_8" |))
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["var_sum"],
+                                M.get (| "expr_17" |)
+                              |) in
+                            tt
+                          ))                  );
+                        (
+                          None,
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.assign (|
+                                ["_9"],
+                                Some (M.get (| "var_i" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_18"],
+                                Some (M.get (| "_9" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_19"],
+                                Some ([Literal.number 0x01])
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_20"],
+                                Some (M.call (|
+                                  "checked_add_uint256",
+                                  [
+                                    M.get (| "expr_18" |);
+                                    M.call (|
+                                      "convert_rational_1_by_1_to_uint256",
+                                      [
+                                        M.get (| "expr_19" |)
+                                      ]
+                                    |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["var_n"],
+                                Some (M.get (| "expr_20" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_10"],
+                                Some (M.get (| "var_n" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_21"],
+                                Some (M.get (| "_10" |))
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["var_i"],
+                                M.get (| "expr_21" |)
+                              |) in
+                            let _ :=
+                              M.continue (||) in
+                            tt
+                          ))                  )                ]
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_11"],
+                      Some (M.get (| "var_sum" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_22"],
+                      Some (M.get (| "_11" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_23"],
+                      Some ([Literal.number 0x01f4])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_24"],
+                      Some (M.call (|
+                        "iszero",
+                        [
+                          M.call (|
+                            "lt",
+                            [
+                              M.call (|
+                                "cleanup_uint256",
+                                [
+                                  M.get (| "expr_22" |)
+                                ]
+                              |);
+                              M.call (|
+                                "convert_rational_500_by_1_to_uint256",
+                                [
+                                  M.get (| "expr_23" |)
+                                ]
+                              |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.get (| "expr_24" |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.assign (|
+                            ["_12"],
+                            Some (M.get (| "var_sum" |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["expr_25"],
+                            Some (M.get (| "_12" |))
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["var"],
+                            M.get (| "expr_25" |)
+                          |) in
+                        let _ :=
+                          M.leave (||) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_13"],
+                      Some (M.get (| "var_i" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_14"],
+                      Some (M.call (|
+                        "increment_uint256",
+                        [
+                          M.get (| "_13" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["var_i"],
+                      M.get (| "_14" |)
+                    |) in
+                  tt
+                ))
               |) in
             let _ :=
               M.assign (|
                 ["_15"],
-                M.get (| "var_sum" |)
+                Some (M.get (| "var_sum" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_26"],
-                M.get (| "_15" |)
+                Some (M.get (| "_15" |))
               |) in
             let _ :=
               M.declare (|
@@ -1815,6 +1782,6 @@ Module test_77.
     )).
 
     Definition data : string :=
-      "a2646970667358221220323ed732c655261fa1171cbb95bab90c913097c7f3f816be1bdda240ba87486464736f6c634300081b0033".
+      "a26469706673582212203786da30f38dfa7f43e08800b16e964e07a9b6d19e32d17684d631f09fcbbd1664736f6c634300081b0033".
   End test_77_deployed.
 End test_77.

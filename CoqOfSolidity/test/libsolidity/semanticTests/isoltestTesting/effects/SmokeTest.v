@@ -21,17 +21,13 @@ Module SmokeTest_1.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module SmokeTest_1.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -137,9 +131,7 @@ Module SmokeTest_1.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -163,6 +155,6 @@ Module SmokeTest_1.
     )).
 
     Definition data : string :=
-      "a2646970667358221220fbe9cba8ad5c99eab6eded5d6f16a103b7964629a65f4dfbe348bd8470c3743964736f6c634300081b0033".
+      "a2646970667358221220515a06b90a3cfb1165f93eef6da550b18b00b5488802f7c69aa2ab31c89e47be64736f6c634300081b0033".
   End SmokeTest_1_deployed.
 End SmokeTest_1.

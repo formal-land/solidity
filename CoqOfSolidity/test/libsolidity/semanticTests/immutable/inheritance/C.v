@@ -21,17 +21,13 @@ Module C_37.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_37.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -236,29 +228,27 @@ Module C_37.
           let _ :=
             M.call (|
               "constructor_A",
-              [
-
-              ]
+              []
             |) in
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x02]
+              Some ([Literal.number 0x02])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_t_rational_by_to_t_uint8",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.get (| "_1" |)
+              Some (M.get (| "_1" |))
             |) in
           let _ :=
             M.call (|
@@ -323,22 +313,22 @@ Module C_37.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x04]
+              Some ([Literal.number 0x04])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint8",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.get (| "_1" |)
+              Some (M.get (| "_1" |))
             |) in
           let _ :=
             M.call (|
@@ -373,9 +363,7 @@ Module C_37.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -399,6 +387,6 @@ Module C_37.
     )).
 
     Definition data : string :=
-      "a26469706673582212202e732dd6edeecc69bb111299ca1698927fddea65c09b50bee87e995ec075d52764736f6c634300081b0033".
+      "a2646970667358221220f311a419d887818ba608c86151cf1d473bc38910051177f08a167def326d89e364736f6c634300081b0033".
   End C_37_deployed.
 End C_37.

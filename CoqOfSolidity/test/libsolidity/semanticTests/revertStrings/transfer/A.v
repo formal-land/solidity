@@ -21,17 +21,13 @@ Module A_9.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module A_9.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -141,9 +135,7 @@ Module A_9.
               [
                 M.call (|
                   "calldatasize",
-                  [
-
-                  ]
+                  []
                 |)
               ]
             |),
@@ -151,16 +143,12 @@ Module A_9.
               let _ :=
                 M.call (|
                   "fun",
-                  [
-
-                  ]
+                  []
                 |) in
               let _ :=
                 M.call (|
                   "stop",
-                  [
-
-                  ]
+                  []
                 |) in
               tt
             ))
@@ -168,9 +156,7 @@ Module A_9.
         let _ :=
           M.call (|
             "revert_error_d228b4ceac16d8e91d6dc7ca8d4a5394f524b2e550555324088cb23b86b87b98",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -357,12 +343,10 @@ Module A_9.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -381,7 +365,7 @@ Module A_9.
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_stringliteral_aee5",
                   [
                     M.call (|
@@ -392,7 +376,7 @@ Module A_9.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -415,6 +399,6 @@ Module A_9.
     )).
 
     Definition data : string :=
-      "a2646970667358221220a710a6a3c4f7c02c4224295840953db689ac6e2ab349cbf5badf852619b9cfa064736f6c634300081b0033".
+      "a2646970667358221220227973391993243f43932ae99d0330cbd7c0c79421984a70efe44726ae5e3e9b64736f6c634300081b0033".
   End A_9_deployed.
 End A_9.

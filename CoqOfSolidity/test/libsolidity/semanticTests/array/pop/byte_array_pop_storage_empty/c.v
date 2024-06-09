@@ -21,17 +21,13 @@ Module c_40.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module c_40.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module c_40.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module c_40.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_224_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module c_40.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module c_40.
                         let _ :=
                           M.call (|
                             "external_fun_test",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module c_40.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -300,9 +288,7 @@ Module c_40.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -340,17 +326,13 @@ Module c_40.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -362,38 +344,32 @@ Module c_40.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.call (|
                 "fun_test",
-                [
-
-                ]
+                []
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -630,13 +606,13 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["outOfPlaceEncoding"],
-                M.call (|
+                Some (M.call (|
                   "and",
                   [
                     M.get (| "data" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -680,9 +656,7 @@ Module c_40.
                   let _ :=
                     M.call (|
                       "panic_error_0x22",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -818,12 +792,12 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["dataArea"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_bytes_storage_ptr",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -855,12 +829,12 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["arrayLength"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes_storage_ptr",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -880,9 +854,7 @@ Module c_40.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -973,24 +945,24 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["shiftBits"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "shiftBytes" |);
                     [Literal.number 8]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_dynamic",
                   [
                     M.get (| "shiftBits" |);
                     [Literal.number 255]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1106,12 +1078,12 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_bytes1_to_bytes1",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1150,22 +1122,22 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["data"],
-                M.call (|
+                Some (M.call (|
                   "sload",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["oldLen"],
-                M.call (|
+                Some (M.call (|
                   "extract_byte_array_length",
                   [
                     M.get (| "data" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -1185,9 +1157,7 @@ Module c_40.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1208,13 +1178,13 @@ Module c_40.
                       let _ :=
                         M.assign (|
                           ["value"],
-                          M.call (|
+                          Some (M.call (|
                             "byte",
                             [
                               [Literal.number 0];
                               M.get (| "value0" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.switch (|
@@ -1226,12 +1196,12 @@ Module c_40.
                                 let _ :=
                                   M.assign (|
                                     ["dataArea"],
-                                    M.call (|
+                                    Some (M.call (|
                                       "array_dataslot_bytes_storage_ptr",
                                       [
                                         M.get (| "array" |)
                                       ]
-                                    |)
+                                    |))
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -1296,7 +1266,7 @@ Module c_40.
                                 let _ :=
                                   M.assign (|
                                     ["shiftBits"],
-                                    M.call (|
+                                    Some (M.call (|
                                       "mul",
                                       [
                                         [Literal.number 8];
@@ -1308,12 +1278,12 @@ Module c_40.
                                           ]
                                         |)
                                       ]
-                                    |)
+                                    |))
                                   |) in
                                 let _ :=
                                   M.assign (|
                                     ["valueShifted"],
-                                    M.call (|
+                                    Some (M.call (|
                                       "shift_left_dynamic",
                                       [
                                         M.get (| "shiftBits" |);
@@ -1325,18 +1295,18 @@ Module c_40.
                                           ]
                                         |)
                                       ]
-                                    |)
+                                    |))
                                   |) in
                                 let _ :=
                                   M.assign (|
                                     ["mask"],
-                                    M.call (|
+                                    Some (M.call (|
                                       "shift_left_dynamic",
                                       [
                                         M.get (| "shiftBits" |);
                                         [Literal.number 0xff]
                                       ]
-                                    |)
+                                    |))
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -1393,13 +1363,13 @@ Module c_40.
                       let _ :=
                         M.assign (|
                           ["slot"; "offset"],
-                          M.call (|
+                          Some (M.call (|
                             "storage_array_index_access_bytes_ptr",
                             [
                               M.get (| "array" |);
                               M.get (| "oldLen" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.call (|
@@ -1570,7 +1540,7 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "not",
                   [
                     M.call (|
@@ -1592,7 +1562,7 @@ Module c_40.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1654,17 +1624,17 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["dataPos"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_bytes_storage_ptr",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["data"],
-                M.call (|
+                Some (M.call (|
                   "extract_used_part_and_set_length_of_short_byte_array",
                   [
                     M.call (|
@@ -1675,7 +1645,7 @@ Module c_40.
                     |);
                     M.get (| "len" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1719,12 +1689,10 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["zero"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes1",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1747,22 +1715,22 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["data"],
-                M.call (|
+                Some (M.call (|
                   "sload",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["oldLen"],
-                M.call (|
+                Some (M.call (|
                   "extract_byte_array_length",
                   [
                     M.get (| "data" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -1776,9 +1744,7 @@ Module c_40.
                   let _ :=
                     M.call (|
                       "panic_error_0x31",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -1806,13 +1772,13 @@ Module c_40.
                       let _ :=
                         M.assign (|
                           ["newLen"],
-                          M.call (|
+                          Some (M.call (|
                             "sub",
                             [
                               M.get (| "oldLen" |);
                               [Literal.number 1]
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.switch (|
@@ -1849,13 +1815,13 @@ Module c_40.
                                 let _ :=
                                   M.assign (|
                                     ["slot"; "offset"],
-                                    M.call (|
+                                    Some (M.call (|
                                       "long_byte_array_index_access_no_checks",
                                       [
                                         M.get (| "array" |);
                                         M.get (| "newLen" |)
                                       ]
-                                    |)
+                                    |))
                                   |) in
                                 let _ :=
                                   M.call (|
@@ -1897,37 +1863,37 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["_1_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.get (| "_1_slot" |)
+                Some (M.get (| "_1_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7_self_slot"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_bytes_storage_to_bytes_ptr",
                   [
                     M.get (| "expr_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x07]
+                Some ([Literal.number 0x07])
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_by_to_bytes1",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1940,37 +1906,37 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_11_slot"],
-                M.get (| "_slot" |)
+                Some (M.get (| "_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_13_self_slot"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_bytes_storage_to_bytes_ptr",
                   [
                     M.get (| "expr_11_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x05]
+                Some ([Literal.number 0x05])
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "convert_t_rational_by_to_t_bytes1",
                   [
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -1983,37 +1949,37 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["_5_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_17_slot"],
-                M.get (| "_5_slot" |)
+                Some (M.get (| "_5_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_19_self_slot"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_bytes_storage_to_bytes_ptr",
                   [
                     M.get (| "expr_17_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_3_by_1_to_bytes1",
                   [
                     M.get (| "expr_2" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2026,22 +1992,22 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["_7_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_23_slot"],
-                M.get (| "_7_slot" |)
+                Some (M.get (| "_7_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_self_slot"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_bytes_storage_to_bytes_ptr",
                   [
                     M.get (| "expr_23_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2053,22 +2019,22 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["_8_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_28_slot"],
-                M.get (| "_8_slot" |)
+                Some (M.get (| "_8_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_30_self_slot"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_bytes_storage_to_bytes_ptr",
                   [
                     M.get (| "expr_28_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2080,22 +2046,22 @@ Module c_40.
             let _ :=
               M.assign (|
                 ["_9_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_33_slot"],
-                M.get (| "_9_slot" |)
+                Some (M.get (| "_9_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_35_self_slot"],
-                M.call (|
+                Some (M.call (|
                   "convert_array_bytes_storage_to_bytes_ptr",
                   [
                     M.get (| "expr_33_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2111,6 +2077,6 @@ Module c_40.
     )).
 
     Definition data : string :=
-      "a26469706673582212205264f6cdf8d62583c88e463e0589a5fb3c6366bd4bd1e4d2ff9925b80b6d87b864736f6c634300081b0033".
+      "a264697066735822122027e3a87b6c3e464154449a448c007cb106c52f01857dca0452293f21c7a200e164736f6c634300081b0033".
   End c_40_deployed.
 End c_40.

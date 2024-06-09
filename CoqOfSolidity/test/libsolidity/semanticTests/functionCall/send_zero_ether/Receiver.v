@@ -21,17 +21,13 @@ Module Receiver_5.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module Receiver_5.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -141,9 +135,7 @@ Module Receiver_5.
               [
                 M.call (|
                   "calldatasize",
-                  [
-
-                  ]
+                  []
                 |)
               ]
             |),
@@ -151,9 +143,7 @@ Module Receiver_5.
               let _ :=
                 M.call (|
                   "stop",
-                  [
-
-                  ]
+                  []
                 |) in
               tt
             ))
@@ -161,9 +151,7 @@ Module Receiver_5.
         let _ :=
           M.call (|
             "revert_error_d228b4ceac16d8e91d6dc7ca8d4a5394f524b2e550555324088cb23b86b87b98",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -187,6 +175,6 @@ Module Receiver_5.
     )).
 
     Definition data : string :=
-      "a264697066735822122011e3ab9c117ca505730771b1122ea5adabb3ac381b0006ebe28677834b92ad8864736f6c634300081b0033".
+      "a264697066735822122034b9ba9148e1d18a1d9255a160c0cd3dbf1c17a2d399acdc0351c7936dc22fbc64736f6c634300081b0033".
   End Receiver_5_deployed.
 End Receiver_5.

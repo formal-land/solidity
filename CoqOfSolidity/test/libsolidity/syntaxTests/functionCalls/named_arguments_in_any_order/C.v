@@ -21,17 +21,13 @@ Module C_51.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module C_51.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module C_51.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module C_51.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module C_51.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module C_51.
                         let _ :=
                           M.call (|
                             "external_fun_call",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module C_51.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -300,9 +288,7 @@ Module C_51.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -340,17 +326,13 @@ Module C_51.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -362,38 +344,32 @@ Module C_51.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.call (|
                 "fun_call",
-                [
-
-                ]
+                []
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -508,7 +484,7 @@ Module C_51.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -519,7 +495,7 @@ Module C_51.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -546,9 +522,7 @@ Module C_51.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -575,9 +549,7 @@ Module C_51.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -610,9 +582,7 @@ Module C_51.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -650,12 +620,12 @@ Module C_51.
             let _ :=
               M.assign (|
                 ["allocSize"],
-                M.call (|
+                Some (M.call (|
                   "array_allocation_size_string",
                   [
                     M.get (| "length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -744,9 +714,7 @@ Module C_51.
                 ["converted"],
                 M.call (|
                   "copy_literal_to_memory_4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -764,9 +732,7 @@ Module C_51.
                 [
                   M.call (|
                     "convert_stringliteral_4e03_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -776,9 +742,7 @@ Module C_51.
                 [
                   M.call (|
                     "convert_stringliteral_4e03_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -788,9 +752,7 @@ Module C_51.
                 [
                   M.call (|
                     "convert_stringliteral_4e03_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -800,9 +762,7 @@ Module C_51.
                 [
                   M.call (|
                     "convert_stringliteral_4e03_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -812,9 +772,7 @@ Module C_51.
                 [
                   M.call (|
                     "convert_stringliteral_4e03_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -824,9 +782,7 @@ Module C_51.
                 [
                   M.call (|
                     "convert_stringliteral_4e03_to_string",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -837,6 +793,6 @@ Module C_51.
     )).
 
     Definition data : string :=
-      "a264697066735822122064902a5eadf8f8cf522123d8358dd5b453f9b3a799286dbfb8d06d9048814e0564736f6c634300081b0033".
+      "a2646970667358221220722508346f103b423498cbbab6af5fba2138ecc82b3f8f5c05636557a01efdbc64736f6c634300081b0033".
   End C_51_deployed.
 End C_51.

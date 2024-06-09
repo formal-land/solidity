@@ -21,17 +21,13 @@ Module BinarySearch_103.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module BinarySearch_103.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -137,9 +131,7 @@ Module BinarySearch_103.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -163,6 +155,6 @@ Module BinarySearch_103.
     )).
 
     Definition data : string :=
-      "a264697066735822122007479493d23903380684bb2a1932a63f796fd3e46ff962983144690009023f2864736f6c634300081b0033".
+      "a26469706673582212206ffcebeb51bb5d53bae8b335a3369e6763e70dd17cce2ab7509ca0b54658aa5d64736f6c634300081b0033".
   End BinarySearch_103_deployed.
 End BinarySearch_103.

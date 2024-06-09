@@ -21,17 +21,13 @@ Module buggystruct_62.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module buggystruct_62.
       let _ :=
         M.call (|
           "constructor_buggystruct",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -201,7 +193,7 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["newFreePtr"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "memPtr" |);
@@ -212,7 +204,7 @@ Module buggystruct_62.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -251,9 +243,7 @@ Module buggystruct_62.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -280,9 +270,7 @@ Module buggystruct_62.
               ["memPtr"],
               M.call (|
                 "allocate_unbounded",
-                [
-
-                ]
+                []
               |)
             |) in
           let _ :=
@@ -525,9 +513,7 @@ Module buggystruct_62.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -565,12 +551,12 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["allocSize"],
-              M.call (|
+              Some (M.call (|
                 "array_allocation_size_string",
                 [
                   M.get (| "length" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -659,9 +645,7 @@ Module buggystruct_62.
               ["converted"],
               M.call (|
                 "copy_literal_to_memory_1ea343e3a29ec9b8de4981dc755220fa10635c6e2ad13a0df6abfc5663c66a88",
-                [
-
-                ]
+                []
               |)
             |) in
           tt
@@ -693,7 +677,7 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["value"],
-              M.call (|
+              Some (M.call (|
                 "cleanup_uint256",
                 [
                   M.call (|
@@ -703,7 +687,7 @@ Module buggystruct_62.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -742,12 +726,12 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "not",
                 [
                   [Literal.number 0]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -847,12 +831,12 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -978,13 +962,13 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["outOfPlaceEncoding"],
-              M.call (|
+              Some (M.call (|
                 "and",
                 [
                   M.get (| "data" |);
                   [Literal.number 1]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -1028,9 +1012,7 @@ Module buggystruct_62.
                 let _ :=
                   M.call (|
                     "panic_error_0x22",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -1126,18 +1108,18 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["shiftBits"],
-              M.call (|
+              Some (M.call (|
                 "mul",
                 [
                   M.get (| "shiftBytes" |);
                   [Literal.number 8]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "shift_left_dynamic",
                 [
                   M.get (| "shiftBits" |);
@@ -1148,7 +1130,7 @@ Module buggystruct_62.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -1206,12 +1188,12 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1264,12 +1246,10 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["zero"],
-              M.call (|
+              Some (M.call (|
                 "zero_value_for_split_uint256",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1290,8 +1270,9 @@ Module buggystruct_62.
         [],
         ltac:(M.monadic (
           let _ :=
-            M.for (|
-              tt,
+            let _ :=
+              tt in
+            M.for_ (|
               M.call (|
                 "lt",
                 [
@@ -1299,27 +1280,31 @@ Module buggystruct_62.
                   M.get (| "end" |)
                 ]
               |),
-              let _ :=
-                M.declare (|
-                  ["start"],
+              ltac:(M.monadic (
+                let _ :=
+                  M.declare (|
+                    ["start"],
+                    M.call (|
+                      "add",
+                      [
+                        M.get (| "start" |);
+                        [Literal.number 1]
+                      ]
+                    |)
+                  |) in
+                tt
+              )),
+              ltac:(M.monadic (
+                let _ :=
                   M.call (|
-                    "add",
+                    "storage_set_to_zero_uint256",
                     [
                       M.get (| "start" |);
-                      [Literal.number 1]
+                      [Literal.number 0]
                     ]
-                  |)
-                |) in
-              tt,
-              let _ :=
-                M.call (|
-                  "storage_set_to_zero_uint256",
-                  [
-                    M.get (| "start" |);
-                    [Literal.number 0]
-                  ]
-                |) in
-              tt
+                  |) in
+                tt
+              ))
             |) in
           tt
         ))
@@ -1343,17 +1328,17 @@ Module buggystruct_62.
                 let _ :=
                   M.assign (|
                     ["dataArea"],
-                    M.call (|
+                    Some (M.call (|
                       "array_dataslot_string_storage",
                       [
                         M.get (| "array" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["deleteStart"],
-                    M.call (|
+                    Some (M.call (|
                       "add",
                       [
                         M.get (| "dataArea" |);
@@ -1364,7 +1349,7 @@ Module buggystruct_62.
                           ]
                         |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.if_ (|
@@ -1438,7 +1423,7 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "not",
                 [
                   M.call (|
@@ -1460,7 +1445,7 @@ Module buggystruct_62.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -1522,12 +1507,12 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["newLen"],
-              M.call (|
+              Some (M.call (|
                 "array_length_string",
                 [
                   M.get (| "src" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -1554,9 +1539,7 @@ Module buggystruct_62.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -1564,7 +1547,7 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["oldLen"],
-              M.call (|
+              Some (M.call (|
                 "extract_byte_array_length",
                 [
                   M.call (|
@@ -1574,7 +1557,7 @@ Module buggystruct_62.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1588,7 +1571,7 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["srcOffset"],
-              [Literal.number 0]
+              Some ([Literal.number 0])
             |) in
           let _ :=
             M.declare (|
@@ -1611,7 +1594,7 @@ Module buggystruct_62.
                     let _ :=
                       M.assign (|
                         ["loopEnd"],
-                        M.call (|
+                        Some (M.call (|
                           "and",
                           [
                             M.get (| "newLen" |);
@@ -1622,26 +1605,27 @@ Module buggystruct_62.
                               ]
                             |)
                           ]
-                        |)
+                        |))
                       |) in
                     let _ :=
                       M.assign (|
                         ["dstPtr"],
-                        M.call (|
+                        Some (M.call (|
                           "array_dataslot_string_storage",
                           [
                             M.get (| "slot" |)
                           ]
-                        |)
+                        |))
                       |) in
                     let _ :=
                       M.assign (|
                         ["i"],
-                        [Literal.number 0]
+                        Some ([Literal.number 0])
                       |) in
                     let _ :=
-                      M.for (|
-                        tt,
+                      let _ :=
+                        tt in
+                      M.for_ (|
                         M.call (|
                           "lt",
                           [
@@ -1649,60 +1633,64 @@ Module buggystruct_62.
                             M.get (| "loopEnd" |)
                           ]
                         |),
-                        let _ :=
-                          M.declare (|
-                            ["i"],
-                            M.call (|
-                              "add",
-                              [
-                                M.get (| "i" |);
-                                [Literal.number 0x20]
-                              ]
-                            |)
-                          |) in
-                        tt,
-                        let _ :=
-                          M.call (|
-                            "sstore",
-                            [
-                              M.get (| "dstPtr" |);
+                        ltac:(M.monadic (
+                          let _ :=
+                            M.declare (|
+                              ["i"],
                               M.call (|
-                                "mload",
+                                "add",
                                 [
-                                  M.call (|
-                                    "add",
-                                    [
-                                      M.get (| "src" |);
-                                      M.get (| "srcOffset" |)
-                                    ]
-                                  |)
+                                  M.get (| "i" |);
+                                  [Literal.number 0x20]
                                 ]
                               |)
-                            ]
-                          |) in
-                        let _ :=
-                          M.declare (|
-                            ["dstPtr"],
+                            |) in
+                          tt
+                        )),
+                        ltac:(M.monadic (
+                          let _ :=
                             M.call (|
-                              "add",
+                              "sstore",
                               [
                                 M.get (| "dstPtr" |);
-                                [Literal.number 1]
+                                M.call (|
+                                  "mload",
+                                  [
+                                    M.call (|
+                                      "add",
+                                      [
+                                        M.get (| "src" |);
+                                        M.get (| "srcOffset" |)
+                                      ]
+                                    |)
+                                  ]
+                                |)
                               ]
-                            |)
-                          |) in
-                        let _ :=
-                          M.declare (|
-                            ["srcOffset"],
-                            M.call (|
-                              "add",
-                              [
-                                M.get (| "srcOffset" |);
-                                [Literal.number 32]
-                              ]
-                            |)
-                          |) in
-                        tt
+                            |) in
+                          let _ :=
+                            M.declare (|
+                              ["dstPtr"],
+                              M.call (|
+                                "add",
+                                [
+                                  M.get (| "dstPtr" |);
+                                  [Literal.number 1]
+                                ]
+                              |)
+                            |) in
+                          let _ :=
+                            M.declare (|
+                              ["srcOffset"],
+                              M.call (|
+                                "add",
+                                [
+                                  M.get (| "srcOffset" |);
+                                  [Literal.number 32]
+                                ]
+                              |)
+                            |) in
+                          tt
+                        ))
                       |) in
                     let _ :=
                       M.if_ (|
@@ -1717,7 +1705,7 @@ Module buggystruct_62.
                           let _ :=
                             M.assign (|
                               ["lastValue"],
-                              M.call (|
+                              Some (M.call (|
                                 "mload",
                                 [
                                   M.call (|
@@ -1728,7 +1716,7 @@ Module buggystruct_62.
                                     ]
                                   |)
                                 ]
-                              |)
+                              |))
                             |) in
                           let _ :=
                             M.call (|
@@ -1781,7 +1769,7 @@ Module buggystruct_62.
                     let _ :=
                       M.assign (|
                         ["value"],
-                        [Literal.number 0]
+                        Some ([Literal.number 0])
                       |) in
                     let _ :=
                       M.if_ (|
@@ -1852,34 +1840,34 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["memberSlot"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "slot" |);
                   [Literal.number 0]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberSrcPtr"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "value" |);
                   [Literal.number 0]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberValue"],
-              M.call (|
+              Some (M.call (|
                 "read_from_memoryt_uint256",
                 [
                   M.get (| "memberSrcPtr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1892,34 +1880,34 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["memberSlot_1"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "slot" |);
                   [Literal.number 1]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberSrcPtr_1"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "value" |);
                   [Literal.number 32]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberValue_1"],
-              M.call (|
+              Some (M.call (|
                 "read_from_memoryt_uint256",
                 [
                   M.get (| "memberSrcPtr_1" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1932,34 +1920,34 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["memberSlot_2"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "slot" |);
                   [Literal.number 2]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberSrcPtr_2"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "value" |);
                   [Literal.number 64]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberValue_2"],
-              M.call (|
+              Some (M.call (|
                 "read_from_memoryt_uint256",
                 [
                   M.get (| "memberSrcPtr_2" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1972,34 +1960,34 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["memberSlot_3"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "slot" |);
                   [Literal.number 3]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberSrcPtr_3"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "value" |);
                   [Literal.number 96]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["memberValue_3"],
-              M.call (|
+              Some (M.call (|
                 "read_from_memoryt_string",
                 [
                   M.get (| "memberSrcPtr_3" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2038,37 +2026,35 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x0a]
+              Some ([Literal.number 0x0a])
             |) in
           let _ :=
             M.assign (|
               ["expr_1"],
-              [Literal.number 0x14]
+              Some ([Literal.number 0x14])
             |) in
           let _ :=
             M.assign (|
               ["expr_2"],
-              [Literal.number 0x1e]
+              Some ([Literal.number 0x1e])
             |) in
           let _ :=
             M.assign (|
               ["expr_mpos"],
-              M.call (|
+              Some (M.call (|
                 "allocate_memory_struct_struct_Buggy_storage_ptr",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2087,12 +2073,12 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["_2"],
-              M.call (|
+              Some (M.call (|
                 "convert_t_rational_by_to_t_uint256",
                 [
                   M.get (| "expr_1" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2111,12 +2097,12 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["_3"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_30_by_1_to_uint256",
                 [
                   M.get (| "expr_2" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2135,12 +2121,10 @@ Module buggystruct_62.
           let _ :=
             M.assign (|
               ["_mpos"],
-              M.call (|
+              Some (M.call (|
                 "convert_stringliteral_1ea3_to_string",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2196,9 +2180,7 @@ Module buggystruct_62.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -2209,7 +2191,7 @@ Module buggystruct_62.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -2219,7 +2201,7 @@ Module buggystruct_62.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -2231,9 +2213,7 @@ Module buggystruct_62.
                         let _ :=
                           M.call (|
                             "external_fun_getSecond",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2243,9 +2223,7 @@ Module buggystruct_62.
                         let _ :=
                           M.call (|
                             "external_fun_getThird",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2255,9 +2233,7 @@ Module buggystruct_62.
                         let _ :=
                           M.call (|
                             "external_fun_getFirst",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2267,9 +2243,7 @@ Module buggystruct_62.
                         let _ :=
                           M.call (|
                             "external_fun_bug",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2279,9 +2253,7 @@ Module buggystruct_62.
                         let _ :=
                           M.call (|
                             "external_fun_getLast",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2297,9 +2269,7 @@ Module buggystruct_62.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -2400,9 +2370,7 @@ Module buggystruct_62.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2490,17 +2458,13 @@ Module buggystruct_62.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2512,42 +2476,36 @@ Module buggystruct_62.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_getSecond",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2576,17 +2534,13 @@ Module buggystruct_62.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2598,42 +2552,36 @@ Module buggystruct_62.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_getThird",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2662,17 +2610,13 @@ Module buggystruct_62.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2684,42 +2628,36 @@ Module buggystruct_62.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_getFirst",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2879,13 +2817,13 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["outOfPlaceEncoding"],
-                M.call (|
+                Some (M.call (|
                   "and",
                   [
                     M.get (| "data" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -2929,9 +2867,7 @@ Module buggystruct_62.
                   let _ :=
                     M.call (|
                       "panic_error_0x22",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3009,22 +2945,22 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["slotValue"],
-                M.call (|
+                Some (M.call (|
                   "sload",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "extract_byte_array_length",
                   [
                     M.get (| "slotValue" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3104,21 +3040,22 @@ Module buggystruct_62.
                       let _ :=
                         M.assign (|
                           ["dataPos"],
-                          M.call (|
+                          Some (M.call (|
                             "array_dataslot_string_storage",
                             [
                               M.get (| "value" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["i"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
-                        M.for (|
-                          tt,
+                        let _ :=
+                          tt in
+                        M.for_ (|
                           M.call (|
                             "lt",
                             [
@@ -3126,49 +3063,53 @@ Module buggystruct_62.
                               M.get (| "length" |)
                             ]
                           |),
-                          let _ :=
-                            M.declare (|
-                              ["i"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "i" |);
-                                  [Literal.number 0x20]
-                                ]
-                              |)
-                            |) in
-                          tt,
-                          let _ :=
-                            M.call (|
-                              "mstore",
-                              [
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.declare (|
+                                ["i"],
                                 M.call (|
                                   "add",
                                   [
-                                    M.get (| "pos" |);
-                                    M.get (| "i" |)
-                                  ]
-                                |);
-                                M.call (|
-                                  "sload",
-                                  [
-                                    M.get (| "dataPos" |)
+                                    M.get (| "i" |);
+                                    [Literal.number 0x20]
                                   ]
                                 |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["dataPos"],
+                              |) in
+                            tt
+                          )),
+                          ltac:(M.monadic (
+                            let _ :=
                               M.call (|
-                                "add",
+                                "mstore",
                                 [
-                                  M.get (| "dataPos" |);
-                                  [Literal.number 1]
+                                  M.call (|
+                                    "add",
+                                    [
+                                      M.get (| "pos" |);
+                                      M.get (| "i" |)
+                                    ]
+                                  |);
+                                  M.call (|
+                                    "sload",
+                                    [
+                                      M.get (| "dataPos" |)
+                                    ]
+                                  |)
                                 ]
-                              |)
-                            |) in
-                          tt
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["dataPos"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "dataPos" |);
+                                    [Literal.number 1]
+                                  ]
+                                |)
+                              |) in
+                            tt
+                          ))
                         |) in
                       let _ :=
                         M.declare (|
@@ -3286,7 +3227,7 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -3297,7 +3238,7 @@ Module buggystruct_62.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -3324,9 +3265,7 @@ Module buggystruct_62.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3353,21 +3292,19 @@ Module buggystruct_62.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
               M.assign (|
                 ["end"],
-                M.call (|
+                Some (M.call (|
                   "abi_encodeUpdatedPos_string_storage",
                   [
                     M.get (| "slot" |);
                     M.get (| "memPtr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3398,7 +3335,7 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["slot"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.declare (|
@@ -3555,12 +3492,12 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_string",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3710,17 +3647,13 @@ Module buggystruct_62.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3732,36 +3665,30 @@ Module buggystruct_62.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"; "ret_1"; "ret_2"; "ret_3"],
-                M.call (|
+                Some (M.call (|
                   "getter_fun_bug",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_uint256_uint256_uint256_string",
                   [
                     M.get (| "memPos" |);
@@ -3770,7 +3697,7 @@ Module buggystruct_62.
                     M.get (| "ret_2" |);
                     M.get (| "ret_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3850,17 +3777,13 @@ Module buggystruct_62.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3872,42 +3795,36 @@ Module buggystruct_62.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_getLast",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_string",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3966,12 +3883,10 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["zero_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3981,38 +3896,38 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["_2_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_39_slot"],
-                M.get (| "_2_slot" |)
+                Some (M.get (| "_2_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_39_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -4033,12 +3948,10 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["zero_t_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -4048,38 +3961,38 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["_6_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.get (| "_6_slot" |)
+                Some (M.get (| "_6_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -4100,12 +4013,10 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["zero_uint256"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -4115,38 +4026,38 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["_10_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_30_slot"],
-                M.get (| "_10_slot" |)
+                Some (M.get (| "_10_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_30_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.declare (|
@@ -4200,12 +4111,10 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["zero_string_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_string",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -4215,33 +4124,33 @@ Module buggystruct_62.
             let _ :=
               M.assign (|
                 ["_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_57_slot"],
-                M.get (| "_slot" |)
+                Some (M.get (| "_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_57_slot" |);
                     [Literal.number 3]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_16_slot"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_58_slot"],
-                M.get (| "_16_slot" |)
+                Some (M.get (| "_16_slot" |))
               |) in
             let _ :=
               M.declare (|
@@ -4262,6 +4171,6 @@ Module buggystruct_62.
     )).
 
     Definition data : string :=
-      "a264697066735822122013a85bed1a61ed4d26b24362eaddbca5c216d7b9fbba9313d6ed78a6c183e9cc64736f6c634300081b0033".
+      "a26469706673582212206dbd746f4129dfa4d9e4457de98423c97648a3f2884642bad3bab29a8b7b43ad64736f6c634300081b0033".
   End buggystruct_62_deployed.
 End buggystruct_62.

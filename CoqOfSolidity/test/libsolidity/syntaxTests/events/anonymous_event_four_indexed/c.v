@@ -21,17 +21,13 @@ Module c_11.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module c_11.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -137,9 +131,7 @@ Module c_11.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -163,6 +155,6 @@ Module c_11.
     )).
 
     Definition data : string :=
-      "a26469706673582212207a494b3c30849c8d7380177a0834d77627bfb26f9dc690be26ea5bd47638269664736f6c634300081b0033".
+      "a2646970667358221220784611f6b66656d7ae8e1a6a01769626116fe157eb2f7050da0a5fe4f9ab80cc64736f6c634300081b0033".
   End c_11_deployed.
 End c_11.

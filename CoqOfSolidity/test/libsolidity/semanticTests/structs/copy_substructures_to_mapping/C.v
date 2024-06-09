@@ -21,17 +21,13 @@ Module C_216.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_216.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -272,7 +264,7 @@ Module C_216.
           let _ :=
             M.assign (|
               ["newFreePtr"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "memPtr" |);
@@ -283,7 +275,7 @@ Module C_216.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -322,9 +314,7 @@ Module C_216.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -351,9 +341,7 @@ Module C_216.
               ["memPtr"],
               M.call (|
                 "allocate_unbounded",
-                [
-
-                ]
+                []
               |)
             |) in
           let _ :=
@@ -398,9 +386,7 @@ Module C_216.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -439,12 +425,12 @@ Module C_216.
           let _ :=
             M.assign (|
               ["allocSize"],
-              M.call (|
+              Some (M.call (|
                 "array_allocation_size_array_uint16_dyn",
                 [
                   M.get (| "length" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -480,9 +466,7 @@ Module C_216.
                 M.get (| "dataStart" |);
                 M.call (|
                   "calldatasize",
-                  [
-
-                  ]
+                  []
                 |);
                 M.get (| "dataSizeInBytes" |)
               ]
@@ -509,17 +493,17 @@ Module C_216.
           let _ :=
             M.assign (|
               ["dataStart"],
-              M.get (| "memPtr" |)
+              Some (M.get (| "memPtr" |))
             |) in
           let _ :=
             M.assign (|
               ["dataSize"],
-              M.call (|
+              Some (M.call (|
                 "array_allocation_size_array_uint16_dyn",
                 [
                   M.get (| "length" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -704,9 +688,7 @@ Module C_216.
                 let _ :=
                   M.call (|
                     "panic_error_0x32",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -714,13 +696,13 @@ Module C_216.
           let _ :=
             M.assign (|
               ["offset"],
-              M.call (|
+              Some (M.call (|
                 "mul",
                 [
                   M.get (| "index" |);
                   [Literal.number 32]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -957,13 +939,13 @@ Module C_216.
           let _ :=
             M.assign (|
               ["outOfPlaceEncoding"],
-              M.call (|
+              Some (M.call (|
                 "and",
                 [
                   M.get (| "data" |);
                   [Literal.number 1]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -1007,9 +989,7 @@ Module C_216.
                 let _ :=
                   M.call (|
                     "panic_error_0x22",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -1105,18 +1085,18 @@ Module C_216.
           let _ :=
             M.assign (|
               ["shiftBits"],
-              M.call (|
+              Some (M.call (|
                 "mul",
                 [
                   M.get (| "shiftBytes" |);
                   [Literal.number 8]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "shift_left_dynamic",
                 [
                   M.get (| "shiftBits" |);
@@ -1127,7 +1107,7 @@ Module C_216.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -1228,12 +1208,12 @@ Module C_216.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1286,12 +1266,10 @@ Module C_216.
           let _ :=
             M.assign (|
               ["zero"],
-              M.call (|
+              Some (M.call (|
                 "zero_value_for_split_uint256",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1312,8 +1290,9 @@ Module C_216.
         [],
         ltac:(M.monadic (
           let _ :=
-            M.for (|
-              tt,
+            let _ :=
+              tt in
+            M.for_ (|
               M.call (|
                 "lt",
                 [
@@ -1321,27 +1300,31 @@ Module C_216.
                   M.get (| "end" |)
                 ]
               |),
-              let _ :=
-                M.declare (|
-                  ["start"],
+              ltac:(M.monadic (
+                let _ :=
+                  M.declare (|
+                    ["start"],
+                    M.call (|
+                      "add",
+                      [
+                        M.get (| "start" |);
+                        [Literal.number 1]
+                      ]
+                    |)
+                  |) in
+                tt
+              )),
+              ltac:(M.monadic (
+                let _ :=
                   M.call (|
-                    "add",
+                    "storage_set_to_zero_uint256",
                     [
                       M.get (| "start" |);
-                      [Literal.number 1]
+                      [Literal.number 0]
                     ]
-                  |)
-                |) in
-              tt,
-              let _ :=
-                M.call (|
-                  "storage_set_to_zero_uint256",
-                  [
-                    M.get (| "start" |);
-                    [Literal.number 0]
-                  ]
-                |) in
-              tt
+                  |) in
+                tt
+              ))
             |) in
           tt
         ))
@@ -1365,17 +1348,17 @@ Module C_216.
                 let _ :=
                   M.assign (|
                     ["dataArea"],
-                    M.call (|
+                    Some (M.call (|
                       "array_dataslot_bytes_storage_ptr",
                       [
                         M.get (| "array" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["deleteStart"],
-                    M.call (|
+                    Some (M.call (|
                       "add",
                       [
                         M.get (| "dataArea" |);
@@ -1386,7 +1369,7 @@ Module C_216.
                           ]
                         |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.if_ (|
@@ -1440,7 +1423,7 @@ Module C_216.
           let _ :=
             M.assign (|
               ["oldLen"],
-              M.call (|
+              Some (M.call (|
                 "extract_byte_array_length",
                 [
                   M.call (|
@@ -1450,7 +1433,7 @@ Module C_216.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1590,8 +1573,9 @@ Module C_216.
         [],
         ltac:(M.monadic (
           let _ :=
-            M.for (|
-              tt,
+            let _ :=
+              tt in
+            M.for_ (|
               M.call (|
                 "lt",
                 [
@@ -1599,27 +1583,31 @@ Module C_216.
                   M.get (| "end" |)
                 ]
               |),
-              let _ :=
-                M.declare (|
-                  ["start"],
+              ltac:(M.monadic (
+                let _ :=
+                  M.declare (|
+                    ["start"],
+                    M.call (|
+                      "add",
+                      [
+                        M.get (| "start" |);
+                        [Literal.number 1]
+                      ]
+                    |)
+                  |) in
+                tt
+              )),
+              ltac:(M.monadic (
+                let _ :=
                   M.call (|
-                    "add",
+                    "storage_set_to_zero_uint256",
                     [
                       M.get (| "start" |);
-                      [Literal.number 1]
+                      [Literal.number 0]
                     ]
-                  |)
-                |) in
-              tt,
-              let _ :=
-                M.call (|
-                  "storage_set_to_zero_uint256",
-                  [
-                    M.get (| "start" |);
-                    [Literal.number 0]
-                  ]
-                |) in
-              tt
+                  |) in
+                tt
+              ))
             |) in
           tt
         ))
@@ -1653,7 +1641,7 @@ Module C_216.
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "shift_right_unsigned_dynamic",
                 [
                   M.call (|
@@ -1676,7 +1664,7 @@ Module C_216.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1719,59 +1707,59 @@ Module C_216.
                 let _ :=
                   M.assign (|
                     ["oldSlotCount"],
-                    M.call (|
+                    Some (M.call (|
                       "array_convert_length_to_size_array_uint16_dyn_storage",
                       [
                         M.get (| "len" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["newSlotCount"],
-                    M.call (|
+                    Some (M.call (|
                       "array_convert_length_to_size_array_uint16_dyn_storage",
                       [
                         M.get (| "startIndex" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["arrayDataStart"],
-                    M.call (|
+                    Some (M.call (|
                       "array_dataslot_array_uint16_dyn_storage",
                       [
                         M.get (| "array" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["deleteStart"],
-                    M.call (|
+                    Some (M.call (|
                       "add",
                       [
                         M.get (| "arrayDataStart" |);
                         M.get (| "newSlotCount" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["deleteEnd"],
-                    M.call (|
+                    Some (M.call (|
                       "add",
                       [
                         M.get (| "arrayDataStart" |);
                         M.get (| "oldSlotCount" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["offset"],
-                    M.call (|
+                    Some (M.call (|
                       "mul",
                       [
                         M.call (|
@@ -1783,7 +1771,7 @@ Module C_216.
                         |);
                         [Literal.number 2]
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.if_ (|
@@ -1845,9 +1833,7 @@ Module C_216.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -1855,12 +1841,12 @@ Module C_216.
           let _ :=
             M.assign (|
               ["oldLen"],
-              M.call (|
+              Some (M.call (|
                 "array_length_array_uint16_dyn_storage",
                 [
                   M.get (| "array" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1891,7 +1877,7 @@ Module C_216.
           let _ :=
             M.assign (|
               ["value"],
-              M.call (|
+              Some (M.call (|
                 "cleanup_uint16",
                 [
                   M.call (|
@@ -1901,7 +1887,7 @@ Module C_216.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -1945,24 +1931,24 @@ Module C_216.
           let _ :=
             M.assign (|
               ["shiftBits"],
-              M.call (|
+              Some (M.call (|
                 "mul",
                 [
                   M.get (| "shiftBytes" |);
                   [Literal.number 8]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "shift_left_dynamic",
                 [
                   M.get (| "shiftBits" |);
                   [Literal.number 65535]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -2063,12 +2049,12 @@ Module C_216.
           let _ :=
             M.assign (|
               ["length"],
-              M.call (|
+              Some (M.call (|
                 "array_length_array_uint16_dyn",
                 [
                   M.get (| "src" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -2095,9 +2081,7 @@ Module C_216.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -2113,42 +2097,43 @@ Module C_216.
           let _ :=
             M.assign (|
               ["srcPtr"],
-              M.call (|
+              Some (M.call (|
                 "array_dataslot_array_uint16_dyn",
                 [
                   M.get (| "src" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["dstSlot"],
-              M.call (|
+              Some (M.call (|
                 "array_dataslot_array_uint16_dyn_storage",
                 [
                   M.get (| "dst" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["fullSlots"],
-              M.call (|
+              Some (M.call (|
                 "div",
                 [
                   M.get (| "length" |);
                   [Literal.number 16]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["i"],
-              [Literal.number 0]
+              Some ([Literal.number 0])
             |) in
           let _ :=
-            M.for (|
-              tt,
+            let _ :=
+              tt in
+            M.for_ (|
               M.call (|
                 "lt",
                 [
@@ -2156,121 +2141,130 @@ Module C_216.
                   M.get (| "fullSlots" |)
                 ]
               |),
-              let _ :=
-                M.declare (|
-                  ["i"],
-                  M.call (|
-                    "add",
-                    [
-                      M.get (| "i" |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                |) in
-              tt,
-              let _ :=
-                M.assign (|
-                  ["dstSlotValue"],
-                  [Literal.number 0]
-                |) in
-              let _ :=
-                M.assign (|
-                  ["j"],
-                  [Literal.number 0]
-                |) in
-              let _ :=
-                M.for (|
-                  tt,
-                  M.call (|
-                    "lt",
-                    [
-                      M.get (| "j" |);
-                      [Literal.number 16]
-                    ]
-                  |),
-                  let _ :=
-                    M.declare (|
-                      ["j"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "j" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  tt,
-                  let _ :=
-                    M.assign (|
-                      ["stackItem"],
-                      M.call (|
-                        "read_from_memoryt_uint16",
-                        [
-                          M.get (| "srcPtr" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["itemValue"],
-                      M.call (|
-                        "prepare_store_uint16",
-                        [
-                          M.get (| "stackItem" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["dstSlotValue"],
-                      M.call (|
-                        "update_byte_slice_dynamic2",
-                        [
-                          M.get (| "dstSlotValue" |);
-                          M.call (|
-                            "mul",
-                            [
-                              [Literal.number 2];
-                              M.get (| "j" |)
-                            ]
-                          |);
-                          M.get (| "itemValue" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcPtr"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "srcPtr" |);
-                          [Literal.number 32]
-                        ]
-                      |)
-                    |) in
-                  tt
-                |) in
-              let _ :=
-                M.call (|
-                  "sstore",
-                  [
+              ltac:(M.monadic (
+                let _ :=
+                  M.declare (|
+                    ["i"],
                     M.call (|
                       "add",
                       [
-                        M.get (| "dstSlot" |);
-                        M.get (| "i" |)
+                        M.get (| "i" |);
+                        [Literal.number 1]
                       ]
-                    |);
-                    M.get (| "dstSlotValue" |)
-                  ]
-                |) in
-              tt
+                    |)
+                  |) in
+                tt
+              )),
+              ltac:(M.monadic (
+                let _ :=
+                  M.assign (|
+                    ["dstSlotValue"],
+                    Some ([Literal.number 0])
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["j"],
+                    Some ([Literal.number 0])
+                  |) in
+                let _ :=
+                  let _ :=
+                    tt in
+                  M.for_ (|
+                    M.call (|
+                      "lt",
+                      [
+                        M.get (| "j" |);
+                        [Literal.number 16]
+                      ]
+                    |),
+                    ltac:(M.monadic (
+                      let _ :=
+                        M.declare (|
+                          ["j"],
+                          M.call (|
+                            "add",
+                            [
+                              M.get (| "j" |);
+                              [Literal.number 1]
+                            ]
+                          |)
+                        |) in
+                      tt
+                    )),
+                    ltac:(M.monadic (
+                      let _ :=
+                        M.assign (|
+                          ["stackItem"],
+                          Some (M.call (|
+                            "read_from_memoryt_uint16",
+                            [
+                              M.get (| "srcPtr" |)
+                            ]
+                          |))
+                        |) in
+                      let _ :=
+                        M.assign (|
+                          ["itemValue"],
+                          Some (M.call (|
+                            "prepare_store_uint16",
+                            [
+                              M.get (| "stackItem" |)
+                            ]
+                          |))
+                        |) in
+                      let _ :=
+                        M.declare (|
+                          ["dstSlotValue"],
+                          M.call (|
+                            "update_byte_slice_dynamic2",
+                            [
+                              M.get (| "dstSlotValue" |);
+                              M.call (|
+                                "mul",
+                                [
+                                  [Literal.number 2];
+                                  M.get (| "j" |)
+                                ]
+                              |);
+                              M.get (| "itemValue" |)
+                            ]
+                          |)
+                        |) in
+                      let _ :=
+                        M.declare (|
+                          ["srcPtr"],
+                          M.call (|
+                            "add",
+                            [
+                              M.get (| "srcPtr" |);
+                              [Literal.number 32]
+                            ]
+                          |)
+                        |) in
+                      tt
+                    ))
+                  |) in
+                let _ :=
+                  M.call (|
+                    "sstore",
+                    [
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "dstSlot" |);
+                          M.get (| "i" |)
+                        ]
+                      |);
+                      M.get (| "dstSlotValue" |)
+                    ]
+                  |) in
+                tt
+              ))
             |) in
           let _ :=
             M.assign (|
               ["spill"],
-              M.call (|
+              Some (M.call (|
                 "sub",
                 [
                   M.get (| "length" |);
@@ -2282,7 +2276,7 @@ Module C_216.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -2297,16 +2291,17 @@ Module C_216.
                 let _ :=
                   M.assign (|
                     ["dstSlotValue_1"],
-                    [Literal.number 0]
+                    Some ([Literal.number 0])
                   |) in
                 let _ :=
                   M.assign (|
                     ["j_1"],
-                    [Literal.number 0]
+                    Some ([Literal.number 0])
                   |) in
                 let _ :=
-                  M.for (|
-                    tt,
+                  let _ :=
+                    tt in
+                  M.for_ (|
                     M.call (|
                       "lt",
                       [
@@ -2314,68 +2309,72 @@ Module C_216.
                         M.get (| "spill" |)
                       ]
                     |),
-                    let _ :=
-                      M.declare (|
-                        ["j_1"],
-                        M.call (|
-                          "add",
-                          [
-                            M.get (| "j_1" |);
-                            [Literal.number 1]
-                          ]
-                        |)
-                      |) in
-                    tt,
-                    let _ :=
-                      M.assign (|
-                        ["stackItem_1"],
-                        M.call (|
-                          "read_from_memoryt_uint16",
-                          [
-                            M.get (| "srcPtr" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.assign (|
-                        ["itemValue_1"],
-                        M.call (|
-                          "prepare_store_uint16",
-                          [
-                            M.get (| "stackItem_1" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.declare (|
-                        ["dstSlotValue_1"],
-                        M.call (|
-                          "update_byte_slice_dynamic2",
-                          [
-                            M.get (| "dstSlotValue_1" |);
-                            M.call (|
-                              "mul",
-                              [
-                                [Literal.number 2];
-                                M.get (| "j_1" |)
-                              ]
-                            |);
-                            M.get (| "itemValue_1" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.declare (|
-                        ["srcPtr"],
-                        M.call (|
-                          "add",
-                          [
-                            M.get (| "srcPtr" |);
-                            [Literal.number 32]
-                          ]
-                        |)
-                      |) in
-                    tt
+                    ltac:(M.monadic (
+                      let _ :=
+                        M.declare (|
+                          ["j_1"],
+                          M.call (|
+                            "add",
+                            [
+                              M.get (| "j_1" |);
+                              [Literal.number 1]
+                            ]
+                          |)
+                        |) in
+                      tt
+                    )),
+                    ltac:(M.monadic (
+                      let _ :=
+                        M.assign (|
+                          ["stackItem_1"],
+                          Some (M.call (|
+                            "read_from_memoryt_uint16",
+                            [
+                              M.get (| "srcPtr" |)
+                            ]
+                          |))
+                        |) in
+                      let _ :=
+                        M.assign (|
+                          ["itemValue_1"],
+                          Some (M.call (|
+                            "prepare_store_uint16",
+                            [
+                              M.get (| "stackItem_1" |)
+                            ]
+                          |))
+                        |) in
+                      let _ :=
+                        M.declare (|
+                          ["dstSlotValue_1"],
+                          M.call (|
+                            "update_byte_slice_dynamic2",
+                            [
+                              M.get (| "dstSlotValue_1" |);
+                              M.call (|
+                                "mul",
+                                [
+                                  [Literal.number 2];
+                                  M.get (| "j_1" |)
+                                ]
+                              |);
+                              M.get (| "itemValue_1" |)
+                            ]
+                          |)
+                        |) in
+                      let _ :=
+                        M.declare (|
+                          ["srcPtr"],
+                          M.call (|
+                            "add",
+                            [
+                              M.get (| "srcPtr" |);
+                              [Literal.number 32]
+                            ]
+                          |)
+                        |) in
+                      tt
+                    ))
                   |) in
                 let _ :=
                   M.call (|
@@ -2486,7 +2485,7 @@ Module C_216.
           let _ :=
             M.assign (|
               ["mask"],
-              [Literal.number 65535]
+              Some ([Literal.number 65535])
             |) in
           let _ :=
             M.declare (|
@@ -2543,12 +2542,12 @@ Module C_216.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_uint16_to_uint16",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2586,67 +2585,67 @@ Module C_216.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x02]
+              Some ([Literal.number 0x02])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_2_by_1_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["expr_mpos"],
-              M.call (|
+              Some (M.call (|
                 "allocate_and_zero_memory_array_array_uint16_dyn",
                 [
                   M.get (| "_1" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["var_a_mpos"],
-              M.get (| "expr_mpos" |)
+              Some (M.get (| "expr_mpos" |))
             |) in
           let _ :=
             M.assign (|
               ["expr_1"],
-              [Literal.number 0x0d]
+              Some ([Literal.number 0x0d])
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint16",
                 [
                   M.get (| "expr_1" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_4_mpos"],
-              M.get (| "var_a_mpos" |)
+              Some (M.get (| "var_a_mpos" |))
             |) in
           let _ :=
             M.assign (|
               ["expr_26_mpos"],
-              M.get (| "_4_mpos" |)
+              Some (M.get (| "_4_mpos" |))
             |) in
           let _ :=
             M.assign (|
               ["expr_2"],
-              [Literal.number 0x00]
+              Some ([Literal.number 0x00])
             |) in
           let _ :=
             M.assign (|
               ["_3"],
-              M.get (| "_2" |)
+              Some (M.get (| "_2" |))
             |) in
           let _ :=
             M.call (|
@@ -2670,37 +2669,37 @@ Module C_216.
           let _ :=
             M.assign (|
               ["expr_3"],
-              [Literal.number 0x0e]
+              Some ([Literal.number 0x0e])
             |) in
           let _ :=
             M.assign (|
               ["_4"],
-              M.call (|
+              Some (M.call (|
                 "convert_t_rational_by_to_t_uint16",
                 [
                   M.get (| "expr_3" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_mpos"],
-              M.get (| "var_a_mpos" |)
+              Some (M.get (| "var_a_mpos" |))
             |) in
           let _ :=
             M.assign (|
               ["expr_32_mpos"],
-              M.get (| "_mpos" |)
+              Some (M.get (| "_mpos" |))
             |) in
           let _ :=
             M.assign (|
               ["expr_4"],
-              [Literal.number 0x01]
+              Some ([Literal.number 0x01])
             |) in
           let _ :=
             M.assign (|
               ["_5"],
-              M.get (| "_4" |)
+              Some (M.get (| "_4" |))
             |) in
           let _ :=
             M.call (|
@@ -2724,23 +2723,23 @@ Module C_216.
           let _ :=
             M.assign (|
               ["_9_slot"],
-              [Literal.number 0x00]
+              Some ([Literal.number 0x00])
             |) in
           let _ :=
             M.assign (|
               ["expr_38_slot"],
-              M.get (| "_9_slot" |)
+              Some (M.get (| "_9_slot" |))
             |) in
           let _ :=
             M.assign (|
               ["_6"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "expr_38_slot" |);
                   [Literal.number 0]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2752,33 +2751,33 @@ Module C_216.
           let _ :=
             M.assign (|
               ["_12_mpos"],
-              M.get (| "var_a_mpos" |)
+              Some (M.get (| "var_a_mpos" |))
             |) in
           let _ :=
             M.assign (|
               ["expr_47_mpos"],
-              M.get (| "_12_mpos" |)
+              Some (M.get (| "_12_mpos" |))
             |) in
           let _ :=
             M.assign (|
               ["_slot"],
-              [Literal.number 0x00]
+              Some ([Literal.number 0x00])
             |) in
           let _ :=
             M.assign (|
               ["expr_slot"],
-              M.get (| "_slot" |)
+              Some (M.get (| "_slot" |))
             |) in
           let _ :=
             M.assign (|
               ["_7"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "expr_slot" |);
                   [Literal.number 1]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2791,38 +2790,38 @@ Module C_216.
           let _ :=
             M.assign (|
               ["expr_5"],
-              [Literal.number 0x15]
+              Some ([Literal.number 0x15])
             |) in
           let _ :=
             M.assign (|
               ["_8"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_21_by_1_to_uint16",
                 [
                   M.get (| "expr_5" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_17_slot"],
-              [Literal.number 0x00]
+              Some ([Literal.number 0x00])
             |) in
           let _ :=
             M.assign (|
               ["expr_50_slot"],
-              M.get (| "_17_slot" |)
+              Some (M.get (| "_17_slot" |))
             |) in
           let _ :=
             M.assign (|
               ["_9"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "expr_50_slot" |);
                   [Literal.number 2]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -2864,9 +2863,7 @@ Module C_216.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -2877,7 +2874,7 @@ Module C_216.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_224_unsigned",
                     [
                       M.call (|
@@ -2887,7 +2884,7 @@ Module C_216.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -2899,9 +2896,7 @@ Module C_216.
                         let _ :=
                           M.call (|
                             "external_fun_from_state",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2911,9 +2906,7 @@ Module C_216.
                         let _ :=
                           M.call (|
                             "external_fun_from_memory",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2923,9 +2916,7 @@ Module C_216.
                         let _ :=
                           M.call (|
                             "external_fun_from_storage",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2935,9 +2926,7 @@ Module C_216.
                         let _ :=
                           M.call (|
                             "external_fun_from_calldata",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -2953,9 +2942,7 @@ Module C_216.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -3056,9 +3043,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3185,12 +3170,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3408,12 +3393,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_uint16_dyn",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3429,26 +3414,27 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["baseRef"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["srcPtr"],
-                M.get (| "baseRef" |)
+                Some (M.get (| "baseRef" |))
               |) in
             let _ :=
               M.assign (|
                 ["i"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 M.call (|
                   "lt",
                   [
@@ -3456,50 +3442,54 @@ Module C_216.
                     M.get (| "length" |)
                   ]
                 |),
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["elementValue0"],
-                    M.call (|
-                      "mload",
-                      [
-                        M.get (| "srcPtr" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["pos"],
-                    M.call (|
-                      "abi_encodeUpdatedPos_uint16",
-                      [
-                        M.get (| "elementValue0" |);
-                        M.get (| "pos" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["srcPtr"],
-                    M.call (|
-                      "array_nextElement_array_uint16_dyn",
-                      [
-                        M.get (| "srcPtr" |)
-                      ]
-                    |)
-                  |) in
-                tt
+                ltac:(M.monadic (
+                  let _ :=
+                    M.declare (|
+                      ["i"],
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "i" |);
+                          [Literal.number 1]
+                        ]
+                      |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["elementValue0"],
+                      Some (M.call (|
+                        "mload",
+                        [
+                          M.get (| "srcPtr" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["pos"],
+                      M.call (|
+                        "abi_encodeUpdatedPos_uint16",
+                        [
+                          M.get (| "elementValue0" |);
+                          M.get (| "pos" |)
+                        ]
+                      |)
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["srcPtr"],
+                      M.call (|
+                        "array_nextElement_array_uint16_dyn",
+                        [
+                          M.get (| "srcPtr" |)
+                        ]
+                      |)
+                    |) in
+                  tt
+                ))
               |) in
             let _ :=
               M.declare (|
@@ -3518,18 +3508,18 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["tail"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "pos" |);
                     [Literal.number 0x60]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memberValue0"],
-                M.call (|
+                Some (M.call (|
                   "mload",
                   [
                     M.call (|
@@ -3540,7 +3530,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3576,7 +3566,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["memberValue0_1"],
-                M.call (|
+                Some (M.call (|
                   "mload",
                   [
                     M.call (|
@@ -3587,7 +3577,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3623,7 +3613,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["memberValue0_2"],
-                M.call (|
+                Some (M.call (|
                   "mload",
                   [
                     M.call (|
@@ -3634,7 +3624,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3719,17 +3709,13 @@ Module C_216.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3741,42 +3727,36 @@ Module C_216.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_from_state",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_struct_S_memory_ptr",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3805,17 +3785,13 @@ Module C_216.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3827,42 +3803,36 @@ Module C_216.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_from_memory",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_struct_S_memory_ptr",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3891,17 +3861,13 @@ Module C_216.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3913,42 +3879,36 @@ Module C_216.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_from_storage",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_struct_S_memory_ptr",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -4026,9 +3986,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_21fe6b43b4db61d76a176e95bf1a6b9ede4c301f93a4246f41fecb96e160861d",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4066,9 +4024,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4076,7 +4032,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -4087,7 +4043,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -4102,9 +4058,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4139,17 +4093,13 @@ Module C_216.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4157,49 +4107,45 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_struct_S_calldata",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_from_calldata",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_struct_S_memory_ptr",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -4283,7 +4229,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -4294,7 +4240,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -4321,9 +4267,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4350,9 +4294,7 @@ Module C_216.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -4438,15 +4380,13 @@ Module C_216.
                 ["memPtr"],
                 M.call (|
                   "allocate_memory_struct_struct_S",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
               M.assign (|
                 ["offset"],
-                M.get (| "memPtr" |)
+                Some (M.get (| "memPtr" |))
               |) in
             let _ :=
               M.call (|
@@ -4455,9 +4395,7 @@ Module C_216.
                   M.get (| "offset" |);
                   M.call (|
                     "zero_value_for_bytes",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -4479,9 +4417,7 @@ Module C_216.
                   M.get (| "offset" |);
                   M.call (|
                     "zero_value_for_array_uint16_dyn",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -4503,9 +4439,7 @@ Module C_216.
                   M.get (| "offset" |);
                   M.call (|
                     "zero_value_for_uint16",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -4534,9 +4468,7 @@ Module C_216.
                 ["ret"],
                 M.call (|
                   "allocate_and_zero_memory_struct_struct_S",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -4713,13 +4645,13 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["outOfPlaceEncoding"],
-                M.call (|
+                Some (M.call (|
                   "and",
                   [
                     M.get (| "data" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -4763,9 +4695,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x22",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4890,18 +4820,18 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["shiftBits"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "shiftBytes" |);
                     [Literal.number 8]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_dynamic",
                   [
                     M.get (| "shiftBits" |);
@@ -4912,7 +4842,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5013,12 +4943,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint256_to_uint256",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5071,12 +5001,10 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["zero"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint256",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5097,8 +5025,9 @@ Module C_216.
           [],
           ltac:(M.monadic (
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 M.call (|
                   "lt",
                   [
@@ -5106,27 +5035,31 @@ Module C_216.
                     M.get (| "end" |)
                   ]
                 |),
-                let _ :=
-                  M.declare (|
-                    ["start"],
+                ltac:(M.monadic (
+                  let _ :=
+                    M.declare (|
+                      ["start"],
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "start" |);
+                          [Literal.number 1]
+                        ]
+                      |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
                     M.call (|
-                      "add",
+                      "storage_set_to_zero_uint256",
                       [
                         M.get (| "start" |);
-                        [Literal.number 1]
+                        [Literal.number 0]
                       ]
-                    |)
-                  |) in
-                tt,
-                let _ :=
-                  M.call (|
-                    "storage_set_to_zero_uint256",
-                    [
-                      M.get (| "start" |);
-                      [Literal.number 0]
-                    ]
-                  |) in
-                tt
+                    |) in
+                  tt
+                ))
               |) in
             tt
           ))
@@ -5150,17 +5083,17 @@ Module C_216.
                   let _ :=
                     M.assign (|
                       ["dataArea"],
-                      M.call (|
+                      Some (M.call (|
                         "array_dataslot_bytes_storage",
                         [
                           M.get (| "array" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["deleteStart"],
-                      M.call (|
+                      Some (M.call (|
                         "add",
                         [
                           M.get (| "dataArea" |);
@@ -5171,7 +5104,7 @@ Module C_216.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.if_ (|
@@ -5245,7 +5178,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "not",
                   [
                     M.call (|
@@ -5267,7 +5200,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -5344,12 +5277,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["newLen"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes_storage",
                   [
                     M.get (| "src" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -5364,9 +5297,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -5374,7 +5305,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["oldLen"],
-                M.call (|
+                Some (M.call (|
                   "extract_byte_array_length",
                   [
                     M.call (|
@@ -5384,7 +5315,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5398,7 +5329,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["srcOffset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.switch (|
@@ -5416,7 +5347,7 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["loopEnd"],
-                          M.call (|
+                          Some (M.call (|
                             "and",
                             [
                               M.get (| "newLen" |);
@@ -5427,7 +5358,7 @@ Module C_216.
                                 ]
                               |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -5442,21 +5373,22 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["dstPtr"],
-                          M.call (|
+                          Some (M.call (|
                             "array_dataslot_bytes_storage",
                             [
                               M.get (| "slot" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["i"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
-                        M.for (|
-                          tt,
+                        let _ :=
+                          tt in
+                        M.for_ (|
                           M.call (|
                             "lt",
                             [
@@ -5464,60 +5396,64 @@ Module C_216.
                               M.get (| "loopEnd" |)
                             ]
                           |),
-                          let _ :=
-                            M.declare (|
-                              ["i"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "i" |);
-                                  [Literal.number 0x20]
-                                ]
-                              |)
-                            |) in
-                          tt,
-                          let _ :=
-                            M.call (|
-                              "sstore",
-                              [
-                                M.get (| "dstPtr" |);
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.declare (|
+                                ["i"],
                                 M.call (|
-                                  "sload",
+                                  "add",
                                   [
-                                    M.call (|
-                                      "add",
-                                      [
-                                        M.get (| "src" |);
-                                        M.get (| "srcOffset" |)
-                                      ]
-                                    |)
+                                    M.get (| "i" |);
+                                    [Literal.number 0x20]
                                   ]
                                 |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["dstPtr"],
+                              |) in
+                            tt
+                          )),
+                          ltac:(M.monadic (
+                            let _ :=
                               M.call (|
-                                "add",
+                                "sstore",
                                 [
                                   M.get (| "dstPtr" |);
-                                  [Literal.number 1]
+                                  M.call (|
+                                    "sload",
+                                    [
+                                      M.call (|
+                                        "add",
+                                        [
+                                          M.get (| "src" |);
+                                          M.get (| "srcOffset" |)
+                                        ]
+                                      |)
+                                    ]
+                                  |)
                                 ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["srcOffset"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "srcOffset" |);
-                                  [Literal.number 1]
-                                ]
-                              |)
-                            |) in
-                          tt
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["dstPtr"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "dstPtr" |);
+                                    [Literal.number 1]
+                                  ]
+                                |)
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["srcOffset"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "srcOffset" |);
+                                    [Literal.number 1]
+                                  ]
+                                |)
+                              |) in
+                            tt
+                          ))
                         |) in
                       let _ :=
                         M.if_ (|
@@ -5532,7 +5468,7 @@ Module C_216.
                             let _ :=
                               M.assign (|
                                 ["lastValue"],
-                                M.call (|
+                                Some (M.call (|
                                   "sload",
                                   [
                                     M.call (|
@@ -5543,7 +5479,7 @@ Module C_216.
                                       ]
                                     |)
                                   ]
-                                |)
+                                |))
                               |) in
                             let _ :=
                               M.call (|
@@ -5596,7 +5532,7 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["value"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
                         M.if_ (|
@@ -5754,8 +5690,9 @@ Module C_216.
           [],
           ltac:(M.monadic (
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 M.call (|
                   "lt",
                   [
@@ -5763,27 +5700,31 @@ Module C_216.
                     M.get (| "end" |)
                   ]
                 |),
-                let _ :=
-                  M.declare (|
-                    ["start"],
+                ltac:(M.monadic (
+                  let _ :=
+                    M.declare (|
+                      ["start"],
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "start" |);
+                          [Literal.number 1]
+                        ]
+                      |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
                     M.call (|
-                      "add",
+                      "storage_set_to_zero_uint256",
                       [
                         M.get (| "start" |);
-                        [Literal.number 1]
+                        [Literal.number 0]
                       ]
-                    |)
-                  |) in
-                tt,
-                let _ :=
-                  M.call (|
-                    "storage_set_to_zero_uint256",
-                    [
-                      M.get (| "start" |);
-                      [Literal.number 0]
-                    ]
-                  |) in
-                tt
+                    |) in
+                  tt
+                ))
               |) in
             tt
           ))
@@ -5797,7 +5738,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "shift_right_unsigned_dynamic",
                   [
                     M.call (|
@@ -5820,7 +5761,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -5863,59 +5804,59 @@ Module C_216.
                   let _ :=
                     M.assign (|
                       ["oldSlotCount"],
-                      M.call (|
+                      Some (M.call (|
                         "array_convert_length_to_size_array_uint16_dyn_storage",
                         [
                           M.get (| "len" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["newSlotCount"],
-                      M.call (|
+                      Some (M.call (|
                         "array_convert_length_to_size_array_uint16_dyn_storage",
                         [
                           M.get (| "startIndex" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["arrayDataStart"],
-                      M.call (|
+                      Some (M.call (|
                         "array_dataslot_array_uint16_dyn_storage",
                         [
                           M.get (| "array" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["deleteStart"],
-                      M.call (|
+                      Some (M.call (|
                         "add",
                         [
                           M.get (| "arrayDataStart" |);
                           M.get (| "newSlotCount" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["deleteEnd"],
-                      M.call (|
+                      Some (M.call (|
                         "add",
                         [
                           M.get (| "arrayDataStart" |);
                           M.get (| "oldSlotCount" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["offset"],
-                      M.call (|
+                      Some (M.call (|
                         "mul",
                         [
                           M.call (|
@@ -5927,7 +5868,7 @@ Module C_216.
                           |);
                           [Literal.number 2]
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.if_ (|
@@ -5989,9 +5930,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -5999,12 +5938,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["oldLen"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_uint16_dyn_storage",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6035,7 +5974,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["value"],
-                M.call (|
+                Some (M.call (|
                   "cleanup_uint16",
                   [
                     M.call (|
@@ -6045,7 +5984,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -6089,7 +6028,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "not",
                   [
                     M.call (|
@@ -6111,7 +6050,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -6151,12 +6090,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_uint16_dyn_storage",
                   [
                     M.get (| "src" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -6171,9 +6110,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -6189,52 +6126,53 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["srcPtr"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn_storage",
                   [
                     M.get (| "src" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["dstSlot"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn_storage",
                   [
                     M.get (| "dst" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["fullSlots"],
-                M.call (|
+                Some (M.call (|
                   "div",
                   [
                     M.get (| "length" |);
                     [Literal.number 16]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["srcSlotValue"],
-                M.call (|
+                Some (M.call (|
                   "sload",
                   [
                     M.get (| "srcPtr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["i"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 M.call (|
                   "lt",
                   [
@@ -6242,74 +6180,78 @@ Module C_216.
                     M.get (| "fullSlots" |)
                   ]
                 |),
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue"],
-                    [Literal.number 0]
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["dstSlotValue"],
-                    M.call (|
-                      "mask_lower_order_bytes",
-                      [
-                        M.get (| "srcSlotValue" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["srcPtr"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "srcPtr" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["srcSlotValue"],
-                    M.call (|
-                      "sload",
-                      [
-                        M.get (| "srcPtr" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
+                ltac:(M.monadic (
+                  let _ :=
+                    M.declare (|
+                      ["i"],
                       M.call (|
                         "add",
                         [
-                          M.get (| "dstSlot" |);
-                          M.get (| "i" |)
+                          M.get (| "i" |);
+                          [Literal.number 1]
                         ]
-                      |);
-                      M.get (| "dstSlotValue" |)
-                    ]
-                  |) in
-                tt
+                      |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["dstSlotValue"],
+                      Some ([Literal.number 0])
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["dstSlotValue"],
+                      M.call (|
+                        "mask_lower_order_bytes",
+                        [
+                          M.get (| "srcSlotValue" |)
+                        ]
+                      |)
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["srcPtr"],
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "srcPtr" |);
+                          [Literal.number 1]
+                        ]
+                      |)
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["srcSlotValue"],
+                      M.call (|
+                        "sload",
+                        [
+                          M.get (| "srcPtr" |)
+                        ]
+                      |)
+                    |) in
+                  let _ :=
+                    M.call (|
+                      "sstore",
+                      [
+                        M.call (|
+                          "add",
+                          [
+                            M.get (| "dstSlot" |);
+                            M.get (| "i" |)
+                          ]
+                        |);
+                        M.get (| "dstSlotValue" |)
+                      ]
+                    |) in
+                  tt
+                ))
               |) in
             let _ :=
               M.assign (|
                 ["spill"],
-                M.call (|
+                Some (M.call (|
                   "sub",
                   [
                     M.get (| "length" |);
@@ -6321,7 +6263,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -6336,7 +6278,7 @@ Module C_216.
                   let _ :=
                     M.assign (|
                       ["dstSlotValue_1"],
-                      [Literal.number 0]
+                      Some ([Literal.number 0])
                     |) in
                   let _ :=
                     M.declare (|
@@ -6530,7 +6472,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["mask"],
-                [Literal.number 65535]
+                Some ([Literal.number 65535])
               |) in
             let _ :=
               M.declare (|
@@ -6630,12 +6572,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint16_to_uint16",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6673,22 +6615,22 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["slotValue"],
-                M.call (|
+                Some (M.call (|
                   "sload",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "extract_byte_array_length",
                   [
                     M.get (| "slotValue" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -6768,21 +6710,22 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["dataPos"],
-                          M.call (|
+                          Some (M.call (|
                             "array_dataslot_bytes_storage",
                             [
                               M.get (| "value" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["i"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
-                        M.for (|
-                          tt,
+                        let _ :=
+                          tt in
+                        M.for_ (|
                           M.call (|
                             "lt",
                             [
@@ -6790,49 +6733,53 @@ Module C_216.
                               M.get (| "length" |)
                             ]
                           |),
-                          let _ :=
-                            M.declare (|
-                              ["i"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "i" |);
-                                  [Literal.number 0x20]
-                                ]
-                              |)
-                            |) in
-                          tt,
-                          let _ :=
-                            M.call (|
-                              "mstore",
-                              [
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.declare (|
+                                ["i"],
                                 M.call (|
                                   "add",
                                   [
-                                    M.get (| "pos" |);
-                                    M.get (| "i" |)
-                                  ]
-                                |);
-                                M.call (|
-                                  "sload",
-                                  [
-                                    M.get (| "dataPos" |)
+                                    M.get (| "i" |);
+                                    [Literal.number 0x20]
                                   ]
                                 |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["dataPos"],
+                              |) in
+                            tt
+                          )),
+                          ltac:(M.monadic (
+                            let _ :=
                               M.call (|
-                                "add",
+                                "mstore",
                                 [
-                                  M.get (| "dataPos" |);
-                                  [Literal.number 1]
+                                  M.call (|
+                                    "add",
+                                    [
+                                      M.get (| "pos" |);
+                                      M.get (| "i" |)
+                                    ]
+                                  |);
+                                  M.call (|
+                                    "sload",
+                                    [
+                                      M.get (| "dataPos" |)
+                                    ]
+                                  |)
                                 ]
-                              |)
-                            |) in
-                          tt
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["dataPos"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "dataPos" |);
+                                    [Literal.number 1]
+                                  ]
+                                |)
+                              |) in
+                            tt
+                          ))
                         |) in
                       let _ :=
                         M.declare (|
@@ -6882,21 +6829,19 @@ Module C_216.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
               M.assign (|
                 ["end"],
-                M.call (|
+                Some (M.call (|
                   "abi_encodeUpdatedPos_bytes_storage",
                   [
                     M.get (| "slot" |);
                     M.get (| "memPtr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -7581,12 +7526,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_uint16_dyn_storage",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -7602,25 +7547,26 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["srcPtr"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn_storage",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["itemCounter"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.if_ (|
                 [Literal.number 1],
                 ltac:(M.monadic (
                   let _ :=
-                    M.for (|
-                      tt,
+                    let _ :=
+                      tt in
+                    M.for_ (|
                       M.call (|
                         "lt",
                         [
@@ -7640,424 +7586,428 @@ Module C_216.
                           M.get (| "length" |)
                         ]
                       |),
-                      let _ :=
-                        M.declare (|
-                          ["itemCounter"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "itemCounter" |);
-                              [Literal.number 16]
-                            ]
-                          |)
-                        |) in
-                      tt,
-                      let _ :=
-                        M.assign (|
-                          ["data"],
-                          M.call (|
-                            "sload",
-                            [
-                              M.get (| "srcPtr" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.declare (|
+                            ["itemCounter"],
                             M.call (|
-                              "extract_from_storage_value_offset_0t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "itemCounter" |);
+                                [Literal.number 16]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        tt
+                      )),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.assign (|
+                            ["data"],
+                            Some (M.call (|
+                              "sload",
+                              [
+                                M.get (| "srcPtr" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_0t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_2t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_2t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_4t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_4t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_6t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_6t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_8t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_8t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_10t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_10t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_12t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_12t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_14t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_14t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_16t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_16t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_18t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_18t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_20t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_20t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_22t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_22t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_24t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_24t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_26t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_26t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offsett_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offsett_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "abi_encode_uint16",
-                          [
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
                             M.call (|
-                              "extract_from_storage_value_offset_30t_uint16",
+                              "add",
                               [
-                                M.get (| "data" |)
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
                               ]
-                            |);
-                            M.get (| "pos" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["pos"],
+                            |)
+                          |) in
+                        let _ :=
                           M.call (|
-                            "add",
+                            "abi_encode_uint16",
                             [
-                              M.get (| "pos" |);
-                              [Literal.number 0x20]
+                              M.call (|
+                                "extract_from_storage_value_offset_30t_uint16",
+                                [
+                                  M.get (| "data" |)
+                                ]
+                              |);
+                              M.get (| "pos" |)
                             ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["srcPtr"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "srcPtr" |);
-                              [Literal.number 1]
-                            ]
-                          |)
-                        |) in
-                      tt
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["pos"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "pos" |);
+                                [Literal.number 0x20]
+                              ]
+                            |)
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["srcPtr"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "srcPtr" |);
+                                [Literal.number 1]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      ))
                     |) in
                   tt
                 ))
@@ -8069,12 +8019,12 @@ Module C_216.
                   let _ :=
                     M.assign (|
                       ["data_1"],
-                      M.call (|
+                      Some (M.call (|
                         "sload",
                         [
                           M.get (| "srcPtr" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.if_ (|
@@ -8886,21 +8836,19 @@ Module C_216.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
               M.assign (|
                 ["end"],
-                M.call (|
+                Some (M.call (|
                   "abi_encodeUpdatedPos_array_uint16_dyn_storage",
                   [
                     M.get (| "slot" |);
                     M.get (| "memPtr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8969,15 +8917,13 @@ Module C_216.
                 ["value"],
                 M.call (|
                   "allocate_memory_struct_struct_S",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
               M.assign (|
                 ["memberValue"],
-                M.call (|
+                Some (M.call (|
                   "copy_array_from_storage_to_memory_bytes",
                   [
                     M.call (|
@@ -8988,7 +8934,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9007,7 +8953,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["memberValue_1"],
-                M.call (|
+                Some (M.call (|
                   "copy_array_from_storage_to_memory_array_uint16_dyn",
                   [
                     M.call (|
@@ -9018,7 +8964,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9037,7 +8983,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["memberValue_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint16",
                   [
                     M.call (|
@@ -9048,7 +8994,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9095,12 +9041,10 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["zero_struct_S_memory_ptr_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_struct_S",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -9110,80 +9054,80 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_2_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_112_slot"],
-                M.get (| "_2_slot" |)
+                Some (M.get (| "_2_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_112_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_4_slot"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_113_slot"],
-                M.get (| "_4_slot" |)
+                Some (M.get (| "_4_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_5_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_108_slot"],
-                M.get (| "_5_slot" |)
+                Some (M.get (| "_5_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_108_slot" |);
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_7_slot"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_110_slot"],
-                M.get (| "_7_slot" |)
+                Some (M.get (| "_7_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_110_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9196,80 +9140,80 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_10_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_120_slot"],
-                M.get (| "_10_slot" |)
+                Some (M.get (| "_10_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_120_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_slot"],
-                M.get (| "_4" |)
+                Some (M.get (| "_4" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_121_slot"],
-                M.get (| "_slot" |)
+                Some (M.get (| "_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_13_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_116_slot"],
-                M.get (| "_13_slot" |)
+                Some (M.get (| "_13_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_116_slot" |);
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_15_slot"],
-                M.get (| "_5" |)
+                Some (M.get (| "_5" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_118_slot"],
-                M.get (| "_15_slot" |)
+                Some (M.get (| "_15_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_118_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9282,85 +9226,85 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_18_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_128_slot"],
-                M.get (| "_18_slot" |)
+                Some (M.get (| "_18_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_128_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint16",
                   [
                     M.get (| "_7" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "_8" |)
+                Some (M.get (| "_8" |))
               |) in
             let _ :=
               M.assign (|
                 ["_21_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_124_slot"],
-                M.get (| "_21_slot" |)
+                Some (M.get (| "_21_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_9"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_124_slot" |);
                     M.get (| "expr_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_23_slot"],
-                M.get (| "_9" |)
+                Some (M.get (| "_9" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_126_slot"],
-                M.get (| "_23_slot" |)
+                Some (M.get (| "_23_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_10"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_126_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9373,38 +9317,38 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_25_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_132_slot"],
-                M.get (| "_25_slot" |)
+                Some (M.get (| "_25_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_11"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_132_slot" |);
                     M.get (| "expr_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_27_slot"],
-                M.get (| "_11" |)
+                Some (M.get (| "_11" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_134_slot"],
-                M.get (| "_27_slot" |)
+                Some (M.get (| "_27_slot" |))
               |) in
             let _ :=
               M.declare (|
@@ -9514,12 +9458,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["newLen"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes",
                   [
                     M.get (| "src" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9534,9 +9478,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9544,7 +9486,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["oldLen"],
-                M.call (|
+                Some (M.call (|
                   "extract_byte_array_length",
                   [
                     M.call (|
@@ -9554,7 +9496,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9568,7 +9510,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["srcOffset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.declare (|
@@ -9591,7 +9533,7 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["loopEnd"],
-                          M.call (|
+                          Some (M.call (|
                             "and",
                             [
                               M.get (| "newLen" |);
@@ -9602,26 +9544,27 @@ Module C_216.
                                 ]
                               |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["dstPtr"],
-                          M.call (|
+                          Some (M.call (|
                             "array_dataslot_bytes_storage",
                             [
                               M.get (| "slot" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["i"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
-                        M.for (|
-                          tt,
+                        let _ :=
+                          tt in
+                        M.for_ (|
                           M.call (|
                             "lt",
                             [
@@ -9629,60 +9572,64 @@ Module C_216.
                               M.get (| "loopEnd" |)
                             ]
                           |),
-                          let _ :=
-                            M.declare (|
-                              ["i"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "i" |);
-                                  [Literal.number 0x20]
-                                ]
-                              |)
-                            |) in
-                          tt,
-                          let _ :=
-                            M.call (|
-                              "sstore",
-                              [
-                                M.get (| "dstPtr" |);
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.declare (|
+                                ["i"],
                                 M.call (|
-                                  "mload",
+                                  "add",
                                   [
-                                    M.call (|
-                                      "add",
-                                      [
-                                        M.get (| "src" |);
-                                        M.get (| "srcOffset" |)
-                                      ]
-                                    |)
+                                    M.get (| "i" |);
+                                    [Literal.number 0x20]
                                   ]
                                 |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["dstPtr"],
+                              |) in
+                            tt
+                          )),
+                          ltac:(M.monadic (
+                            let _ :=
                               M.call (|
-                                "add",
+                                "sstore",
                                 [
                                   M.get (| "dstPtr" |);
-                                  [Literal.number 1]
+                                  M.call (|
+                                    "mload",
+                                    [
+                                      M.call (|
+                                        "add",
+                                        [
+                                          M.get (| "src" |);
+                                          M.get (| "srcOffset" |)
+                                        ]
+                                      |)
+                                    ]
+                                  |)
                                 ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["srcOffset"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "srcOffset" |);
-                                  [Literal.number 32]
-                                ]
-                              |)
-                            |) in
-                          tt
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["dstPtr"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "dstPtr" |);
+                                    [Literal.number 1]
+                                  ]
+                                |)
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["srcOffset"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "srcOffset" |);
+                                    [Literal.number 32]
+                                  ]
+                                |)
+                              |) in
+                            tt
+                          ))
                         |) in
                       let _ :=
                         M.if_ (|
@@ -9697,7 +9644,7 @@ Module C_216.
                             let _ :=
                               M.assign (|
                                 ["lastValue"],
-                                M.call (|
+                                Some (M.call (|
                                   "mload",
                                   [
                                     M.call (|
@@ -9708,7 +9655,7 @@ Module C_216.
                                       ]
                                     |)
                                   ]
-                                |)
+                                |))
                               |) in
                             let _ :=
                               M.call (|
@@ -9761,7 +9708,7 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["value"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
                         M.if_ (|
@@ -9832,24 +9779,24 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["shiftBits"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "shiftBytes" |);
                     [Literal.number 8]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_dynamic",
                   [
                     M.get (| "shiftBits" |);
                     [Literal.number 65535]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -9907,12 +9854,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_uint16_dyn",
                   [
                     M.get (| "src" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9927,9 +9874,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9945,42 +9890,43 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["srcPtr"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn",
                   [
                     M.get (| "src" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["dstSlot"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn_storage",
                   [
                     M.get (| "dst" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["fullSlots"],
-                M.call (|
+                Some (M.call (|
                   "div",
                   [
                     M.get (| "length" |);
                     [Literal.number 16]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["i"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 M.call (|
                   "lt",
                   [
@@ -9988,121 +9934,130 @@ Module C_216.
                     M.get (| "fullSlots" |)
                   ]
                 |),
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue"],
-                    [Literal.number 0]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["j"],
-                    [Literal.number 0]
-                  |) in
-                let _ :=
-                  M.for (|
-                    tt,
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "j" |);
-                        [Literal.number 16]
-                      ]
-                    |),
-                    let _ :=
-                      M.declare (|
-                        ["j"],
-                        M.call (|
-                          "add",
-                          [
-                            M.get (| "j" |);
-                            [Literal.number 1]
-                          ]
-                        |)
-                      |) in
-                    tt,
-                    let _ :=
-                      M.assign (|
-                        ["stackItem"],
-                        M.call (|
-                          "read_from_memoryt_uint16",
-                          [
-                            M.get (| "srcPtr" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.assign (|
-                        ["itemValue"],
-                        M.call (|
-                          "prepare_store_uint16",
-                          [
-                            M.get (| "stackItem" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.declare (|
-                        ["dstSlotValue"],
-                        M.call (|
-                          "update_byte_slice_dynamic2",
-                          [
-                            M.get (| "dstSlotValue" |);
-                            M.call (|
-                              "mul",
-                              [
-                                [Literal.number 2];
-                                M.get (| "j" |)
-                              ]
-                            |);
-                            M.get (| "itemValue" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.declare (|
-                        ["srcPtr"],
-                        M.call (|
-                          "add",
-                          [
-                            M.get (| "srcPtr" |);
-                            [Literal.number 32]
-                          ]
-                        |)
-                      |) in
-                    tt
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
+                ltac:(M.monadic (
+                  let _ :=
+                    M.declare (|
+                      ["i"],
                       M.call (|
                         "add",
                         [
-                          M.get (| "dstSlot" |);
-                          M.get (| "i" |)
+                          M.get (| "i" |);
+                          [Literal.number 1]
                         ]
-                      |);
-                      M.get (| "dstSlotValue" |)
-                    ]
-                  |) in
-                tt
+                      |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["dstSlotValue"],
+                      Some ([Literal.number 0])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["j"],
+                      Some ([Literal.number 0])
+                    |) in
+                  let _ :=
+                    let _ :=
+                      tt in
+                    M.for_ (|
+                      M.call (|
+                        "lt",
+                        [
+                          M.get (| "j" |);
+                          [Literal.number 16]
+                        ]
+                      |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.declare (|
+                            ["j"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "j" |);
+                                [Literal.number 1]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      )),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.assign (|
+                            ["stackItem"],
+                            Some (M.call (|
+                              "read_from_memoryt_uint16",
+                              [
+                                M.get (| "srcPtr" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["itemValue"],
+                            Some (M.call (|
+                              "prepare_store_uint16",
+                              [
+                                M.get (| "stackItem" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["dstSlotValue"],
+                            M.call (|
+                              "update_byte_slice_dynamic2",
+                              [
+                                M.get (| "dstSlotValue" |);
+                                M.call (|
+                                  "mul",
+                                  [
+                                    [Literal.number 2];
+                                    M.get (| "j" |)
+                                  ]
+                                |);
+                                M.get (| "itemValue" |)
+                              ]
+                            |)
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["srcPtr"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "srcPtr" |);
+                                [Literal.number 32]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.call (|
+                      "sstore",
+                      [
+                        M.call (|
+                          "add",
+                          [
+                            M.get (| "dstSlot" |);
+                            M.get (| "i" |)
+                          ]
+                        |);
+                        M.get (| "dstSlotValue" |)
+                      ]
+                    |) in
+                  tt
+                ))
               |) in
             let _ :=
               M.assign (|
                 ["spill"],
-                M.call (|
+                Some (M.call (|
                   "sub",
                   [
                     M.get (| "length" |);
@@ -10114,7 +10069,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -10129,16 +10084,17 @@ Module C_216.
                   let _ :=
                     M.assign (|
                       ["dstSlotValue_1"],
-                      [Literal.number 0]
+                      Some ([Literal.number 0])
                     |) in
                   let _ :=
                     M.assign (|
                       ["j_1"],
-                      [Literal.number 0]
+                      Some ([Literal.number 0])
                     |) in
                   let _ :=
-                    M.for (|
-                      tt,
+                    let _ :=
+                      tt in
+                    M.for_ (|
                       M.call (|
                         "lt",
                         [
@@ -10146,68 +10102,72 @@ Module C_216.
                           M.get (| "spill" |)
                         ]
                       |),
-                      let _ :=
-                        M.declare (|
-                          ["j_1"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "j_1" |);
-                              [Literal.number 1]
-                            ]
-                          |)
-                        |) in
-                      tt,
-                      let _ :=
-                        M.assign (|
-                          ["stackItem_1"],
-                          M.call (|
-                            "read_from_memoryt_uint16",
-                            [
-                              M.get (| "srcPtr" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["itemValue_1"],
-                          M.call (|
-                            "prepare_store_uint16",
-                            [
-                              M.get (| "stackItem_1" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["dstSlotValue_1"],
-                          M.call (|
-                            "update_byte_slice_dynamic2",
-                            [
-                              M.get (| "dstSlotValue_1" |);
-                              M.call (|
-                                "mul",
-                                [
-                                  [Literal.number 2];
-                                  M.get (| "j_1" |)
-                                ]
-                              |);
-                              M.get (| "itemValue_1" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["srcPtr"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "srcPtr" |);
-                              [Literal.number 32]
-                            ]
-                          |)
-                        |) in
-                      tt
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.declare (|
+                            ["j_1"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "j_1" |);
+                                [Literal.number 1]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      )),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.assign (|
+                            ["stackItem_1"],
+                            Some (M.call (|
+                              "read_from_memoryt_uint16",
+                              [
+                                M.get (| "srcPtr" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["itemValue_1"],
+                            Some (M.call (|
+                              "prepare_store_uint16",
+                              [
+                                M.get (| "stackItem_1" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["dstSlotValue_1"],
+                            M.call (|
+                              "update_byte_slice_dynamic2",
+                              [
+                                M.get (| "dstSlotValue_1" |);
+                                M.call (|
+                                  "mul",
+                                  [
+                                    [Literal.number 2];
+                                    M.get (| "j_1" |)
+                                  ]
+                                |);
+                                M.get (| "itemValue_1" |)
+                              ]
+                            |)
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["srcPtr"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "srcPtr" |);
+                                [Literal.number 32]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      ))
                     |) in
                   let _ :=
                     M.call (|
@@ -10255,12 +10215,10 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["zero_t_struct_S_memory_ptr_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_struct_S",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -10270,105 +10228,105 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_29_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_71_slot"],
-                M.get (| "_29_slot" |)
+                Some (M.get (| "_29_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_sMemory_mpos"],
-                M.call (|
+                Some (M.call (|
                   "convert_struct_S_storage_to_struct_S",
                   [
                     M.get (| "expr_71_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_30_mpos"],
-                M.get (| "var_sMemory_mpos" |)
+                Some (M.get (| "var_sMemory_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_77_mpos"],
-                M.get (| "_30_mpos" |)
+                Some (M.get (| "_30_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_77_mpos" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_mpos"],
-                M.call (|
+                Some (M.call (|
                   "mload",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.get (| "_mpos" |)
+                Some (M.get (| "_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_33_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_73_slot"],
-                M.get (| "_33_slot" |)
+                Some (M.get (| "_33_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_t_mapping_t_uint256_t_struct_S_storage_of_t_rational_by",
                   [
                     M.get (| "expr_73_slot" |);
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_35_slot"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_75_slot"],
-                M.get (| "_35_slot" |)
+                Some (M.get (| "_35_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_75_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10381,85 +10339,85 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_38_mpos"],
-                M.get (| "var_sMemory_mpos" |)
+                Some (M.get (| "var_sMemory_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_85_mpos"],
-                M.get (| "_38_mpos" |)
+                Some (M.get (| "_38_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_85_mpos" |);
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_40_mpos"],
-                M.call (|
+                Some (M.call (|
                   "mload",
                   [
                     M.get (| "_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_86_mpos"],
-                M.get (| "_40_mpos" |)
+                Some (M.get (| "_40_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_41_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_81_slot"],
-                M.get (| "_41_slot" |)
+                Some (M.get (| "_41_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_t_mapping_t_uint256_t_struct_S_storage_of_t_rational_by",
                   [
                     M.get (| "expr_81_slot" |);
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_43_slot"],
-                M.get (| "_5" |)
+                Some (M.get (| "_5" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_83_slot"],
-                M.get (| "_43_slot" |)
+                Some (M.get (| "_43_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_83_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10472,85 +10430,85 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_46_mpos"],
-                M.get (| "var_sMemory_mpos" |)
+                Some (M.get (| "var_sMemory_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_93_mpos"],
-                M.get (| "_46_mpos" |)
+                Some (M.get (| "_46_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_93_mpos" |);
                     [Literal.number 64]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.call (|
+                Some (M.call (|
                   "read_from_memoryt_uint16",
                   [
                     M.get (| "_7" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "_8" |)
+                Some (M.get (| "_8" |))
               |) in
             let _ :=
               M.assign (|
                 ["_49_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_89_slot"],
-                M.get (| "_49_slot" |)
+                Some (M.get (| "_49_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["_9"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_t_mapping_t_uint256_t_struct_S_storage_of_t_rational_by",
                   [
                     M.get (| "expr_89_slot" |);
                     M.get (| "expr_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_51_slot"],
-                M.get (| "_9" |)
+                Some (M.get (| "_9" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_slot"],
-                M.get (| "_51_slot" |)
+                Some (M.get (| "_51_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_10"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10563,38 +10521,38 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_53_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_97_slot"],
-                M.get (| "_53_slot" |)
+                Some (M.get (| "_53_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["_11"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_t_mapping_t_uint256_t_struct_S_storage_of_t_rational_by",
                   [
                     M.get (| "expr_97_slot" |);
                     M.get (| "expr_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_55_slot"],
-                M.get (| "_11" |)
+                Some (M.get (| "_11" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_99_slot"],
-                M.get (| "_55_slot" |)
+                Some (M.get (| "_55_slot" |))
               |) in
             let _ :=
               M.declare (|
@@ -10634,12 +10592,10 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["zero_t_struct_S_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_struct_S",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -10649,100 +10605,100 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_57_slot"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_146_slot"],
-                M.get (| "_57_slot" |)
+                Some (M.get (| "_57_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_sLocal_slot"],
-                M.call (|
+                Some (M.call (|
                   "convert_struct_S_storage_to_struct_S_ptr",
                   [
                     M.get (| "expr_146_slot" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_58_slot"],
-                M.get (| "var_sLocal_slot" |)
+                Some (M.get (| "var_sLocal_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_152_slot"],
-                M.get (| "_58_slot" |)
+                Some (M.get (| "_58_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_152_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_60_slot"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_153_slot"],
-                M.get (| "_60_slot" |)
+                Some (M.get (| "_60_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_61_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_148_slot"],
-                M.get (| "_61_slot" |)
+                Some (M.get (| "_61_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_148_slot" |);
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_63_slot"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_150_slot"],
-                M.get (| "_63_slot" |)
+                Some (M.get (| "_63_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_150_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10755,80 +10711,80 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_66_slot"],
-                M.get (| "var_sLocal_slot" |)
+                Some (M.get (| "var_sLocal_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_160_slot"],
-                M.get (| "_66_slot" |)
+                Some (M.get (| "_66_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_160_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_68_slot"],
-                M.get (| "_4" |)
+                Some (M.get (| "_4" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_161_slot"],
-                M.get (| "_68_slot" |)
+                Some (M.get (| "_68_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_69_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_156_slot"],
-                M.get (| "_69_slot" |)
+                Some (M.get (| "_69_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_156_slot" |);
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_71_slot"],
-                M.get (| "_5" |)
+                Some (M.get (| "_5" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_158_slot"],
-                M.get (| "_71_slot" |)
+                Some (M.get (| "_71_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_158_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10841,85 +10797,85 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_74_slot"],
-                M.get (| "var_sLocal_slot" |)
+                Some (M.get (| "var_sLocal_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_168_slot"],
-                M.get (| "_74_slot" |)
+                Some (M.get (| "_74_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_168_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint16",
                   [
                     M.get (| "_7" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "_8" |)
+                Some (M.get (| "_8" |))
               |) in
             let _ :=
               M.assign (|
                 ["_77_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_164_slot"],
-                M.get (| "_77_slot" |)
+                Some (M.get (| "_77_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_9"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_164_slot" |);
                     M.get (| "expr_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_79_slot"],
-                M.get (| "_9" |)
+                Some (M.get (| "_9" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_166_slot"],
-                M.get (| "_79_slot" |)
+                Some (M.get (| "_79_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_10"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_166_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10932,38 +10888,38 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_81_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_172_slot"],
-                M.get (| "_81_slot" |)
+                Some (M.get (| "_81_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_11"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256__struct_S_storage__of_rational_by",
                   [
                     M.get (| "expr_172_slot" |);
                     M.get (| "expr_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_83_slot"],
-                M.get (| "_11" |)
+                Some (M.get (| "_11" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_174_slot"],
-                M.get (| "_83_slot" |)
+                Some (M.get (| "_83_slot" |))
               |) in
             let _ :=
               M.declare (|
@@ -11041,12 +10997,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["rel_offset_of_tail"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.get (| "ptr_to_tail" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -11065,9 +11021,7 @@ Module C_216.
                               [
                                 M.call (|
                                   "calldatasize",
-                                  [
-
-                                  ]
+                                  []
                                 |);
                                 M.get (| "base_ref" |)
                               ]
@@ -11089,9 +11043,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_356d538aaf70fba12156cc466564b792649f8f3befb07b071c91142253e175ad",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11130,9 +11082,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_1e55d03107e9c4f1b5e21c76a16fba166a461117ab153bcce65e6a4ea8e5fc8a",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11159,9 +11109,7 @@ Module C_216.
                       [
                         M.call (|
                           "calldatasize",
-                          [
-
-                          ]
+                          []
                         |);
                         M.call (|
                           "mul",
@@ -11178,9 +11126,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_977805620ff29572292dee35f70b0f3f3f73d3fdd0e9f4d7a901c2e43ab18a2e",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11295,13 +11241,13 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["newLen"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes_calldata",
                   [
                     M.get (| "src" |);
                     M.get (| "len" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -11316,9 +11262,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11326,7 +11270,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["oldLen"],
-                M.call (|
+                Some (M.call (|
                   "extract_byte_array_length",
                   [
                     M.call (|
@@ -11336,7 +11280,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -11350,7 +11294,7 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["srcOffset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.switch (|
@@ -11368,7 +11312,7 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["loopEnd"],
-                          M.call (|
+                          Some (M.call (|
                             "and",
                             [
                               M.get (| "newLen" |);
@@ -11379,26 +11323,27 @@ Module C_216.
                                 ]
                               |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["dstPtr"],
-                          M.call (|
+                          Some (M.call (|
                             "array_dataslot_bytes_storage",
                             [
                               M.get (| "slot" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["i"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
-                        M.for (|
-                          tt,
+                        let _ :=
+                          tt in
+                        M.for_ (|
                           M.call (|
                             "lt",
                             [
@@ -11406,60 +11351,64 @@ Module C_216.
                               M.get (| "loopEnd" |)
                             ]
                           |),
-                          let _ :=
-                            M.declare (|
-                              ["i"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "i" |);
-                                  [Literal.number 0x20]
-                                ]
-                              |)
-                            |) in
-                          tt,
-                          let _ :=
-                            M.call (|
-                              "sstore",
-                              [
-                                M.get (| "dstPtr" |);
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.declare (|
+                                ["i"],
                                 M.call (|
-                                  "calldataload",
+                                  "add",
                                   [
-                                    M.call (|
-                                      "add",
-                                      [
-                                        M.get (| "src" |);
-                                        M.get (| "srcOffset" |)
-                                      ]
-                                    |)
+                                    M.get (| "i" |);
+                                    [Literal.number 0x20]
                                   ]
                                 |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["dstPtr"],
+                              |) in
+                            tt
+                          )),
+                          ltac:(M.monadic (
+                            let _ :=
                               M.call (|
-                                "add",
+                                "sstore",
                                 [
                                   M.get (| "dstPtr" |);
-                                  [Literal.number 1]
+                                  M.call (|
+                                    "calldataload",
+                                    [
+                                      M.call (|
+                                        "add",
+                                        [
+                                          M.get (| "src" |);
+                                          M.get (| "srcOffset" |)
+                                        ]
+                                      |)
+                                    ]
+                                  |)
                                 ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["srcOffset"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "srcOffset" |);
-                                  [Literal.number 32]
-                                ]
-                              |)
-                            |) in
-                          tt
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["dstPtr"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "dstPtr" |);
+                                    [Literal.number 1]
+                                  ]
+                                |)
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["srcOffset"],
+                                M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "srcOffset" |);
+                                    [Literal.number 32]
+                                  ]
+                                |)
+                              |) in
+                            tt
+                          ))
                         |) in
                       let _ :=
                         M.if_ (|
@@ -11474,7 +11423,7 @@ Module C_216.
                             let _ :=
                               M.assign (|
                                 ["lastValue"],
-                                M.call (|
+                                Some (M.call (|
                                   "calldataload",
                                   [
                                     M.call (|
@@ -11485,7 +11434,7 @@ Module C_216.
                                       ]
                                     |)
                                   ]
-                                |)
+                                |))
                               |) in
                             let _ :=
                               M.call (|
@@ -11538,7 +11487,7 @@ Module C_216.
                       let _ :=
                         M.assign (|
                           ["value"],
-                          [Literal.number 0]
+                          Some ([Literal.number 0])
                         |) in
                       let _ :=
                         M.if_ (|
@@ -11611,12 +11560,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["rel_offset_of_tail"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.get (| "ptr_to_tail" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -11635,9 +11584,7 @@ Module C_216.
                               [
                                 M.call (|
                                   "calldatasize",
-                                  [
-
-                                  ]
+                                  []
                                 |);
                                 M.get (| "base_ref" |)
                               ]
@@ -11659,9 +11606,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_356d538aaf70fba12156cc466564b792649f8f3befb07b071c91142253e175ad",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11700,9 +11645,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_1e55d03107e9c4f1b5e21c76a16fba166a461117ab153bcce65e6a4ea8e5fc8a",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11729,9 +11672,7 @@ Module C_216.
                       [
                         M.call (|
                           "calldatasize",
-                          [
-
-                          ]
+                          []
                         |);
                         M.call (|
                           "mul",
@@ -11748,9 +11689,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "revert_error_977805620ff29572292dee35f70b0f3f3f73d3fdd0e9f4d7a901c2e43ab18a2e",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11821,12 +11760,12 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["value"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.get (| "ptr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -11866,13 +11805,13 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_uint16_dyn_calldata",
                   [
                     M.get (| "src" |);
                     M.get (| "len" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -11887,9 +11826,7 @@ Module C_216.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11905,42 +11842,43 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["srcPtr"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn_calldata",
                   [
                     M.get (| "src" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["dstSlot"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_uint16_dyn_storage",
                   [
                     M.get (| "dst" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["fullSlots"],
-                M.call (|
+                Some (M.call (|
                   "div",
                   [
                     M.get (| "length" |);
                     [Literal.number 16]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["i"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 M.call (|
                   "lt",
                   [
@@ -11948,121 +11886,130 @@ Module C_216.
                     M.get (| "fullSlots" |)
                   ]
                 |),
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue"],
-                    [Literal.number 0]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["j"],
-                    [Literal.number 0]
-                  |) in
-                let _ :=
-                  M.for (|
-                    tt,
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "j" |);
-                        [Literal.number 16]
-                      ]
-                    |),
-                    let _ :=
-                      M.declare (|
-                        ["j"],
-                        M.call (|
-                          "add",
-                          [
-                            M.get (| "j" |);
-                            [Literal.number 1]
-                          ]
-                        |)
-                      |) in
-                    tt,
-                    let _ :=
-                      M.assign (|
-                        ["stackItem"],
-                        M.call (|
-                          "read_from_calldatat_uint16",
-                          [
-                            M.get (| "srcPtr" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.assign (|
-                        ["itemValue"],
-                        M.call (|
-                          "prepare_store_uint16",
-                          [
-                            M.get (| "stackItem" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.declare (|
-                        ["dstSlotValue"],
-                        M.call (|
-                          "update_byte_slice_dynamic2",
-                          [
-                            M.get (| "dstSlotValue" |);
-                            M.call (|
-                              "mul",
-                              [
-                                [Literal.number 2];
-                                M.get (| "j" |)
-                              ]
-                            |);
-                            M.get (| "itemValue" |)
-                          ]
-                        |)
-                      |) in
-                    let _ :=
-                      M.declare (|
-                        ["srcPtr"],
-                        M.call (|
-                          "add",
-                          [
-                            M.get (| "srcPtr" |);
-                            [Literal.number 32]
-                          ]
-                        |)
-                      |) in
-                    tt
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
+                ltac:(M.monadic (
+                  let _ :=
+                    M.declare (|
+                      ["i"],
                       M.call (|
                         "add",
                         [
-                          M.get (| "dstSlot" |);
-                          M.get (| "i" |)
+                          M.get (| "i" |);
+                          [Literal.number 1]
                         ]
-                      |);
-                      M.get (| "dstSlotValue" |)
-                    ]
-                  |) in
-                tt
+                      |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["dstSlotValue"],
+                      Some ([Literal.number 0])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["j"],
+                      Some ([Literal.number 0])
+                    |) in
+                  let _ :=
+                    let _ :=
+                      tt in
+                    M.for_ (|
+                      M.call (|
+                        "lt",
+                        [
+                          M.get (| "j" |);
+                          [Literal.number 16]
+                        ]
+                      |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.declare (|
+                            ["j"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "j" |);
+                                [Literal.number 1]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      )),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.assign (|
+                            ["stackItem"],
+                            Some (M.call (|
+                              "read_from_calldatat_uint16",
+                              [
+                                M.get (| "srcPtr" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["itemValue"],
+                            Some (M.call (|
+                              "prepare_store_uint16",
+                              [
+                                M.get (| "stackItem" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["dstSlotValue"],
+                            M.call (|
+                              "update_byte_slice_dynamic2",
+                              [
+                                M.get (| "dstSlotValue" |);
+                                M.call (|
+                                  "mul",
+                                  [
+                                    [Literal.number 2];
+                                    M.get (| "j" |)
+                                  ]
+                                |);
+                                M.get (| "itemValue" |)
+                              ]
+                            |)
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["srcPtr"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "srcPtr" |);
+                                [Literal.number 32]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.call (|
+                      "sstore",
+                      [
+                        M.call (|
+                          "add",
+                          [
+                            M.get (| "dstSlot" |);
+                            M.get (| "i" |)
+                          ]
+                        |);
+                        M.get (| "dstSlotValue" |)
+                      ]
+                    |) in
+                  tt
+                ))
               |) in
             let _ :=
               M.assign (|
                 ["spill"],
-                M.call (|
+                Some (M.call (|
                   "sub",
                   [
                     M.get (| "length" |);
@@ -12074,7 +12021,7 @@ Module C_216.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -12089,16 +12036,17 @@ Module C_216.
                   let _ :=
                     M.assign (|
                       ["dstSlotValue_1"],
-                      [Literal.number 0]
+                      Some ([Literal.number 0])
                     |) in
                   let _ :=
                     M.assign (|
                       ["j_1"],
-                      [Literal.number 0]
+                      Some ([Literal.number 0])
                     |) in
                   let _ :=
-                    M.for (|
-                      tt,
+                    let _ :=
+                      tt in
+                    M.for_ (|
                       M.call (|
                         "lt",
                         [
@@ -12106,68 +12054,72 @@ Module C_216.
                           M.get (| "spill" |)
                         ]
                       |),
-                      let _ :=
-                        M.declare (|
-                          ["j_1"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "j_1" |);
-                              [Literal.number 1]
-                            ]
-                          |)
-                        |) in
-                      tt,
-                      let _ :=
-                        M.assign (|
-                          ["stackItem_1"],
-                          M.call (|
-                            "read_from_calldatat_uint16",
-                            [
-                              M.get (| "srcPtr" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["itemValue_1"],
-                          M.call (|
-                            "prepare_store_uint16",
-                            [
-                              M.get (| "stackItem_1" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["dstSlotValue_1"],
-                          M.call (|
-                            "update_byte_slice_dynamic2",
-                            [
-                              M.get (| "dstSlotValue_1" |);
-                              M.call (|
-                                "mul",
-                                [
-                                  [Literal.number 2];
-                                  M.get (| "j_1" |)
-                                ]
-                              |);
-                              M.get (| "itemValue_1" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["srcPtr"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "srcPtr" |);
-                              [Literal.number 32]
-                            ]
-                          |)
-                        |) in
-                      tt
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.declare (|
+                            ["j_1"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "j_1" |);
+                                [Literal.number 1]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      )),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.assign (|
+                            ["stackItem_1"],
+                            Some (M.call (|
+                              "read_from_calldatat_uint16",
+                              [
+                                M.get (| "srcPtr" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["itemValue_1"],
+                            Some (M.call (|
+                              "prepare_store_uint16",
+                              [
+                                M.get (| "stackItem_1" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["dstSlotValue_1"],
+                            M.call (|
+                              "update_byte_slice_dynamic2",
+                              [
+                                M.get (| "dstSlotValue_1" |);
+                                M.call (|
+                                  "mul",
+                                  [
+                                    [Literal.number 2];
+                                    M.get (| "j_1" |)
+                                  ]
+                                |);
+                                M.get (| "itemValue_1" |)
+                              ]
+                            |)
+                          |) in
+                        let _ :=
+                          M.declare (|
+                            ["srcPtr"],
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "srcPtr" |);
+                                [Literal.number 32]
+                              ]
+                            |)
+                          |) in
+                        tt
+                      ))
                     |) in
                   let _ :=
                     M.call (|
@@ -12216,12 +12168,10 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["zero_struct_S_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_struct_S",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -12231,81 +12181,81 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_85_offset"],
-                M.get (| "var_sCalldata_offset" |)
+                Some (M.get (| "var_sCalldata_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_190_offset"],
-                M.get (| "_85_offset" |)
+                Some (M.get (| "_85_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_190_offset" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_191_offset"; "expr_length"],
-                M.call (|
+                Some (M.call (|
                   "access_calldata_tail_bytes_calldata",
                   [
                     M.get (| "expr_190_offset" |);
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_87_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_186_slot"],
-                M.get (| "_87_slot" |)
+                Some (M.get (| "_87_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x02]
+                Some ([Literal.number 0x02])
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256_struct_S_storage_of_rational_by",
                   [
                     M.get (| "expr_186_slot" |);
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_89_slot"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_188_slot"],
-                M.get (| "_89_slot" |)
+                Some (M.get (| "_89_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_188_slot" |);
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -12319,81 +12269,81 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_92_offset"],
-                M.get (| "var_sCalldata_offset" |)
+                Some (M.get (| "var_sCalldata_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_198_offset"],
-                M.get (| "_92_offset" |)
+                Some (M.get (| "_92_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_198_offset" |);
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_199_offset"; "expr_199_length"],
-                M.call (|
+                Some (M.call (|
                   "access_calldata_tail_array_uint16_dyn_calldata",
                   [
                     M.get (| "expr_198_offset" |);
                     M.get (| "_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_94_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_194_slot"],
-                M.get (| "_94_slot" |)
+                Some (M.get (| "_94_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x02]
+                Some ([Literal.number 0x02])
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256_struct_S_storage_of_rational_by",
                   [
                     M.get (| "expr_194_slot" |);
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_96_slot"],
-                M.get (| "_5" |)
+                Some (M.get (| "_5" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_196_slot"],
-                M.get (| "_96_slot" |)
+                Some (M.get (| "_96_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_196_slot" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -12407,80 +12357,80 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_offset"],
-                M.get (| "var_sCalldata_offset" |)
+                Some (M.get (| "var_sCalldata_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_offset"],
-                M.get (| "_offset" |)
+                Some (M.get (| "_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_offset" |);
                     [Literal.number 64]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "read_from_calldatat_uint16",
                   [
                     M.get (| "_7" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_101_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_202_slot"],
-                M.get (| "_101_slot" |)
+                Some (M.get (| "_101_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                [Literal.number 0x02]
+                Some ([Literal.number 0x02])
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256_struct_S_storage_of_rational_by",
                   [
                     M.get (| "expr_202_slot" |);
                     M.get (| "expr_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_103_slot"],
-                M.get (| "_8" |)
+                Some (M.get (| "_8" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_204_slot"],
-                M.get (| "_103_slot" |)
+                Some (M.get (| "_103_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["_9"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_204_slot" |);
                     [Literal.number 2]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -12493,38 +12443,38 @@ Module C_216.
             let _ :=
               M.assign (|
                 ["_105_slot"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["expr_210_slot"],
-                M.get (| "_105_slot" |)
+                Some (M.get (| "_105_slot" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                [Literal.number 0x02]
+                Some ([Literal.number 0x02])
               |) in
             let _ :=
               M.assign (|
                 ["_10"],
-                M.call (|
+                Some (M.call (|
                   "mapping_index_access_mapping_uint256_struct_S_storage_of_rational_by",
                   [
                     M.get (| "expr_210_slot" |);
                     M.get (| "expr_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_107_slot"],
-                M.get (| "_10" |)
+                Some (M.get (| "_10" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_212_slot"],
-                M.get (| "_107_slot" |)
+                Some (M.get (| "_107_slot" |))
               |) in
             let _ :=
               M.declare (|
@@ -12545,6 +12495,6 @@ Module C_216.
     )).
 
     Definition data : string :=
-      "a26469706673582212201f3328a684e213fcbe98c3d7011484d6e88f21f24d3b906c79ddee8baed4d6c464736f6c634300081b0033".
+      "a2646970667358221220e0156093c26850f5a5bde1ef8c06ccd894d23008b4c464f2b69a955d3aab48f364736f6c634300081b0033".
   End C_216_deployed.
 End C_216.

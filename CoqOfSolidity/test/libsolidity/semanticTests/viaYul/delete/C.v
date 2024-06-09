@@ -21,17 +21,13 @@ Module C_52.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module C_52.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module C_52.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module C_52.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module C_52.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module C_52.
                         let _ :=
                           M.call (|
                             "external_fun_call_deleted_internal_func",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -191,9 +181,7 @@ Module C_52.
                         let _ :=
                           M.call (|
                             "external_fun_call_internal_func",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -209,9 +197,7 @@ Module C_52.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -312,9 +298,7 @@ Module C_52.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -412,17 +396,13 @@ Module C_52.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -434,42 +414,36 @@ Module C_52.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_call_deleted_internal_func",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bool",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -498,17 +472,13 @@ Module C_52.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -520,42 +490,36 @@ Module C_52.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_call_internal_func",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bool",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -648,12 +612,10 @@ Module C_52.
             let _ :=
               M.assign (|
                 ["zero_t_bool"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bool",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -663,22 +625,20 @@ Module C_52.
             let _ :=
               M.assign (|
                 ["expr_39_functionIdentifier"],
-                [Literal.number 1]
+                Some ([Literal.number 1])
               |) in
             let _ :=
               M.assign (|
                 ["var_func_38_functionIdentifier"],
-                M.get (| "expr_39_functionIdentifier" |)
+                Some (M.get (| "expr_39_functionIdentifier" |))
               |) in
             let _ :=
               M.assign (|
                 ["_2_functionIdentifier"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_function_internal_pure_returns_int",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -688,37 +648,35 @@ Module C_52.
             let _ :=
               M.assign (|
                 ["_3_functionIdentifier"],
-                M.get (| "var_func_38_functionIdentifier" |)
+                Some (M.get (| "var_func_38_functionIdentifier" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_44_functionIdentifier"],
-                M.get (| "_3_functionIdentifier" |)
+                Some (M.get (| "_3_functionIdentifier" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "dispatch_internal_in_out",
                   [
                     M.get (| "expr_44_functionIdentifier" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "fun_internal_func",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -734,7 +692,7 @@ Module C_52.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -755,12 +713,10 @@ Module C_52.
             let _ :=
               M.assign (|
                 ["zero_bool"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bool",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -770,47 +726,45 @@ Module C_52.
             let _ :=
               M.assign (|
                 ["expr_functionIdentifier"],
-                [Literal.number 1]
+                Some ([Literal.number 1])
               |) in
             let _ :=
               M.assign (|
                 ["var_func_functionIdentifier"],
-                M.get (| "expr_functionIdentifier" |)
+                Some (M.get (| "expr_functionIdentifier" |))
               |) in
             let _ :=
               M.assign (|
                 ["_functionIdentifier"],
-                M.get (| "var_func_functionIdentifier" |)
+                Some (M.get (| "var_func_functionIdentifier" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_21_functionIdentifier"],
-                M.get (| "_functionIdentifier" |)
+                Some (M.get (| "_functionIdentifier" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "dispatch_internal_in_out",
                   [
                     M.get (| "expr_21_functionIdentifier" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "fun_internal_func",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -826,7 +780,7 @@ Module C_52.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -918,12 +872,10 @@ Module C_52.
             let _ :=
               M.assign (|
                 ["zero_int8"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_int8",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -933,7 +885,7 @@ Module C_52.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.declare (|
@@ -1007,9 +959,7 @@ Module C_52.
                           ["out"],
                           M.call (|
                             "fun_internal_func",
-                            [
-
-                            ]
+                            []
                           |)
                         |) in
                       tt
@@ -1020,9 +970,7 @@ Module C_52.
                       let _ :=
                         M.call (|
                           "panic_error_0x51",
-                          [
-
-                          ]
+                          []
                         |) in
                       tt
                     ))            )          ]
@@ -1034,6 +982,6 @@ Module C_52.
     )).
 
     Definition data : string :=
-      "a26469706673582212209710696c8d23a6fdd53010273970ad8c8231e404d1f50c2d8b2acb3a97ed11d564736f6c634300081b0033".
+      "a26469706673582212207980c3db5dc288a0ab1c8d25a1dfeb7c2b72383023a409c399cadcdf7427894564736f6c634300081b0033".
   End C_52_deployed.
 End C_52.

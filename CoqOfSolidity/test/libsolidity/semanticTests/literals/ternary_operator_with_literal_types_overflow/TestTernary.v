@@ -21,17 +21,13 @@ Module TestTernary_49.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module TestTernary_49.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module TestTernary_49.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module TestTernary_49.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module TestTernary_49.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module TestTernary_49.
                         let _ :=
                           M.call (|
                             "external_fun_h",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -191,9 +181,7 @@ Module TestTernary_49.
                         let _ :=
                           M.call (|
                             "external_fun_g",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -209,9 +197,7 @@ Module TestTernary_49.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -312,9 +298,7 @@ Module TestTernary_49.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -408,17 +392,13 @@ Module TestTernary_49.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -430,42 +410,36 @@ Module TestTernary_49.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_h",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple_uint16",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -494,17 +468,13 @@ Module TestTernary_49.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -516,42 +486,36 @@ Module TestTernary_49.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_g",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple_uint16",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -810,9 +774,7 @@ Module TestTernary_49.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -858,12 +820,10 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["zero_uint16"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint16",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -873,12 +833,12 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -890,7 +850,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_2"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -910,7 +870,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_3"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -928,17 +888,17 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.get (| "expr_1" |)
+                Some (M.get (| "expr_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_5"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_6"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -950,7 +910,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_7"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -970,7 +930,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_8"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -988,28 +948,28 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["expr_9"],
-                M.get (| "expr_6" |)
+                Some (M.get (| "expr_6" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_10"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_4" |);
                     M.get (| "expr_9" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint8_to_uint16",
                   [
                     M.get (| "expr_10" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1028,12 +988,10 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["zero_t_uint16"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint16",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1043,37 +1001,37 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["var_t"],
-                M.get (| "expr" |)
+                Some (M.get (| "expr" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["var_f"],
-                M.get (| "expr_1" |)
+                Some (M.get (| "expr_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1085,7 +1043,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_4"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1105,7 +1063,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_5"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1123,22 +1081,22 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.get (| "expr_3" |)
+                Some (M.get (| "expr_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_8"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1150,7 +1108,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_9"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1170,7 +1128,7 @@ Module TestTernary_49.
                       let _ :=
                         M.assign (|
                           ["expr_10"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1188,28 +1146,28 @@ Module TestTernary_49.
             let _ :=
               M.assign (|
                 ["expr_11"],
-                M.get (| "expr_8" |)
+                Some (M.get (| "expr_8" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_12"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_6" |);
                     M.get (| "expr_11" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint8_to_uint16",
                   [
                     M.get (| "expr_12" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1223,6 +1181,6 @@ Module TestTernary_49.
     )).
 
     Definition data : string :=
-      "a26469706673582212200b7fcc0bd4eb17361279df04f9eff7767be9f746e29d3ac5817daac69c6678e164736f6c634300081b0033".
+      "a26469706673582212201ae4b0e7dc48e0d61fcc50c4b0d7d848c7b560a500c09893a2f8dfb4dd6bf77b64736f6c634300081b0033".
   End TestTernary_49_deployed.
 End TestTernary_49.

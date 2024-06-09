@@ -21,17 +21,13 @@ Module ClientReceipt_1.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module ClientReceipt_1.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -137,9 +131,7 @@ Module ClientReceipt_1.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -163,6 +155,6 @@ Module ClientReceipt_1.
     )).
 
     Definition data : string :=
-      "a2646970667358221220e810f5fb6094cd1478ff93834e3bab4e5a3a2752d4bf4f1cb8b3e6f8e2d8de6864736f6c634300081b0033".
+      "a26469706673582212202f47a679855fd154800d1cdf377fade6d8809986392d25c1ea1fa9ae6944ee0164736f6c634300081b0033".
   End ClientReceipt_1_deployed.
 End ClientReceipt_1.

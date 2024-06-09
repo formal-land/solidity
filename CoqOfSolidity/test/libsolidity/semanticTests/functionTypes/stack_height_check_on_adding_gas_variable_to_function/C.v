@@ -21,17 +21,13 @@ Module C_101.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module C_101.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module C_101.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module C_101.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module C_101.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module C_101.
                         let _ :=
                           M.call (|
                             "external_fun_test_function",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -191,9 +181,7 @@ Module C_101.
                         let _ :=
                           M.call (|
                             "external_fun_h",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -203,9 +191,7 @@ Module C_101.
                         let _ :=
                           M.call (|
                             "external_fun_g",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -221,9 +207,7 @@ Module C_101.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -324,9 +308,7 @@ Module C_101.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -424,17 +406,13 @@ Module C_101.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -446,42 +424,36 @@ Module C_101.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_test_function",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bool",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -533,31 +505,27 @@ Module C_101.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -586,17 +554,13 @@ Module C_101.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -608,31 +572,27 @@ Module C_101.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -966,9 +926,7 @@ Module C_101.
                   let _ :=
                     M.call (|
                       "panic_error_0x01",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -985,12 +943,10 @@ Module C_101.
             let _ :=
               M.assign (|
                 ["zero_bool"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bool",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1000,57 +956,53 @@ Module C_101.
             let _ :=
               M.assign (|
                 ["expr_14_address"],
-                M.call (|
+                Some (M.call (|
                   "address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_15_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_C_to_address",
                   [
                     M.get (| "expr_14_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "expr_15_address" |)
+                Some (M.get (| "expr_15_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_17_address"],
-                M.call (|
+                Some (M.call (|
                   "address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_C_to_address",
                   [
                     M.get (| "expr_17_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "expr_address" |)
+                Some (M.get (| "expr_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -1066,12 +1018,12 @@ Module C_101.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "expr_2" |)
+                Some (M.get (| "expr_2" |))
               |) in
             let _ :=
               M.if_ (|
@@ -1080,62 +1032,58 @@ Module C_101.
                   let _ :=
                     M.assign (|
                       ["expr_21_address"],
-                      M.call (|
+                      Some (M.call (|
                         "address",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_22_address"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_contract_C_to_address",
                         [
                           M.get (| "expr_21_address" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_24_address"],
-                      M.get (| "expr_22_address" |)
+                      Some (M.get (| "expr_22_address" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_4"],
-                      M.get (| "expr_24_address" |)
+                      Some (M.get (| "expr_24_address" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_26_address"],
-                      M.call (|
+                      Some (M.call (|
                         "address",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_27_address"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_contract_C_to_address",
                         [
                           M.get (| "expr_26_address" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_5"],
-                      M.get (| "expr_27_address" |)
+                      Some (M.get (| "expr_27_address" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_6"],
-                      M.call (|
+                      Some (M.call (|
                         "eq",
                         [
                           M.call (|
@@ -1151,7 +1099,7 @@ Module C_101.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -1164,7 +1112,7 @@ Module C_101.
             let _ :=
               M.assign (|
                 ["expr_7"],
-                M.get (| "expr_3" |)
+                Some (M.get (| "expr_3" |))
               |) in
             let _ :=
               M.if_ (|
@@ -1173,42 +1121,42 @@ Module C_101.
                   let _ :=
                     M.assign (|
                       ["expr_32_functionSelector"],
-                      [Literal.number 0xe2179b8e]
+                      Some ([Literal.number 0xe2179b8e])
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_functionSelector"],
-                      M.get (| "expr_32_functionSelector" |)
+                      Some (M.get (| "expr_32_functionSelector" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_8"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_uint32_to_bytes4",
                         [
                           M.get (| "expr_functionSelector" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_37_functionSelector"],
-                      [Literal.number 0xe2179b8e]
+                      Some ([Literal.number 0xe2179b8e])
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_9"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_uint32_to_bytes4",
                         [
                           M.get (| "expr_37_functionSelector" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_10"],
-                      M.call (|
+                      Some (M.call (|
                         "eq",
                         [
                           M.call (|
@@ -1224,7 +1172,7 @@ Module C_101.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -1244,57 +1192,53 @@ Module C_101.
             let _ :=
               M.assign (|
                 ["expr_44_address"],
-                M.call (|
+                Some (M.call (|
                   "address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_45_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_C_to_address",
                   [
                     M.get (| "expr_44_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_11"],
-                M.get (| "expr_45_address" |)
+                Some (M.get (| "expr_45_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_47_address"],
-                M.call (|
+                Some (M.call (|
                   "address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_48_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_C_to_address",
                   [
                     M.get (| "expr_47_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_12"],
-                M.get (| "expr_48_address" |)
+                Some (M.get (| "expr_48_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_13"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -1310,12 +1254,12 @@ Module C_101.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_14"],
-                M.get (| "expr_13" |)
+                Some (M.get (| "expr_13" |))
               |) in
             let _ :=
               M.if_ (|
@@ -1324,62 +1268,58 @@ Module C_101.
                   let _ :=
                     M.assign (|
                       ["expr_51_address"],
-                      M.call (|
+                      Some (M.call (|
                         "address",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_52_address"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_contract_C_to_address",
                         [
                           M.get (| "expr_51_address" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_54_address"],
-                      M.get (| "expr_52_address" |)
+                      Some (M.get (| "expr_52_address" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_15"],
-                      M.get (| "expr_54_address" |)
+                      Some (M.get (| "expr_54_address" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_56_address"],
-                      M.call (|
+                      Some (M.call (|
                         "address",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_57_address"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_contract_C_to_address",
                         [
                           M.get (| "expr_56_address" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_16"],
-                      M.get (| "expr_57_address" |)
+                      Some (M.get (| "expr_57_address" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_17"],
-                      M.call (|
+                      Some (M.call (|
                         "eq",
                         [
                           M.call (|
@@ -1395,7 +1335,7 @@ Module C_101.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -1408,7 +1348,7 @@ Module C_101.
             let _ :=
               M.assign (|
                 ["expr_18"],
-                M.get (| "expr_14" |)
+                Some (M.get (| "expr_14" |))
               |) in
             let _ :=
               M.if_ (|
@@ -1417,42 +1357,42 @@ Module C_101.
                   let _ :=
                     M.assign (|
                       ["expr_62_functionSelector"],
-                      [Literal.number 0xb8c9d365]
+                      Some ([Literal.number 0xb8c9d365])
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_64_functionSelector"],
-                      M.get (| "expr_62_functionSelector" |)
+                      Some (M.get (| "expr_62_functionSelector" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_19"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_uint32_to_bytes4",
                         [
                           M.get (| "expr_64_functionSelector" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_67_functionSelector"],
-                      [Literal.number 0xb8c9d365]
+                      Some ([Literal.number 0xb8c9d365])
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_20"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_uint32_to_bytes4",
                         [
                           M.get (| "expr_67_functionSelector" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_21"],
-                      M.call (|
+                      Some (M.call (|
                         "eq",
                         [
                           M.call (|
@@ -1468,7 +1408,7 @@ Module C_101.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -1488,62 +1428,58 @@ Module C_101.
             let _ :=
               M.assign (|
                 ["expr_74_address"],
-                M.call (|
+                Some (M.call (|
                   "address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_75_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_C_to_address",
                   [
                     M.get (| "expr_74_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_78_address"],
-                M.get (| "expr_75_address" |)
+                Some (M.get (| "expr_75_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_22"],
-                M.get (| "expr_78_address" |)
+                Some (M.get (| "expr_78_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_80_address"],
-                M.call (|
+                Some (M.call (|
                   "address",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_81_address"],
-                M.call (|
+                Some (M.call (|
                   "convert_contract_C_to_address",
                   [
                     M.get (| "expr_80_address" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_23"],
-                M.get (| "expr_81_address" |)
+                Some (M.get (| "expr_81_address" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_24"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -1559,12 +1495,12 @@ Module C_101.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_25"],
-                M.get (| "expr_24" |)
+                Some (M.get (| "expr_24" |))
               |) in
             let _ :=
               M.if_ (|
@@ -1573,42 +1509,42 @@ Module C_101.
                   let _ :=
                     M.assign (|
                       ["expr_85_functionSelector"],
-                      [Literal.number 0xb8c9d365]
+                      Some ([Literal.number 0xb8c9d365])
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_88_functionSelector"],
-                      M.get (| "expr_85_functionSelector" |)
+                      Some (M.get (| "expr_85_functionSelector" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_26"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_uint32_to_bytes4",
                         [
                           M.get (| "expr_88_functionSelector" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_91_functionSelector"],
-                      [Literal.number 0xb8c9d365]
+                      Some ([Literal.number 0xb8c9d365])
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_27"],
-                      M.call (|
+                      Some (M.call (|
                         "convert_uint32_to_bytes4",
                         [
                           M.get (| "expr_91_functionSelector" |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_28"],
-                      M.call (|
+                      Some (M.call (|
                         "eq",
                         [
                           M.call (|
@@ -1624,7 +1560,7 @@ Module C_101.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -1644,7 +1580,7 @@ Module C_101.
             let _ :=
               M.assign (|
                 ["expr_29"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.declare (|
@@ -1660,6 +1596,6 @@ Module C_101.
     )).
 
     Definition data : string :=
-      "a264697066735822122029b7ba36049f438360af5242d31bea89f94ef8f6500359ef311081ac29d7fd2f64736f6c634300081b0033".
+      "a26469706673582212202b3873079601a5001b8ceba8149ce2411e2c26c556595adb2a212685e4d8543364736f6c634300081b0033".
   End C_101_deployed.
 End C_101.

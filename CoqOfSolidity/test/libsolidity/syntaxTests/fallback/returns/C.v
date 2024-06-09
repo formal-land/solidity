@@ -21,17 +21,13 @@ Module C_9.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module C_9.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -138,17 +132,13 @@ Module C_9.
           M.if_ (|
             M.call (|
               "callvalue",
-              [
-
-              ]
+              []
             |),
             ltac:(M.monadic (
               let _ :=
                 M.call (|
                   "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                  [
-
-                  ]
+                  []
                 |) in
               tt
             ))
@@ -156,18 +146,16 @@ Module C_9.
         let _ :=
           M.assign (|
             ["retval"],
-            M.call (|
+            Some (M.call (|
               "fun",
               [
                 [Literal.number 0];
                 M.call (|
                   "calldatasize",
-                  [
-
-                  ]
+                  []
                 |)
               ]
-            |)
+            |))
           |) in
         let _ :=
           M.call (|
@@ -229,12 +217,10 @@ Module C_9.
             let _ :=
               M.assign (|
                 ["zero_bytes_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -248,6 +234,6 @@ Module C_9.
     )).
 
     Definition data : string :=
-      "a264697066735822122052315aac31eaeff1b2c39e0cfde92458a4a5cb6b4f34f1cd6dd9e3e25c0d94ca64736f6c634300081b0033".
+      "a2646970667358221220ddaea715c6ce1263f04cc2b3c2bebc196207398061ae0c4694bcdd15e888d20964736f6c634300081b0033".
   End C_9_deployed.
 End C_9.

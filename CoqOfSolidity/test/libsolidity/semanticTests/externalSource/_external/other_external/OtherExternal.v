@@ -21,17 +21,13 @@ Module OtherExternal_1.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module OtherExternal_1.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -137,9 +131,7 @@ Module OtherExternal_1.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -163,6 +155,6 @@ Module OtherExternal_1.
     )).
 
     Definition data : string :=
-      "a2646970667358221220eed47a7fe4e9c1b453e0aea409419b3c597be6ea8f70dbc91b3629af651ef24e64736f6c634300081b0033".
+      "a26469706673582212207201182218aecb0b2d463696bb112361e47acdc5c779bd2c592c90601ea7557b64736f6c634300081b0033".
   End OtherExternal_1_deployed.
 End OtherExternal_1.

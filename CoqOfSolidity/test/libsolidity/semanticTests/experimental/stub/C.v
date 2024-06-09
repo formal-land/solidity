@@ -46,9 +46,7 @@ Module C_174.
         let _ :=
           M.call (|
             "fun_fun$unit$unit$$",
-            [
-
-            ]
+            []
           |) in
         let _ :=
           M.call (|
@@ -68,7 +66,7 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["var_arg"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.declare (|
@@ -83,17 +81,17 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["var_x"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "var_arg" |)
+                Some (M.get (| "var_arg" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "iszero",
                   [
                     M.call (|
@@ -103,7 +101,7 @@ Module C_174.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -120,54 +118,54 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "var_x" |)
+                Some (M.get (| "var_x" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "expr_2" |)
+                Some (M.get (| "expr_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_w"],
-                M.get (| "expr_3" |)
+                Some (M.get (| "expr_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.get (| "var_w" |)
+                Some (M.get (| "var_w" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.get (| "var_w" |)
+                Some (M.get (| "var_w" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.call (|
+                Some (M.call (|
                   "fun_mul$fun$pair$t_uint256$t_uint256$$t_uint256$$",
                   [
                     M.get (| "expr_4" |);
                     M.get (| "expr_5" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7"],
-                M.get (| "var_w" |)
+                Some (M.get (| "var_w" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_8"],
-                M.call (|
+                Some (M.call (|
                   "fun_add$fun$pair$t_uint256$t_uint256$$t_uint256$$",
                   [
                     M.get (| "expr_6" |);
                     M.get (| "expr_7" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -177,7 +175,7 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["var_y"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.declare (|
@@ -187,28 +185,28 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["expr_9"],
-                M.get (| "var_w" |)
+                Some (M.get (| "var_w" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_10"],
-                M.get (| "expr_9" |)
+                Some (M.get (| "expr_9" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_11"],
-                M.get (| "var_y" |)
+                Some (M.get (| "var_y" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_12"],
-                M.call (|
+                Some (M.call (|
                   "fun_mul$fun$pair$word$word$$word$$",
                   [
                     M.get (| "expr_10" |);
                     M.get (| "expr_11" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -243,32 +241,32 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_x" |)
+                Some (M.get (| "var_x" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "expr_1" |)
+                Some (M.get (| "expr_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_a"],
-                M.get (| "expr_2" |)
+                Some (M.get (| "expr_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "var_y" |)
+                Some (M.get (| "var_y" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.get (| "expr_3" |)
+                Some (M.get (| "expr_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_b"],
-                M.get (| "expr_4" |)
+                Some (M.get (| "expr_4" |))
               |) in
             let _ :=
               M.declare (|
@@ -284,12 +282,12 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.get (| "var_a" |)
+                Some (M.get (| "var_a" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.get (| "expr_5" |)
+                Some (M.get (| "expr_5" |))
               |) in
             let _ :=
               M.declare (|
@@ -310,32 +308,32 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_x" |)
+                Some (M.get (| "var_x" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.get (| "expr_1" |)
+                Some (M.get (| "expr_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_a"],
-                M.get (| "expr_2" |)
+                Some (M.get (| "expr_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "var_y" |)
+                Some (M.get (| "var_y" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.get (| "expr_3" |)
+                Some (M.get (| "expr_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_b"],
-                M.get (| "expr_4" |)
+                Some (M.get (| "expr_4" |))
               |) in
             let _ :=
               M.declare (|
@@ -351,12 +349,12 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.get (| "var_a" |)
+                Some (M.get (| "var_a" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.get (| "expr_5" |)
+                Some (M.get (| "expr_5" |))
               |) in
             let _ :=
               M.declare (|
@@ -377,7 +375,7 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["var_z"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.declare (|
@@ -393,7 +391,7 @@ Module C_174.
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "var_z" |)
+                Some (M.get (| "var_z" |))
               |) in
             let _ :=
               M.declare (|

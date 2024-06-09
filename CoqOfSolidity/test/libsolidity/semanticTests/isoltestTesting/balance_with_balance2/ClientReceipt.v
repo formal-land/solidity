@@ -20,12 +20,10 @@ Module ClientReceipt_5.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -101,9 +99,7 @@ Module ClientReceipt_5.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -127,6 +123,6 @@ Module ClientReceipt_5.
     )).
 
     Definition data : string :=
-      "a2646970667358221220c94baee397f930d23395504a3e11d1cb95f89ad87f049cbd5a34139c5ede122764736f6c634300081b0033".
+      "a26469706673582212205a0aa3f1a4e8dcf6eaea404251fd6507ef2f9495f72f1a975c5b50d5b16f04a564736f6c634300081b0033".
   End ClientReceipt_5_deployed.
 End ClientReceipt_5.

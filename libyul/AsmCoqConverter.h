@@ -63,6 +63,7 @@ public:
 
 private:
 	std::string indent() const;
+	std::string rawLiteral(Literal const& _node) const;
 
 	std::optional<size_t> const m_sourceIndex;
 	uint64_t m_indent = 0;

@@ -16,8 +16,7 @@ for test_folder in test_folders:
     # Iterate recursively over all the `.sol` files
     for root, _, files in os.walk(test_folder):
         for file in files:
-            # only for erc20.sol
-            if file.endswith(".sol") and file == "erc20.sol":
+            if file.endswith(".sol"):
                 files_to_translate.append((root, file))
 
 

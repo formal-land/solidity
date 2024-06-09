@@ -21,17 +21,13 @@ Module C_65.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_65.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -145,9 +137,7 @@ Module C_65.
           let _ :=
             M.call (|
               "constructor_B",
-              [
-
-              ]
+              []
             |) in
           tt
         ))
@@ -161,17 +151,15 @@ Module C_65.
           let _ :=
             M.assign (|
               ["expr"],
-              M.call (|
+              Some (M.call (|
                 "fun_xInit",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.get (| "expr" |)
+              Some (M.get (| "expr" |))
             |) in
           let _ :=
             M.call (|
@@ -207,12 +195,10 @@ Module C_65.
           let _ :=
             M.assign (|
               ["zero_uint256"],
-              M.call (|
+              Some (M.call (|
                 "zero_value_for_split_uint256",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -222,12 +208,10 @@ Module C_65.
           let _ :=
             M.assign (|
               ["expr"],
-              M.call (|
+              Some (M.call (|
                 "fun_xInit_29",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -248,12 +232,10 @@ Module C_65.
           let _ :=
             M.assign (|
               ["zero_t_uint256"],
-              M.call (|
+              Some (M.call (|
                 "zero_value_for_split_uint256",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -263,12 +245,10 @@ Module C_65.
           let _ :=
             M.assign (|
               ["expr"],
-              M.call (|
+              Some (M.call (|
                 "fun_f",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -303,7 +283,7 @@ Module C_65.
           let _ :=
             M.assign (|
               ["value"],
-              M.call (|
+              Some (M.call (|
                 "cleanup_uint256",
                 [
                   M.call (|
@@ -313,7 +293,7 @@ Module C_65.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -332,12 +312,10 @@ Module C_65.
           let _ :=
             M.assign (|
               ["zero_uint256"],
-              M.call (|
+              Some (M.call (|
                 "zero_value_for_split_uint256",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -347,17 +325,17 @@ Module C_65.
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "read_from_memoryt_uint256",
                 [
                   [Literal.number 128]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["expr"],
-              M.get (| "_1" |)
+              Some (M.get (| "_1" |))
             |) in
           let _ :=
             M.declare (|
@@ -391,9 +369,7 @@ Module C_65.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -417,6 +393,6 @@ Module C_65.
     )).
 
     Definition data : string :=
-      "a2646970667358221220da755232b4eb60609f9e264e7cda48917cb7988f42eb1c60361a19ada31d21fd64736f6c634300081b0033".
+      "a264697066735822122007155969af957ec6165fa1af475d9f3d0d2ede5347a6778324c117bab2d9cdbd64736f6c634300081b0033".
   End C_65_deployed.
 End C_65.

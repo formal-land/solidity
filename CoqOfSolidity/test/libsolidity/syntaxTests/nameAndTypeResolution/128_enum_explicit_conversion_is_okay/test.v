@@ -21,17 +21,13 @@ Module test_30.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module test_30.
       let _ :=
         M.call (|
           "constructor_test",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -185,9 +177,7 @@ Module test_30.
                 let _ :=
                   M.call (|
                     "panic_error_0x21",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -264,12 +254,12 @@ Module test_30.
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "not",
                 [
                   [Literal.number 0]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -397,12 +387,12 @@ Module test_30.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -459,7 +449,7 @@ Module test_30.
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "sub",
                 [
                   M.call (|
@@ -471,7 +461,7 @@ Module test_30.
                   |);
                   [Literal.number 1]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -603,12 +593,12 @@ Module test_30.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_uint64_to_uint64",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -646,17 +636,17 @@ Module test_30.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 2]
+              Some ([Literal.number 2])
             |) in
           let _ :=
             M.assign (|
               ["expr_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_enum_ActionChoices_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -669,17 +659,17 @@ Module test_30.
           let _ :=
             M.assign (|
               ["expr_2"],
-              [Literal.number 3]
+              Some ([Literal.number 3])
             |) in
           let _ :=
             M.assign (|
               ["expr_3"],
-              M.call (|
+              Some (M.call (|
                 "convert_enum_ActionChoices_to_uint64",
                 [
                   M.get (| "expr_2" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -714,9 +704,7 @@ Module test_30.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -740,6 +728,6 @@ Module test_30.
     )).
 
     Definition data : string :=
-      "a2646970667358221220388c97b3efa041229636f4af41f94219511780026b774eaa910e9db970bc4c2564736f6c634300081b0033".
+      "a264697066735822122065dcb43795b204de8a6adb4e3805250aaa5a1aa290a4260398c3a043b9dac54c64736f6c634300081b0033".
   End test_30_deployed.
 End test_30.

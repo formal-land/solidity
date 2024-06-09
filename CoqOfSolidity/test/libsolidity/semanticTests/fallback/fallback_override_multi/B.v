@@ -21,17 +21,13 @@ Module B_22.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module B_22.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -138,17 +132,13 @@ Module B_22.
           M.if_ (|
             M.call (|
               "callvalue",
-              [
-
-              ]
+              []
             |),
             ltac:(M.monadic (
               let _ :=
                 M.call (|
                   "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                  [
-
-                  ]
+                  []
                 |) in
               tt
             ))
@@ -156,18 +146,16 @@ Module B_22.
         let _ :=
           M.assign (|
             ["retval"],
-            M.call (|
+            Some (M.call (|
               "fun",
               [
                 [Literal.number 0];
                 M.call (|
                   "calldatasize",
-                  [
-
-                  ]
+                  []
                 |)
               ]
-            |)
+            |))
           |) in
         let _ :=
           M.call (|
@@ -318,7 +306,7 @@ Module B_22.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -329,7 +317,7 @@ Module B_22.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -356,9 +344,7 @@ Module B_22.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -385,9 +371,7 @@ Module B_22.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -420,9 +404,7 @@ Module B_22.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -460,12 +442,12 @@ Module B_22.
             let _ :=
               M.assign (|
                 ["allocSize"],
-                M.call (|
+                Some (M.call (|
                   "array_allocation_size_string",
                   [
                     M.get (| "length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -554,9 +536,7 @@ Module B_22.
                 ["converted"],
                 M.call (|
                   "copy_literal_to_memory_9dd2c369a187b4e6b9c402f030e50743e619301ea62aa4c0737d4ef7e10a3d49",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             tt
@@ -571,12 +551,10 @@ Module B_22.
             let _ :=
               M.assign (|
                 ["zero_bytes_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -588,9 +566,7 @@ Module B_22.
                 ["var_mpos"],
                 M.call (|
                   "convert_stringliteral_9dd2_to_bytes",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -602,6 +578,6 @@ Module B_22.
     )).
 
     Definition data : string :=
-      "a26469706673582212209fe67d9f7a847fef39507c1127229fffa11e2966d8a27eda65a04adb8a40b3e864736f6c634300081b0033".
+      "a264697066735822122010b714865fab287ec14ca5ef7ffc11f4c323943b6508c2e8ccfec919dae7a3c764736f6c634300081b0033".
   End B_22_deployed.
 End B_22.

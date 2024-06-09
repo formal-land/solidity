@@ -21,17 +21,13 @@ Module TestTernary_238.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,12 +35,10 @@ Module TestTernary_238.
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -144,9 +138,7 @@ Module TestTernary_238.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -157,7 +149,7 @@ Module TestTernary_238.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -167,7 +159,7 @@ Module TestTernary_238.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -179,9 +171,7 @@ Module TestTernary_238.
                         let _ :=
                           M.call (|
                             "external_fun_g",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -197,9 +187,7 @@ Module TestTernary_238.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -300,9 +288,7 @@ Module TestTernary_238.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -340,17 +326,13 @@ Module TestTernary_238.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -362,38 +344,32 @@ Module TestTernary_238.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.call (|
                 "fun_g",
-                [
-
-                ]
+                []
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -652,9 +628,7 @@ Module TestTernary_238.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -712,9 +686,7 @@ Module TestTernary_238.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -751,13 +723,13 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["product_raw"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "x" |);
                     M.get (| "y" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -787,9 +759,7 @@ Module TestTernary_238.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -874,9 +844,7 @@ Module TestTernary_238.
                   let _ :=
                     M.call (|
                       "panic_error_0x12",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -904,67 +872,65 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["var_t"],
-                M.get (| "expr" |)
+                Some (M.get (| "expr" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["var_f"],
-                M.get (| "expr_1" |)
+                Some (M.get (| "expr_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                [Literal.number 0xff]
+                Some ([Literal.number 0xff])
               |) in
             let _ :=
               M.assign (|
                 ["var_v255"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_by_to_uint8",
                   [
                     M.get (| "expr_2" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                [Literal.number 0x3f]
+                Some ([Literal.number 0x3f])
               |) in
             let _ :=
               M.assign (|
                 ["var_v63"],
-                M.call (|
+                Some (M.call (|
                   "convert_t_rational_by_to_t_uint8",
                   [
                     M.get (| "expr_3" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_a"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["zero_uint8"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_uint8",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -974,17 +940,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_5"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -996,7 +962,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_6"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1016,7 +982,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_7"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1034,22 +1000,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_8"],
-                M.get (| "expr_5" |)
+                Some (M.get (| "expr_5" |))
               |) in
             let _ :=
               M.assign (|
                 ["_2"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_9"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_10"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1061,7 +1027,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_11"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1081,7 +1047,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_12"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1099,18 +1065,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_13"],
-                M.get (| "expr_10" |)
+                Some (M.get (| "expr_10" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_14"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_8" |);
                     M.get (| "expr_13" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1120,17 +1086,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_3"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_15"],
-                M.get (| "_3" |)
+                Some (M.get (| "_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_16"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1142,7 +1108,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_17"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1162,7 +1128,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_18"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1180,22 +1146,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_19"],
-                M.get (| "expr_16" |)
+                Some (M.get (| "expr_16" |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_20"],
-                M.get (| "_4" |)
+                Some (M.get (| "_4" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_21"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1207,7 +1173,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_22"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1227,7 +1193,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_23"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1245,18 +1211,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_24"],
-                M.get (| "expr_21" |)
+                Some (M.get (| "expr_21" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_25"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_19" |);
                     M.get (| "expr_24" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1266,17 +1232,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_5"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_26"],
-                M.get (| "_5" |)
+                Some (M.get (| "_5" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_27"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1288,7 +1254,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_28"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1308,17 +1274,17 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_29"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_30"],
-                          M.call (|
+                          Some (M.call (|
                             "convert_t_rational_by_to_t_uint8",
                             [
                               M.get (| "expr_29" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -1331,22 +1297,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_31"],
-                M.get (| "expr_27" |)
+                Some (M.get (| "expr_27" |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_32"],
-                M.get (| "_6" |)
+                Some (M.get (| "_6" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_33"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1358,17 +1324,17 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_34"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_35"],
-                          M.call (|
+                          Some (M.call (|
                             "convert_rational_by_to_uint8",
                             [
                               M.get (| "expr_34" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -1383,7 +1349,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_36"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1401,18 +1367,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_37"],
-                M.get (| "expr_33" |)
+                Some (M.get (| "expr_33" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_38"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_31" |);
                     M.get (| "expr_37" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1422,17 +1388,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_7"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_39"],
-                M.get (| "_7" |)
+                Some (M.get (| "_7" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_40"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1444,7 +1410,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_41"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1464,12 +1430,12 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["_8"],
-                          M.get (| "var_v63" |)
+                          Some (M.get (| "var_v63" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_42"],
-                          M.get (| "_8" |)
+                          Some (M.get (| "_8" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -1482,22 +1448,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_43"],
-                M.get (| "expr_40" |)
+                Some (M.get (| "expr_40" |))
               |) in
             let _ :=
               M.assign (|
                 ["_9"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_44"],
-                M.get (| "_9" |)
+                Some (M.get (| "_9" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_45"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1509,12 +1475,12 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["_10"],
-                          M.get (| "var_v255" |)
+                          Some (M.get (| "var_v255" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_46"],
-                          M.get (| "_10" |)
+                          Some (M.get (| "_10" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -1529,7 +1495,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_47"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1547,18 +1513,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_48"],
-                M.get (| "expr_45" |)
+                Some (M.get (| "expr_45" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_49"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_43" |);
                     M.get (| "expr_48" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1568,12 +1534,12 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_50"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["expr_51"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1585,7 +1551,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_52"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1605,7 +1571,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_53"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1623,17 +1589,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_54"],
-                M.get (| "expr_51" |)
+                Some (M.get (| "expr_51" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_55"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_56"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1645,7 +1611,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_57"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1665,7 +1631,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_58"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1683,18 +1649,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_59"],
-                M.get (| "expr_56" |)
+                Some (M.get (| "expr_56" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_60"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_54" |);
                     M.get (| "expr_59" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1704,12 +1670,12 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_61"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["expr_62"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1721,7 +1687,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_63"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1741,7 +1707,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_64"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1759,17 +1725,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_65"],
-                M.get (| "expr_62" |)
+                Some (M.get (| "expr_62" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_66"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_67"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1781,7 +1747,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_68"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1801,7 +1767,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_69"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1819,18 +1785,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_70"],
-                M.get (| "expr_67" |)
+                Some (M.get (| "expr_67" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_71"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_65" |);
                     M.get (| "expr_70" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1840,12 +1806,12 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_72"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["expr_73"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1857,7 +1823,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_74"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1877,17 +1843,17 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_75"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_76"],
-                          M.call (|
+                          Some (M.call (|
                             "convert_t_rational_by_to_t_uint8",
                             [
                               M.get (| "expr_75" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -1900,17 +1866,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_77"],
-                M.get (| "expr_73" |)
+                Some (M.get (| "expr_73" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_78"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_79"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -1922,17 +1888,17 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_80"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_81"],
-                          M.call (|
+                          Some (M.call (|
                             "convert_rational_by_to_uint8",
                             [
                               M.get (| "expr_80" |)
                             ]
-                          |)
+                          |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -1947,7 +1913,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_82"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -1965,18 +1931,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_83"],
-                M.get (| "expr_79" |)
+                Some (M.get (| "expr_79" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_84"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_77" |);
                     M.get (| "expr_83" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -1986,12 +1952,12 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_85"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["expr_86"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2003,7 +1969,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_87"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2023,12 +1989,12 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["_11"],
-                          M.get (| "var_v63" |)
+                          Some (M.get (| "var_v63" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_88"],
-                          M.get (| "_11" |)
+                          Some (M.get (| "_11" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -2041,17 +2007,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_89"],
-                M.get (| "expr_86" |)
+                Some (M.get (| "expr_86" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_90"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_91"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2063,12 +2029,12 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["_12"],
-                          M.get (| "var_v255" |)
+                          Some (M.get (| "var_v255" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_92"],
-                          M.get (| "_12" |)
+                          Some (M.get (| "_12" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -2083,7 +2049,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_93"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2101,18 +2067,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_94"],
-                M.get (| "expr_91" |)
+                Some (M.get (| "expr_91" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_95"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_89" |);
                     M.get (| "expr_94" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -2122,17 +2088,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_13"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_96"],
-                M.get (| "_13" |)
+                Some (M.get (| "_13" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_97"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2144,7 +2110,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_98"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2164,7 +2130,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_99"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2182,22 +2148,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_100"],
-                M.get (| "expr_97" |)
+                Some (M.get (| "expr_97" |))
               |) in
             let _ :=
               M.assign (|
                 ["_14"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_101"],
-                M.get (| "_14" |)
+                Some (M.get (| "_14" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_102"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2209,7 +2175,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_103"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2229,7 +2195,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_104"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2247,18 +2213,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_105"],
-                M.get (| "expr_102" |)
+                Some (M.get (| "expr_102" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_106"],
-                M.call (|
+                Some (M.call (|
                   "checked_sub_uint8",
                   [
                     M.get (| "expr_100" |);
                     M.get (| "expr_105" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -2268,17 +2234,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_15"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_107"],
-                M.get (| "_15" |)
+                Some (M.get (| "_15" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_108"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2290,7 +2256,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_109"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2310,7 +2276,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_110"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2328,22 +2294,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_111"],
-                M.get (| "expr_108" |)
+                Some (M.get (| "expr_108" |))
               |) in
             let _ :=
               M.assign (|
                 ["_16"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_112"],
-                M.get (| "_16" |)
+                Some (M.get (| "_16" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_113"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2355,7 +2321,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_114"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2375,7 +2341,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_115"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2393,18 +2359,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_116"],
-                M.get (| "expr_113" |)
+                Some (M.get (| "expr_113" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_117"],
-                M.call (|
+                Some (M.call (|
                   "checked_mul_uint8",
                   [
                     M.get (| "expr_111" |);
                     M.get (| "expr_116" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -2414,17 +2380,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_17"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_118"],
-                M.get (| "_17" |)
+                Some (M.get (| "_17" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_119"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2436,7 +2402,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_120"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2456,7 +2422,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_121"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2474,22 +2440,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_122"],
-                M.get (| "expr_119" |)
+                Some (M.get (| "expr_119" |))
               |) in
             let _ :=
               M.assign (|
                 ["_18"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_123"],
-                M.get (| "_18" |)
+                Some (M.get (| "_18" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_124"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2501,7 +2467,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_125"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2521,7 +2487,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_126"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2539,18 +2505,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_127"],
-                M.get (| "expr_124" |)
+                Some (M.get (| "expr_124" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_128"],
-                M.call (|
+                Some (M.call (|
                   "checked_div_uint8",
                   [
                     M.get (| "expr_122" |);
                     M.get (| "expr_127" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -2560,17 +2526,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_19"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_129"],
-                M.get (| "_19" |)
+                Some (M.get (| "_19" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_130"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2582,12 +2548,12 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_131"],
-                          [Literal.number 0x00]
+                          Some ([Literal.number 0x00])
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_132"],
-                          Literal.undefined
+                          None
                         |) in
                       let _ :=
                         M.switch (|
@@ -2599,7 +2565,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_133"],
-                                    [Literal.number 0xff]
+                                    Some ([Literal.number 0xff])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2619,7 +2585,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_134"],
-                                    [Literal.number 0x3f]
+                                    Some ([Literal.number 0x3f])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2637,7 +2603,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_135"],
-                          M.get (| "expr_132" |)
+                          Some (M.get (| "expr_132" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -2652,12 +2618,12 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_136"],
-                          [Literal.number 0x01]
+                          Some ([Literal.number 0x01])
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_137"],
-                          Literal.undefined
+                          None
                         |) in
                       let _ :=
                         M.switch (|
@@ -2669,7 +2635,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_138"],
-                                    [Literal.number 0xff]
+                                    Some ([Literal.number 0xff])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2689,7 +2655,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_139"],
-                                    [Literal.number 0x3f]
+                                    Some ([Literal.number 0x3f])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2707,7 +2673,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_140"],
-                          M.get (| "expr_137" |)
+                          Some (M.get (| "expr_137" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -2720,22 +2686,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_141"],
-                M.get (| "expr_130" |)
+                Some (M.get (| "expr_130" |))
               |) in
             let _ :=
               M.assign (|
                 ["_20"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_142"],
-                M.get (| "_20" |)
+                Some (M.get (| "_20" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_143"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2747,17 +2713,17 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["_21"],
-                          M.get (| "var_f" |)
+                          Some (M.get (| "var_f" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_144"],
-                          M.get (| "_21" |)
+                          Some (M.get (| "_21" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_145"],
-                          Literal.undefined
+                          None
                         |) in
                       let _ :=
                         M.switch (|
@@ -2769,7 +2735,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_146"],
-                                    [Literal.number 0xff]
+                                    Some ([Literal.number 0xff])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2789,7 +2755,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_147"],
-                                    [Literal.number 0x3f]
+                                    Some ([Literal.number 0x3f])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2807,7 +2773,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_148"],
-                          M.get (| "expr_145" |)
+                          Some (M.get (| "expr_145" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -2822,17 +2788,17 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["_22"],
-                          M.get (| "var_t" |)
+                          Some (M.get (| "var_t" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_149"],
-                          M.get (| "_22" |)
+                          Some (M.get (| "_22" |))
                         |) in
                       let _ :=
                         M.assign (|
                           ["expr_150"],
-                          Literal.undefined
+                          None
                         |) in
                       let _ :=
                         M.switch (|
@@ -2844,7 +2810,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_151"],
-                                    [Literal.number 0xff]
+                                    Some ([Literal.number 0xff])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2864,7 +2830,7 @@ Module TestTernary_238.
                                 let _ :=
                                   M.assign (|
                                     ["expr_152"],
-                                    [Literal.number 0x3f]
+                                    Some ([Literal.number 0x3f])
                                   |) in
                                 let _ :=
                                   M.declare (|
@@ -2882,7 +2848,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_153"],
-                          M.get (| "expr_150" |)
+                          Some (M.get (| "expr_150" |))
                         |) in
                       let _ :=
                         M.declare (|
@@ -2895,18 +2861,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_154"],
-                M.get (| "expr_143" |)
+                Some (M.get (| "expr_143" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_155"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_141" |);
                     M.get (| "expr_154" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -2916,17 +2882,17 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["_23"],
-                M.get (| "var_t" |)
+                Some (M.get (| "var_t" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_156"],
-                M.get (| "_23" |)
+                Some (M.get (| "_23" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_157"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -2938,7 +2904,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_158"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2958,7 +2924,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_159"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -2976,22 +2942,22 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_160"],
-                M.get (| "expr_157" |)
+                Some (M.get (| "expr_157" |))
               |) in
             let _ :=
               M.assign (|
                 ["_24"],
-                M.get (| "var_f" |)
+                Some (M.get (| "var_f" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_161"],
-                M.get (| "_24" |)
+                Some (M.get (| "_24" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_162"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.switch (|
@@ -3003,7 +2969,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_163"],
-                          [Literal.number 0xff]
+                          Some ([Literal.number 0xff])
                         |) in
                       let _ :=
                         M.declare (|
@@ -3023,7 +2989,7 @@ Module TestTernary_238.
                       let _ :=
                         M.assign (|
                           ["expr_164"],
-                          [Literal.number 0x3f]
+                          Some ([Literal.number 0x3f])
                         |) in
                       let _ :=
                         M.declare (|
@@ -3041,18 +3007,18 @@ Module TestTernary_238.
             let _ :=
               M.assign (|
                 ["expr_165"],
-                M.get (| "expr_162" |)
+                Some (M.get (| "expr_162" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_166"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint8",
                   [
                     M.get (| "expr_160" |);
                     M.get (| "expr_165" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3066,6 +3032,6 @@ Module TestTernary_238.
     )).
 
     Definition data : string :=
-      "a2646970667358221220b7f5dffa5ce4f098da8a0c4bdf980325a4abcf5559967db7c2c88845e08a826864736f6c634300081b0033".
+      "a264697066735822122069c62ed400212fdacfa338d736271775c734069040da5a70b041f5ad9a86bca464736f6c634300081b0033".
   End TestTernary_238_deployed.
 End TestTernary_238.

@@ -21,17 +21,13 @@ Module B_27.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module B_27.
       let _ :=
         M.call (|
           "constructor_B",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -216,9 +208,7 @@ Module B_27.
           let _ :=
             M.call (|
               "fun_inner",
-              [
-
-              ]
+              []
             |) in
           tt
         ))
@@ -232,22 +222,22 @@ Module B_27.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x03]
+              Some ([Literal.number 0x03])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.get (| "_1" |)
+              Some (M.get (| "_1" |))
             |) in
           let _ :=
             M.call (|
@@ -269,9 +259,7 @@ Module B_27.
           let _ :=
             M.call (|
               "modifier_readX",
-              [
-
-              ]
+              []
             |) in
           tt
         ))
@@ -298,9 +286,7 @@ Module B_27.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -324,6 +310,6 @@ Module B_27.
     )).
 
     Definition data : string :=
-      "a2646970667358221220b1d331f19e4ce0f33bab7f4280807dff37438b5ab3d0df25e6cbc3a8eb1aebb064736f6c634300081b0033".
+      "a26469706673582212201bfdc52ece08e102ae60269a9b923cfef429c2a56235caa4e506aa540d864b4964736f6c634300081b0033".
   End B_27_deployed.
 End B_27.

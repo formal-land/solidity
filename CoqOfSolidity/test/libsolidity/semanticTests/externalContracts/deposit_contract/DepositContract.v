@@ -21,17 +21,13 @@ Module DepositContract_541.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module DepositContract_541.
       let _ :=
         M.call (|
           "constructor_DepositContract",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -270,17 +262,17 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x20]
+              Some ([Literal.number 0x20])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -422,9 +414,7 @@ Module DepositContract_541.
                 let _ :=
                   M.call (|
                     "panic_error_0x11",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -509,12 +499,12 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["arrayLength"],
-              M.call (|
+              Some (M.call (|
                 "array_length_array_bytes32_storage",
                 [
                   M.get (| "array" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -534,9 +524,7 @@ Module DepositContract_541.
                 let _ :=
                   M.call (|
                     "panic_error_0x32",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -544,12 +532,12 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["dataArea"],
-              M.call (|
+              Some (M.call (|
                 "array_dataslot_array_bytes32_storage",
                 [
                   M.get (| "array" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -852,7 +840,7 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["newFreePtr"],
-              M.call (|
+              Some (M.call (|
                 "add",
                 [
                   M.get (| "memPtr" |);
@@ -863,7 +851,7 @@ Module DepositContract_541.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.if_ (|
@@ -902,9 +890,7 @@ Module DepositContract_541.
                 let _ :=
                   M.call (|
                     "panic_error_0x41",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -1014,12 +1000,12 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["length"],
-              M.call (|
+              Some (M.call (|
                 "array_length_bytes",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -1095,12 +1081,10 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["pos"],
-              M.call (|
+              Some (M.call (|
                 "allocate_unbounded",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1110,9 +1094,7 @@ Module DepositContract_541.
                 [Literal.number 0];
                 M.call (|
                   "returndatasize",
-                  [
-
-                  ]
+                  []
                 |)
               ]
             |) in
@@ -1123,9 +1105,7 @@ Module DepositContract_541.
                 M.get (| "pos" |);
                 M.call (|
                   "returndatasize",
-                  [
-
-                  ]
+                  []
                 |)
               ]
             |) in
@@ -1182,9 +1162,7 @@ Module DepositContract_541.
                 let _ :=
                   M.call (|
                     "panic_error_0x11",
-                    [
-
-                    ]
+                    []
                   |) in
                 tt
               ))
@@ -1221,18 +1199,18 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["shiftBits"],
-              M.call (|
+              Some (M.call (|
                 "mul",
                 [
                   M.get (| "shiftBytes" |);
                   [Literal.number 8]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "shift_left_dynamic",
                 [
                   M.get (| "shiftBits" |);
@@ -1243,7 +1221,7 @@ Module DepositContract_541.
                     ]
                   |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -1359,12 +1337,12 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_bytes32_to_bytes32",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -1403,423 +1381,418 @@ Module DepositContract_541.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x00]
+              Some ([Literal.number 0x00])
             |) in
           let _ :=
             M.assign (|
               ["var_height"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_0_by_1_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
-            M.for (|
-              tt,
+            let _ :=
+              tt in
+            M.for_ (|
               [Literal.number 1],
-              let _ :=
-                M.assign (|
-                  ["_1"],
-                  M.get (| "var_height" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_2"],
-                  M.call (|
-                    "increment_wrapping_uint256",
-                    [
-                      M.get (| "_1" |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.declare (|
-                  ["var_height"],
-                  M.get (| "_2" |)
-                |) in
-              tt,
-              let _ :=
-                M.assign (|
-                  ["_3"],
-                  M.get (| "var_height" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_1"],
-                  M.get (| "_3" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_2"],
-                  M.call (|
-                    "constant_DEPOSIT_CONTRACT_TREE_DEPTH",
-                    [
-
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_3"],
-                  [Literal.number 0x01]
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_4"],
-                  M.call (|
-                    "checked_sub_uint256",
-                    [
-                      M.get (| "expr_2" |);
-                      M.call (|
-                        "convert_t_rational_by_to_t_uint256",
-                        [
-                          M.get (| "expr_3" |)
-                        ]
-                      |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_5"],
-                  M.call (|
-                    "lt",
-                    [
-                      M.call (|
-                        "cleanup_uint256",
-                        [
-                          M.get (| "expr_1" |)
-                        ]
-                      |);
-                      M.call (|
-                        "cleanup_uint256",
-                        [
-                          M.get (| "expr_4" |)
-                        ]
-                      |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.if_ (|
-                  M.call (|
-                    "iszero",
-                    [
-                      M.get (| "expr_5" |)
-                    ]
-                  |),
-                  ltac:(M.monadic (
-                    let _ :=
-                      M.break (||) in
-                    tt
-                  ))
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_6_slot"],
-                  [Literal.number 0x21]
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_slot"],
-                  M.get (| "_6_slot" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_4"],
-                  M.get (| "var_height" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_6"],
-                  M.get (| "_4" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_5"; "_6"],
-                  M.call (|
-                    "storage_array_index_access_bytes",
-                    [
-                      M.get (| "expr_slot" |);
-                      M.get (| "expr_6" |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_7"],
-                  M.call (|
-                    "read_from_storage_split_dynamic_bytes32",
-                    [
-                      M.get (| "_5" |);
-                      M.get (| "_6" |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_7"],
-                  M.get (| "_7" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_slot"],
-                  [Literal.number 0x21]
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_99_slot"],
-                  M.get (| "_slot" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_8"],
-                  M.get (| "var_height" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_8"],
-                  M.get (| "_8" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_9"; "_10"],
-                  M.call (|
-                    "storage_array_index_access_bytes",
-                    [
-                      M.get (| "expr_99_slot" |);
-                      M.get (| "expr_8" |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_11"],
-                  M.call (|
-                    "read_from_storage_split_dynamic_bytes32",
-                    [
-                      M.get (| "_9" |);
-                      M.get (| "_10" |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_9"],
-                  M.get (| "_11" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_mpos"],
-                  M.call (|
-                    "allocate_unbounded",
-                    [
-
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_12"],
-                  M.call (|
-                    "add",
-                    [
-                      M.get (| "expr_mpos" |);
-                      [Literal.number 0x20]
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_13"],
-                  M.call (|
-                    "abi_encode_packed_bytes32_bytes32",
-                    [
-                      M.get (| "_12" |);
-                      M.get (| "expr_7" |);
-                      M.get (| "expr_9" |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.call (|
-                  "mstore",
-                  [
-                    M.get (| "expr_mpos" |);
-                    M.call (|
-                      "sub",
+              ltac:(M.monadic (
+                let _ :=
+                  M.assign (|
+                    ["_1"],
+                    Some (M.get (| "var_height" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_2"],
+                    Some (M.call (|
+                      "increment_wrapping_uint256",
                       [
-                        M.get (| "_13" |);
+                        M.get (| "_1" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.declare (|
+                    ["var_height"],
+                    M.get (| "_2" |)
+                  |) in
+                tt
+              )),
+              ltac:(M.monadic (
+                let _ :=
+                  M.assign (|
+                    ["_3"],
+                    Some (M.get (| "var_height" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_1"],
+                    Some (M.get (| "_3" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_2"],
+                    Some (M.call (|
+                      "constant_DEPOSIT_CONTRACT_TREE_DEPTH",
+                      []
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_3"],
+                    Some ([Literal.number 0x01])
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_4"],
+                    Some (M.call (|
+                      "checked_sub_uint256",
+                      [
+                        M.get (| "expr_2" |);
                         M.call (|
-                          "add",
+                          "convert_t_rational_by_to_t_uint256",
                           [
-                            M.get (| "expr_mpos" |);
-                            [Literal.number 0x20]
+                            M.get (| "expr_3" |)
                           ]
                         |)
                       ]
-                    |)
-                  ]
-                |) in
-              let _ :=
-                M.call (|
-                  "finalize_allocation",
-                  [
-                    M.get (| "expr_mpos" |);
-                    M.call (|
-                      "sub",
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_5"],
+                    Some (M.call (|
+                      "lt",
                       [
-                        M.get (| "_13" |);
-                        M.get (| "expr_mpos" |)
+                        M.call (|
+                          "cleanup_uint256",
+                          [
+                            M.get (| "expr_1" |)
+                          ]
+                        |);
+                        M.call (|
+                          "cleanup_uint256",
+                          [
+                            M.get (| "expr_4" |)
+                          ]
+                        |)
                       ]
-                    |)
-                  ]
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_14"],
+                    |))
+                  |) in
+                let _ :=
+                  M.if_ (|
+                    M.call (|
+                      "iszero",
+                      [
+                        M.get (| "expr_5" |)
+                      ]
+                    |),
+                    ltac:(M.monadic (
+                      let _ :=
+                        M.break (||) in
+                      tt
+                    ))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_6_slot"],
+                    Some ([Literal.number 0x21])
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_slot"],
+                    Some (M.get (| "_6_slot" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_4"],
+                    Some (M.get (| "var_height" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_6"],
+                    Some (M.get (| "_4" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_5"; "_6"],
+                    Some (M.call (|
+                      "storage_array_index_access_bytes",
+                      [
+                        M.get (| "expr_slot" |);
+                        M.get (| "expr_6" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_7"],
+                    Some (M.call (|
+                      "read_from_storage_split_dynamic_bytes32",
+                      [
+                        M.get (| "_5" |);
+                        M.get (| "_6" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_7"],
+                    Some (M.get (| "_7" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_slot"],
+                    Some ([Literal.number 0x21])
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_99_slot"],
+                    Some (M.get (| "_slot" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_8"],
+                    Some (M.get (| "var_height" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_8"],
+                    Some (M.get (| "_8" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_9"; "_10"],
+                    Some (M.call (|
+                      "storage_array_index_access_bytes",
+                      [
+                        M.get (| "expr_99_slot" |);
+                        M.get (| "expr_8" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_11"],
+                    Some (M.call (|
+                      "read_from_storage_split_dynamic_bytes32",
+                      [
+                        M.get (| "_9" |);
+                        M.get (| "_10" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_9"],
+                    Some (M.get (| "_11" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_mpos"],
+                    Some (M.call (|
+                      "allocate_unbounded",
+                      []
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_12"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "expr_mpos" |);
+                        [Literal.number 0x20]
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_13"],
+                    Some (M.call (|
+                      "abi_encode_packed_bytes32_bytes32",
+                      [
+                        M.get (| "_12" |);
+                        M.get (| "expr_7" |);
+                        M.get (| "expr_9" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
                   M.call (|
-                    "allocate_unbounded",
+                    "mstore",
                     [
-
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_15"],
-                  M.call (|
-                    "abi_encode_packed_bytes",
-                    [
-                      M.get (| "_14" |);
-                      M.get (| "expr_mpos" |)
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_16"],
-                  M.call (|
-                    "staticcall",
-                    [
-                      M.call (|
-                        "gas",
-                        [
-
-                        ]
-                      |);
-                      [Literal.number 2];
-                      M.get (| "_14" |);
+                      M.get (| "expr_mpos" |);
                       M.call (|
                         "sub",
                         [
-                          M.get (| "_15" |);
-                          M.get (| "_14" |)
-                        ]
-                      |);
-                      [Literal.number 0];
-                      [Literal.number 32]
-                    ]
-                  |)
-                |) in
-              let _ :=
-                M.if_ (|
-                  M.call (|
-                    "iszero",
-                    [
-                      M.get (| "_16" |)
-                    ]
-                  |),
-                  ltac:(M.monadic (
-                    let _ :=
-                      M.call (|
-                        "revert_forward",
-                        [
-
-                        ]
-                      |) in
-                    tt
-                  ))
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_10"],
-                  M.call (|
-                    "shift_left",
-                    [
-                      M.call (|
-                        "mload",
-                        [
-                          [Literal.number 0]
+                          M.get (| "_13" |);
+                          M.call (|
+                            "add",
+                            [
+                              M.get (| "expr_mpos" |);
+                              [Literal.number 0x20]
+                            ]
+                          |)
                         ]
                       |)
                     ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_21_slot"],
-                  [Literal.number 0x21]
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_88_slot"],
-                  M.get (| "_21_slot" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_17"],
-                  M.get (| "var_height" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_11"],
-                  M.get (| "_17" |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_12"],
-                  [Literal.number 0x01]
-                |) in
-              let _ :=
-                M.assign (|
-                  ["expr_13"],
+                  |) in
+                let _ :=
                   M.call (|
-                    "checked_add_uint256",
+                    "finalize_allocation",
                     [
-                      M.get (| "expr_11" |);
+                      M.get (| "expr_mpos" |);
                       M.call (|
-                        "convert_t_rational_by_to_t_uint256",
+                        "sub",
                         [
-                          M.get (| "expr_12" |)
+                          M.get (| "_13" |);
+                          M.get (| "expr_mpos" |)
                         ]
                       |)
                     ]
-                  |)
-                |) in
-              let _ :=
-                M.assign (|
-                  ["_18"; "_19"],
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_14"],
+                    Some (M.call (|
+                      "allocate_unbounded",
+                      []
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_15"],
+                    Some (M.call (|
+                      "abi_encode_packed_bytes",
+                      [
+                        M.get (| "_14" |);
+                        M.get (| "expr_mpos" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_16"],
+                    Some (M.call (|
+                      "staticcall",
+                      [
+                        M.call (|
+                          "gas",
+                          []
+                        |);
+                        [Literal.number 2];
+                        M.get (| "_14" |);
+                        M.call (|
+                          "sub",
+                          [
+                            M.get (| "_15" |);
+                            M.get (| "_14" |)
+                          ]
+                        |);
+                        [Literal.number 0];
+                        [Literal.number 32]
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.if_ (|
+                    M.call (|
+                      "iszero",
+                      [
+                        M.get (| "_16" |)
+                      ]
+                    |),
+                    ltac:(M.monadic (
+                      let _ :=
+                        M.call (|
+                          "revert_forward",
+                          []
+                        |) in
+                      tt
+                    ))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_10"],
+                    Some (M.call (|
+                      "shift_left",
+                      [
+                        M.call (|
+                          "mload",
+                          [
+                            [Literal.number 0]
+                          ]
+                        |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_21_slot"],
+                    Some ([Literal.number 0x21])
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_88_slot"],
+                    Some (M.get (| "_21_slot" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_17"],
+                    Some (M.get (| "var_height" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_11"],
+                    Some (M.get (| "_17" |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_12"],
+                    Some ([Literal.number 0x01])
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["expr_13"],
+                    Some (M.call (|
+                      "checked_add_uint256",
+                      [
+                        M.get (| "expr_11" |);
+                        M.call (|
+                          "convert_t_rational_by_to_t_uint256",
+                          [
+                            M.get (| "expr_12" |)
+                          ]
+                        |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
+                  M.assign (|
+                    ["_18"; "_19"],
+                    Some (M.call (|
+                      "storage_array_index_access_bytes",
+                      [
+                        M.get (| "expr_88_slot" |);
+                        M.get (| "expr_13" |)
+                      ]
+                    |))
+                  |) in
+                let _ :=
                   M.call (|
-                    "storage_array_index_access_bytes",
+                    "update_storage_value_bytes32_to_bytes32",
                     [
-                      M.get (| "expr_88_slot" |);
-                      M.get (| "expr_13" |)
+                      M.get (| "_18" |);
+                      M.get (| "_19" |);
+                      M.get (| "expr_10" |)
                     ]
-                  |)
-                |) in
-              let _ :=
-                M.call (|
-                  "update_storage_value_bytes32_to_bytes32",
-                  [
-                    M.get (| "_18" |);
-                    M.get (| "_19" |);
-                    M.get (| "expr_10" |)
-                  ]
-                |) in
-              tt
+                  |) in
+                tt
+              ))
             |) in
           tt
         ))
@@ -1853,9 +1826,7 @@ Module DepositContract_541.
                   [
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 4]
                   ]
@@ -1866,7 +1837,7 @@ Module DepositContract_541.
               let _ :=
                 M.assign (|
                   ["selector"],
-                  M.call (|
+                  Some (M.call (|
                     "shift_right_unsigned",
                     [
                       M.call (|
@@ -1876,7 +1847,7 @@ Module DepositContract_541.
                         ]
                       |)
                     ]
-                  |)
+                  |))
                 |) in
               let _ :=
                 M.switch (|
@@ -1888,9 +1859,7 @@ Module DepositContract_541.
                         let _ :=
                           M.call (|
                             "external_fun_supportsInterface",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -1900,9 +1869,7 @@ Module DepositContract_541.
                         let _ :=
                           M.call (|
                             "external_fun_deposit",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -1912,9 +1879,7 @@ Module DepositContract_541.
                         let _ :=
                           M.call (|
                             "external_fun_get_deposit_count",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -1924,9 +1889,7 @@ Module DepositContract_541.
                         let _ :=
                           M.call (|
                             "external_fun_get_deposit_root",
-                            [
-
-                            ]
+                            []
                           |) in
                         tt
                       ))              );
@@ -1942,9 +1905,7 @@ Module DepositContract_541.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -2154,9 +2115,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2164,7 +2123,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["offset"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.declare (|
@@ -2276,17 +2235,13 @@ Module DepositContract_541.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2294,49 +2249,45 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["param"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_bytes4",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_supportsInterface",
                   [
                     M.get (| "param" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bool",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2437,9 +2388,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2467,9 +2416,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_15abf5612cd996bc235ba1e55a4a30ac60e6bb601ff7ba4ad3f179b6be8d0490",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2510,9 +2457,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_81385d8c0b31fffe14be1da910c8bd3a80be4cfa248e04f42ec0faea3132a8ef",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2631,9 +2576,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2641,7 +2584,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -2652,7 +2595,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -2667,9 +2610,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2694,7 +2635,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["offset_1"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -2705,7 +2646,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -2720,9 +2661,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2747,7 +2686,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["offset_2"],
-                M.call (|
+                Some (M.call (|
                   "calldataload",
                   [
                     M.call (|
@@ -2758,7 +2697,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -2773,9 +2712,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -2800,7 +2737,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["offset_3"],
-                [Literal.number 96]
+                Some ([Literal.number 96])
               |) in
             let _ :=
               M.declare (|
@@ -2851,18 +2788,16 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["param"; "param_1"; "param_2"; "param_3"; "param_4"; "param_5"; "param_6"],
-                M.call (|
+                Some (M.call (|
                   "abi_decode_bytes_calldatat_bytes_calldatat_bytes_calldatat_bytes32",
                   [
                     [Literal.number 4];
                     M.call (|
                       "calldatasize",
-                      [
-
-                      ]
+                      []
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2880,22 +2815,20 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple",
                   [
                     M.get (| "memPos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -2939,9 +2872,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3068,12 +2999,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3181,17 +3112,13 @@ Module DepositContract_541.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3203,42 +3130,36 @@ Module DepositContract_541.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_get_deposit_count",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bytes",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3323,17 +3244,13 @@ Module DepositContract_541.
               M.if_ (|
                 M.call (|
                   "callvalue",
-                  [
-
-                  ]
+                  []
                 |),
                 ltac:(M.monadic (
                   let _ :=
                     M.call (|
                       "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -3345,42 +3262,36 @@ Module DepositContract_541.
                   [Literal.number 4];
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
             let _ :=
               M.assign (|
                 ["ret"],
-                M.call (|
+                Some (M.call (|
                   "fun_get_deposit_root",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memPos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["memEnd"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_tuple_bytes32",
                   [
                     M.get (| "memPos" |);
                     M.get (| "ret" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -3439,12 +3350,10 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["zero_bool"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bool",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -3454,28 +3363,28 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var_interfaceId" |)
+                Some (M.get (| "var_interfaceId" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "shl",
                   [
                     [Literal.number 224];
                     [Literal.number 0x01ffc9a7]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -3491,12 +3400,12 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "expr_2" |)
+                Some (M.get (| "expr_2" |))
               |) in
             let _ :=
               M.if_ (|
@@ -3510,28 +3419,28 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["_2"],
-                      M.get (| "var_interfaceId" |)
+                      Some (M.get (| "var_interfaceId" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_4"],
-                      M.get (| "_2" |)
+                      Some (M.get (| "_2" |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_5"],
-                      M.call (|
+                      Some (M.call (|
                         "shl",
                         [
                           [Literal.number 224];
                           [Literal.number 0x85640907]
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.assign (|
                       ["expr_6"],
-                      M.call (|
+                      Some (M.call (|
                         "eq",
                         [
                           M.call (|
@@ -3547,7 +3456,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.declare (|
@@ -3823,12 +3732,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -3847,7 +3754,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_tuple_stringliteral_c3b5",
                         [
                           M.call (|
@@ -3858,7 +3765,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4066,12 +3973,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4090,7 +3995,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_stringliteral",
                         [
                           M.call (|
@@ -4101,7 +4006,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4309,12 +4214,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4333,7 +4236,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_tuple_stringliteral_e15d",
                         [
                           M.call (|
@@ -4344,7 +4247,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4552,12 +4455,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4576,7 +4477,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_stringliteral_d4d9",
                         [
                           M.call (|
@@ -4587,7 +4488,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4729,9 +4630,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x12",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -4936,12 +4835,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -4960,7 +4857,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_stringliteral_7db0",
                         [
                           M.call (|
@@ -4971,7 +4868,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -5070,9 +4967,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x12",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -5283,12 +5178,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -5307,7 +5200,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_tuple_stringliteral_c445",
                         [
                           M.call (|
@@ -5318,7 +5211,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -5968,7 +5861,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["newFreePtr"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "memPtr" |);
@@ -5979,7 +5872,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -6006,9 +5899,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -6053,12 +5944,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["length"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -6134,12 +6025,10 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["pos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.call (|
@@ -6149,9 +6038,7 @@ Module DepositContract_541.
                   [Literal.number 0];
                   M.call (|
                     "returndatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -6162,9 +6049,7 @@ Module DepositContract_541.
                   M.get (| "pos" |);
                   M.call (|
                     "returndatasize",
-                    [
-
-                    ]
+                    []
                   |)
                 ]
               |) in
@@ -6268,9 +6153,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_7678404c0552a58cf14944d1a786cf4c81aab3563e2735cb332aee47bbb57c4a",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -6288,9 +6171,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_error_46e3e63c93837e9efa638abb3b4e76ced8c11259a873f1381a0abdf6ae6a823c",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -6899,12 +6780,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -6923,7 +6802,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_stringliteral_18a6",
                         [
                           M.call (|
@@ -6934,7 +6813,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -6965,17 +6844,17 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x20]
+                Some ([Literal.number 0x20])
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_32_by_1_to_uint256",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -7057,9 +6936,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -7171,9 +7048,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -7190,32 +7065,30 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "constant_DEPOSIT_CONTRACT_TREE_DEPTH",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "checked_exp_rational_by_uint256",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.call (|
+                Some (M.call (|
                   "checked_sub_uint256",
                   [
                     M.get (| "expr_1" |);
@@ -7226,12 +7099,12 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "expr_3" |)
+                Some (M.get (| "expr_3" |))
               |) in
             let _ :=
               M.declare (|
@@ -7384,12 +7257,10 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["memPtr"],
-                      M.call (|
+                      Some (M.call (|
                         "allocate_unbounded",
-                        [
-
-                        ]
-                      |)
+                        []
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -7408,7 +7279,7 @@ Module DepositContract_541.
                   let _ :=
                     M.assign (|
                       ["end"],
-                      M.call (|
+                      Some (M.call (|
                         "abi_encode_tuple_stringliteral_122a",
                         [
                           M.call (|
@@ -7419,7 +7290,7 @@ Module DepositContract_541.
                             ]
                           |)
                         ]
-                      |)
+                      |))
                     |) in
                   let _ :=
                     M.call (|
@@ -7491,9 +7362,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x11",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -7510,12 +7379,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "not",
                   [
                     [Literal.number 0]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -7615,12 +7484,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint256_to_uint256",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -7751,12 +7620,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["arrayLength"],
-                M.call (|
+                Some (M.call (|
                   "array_length_array_bytes32_storage",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -7776,9 +7645,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -7786,12 +7653,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["dataArea"],
-                M.call (|
+                Some (M.call (|
                   "array_dataslot_array_bytes32_storage",
                   [
                     M.get (| "array" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -7847,18 +7714,18 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["shiftBits"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "shiftBytes" |);
                     [Literal.number 8]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["mask"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_dynamic",
                   [
                     M.get (| "shiftBits" |);
@@ -7869,7 +7736,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -7965,12 +7832,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["convertedValue"],
-                M.call (|
+                Some (M.call (|
                   "convert_bytes32_to_bytes32",
                   [
                     M.get (| "value" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8147,9 +8014,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x01",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -8166,43 +8031,43 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_4_offset"],
-                M.get (| "var_pubkey_offset" |)
+                Some (M.get (| "var_pubkey_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_4_length"],
-                M.get (| "var_pubkey_length" |)
+                Some (M.get (| "var_pubkey_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_213_offset"],
-                M.get (| "_4_offset" |)
+                Some (M.get (| "_4_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_213_length"],
-                M.get (| "_4_length" |)
+                Some (M.get (| "_4_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes_calldata",
                   [
                     M.get (| "expr_213_offset" |);
                     M.get (| "expr_213_length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x30]
+                Some ([Literal.number 0x30])
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -8218,7 +8083,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8230,43 +8095,43 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_5_offset"],
-                M.get (| "var_withdrawal_credentials_offset" |)
+                Some (M.get (| "var_withdrawal_credentials_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_5_length"],
-                M.get (| "var_withdrawal_credentials_length" |)
+                Some (M.get (| "var_withdrawal_credentials_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_221_offset"],
-                M.get (| "_5_offset" |)
+                Some (M.get (| "_5_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_221_length"],
-                M.get (| "_5_length" |)
+                Some (M.get (| "_5_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes_calldata",
                   [
                     M.get (| "expr_221_offset" |);
                     M.get (| "expr_221_length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                [Literal.number 0x20]
+                Some ([Literal.number 0x20])
               |) in
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -8282,7 +8147,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8294,43 +8159,43 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_6_offset"],
-                M.get (| "var_signature_offset" |)
+                Some (M.get (| "var_signature_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_6_length"],
-                M.get (| "var_signature_length" |)
+                Some (M.get (| "var_signature_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_229_offset"],
-                M.get (| "_6_offset" |)
+                Some (M.get (| "_6_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_229_length"],
-                M.get (| "_6_length" |)
+                Some (M.get (| "_6_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_6"],
-                M.call (|
+                Some (M.call (|
                   "array_length_bytes_calldata",
                   [
                     M.get (| "expr_229_offset" |);
                     M.get (| "expr_229_length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7"],
-                [Literal.number 0x60]
+                Some ([Literal.number 0x60])
               |) in
             let _ :=
               M.assign (|
                 ["expr_8"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -8346,7 +8211,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8358,22 +8223,20 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_9"],
-                M.call (|
+                Some (M.call (|
                   "callvalue",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_10"],
-                [Literal.number 0x0de0b6b3a7640000]
+                Some ([Literal.number 0x0de0b6b3a7640000])
               |) in
             let _ :=
               M.assign (|
                 ["expr_11"],
-                M.call (|
+                Some (M.call (|
                   "iszero",
                   [
                     M.call (|
@@ -8394,7 +8257,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8406,22 +8269,20 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_12"],
-                M.call (|
+                Some (M.call (|
                   "callvalue",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_13"],
-                [Literal.number 0x3b9aca00]
+                Some ([Literal.number 0x3b9aca00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_14"],
-                M.call (|
+                Some (M.call (|
                   "mod_uint256",
                   [
                     M.get (| "expr_12" |);
@@ -8432,17 +8293,17 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_15"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_16"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -8458,7 +8319,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8470,22 +8331,20 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_17"],
-                M.call (|
+                Some (M.call (|
                   "callvalue",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_18"],
-                [Literal.number 0x3b9aca00]
+                Some ([Literal.number 0x3b9aca00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_19"],
-                M.call (|
+                Some (M.call (|
                   "checked_div_uint256",
                   [
                     M.get (| "expr_17" |);
@@ -8496,32 +8355,32 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_deposit_amount"],
-                M.get (| "expr_19" |)
+                Some (M.get (| "expr_19" |))
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.get (| "var_deposit_amount" |)
+                Some (M.get (| "var_deposit_amount" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_20"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_21"],
-                [Literal.number 0xffffffffffffffff]
+                Some ([Literal.number 0xffffffffffffffff])
               |) in
             let _ :=
               M.assign (|
                 ["expr_22"],
-                M.call (|
+                Some (M.call (|
                   "iszero",
                   [
                     M.call (|
@@ -8542,7 +8401,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8554,162 +8413,160 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_2"],
-                M.get (| "var_deposit_amount" |)
+                Some (M.get (| "var_deposit_amount" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_23"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_24"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint256_to_uint64",
                   [
                     M.get (| "expr_23" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_279_mpos"],
-                M.call (|
+                Some (M.call (|
                   "fun_to_little_endian",
                   [
                     M.get (| "expr_24" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_amount_mpos"],
-                M.get (| "expr_279_mpos" |)
+                Some (M.get (| "expr_279_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_offset"],
-                M.get (| "var_pubkey_offset" |)
+                Some (M.get (| "var_pubkey_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_9_length"],
-                M.get (| "var_pubkey_length" |)
+                Some (M.get (| "var_pubkey_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_282_offset"],
-                M.get (| "_offset" |)
+                Some (M.get (| "_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_282_length"],
-                M.get (| "_9_length" |)
+                Some (M.get (| "_9_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["_10_offset"],
-                M.get (| "var_withdrawal_credentials_offset" |)
+                Some (M.get (| "var_withdrawal_credentials_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_10_length"],
-                M.get (| "var_withdrawal_credentials_length" |)
+                Some (M.get (| "var_withdrawal_credentials_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_283_offset"],
-                M.get (| "_10_offset" |)
+                Some (M.get (| "_10_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_283_length"],
-                M.get (| "_10_length" |)
+                Some (M.get (| "_10_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["_11_mpos"],
-                M.get (| "var_amount_mpos" |)
+                Some (M.get (| "var_amount_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_284_mpos"],
-                M.get (| "_11_mpos" |)
+                Some (M.get (| "_11_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["_12_offset"],
-                M.get (| "var_signature_offset" |)
+                Some (M.get (| "var_signature_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_12_length"],
-                M.get (| "var_signature_length" |)
+                Some (M.get (| "var_signature_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_285_offset"],
-                M.get (| "_12_offset" |)
+                Some (M.get (| "_12_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_285_length"],
-                M.get (| "_12_length" |)
+                Some (M.get (| "_12_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_25"],
-                M.get (| "_3" |)
+                Some (M.get (| "_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_26"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint256_to_uint64",
                   [
                     M.get (| "expr_25" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_291_mpos"],
-                M.call (|
+                Some (M.call (|
                   "fun_to_little_endian",
                   [
                     M.get (| "expr_26" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                [Literal.number 0x649bbc62d0e31342afea4e5cd82d4049e7e1ee912fc0889aa790803be39038c5]
+                Some ([Literal.number 0x649bbc62d0e31342afea4e5cd82d4049e7e1ee912fc0889aa790803be39038c5])
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_6"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_bytes_calldata_bytes_calldata_bytes_bytes_calldata_bytes",
                   [
                     M.get (| "_5" |);
@@ -8722,7 +8579,7 @@ Module DepositContract_541.
                     M.get (| "expr_285_length" |);
                     M.get (| "expr_291_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8742,63 +8599,61 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_17_offset"],
-                M.get (| "var_pubkey_offset" |)
+                Some (M.get (| "var_pubkey_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_17_length"],
-                M.get (| "var_pubkey_length" |)
+                Some (M.get (| "var_pubkey_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_299_offset"],
-                M.get (| "_17_offset" |)
+                Some (M.get (| "_17_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_299_length"],
-                M.get (| "_17_length" |)
+                Some (M.get (| "_17_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_27"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_28"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_by_to_bytes16",
                   [
                     M.get (| "expr_27" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_304_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_304_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes_calldata_bytes16",
                   [
                     M.get (| "_7" |);
@@ -8806,7 +8661,7 @@ Module DepositContract_541.
                     M.get (| "expr_299_length" |);
                     M.get (| "expr_28" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -8845,35 +8700,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_9"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_10"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_9" |);
                     M.get (| "expr_304_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_11"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_9" |);
@@ -8887,7 +8738,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -8901,9 +8752,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -8911,7 +8760,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_29"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -8921,57 +8770,57 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_pubkey_root"],
-                M.get (| "expr_29" |)
+                Some (M.get (| "expr_29" |))
               |) in
             let _ :=
               M.assign (|
                 ["_23_offset"],
-                M.get (| "var_signature_offset" |)
+                Some (M.get (| "var_signature_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_23_length"],
-                M.get (| "var_signature_length" |)
+                Some (M.get (| "var_signature_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_315_offset"],
-                M.get (| "_23_offset" |)
+                Some (M.get (| "_23_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_315_length"],
-                M.get (| "_23_length" |)
+                Some (M.get (| "_23_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_30"],
-                [Literal.number 0x40]
+                Some ([Literal.number 0x40])
               |) in
             let _ :=
               M.assign (|
                 ["_12"],
-                [Literal.number 0]
+                Some ([Literal.number 0])
               |) in
             let _ :=
               M.assign (|
                 ["_13"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_64_by_1_to_uint256",
                   [
                     M.get (| "expr_30" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_317_offset"; "expr_length"],
-                M.call (|
+                Some (M.call (|
                   "calldata_array_index_range_access_bytes_calldata",
                   [
                     M.get (| "expr_315_offset" |);
@@ -8979,40 +8828,38 @@ Module DepositContract_541.
                     M.get (| "_12" |);
                     M.get (| "_13" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_14"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_15"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes_calldata_slice",
                   [
                     M.get (| "_14" |);
                     M.get (| "expr_317_offset" |);
                     M.get (| "expr_length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9051,35 +8898,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_16"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_17"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_16" |);
                     M.get (| "expr_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_18"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_16" |);
@@ -9093,7 +8936,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9107,9 +8950,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9117,7 +8958,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_31"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -9127,52 +8968,52 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_31_offset"],
-                M.get (| "var_signature_offset" |)
+                Some (M.get (| "var_signature_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_31_length"],
-                M.get (| "var_signature_length" |)
+                Some (M.get (| "var_signature_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_323_offset"],
-                M.get (| "_31_offset" |)
+                Some (M.get (| "_31_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_323_length"],
-                M.get (| "_31_length" |)
+                Some (M.get (| "_31_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_32"],
-                [Literal.number 0x40]
+                Some ([Literal.number 0x40])
               |) in
             let _ :=
               M.assign (|
                 ["_19"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_64_by_1_to_uint256",
                   [
                     M.get (| "expr_32" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_20"],
-                M.get (| "expr_323_length" |)
+                Some (M.get (| "expr_323_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_offset"; "expr_325_length"],
-                M.call (|
+                Some (M.call (|
                   "calldata_array_index_range_access_bytes_calldata",
                   [
                     M.get (| "expr_323_offset" |);
@@ -9180,48 +9021,46 @@ Module DepositContract_541.
                     M.get (| "_19" |);
                     M.get (| "_20" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_33"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_34"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_by_to_bytes32",
                   [
                     M.get (| "expr_33" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_330_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_21"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_330_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_22"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes_calldata_slice_bytes32",
                   [
                     M.get (| "_21" |);
@@ -9229,7 +9068,7 @@ Module DepositContract_541.
                     M.get (| "expr_325_length" |);
                     M.get (| "expr_34" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9268,35 +9107,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_23"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_24"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_23" |);
                     M.get (| "expr_330_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_25"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_23" |);
@@ -9310,7 +9145,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9324,9 +9159,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9334,7 +9167,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_35"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -9344,40 +9177,38 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_332_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_26"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_332_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_27"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes32_bytes32",
                   [
                     M.get (| "_26" |);
                     M.get (| "expr_31" |);
                     M.get (| "expr_35" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9416,35 +9247,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_28"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_29"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_28" |);
                     M.get (| "expr_332_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_30"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_28" |);
@@ -9458,7 +9285,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9472,9 +9299,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9482,7 +9307,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_36"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -9492,68 +9317,66 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_signature_root"],
-                M.get (| "expr_36" |)
+                Some (M.get (| "expr_36" |))
               |) in
             let _ :=
               M.assign (|
                 ["_31"],
-                M.get (| "var_pubkey_root" |)
+                Some (M.get (| "var_pubkey_root" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_37"],
-                M.get (| "_31" |)
+                Some (M.get (| "_31" |))
               |) in
             let _ :=
               M.assign (|
                 ["_45_offset"],
-                M.get (| "var_withdrawal_credentials_offset" |)
+                Some (M.get (| "var_withdrawal_credentials_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["_length"],
-                M.get (| "var_withdrawal_credentials_length" |)
+                Some (M.get (| "var_withdrawal_credentials_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_344_offset"],
-                M.get (| "_45_offset" |)
+                Some (M.get (| "_45_offset" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_344_length"],
-                M.get (| "_length" |)
+                Some (M.get (| "_length" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_345_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_32"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_345_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_33"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes32_bytes_calldata",
                   [
                     M.get (| "_32" |);
@@ -9561,7 +9384,7 @@ Module DepositContract_541.
                     M.get (| "expr_344_offset" |);
                     M.get (| "expr_344_length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9600,35 +9423,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_34"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_35"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_34" |);
                     M.get (| "expr_345_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_36"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_34" |);
@@ -9642,7 +9461,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9656,9 +9475,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9666,7 +9483,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_38"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -9676,68 +9493,66 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_51_mpos"],
-                M.get (| "var_amount_mpos" |)
+                Some (M.get (| "var_amount_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_350_mpos"],
-                M.get (| "_51_mpos" |)
+                Some (M.get (| "_51_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_39"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_40"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_by_to_bytes24",
                   [
                     M.get (| "expr_39" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_37"],
-                M.get (| "var_signature_root" |)
+                Some (M.get (| "var_signature_root" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_41"],
-                M.get (| "_37" |)
+                Some (M.get (| "_37" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_356_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_38"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_356_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_39"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes_bytes24_bytes32",
                   [
                     M.get (| "_38" |);
@@ -9745,7 +9560,7 @@ Module DepositContract_541.
                     M.get (| "expr_40" |);
                     M.get (| "expr_41" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9784,35 +9599,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_40"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_41"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_40" |);
                     M.get (| "expr_356_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_42"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_40" |);
@@ -9826,7 +9637,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9840,9 +9651,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9850,7 +9659,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_42"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -9860,40 +9669,38 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_358_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_43"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_358_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_44"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes32_bytes32",
                   [
                     M.get (| "_43" |);
                     M.get (| "expr_38" |);
                     M.get (| "expr_42" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -9932,35 +9739,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_45"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_46"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_45" |);
                     M.get (| "expr_358_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_47"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_45" |);
@@ -9974,7 +9777,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -9988,9 +9791,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -9998,7 +9799,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_43"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -10008,37 +9809,37 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_node"],
-                M.get (| "expr_43" |)
+                Some (M.get (| "expr_43" |))
               |) in
             let _ :=
               M.assign (|
                 ["_48"],
-                M.get (| "var_node" |)
+                Some (M.get (| "var_node" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_44"],
-                M.get (| "_48" |)
+                Some (M.get (| "_48" |))
               |) in
             let _ :=
               M.assign (|
                 ["_49"],
-                M.get (| "var_deposit_data_root" |)
+                Some (M.get (| "var_deposit_data_root" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_45"],
-                M.get (| "_49" |)
+                Some (M.get (| "_49" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_46"],
-                M.call (|
+                Some (M.call (|
                   "eq",
                   [
                     M.call (|
@@ -10054,7 +9855,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10066,32 +9867,30 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_50"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_47"],
-                M.get (| "_50" |)
+                Some (M.get (| "_50" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_48"],
-                M.call (|
+                Some (M.call (|
                   "constant_MAX_DEPOSIT_COUNT",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_49"],
-                M.call (|
+                Some (M.call (|
                   "lt",
                   [
                     M.call (|
@@ -10107,7 +9906,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10119,38 +9918,38 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_50"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_51"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_1_by_1_to_uint256",
                   [
                     M.get (| "expr_50" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_52"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_51"],
-                M.call (|
+                Some (M.call (|
                   "checked_add_uint256",
                   [
                     M.get (| "_52" |);
                     M.get (| "_51" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -10163,491 +9962,486 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_53"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_52"],
-                M.get (| "_53" |)
+                Some (M.get (| "_53" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_size"],
-                M.get (| "expr_52" |)
+                Some (M.get (| "expr_52" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_53"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["var_height"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_0_by_1_to_uint256",
                   [
                     M.get (| "expr_53" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 [Literal.number 1],
-                let _ :=
-                  M.assign (|
-                    ["_54"],
-                    M.get (| "var_height" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_55"],
-                    M.call (|
-                      "increment_wrapping_uint256",
-                      [
-                        M.get (| "_54" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["var_height"],
-                    M.get (| "_55" |)
-                  |) in
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["_56"],
-                    M.get (| "var_height" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_54"],
-                    M.get (| "_56" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_55"],
-                    M.call (|
-                      "constant_DEPOSIT_CONTRACT_TREE_DEPTH",
-                      [
-
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_56"],
-                    M.call (|
-                      "lt",
-                      [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_54" |)
-                          ]
-                        |);
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_55" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.call (|
-                      "iszero",
-                      [
-                        M.get (| "expr_56" |)
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.break (||) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_57"],
-                    M.get (| "var_size" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_57"],
-                    M.get (| "_57" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_58"],
-                    [Literal.number 0x01]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_59"],
-                    M.call (|
-                      "and",
-                      [
-                        M.get (| "expr_57" |);
-                        M.call (|
-                          "convert_rational_1_by_1_to_uint256",
-                          [
-                            M.get (| "expr_58" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_60"],
-                    M.get (| "expr_59" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_61"],
-                    [Literal.number 0x01]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_62"],
-                    M.call (|
-                      "eq",
-                      [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_60" |)
-                          ]
-                        |);
-                        M.call (|
-                          "convert_rational_1_by_1_to_uint256",
-                          [
-                            M.get (| "expr_61" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.get (| "expr_62" |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_58"],
-                          M.get (| "var_node" |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_63"],
-                          M.get (| "_58" |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["_77_slot"],
-                          [Literal.number 0x00]
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_399_slot"],
-                          M.get (| "_77_slot" |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["_59"],
-                          M.get (| "var_height" |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_64"],
-                          M.get (| "_59" |)
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["_60"; "_61"],
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["_54"],
+                      Some (M.get (| "var_height" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_55"],
+                      Some (M.call (|
+                        "increment_wrapping_uint256",
+                        [
+                          M.get (| "_54" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["var_height"],
+                      M.get (| "_55" |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["_56"],
+                      Some (M.get (| "var_height" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_54"],
+                      Some (M.get (| "_56" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_55"],
+                      Some (M.call (|
+                        "constant_DEPOSIT_CONTRACT_TREE_DEPTH",
+                        []
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_56"],
+                      Some (M.call (|
+                        "lt",
+                        [
                           M.call (|
-                            "storage_array_index_access_bytes",
+                            "cleanup_uint256",
                             [
-                              M.get (| "expr_399_slot" |);
-                              M.get (| "expr_64" |)
+                              M.get (| "expr_54" |)
+                            ]
+                          |);
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_55" |)
                             ]
                           |)
-                        |) in
-                      let _ :=
-                        M.call (|
-                          "update_storage_value_bytes32_to_bytes32",
-                          [
-                            M.get (| "_60" |);
-                            M.get (| "_61" |);
-                            M.get (| "expr_63" |)
-                          ]
-                        |) in
-                      let _ :=
-                        M.leave (||) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_81_slot"],
-                    [Literal.number 0x00]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_412_slot"],
-                    M.get (| "_81_slot" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_62"],
-                    M.get (| "var_height" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_65"],
-                    M.get (| "_62" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_63"; "_64"],
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.call (|
+                        "iszero",
+                        [
+                          M.get (| "expr_56" |)
+                        ]
+                      |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.break (||) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_57"],
+                      Some (M.get (| "var_size" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_57"],
+                      Some (M.get (| "_57" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_58"],
+                      Some ([Literal.number 0x01])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_59"],
+                      Some (M.call (|
+                        "and",
+                        [
+                          M.get (| "expr_57" |);
+                          M.call (|
+                            "convert_rational_1_by_1_to_uint256",
+                            [
+                              M.get (| "expr_58" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_60"],
+                      Some (M.get (| "expr_59" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_61"],
+                      Some ([Literal.number 0x01])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_62"],
+                      Some (M.call (|
+                        "eq",
+                        [
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_60" |)
+                            ]
+                          |);
+                          M.call (|
+                            "convert_rational_1_by_1_to_uint256",
+                            [
+                              M.get (| "expr_61" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.get (| "expr_62" |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.assign (|
+                            ["_58"],
+                            Some (M.get (| "var_node" |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["expr_63"],
+                            Some (M.get (| "_58" |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["_77_slot"],
+                            Some ([Literal.number 0x00])
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["expr_399_slot"],
+                            Some (M.get (| "_77_slot" |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["_59"],
+                            Some (M.get (| "var_height" |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["expr_64"],
+                            Some (M.get (| "_59" |))
+                          |) in
+                        let _ :=
+                          M.assign (|
+                            ["_60"; "_61"],
+                            Some (M.call (|
+                              "storage_array_index_access_bytes",
+                              [
+                                M.get (| "expr_399_slot" |);
+                                M.get (| "expr_64" |)
+                              ]
+                            |))
+                          |) in
+                        let _ :=
+                          M.call (|
+                            "update_storage_value_bytes32_to_bytes32",
+                            [
+                              M.get (| "_60" |);
+                              M.get (| "_61" |);
+                              M.get (| "expr_63" |)
+                            ]
+                          |) in
+                        let _ :=
+                          M.leave (||) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_81_slot"],
+                      Some ([Literal.number 0x00])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_412_slot"],
+                      Some (M.get (| "_81_slot" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_62"],
+                      Some (M.get (| "var_height" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_65"],
+                      Some (M.get (| "_62" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_63"; "_64"],
+                      Some (M.call (|
+                        "storage_array_index_access_bytes",
+                        [
+                          M.get (| "expr_412_slot" |);
+                          M.get (| "expr_65" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_65"],
+                      Some (M.call (|
+                        "read_from_storage_split_dynamic_bytes32",
+                        [
+                          M.get (| "_63" |);
+                          M.get (| "_64" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_66"],
+                      Some (M.get (| "_65" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_66"],
+                      Some (M.get (| "var_node" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_67"],
+                      Some (M.get (| "_66" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_416_mpos"],
+                      Some (M.call (|
+                        "allocate_unbounded",
+                        []
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_67"],
+                      Some (M.call (|
+                        "add",
+                        [
+                          M.get (| "expr_416_mpos" |);
+                          [Literal.number 0x20]
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_68"],
+                      Some (M.call (|
+                        "abi_encode_packed_bytes32_bytes32",
+                        [
+                          M.get (| "_67" |);
+                          M.get (| "expr_66" |);
+                          M.get (| "expr_67" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
                     M.call (|
-                      "storage_array_index_access_bytes",
-                      [
-                        M.get (| "expr_412_slot" |);
-                        M.get (| "expr_65" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_65"],
-                    M.call (|
-                      "read_from_storage_split_dynamic_bytes32",
-                      [
-                        M.get (| "_63" |);
-                        M.get (| "_64" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_66"],
-                    M.get (| "_65" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_66"],
-                    M.get (| "var_node" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_67"],
-                    M.get (| "_66" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_416_mpos"],
-                    M.call (|
-                      "allocate_unbounded",
-                      [
-
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_67"],
-                    M.call (|
-                      "add",
+                      "mstore",
                       [
                         M.get (| "expr_416_mpos" |);
-                        [Literal.number 0x20]
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_68"],
-                    M.call (|
-                      "abi_encode_packed_bytes32_bytes32",
-                      [
-                        M.get (| "_67" |);
-                        M.get (| "expr_66" |);
-                        M.get (| "expr_67" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.call (|
-                    "mstore",
-                    [
-                      M.get (| "expr_416_mpos" |);
-                      M.call (|
-                        "sub",
-                        [
-                          M.get (| "_68" |);
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "expr_416_mpos" |);
-                              [Literal.number 0x20]
-                            ]
-                          |)
-                        ]
-                      |)
-                    ]
-                  |) in
-                let _ :=
-                  M.call (|
-                    "finalize_allocation",
-                    [
-                      M.get (| "expr_416_mpos" |);
-                      M.call (|
-                        "sub",
-                        [
-                          M.get (| "_68" |);
-                          M.get (| "expr_416_mpos" |)
-                        ]
-                      |)
-                    ]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_69"],
-                    M.call (|
-                      "allocate_unbounded",
-                      [
-
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_70"],
-                    M.call (|
-                      "abi_encode_packed_bytes",
-                      [
-                        M.get (| "_69" |);
-                        M.get (| "expr_416_mpos" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_71"],
-                    M.call (|
-                      "staticcall",
-                      [
-                        M.call (|
-                          "gas",
-                          [
-
-                          ]
-                        |);
-                        [Literal.number 2];
-                        M.get (| "_69" |);
                         M.call (|
                           "sub",
                           [
-                            M.get (| "_70" |);
-                            M.get (| "_69" |)
-                          ]
-                        |);
-                        [Literal.number 0];
-                        [Literal.number 32]
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.call (|
-                      "iszero",
-                      [
-                        M.get (| "_71" |)
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.call (|
-                          "revert_forward",
-                          [
-
-                          ]
-                        |) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_68"],
-                    M.call (|
-                      "shift_left",
-                      [
-                        M.call (|
-                          "mload",
-                          [
-                            [Literal.number 0]
+                            M.get (| "_68" |);
+                            M.call (|
+                              "add",
+                              [
+                                M.get (| "expr_416_mpos" |);
+                                [Literal.number 0x20]
+                              ]
+                            |)
                           ]
                         |)
                       ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["var_node"],
-                    M.get (| "expr_68" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_69"],
-                    [Literal.number 0x02]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_72"],
+                    |) in
+                  let _ :=
                     M.call (|
-                      "convert_rational_2_by_1_to_uint256",
+                      "finalize_allocation",
                       [
-                        M.get (| "expr_69" |)
+                        M.get (| "expr_416_mpos" |);
+                        M.call (|
+                          "sub",
+                          [
+                            M.get (| "_68" |);
+                            M.get (| "expr_416_mpos" |)
+                          ]
+                        |)
                       ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_73"],
-                    M.get (| "var_size" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_70"],
-                    M.call (|
-                      "checked_div_uint256",
-                      [
-                        M.get (| "_73" |);
-                        M.get (| "_72" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["var_size"],
-                    M.get (| "expr_70" |)
-                  |) in
-                tt
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_69"],
+                      Some (M.call (|
+                        "allocate_unbounded",
+                        []
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_70"],
+                      Some (M.call (|
+                        "abi_encode_packed_bytes",
+                        [
+                          M.get (| "_69" |);
+                          M.get (| "expr_416_mpos" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_71"],
+                      Some (M.call (|
+                        "staticcall",
+                        [
+                          M.call (|
+                            "gas",
+                            []
+                          |);
+                          [Literal.number 2];
+                          M.get (| "_69" |);
+                          M.call (|
+                            "sub",
+                            [
+                              M.get (| "_70" |);
+                              M.get (| "_69" |)
+                            ]
+                          |);
+                          [Literal.number 0];
+                          [Literal.number 32]
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.call (|
+                        "iszero",
+                        [
+                          M.get (| "_71" |)
+                        ]
+                      |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.call (|
+                            "revert_forward",
+                            []
+                          |) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_68"],
+                      Some (M.call (|
+                        "shift_left",
+                        [
+                          M.call (|
+                            "mload",
+                            [
+                              [Literal.number 0]
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["var_node"],
+                      M.get (| "expr_68" |)
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_69"],
+                      Some ([Literal.number 0x02])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_72"],
+                      Some (M.call (|
+                        "convert_rational_2_by_1_to_uint256",
+                        [
+                          M.get (| "expr_69" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_73"],
+                      Some (M.get (| "var_size" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_70"],
+                      Some (M.call (|
+                        "checked_div_uint256",
+                        [
+                          M.get (| "_73" |);
+                          M.get (| "_72" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["var_size"],
+                      M.get (| "expr_70" |)
+                    |) in
+                  tt
+                ))
               |) in
             let _ :=
               M.assign (|
                 ["expr_71"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.call (|
@@ -10682,12 +10476,10 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["zero_bytes_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -10697,37 +10489,37 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint256_to_uint64",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_197_mpos"],
-                M.call (|
+                Some (M.call (|
                   "fun_to_little_endian",
                   [
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -10825,12 +10617,10 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["zero_t_bytes32"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes32",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -10840,17 +10630,15 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["var_node"],
-                Literal.undefined
+                None
               |) in
             let _ :=
               M.assign (|
                 ["zero_bytes32"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes32",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -10860,738 +10648,723 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr"],
-                M.get (| "_1" |)
+                Some (M.get (| "_1" |))
               |) in
             let _ :=
               M.assign (|
                 ["var_size"],
-                M.get (| "expr" |)
+                Some (M.get (| "expr" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["var_height"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_0_by_1_to_uint256",
                   [
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
-              M.for (|
-                tt,
+              let _ :=
+                tt in
+              M.for_ (|
                 [Literal.number 1],
-                let _ :=
-                  M.assign (|
-                    ["_2"],
-                    M.get (| "var_height" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_3"],
-                    M.call (|
-                      "increment_wrapping_uint256",
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["_2"],
+                      Some (M.get (| "var_height" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_3"],
+                      Some (M.call (|
+                        "increment_wrapping_uint256",
+                        [
+                          M.get (| "_2" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["var_height"],
+                      M.get (| "_3" |)
+                    |) in
+                  tt
+                )),
+                ltac:(M.monadic (
+                  let _ :=
+                    M.assign (|
+                      ["_4"],
+                      Some (M.get (| "var_height" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_2"],
+                      Some (M.get (| "_4" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_3"],
+                      Some (M.call (|
+                        "constant_DEPOSIT_CONTRACT_TREE_DEPTH",
+                        []
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_4"],
+                      Some (M.call (|
+                        "lt",
+                        [
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_2" |)
+                            ]
+                          |);
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_3" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.if_ (|
+                      M.call (|
+                        "iszero",
+                        [
+                          M.get (| "expr_4" |)
+                        ]
+                      |),
+                      ltac:(M.monadic (
+                        let _ :=
+                          M.break (||) in
+                        tt
+                      ))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_5"],
+                      Some (M.get (| "var_size" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_5"],
+                      Some (M.get (| "_5" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_6"],
+                      Some ([Literal.number 0x01])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_7"],
+                      Some (M.call (|
+                        "and",
+                        [
+                          M.get (| "expr_5" |);
+                          M.call (|
+                            "convert_rational_1_by_1_to_uint256",
+                            [
+                              M.get (| "expr_6" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_8"],
+                      Some (M.get (| "expr_7" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_9"],
+                      Some ([Literal.number 0x01])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_10"],
+                      Some (M.call (|
+                        "eq",
+                        [
+                          M.call (|
+                            "cleanup_uint256",
+                            [
+                              M.get (| "expr_8" |)
+                            ]
+                          |);
+                          M.call (|
+                            "convert_rational_1_by_1_to_uint256",
+                            [
+                              M.get (| "expr_9" |)
+                            ]
+                          |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.switch (|
+                      M.get (| "expr_10" |),
                       [
-                        M.get (| "_2" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["var_height"],
-                    M.get (| "_3" |)
-                  |) in
-                tt,
-                let _ :=
-                  M.assign (|
-                    ["_4"],
-                    M.get (| "var_height" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_2"],
-                    M.get (| "_4" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_3"],
-                    M.call (|
-                      "constant_DEPOSIT_CONTRACT_TREE_DEPTH",
-                      [
-
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_4"],
-                    M.call (|
-                      "lt",
-                      [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_2" |)
-                          ]
-                        |);
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_3" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.call (|
-                      "iszero",
-                      [
-                        M.get (| "expr_4" |)
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.break (||) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_5"],
-                    M.get (| "var_size" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_5"],
-                    M.get (| "_5" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_6"],
-                    [Literal.number 0x01]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_7"],
-                    M.call (|
-                      "and",
-                      [
-                        M.get (| "expr_5" |);
-                        M.call (|
-                          "convert_rational_1_by_1_to_uint256",
-                          [
-                            M.get (| "expr_6" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_8"],
-                    M.get (| "expr_7" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_9"],
-                    [Literal.number 0x01]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_10"],
-                    M.call (|
-                      "eq",
-                      [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "expr_8" |)
-                          ]
-                        |);
-                        M.call (|
-                          "convert_rational_1_by_1_to_uint256",
-                          [
-                            M.get (| "expr_9" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.switch (|
-                    M.get (| "expr_10" |),
-                    [
-                      (
-                        Some (Literal.number 0),
-                        ltac:(M.monadic (
-                          let _ :=
-                            M.assign (|
-                              ["_6"],
-                              M.get (| "var_node" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_11"],
-                              M.get (| "_6" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_104_slot"],
-                              [Literal.number 0x21]
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_154_slot"],
-                              M.get (| "_104_slot" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_7"],
-                              M.get (| "var_height" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_12"],
-                              M.get (| "_7" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_8"; "_9"],
+                        (
+                          Some (Literal.number 0),
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.assign (|
+                                ["_6"],
+                                Some (M.get (| "var_node" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_11"],
+                                Some (M.get (| "_6" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_104_slot"],
+                                Some ([Literal.number 0x21])
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_154_slot"],
+                                Some (M.get (| "_104_slot" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_7"],
+                                Some (M.get (| "var_height" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_12"],
+                                Some (M.get (| "_7" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_8"; "_9"],
+                                Some (M.call (|
+                                  "storage_array_index_access_bytes",
+                                  [
+                                    M.get (| "expr_154_slot" |);
+                                    M.get (| "expr_12" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_10"],
+                                Some (M.call (|
+                                  "read_from_storage_split_dynamic_bytes32",
+                                  [
+                                    M.get (| "_8" |);
+                                    M.get (| "_9" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_13"],
+                                Some (M.get (| "_10" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_157_mpos"],
+                                Some (M.call (|
+                                  "allocate_unbounded",
+                                  []
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_11"],
+                                Some (M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "expr_157_mpos" |);
+                                    [Literal.number 0x20]
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_12"],
+                                Some (M.call (|
+                                  "abi_encode_packed_bytes32_bytes32",
+                                  [
+                                    M.get (| "_11" |);
+                                    M.get (| "expr_11" |);
+                                    M.get (| "expr_13" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
                               M.call (|
-                                "storage_array_index_access_bytes",
-                                [
-                                  M.get (| "expr_154_slot" |);
-                                  M.get (| "expr_12" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_10"],
-                              M.call (|
-                                "read_from_storage_split_dynamic_bytes32",
-                                [
-                                  M.get (| "_8" |);
-                                  M.get (| "_9" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_13"],
-                              M.get (| "_10" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_157_mpos"],
-                              M.call (|
-                                "allocate_unbounded",
-                                [
-
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_11"],
-                              M.call (|
-                                "add",
+                                "mstore",
                                 [
                                   M.get (| "expr_157_mpos" |);
-                                  [Literal.number 0x20]
+                                  M.call (|
+                                    "sub",
+                                    [
+                                      M.get (| "_12" |);
+                                      M.call (|
+                                        "add",
+                                        [
+                                          M.get (| "expr_157_mpos" |);
+                                          [Literal.number 0x20]
+                                        ]
+                                      |)
+                                    ]
+                                  |)
                                 ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_12"],
+                              |) in
+                            let _ :=
                               M.call (|
-                                "abi_encode_packed_bytes32_bytes32",
+                                "finalize_allocation",
                                 [
-                                  M.get (| "_11" |);
-                                  M.get (| "expr_11" |);
-                                  M.get (| "expr_13" |)
+                                  M.get (| "expr_157_mpos" |);
+                                  M.call (|
+                                    "sub",
+                                    [
+                                      M.get (| "_12" |);
+                                      M.get (| "expr_157_mpos" |)
+                                    ]
+                                  |)
                                 ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.call (|
-                              "mstore",
-                              [
-                                M.get (| "expr_157_mpos" |);
-                                M.call (|
-                                  "sub",
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_13"],
+                                Some (M.call (|
+                                  "allocate_unbounded",
+                                  []
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_14"],
+                                Some (M.call (|
+                                  "abi_encode_packed_bytes",
                                   [
-                                    M.get (| "_12" |);
-                                    M.call (|
-                                      "add",
-                                      [
-                                        M.get (| "expr_157_mpos" |);
-                                        [Literal.number 0x20]
-                                      ]
-                                    |)
-                                  ]
-                                |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.call (|
-                              "finalize_allocation",
-                              [
-                                M.get (| "expr_157_mpos" |);
-                                M.call (|
-                                  "sub",
-                                  [
-                                    M.get (| "_12" |);
+                                    M.get (| "_13" |);
                                     M.get (| "expr_157_mpos" |)
                                   ]
-                                |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_13"],
-                              M.call (|
-                                "allocate_unbounded",
-                                [
-
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_14"],
-                              M.call (|
-                                "abi_encode_packed_bytes",
-                                [
-                                  M.get (| "_13" |);
-                                  M.get (| "expr_157_mpos" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_15"],
-                              M.call (|
-                                "staticcall",
-                                [
-                                  M.call (|
-                                    "gas",
-                                    [
-
-                                    ]
-                                  |);
-                                  [Literal.number 2];
-                                  M.get (| "_13" |);
-                                  M.call (|
-                                    "sub",
-                                    [
-                                      M.get (| "_14" |);
-                                      M.get (| "_13" |)
-                                    ]
-                                  |);
-                                  [Literal.number 0];
-                                  [Literal.number 32]
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.if_ (|
-                              M.call (|
-                                "iszero",
-                                [
-                                  M.get (| "_15" |)
-                                ]
-                              |),
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.call (|
-                                    "revert_forward",
-                                    [
-
-                                    ]
-                                  |) in
-                                tt
-                              ))
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_14"],
-                              M.call (|
-                                "shift_left",
-                                [
-                                  M.call (|
-                                    "mload",
-                                    [
-                                      [Literal.number 0]
-                                    ]
-                                  |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["var_node"],
-                              M.get (| "expr_14" |)
-                            |) in
-                          tt
-                        ))                );
-                      (
-                        None,
-                        ltac:(M.monadic (
-                          let _ :=
-                            M.assign (|
-                              ["_slot"],
-                              [Literal.number 0x00]
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_slot"],
-                              M.get (| "_slot" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_16"],
-                              M.get (| "var_height" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_15"],
-                              M.get (| "_16" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_17"; "_18"],
-                              M.call (|
-                                "storage_array_index_access_bytes",
-                                [
-                                  M.get (| "expr_slot" |);
-                                  M.get (| "expr_15" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_19"],
-                              M.call (|
-                                "read_from_storage_split_dynamic_bytes32",
-                                [
-                                  M.get (| "_17" |);
-                                  M.get (| "_18" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_16"],
-                              M.get (| "_19" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_20"],
-                              M.get (| "var_node" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_17"],
-                              M.get (| "_20" |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_145_mpos"],
-                              M.call (|
-                                "allocate_unbounded",
-                                [
-
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_21"],
-                              M.call (|
-                                "add",
-                                [
-                                  M.get (| "expr_145_mpos" |);
-                                  [Literal.number 0x20]
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_22"],
-                              M.call (|
-                                "abi_encode_packed_bytes32_bytes32",
-                                [
-                                  M.get (| "_21" |);
-                                  M.get (| "expr_16" |);
-                                  M.get (| "expr_17" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.call (|
-                              "mstore",
-                              [
-                                M.get (| "expr_145_mpos" |);
-                                M.call (|
-                                  "sub",
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_15"],
+                                Some (M.call (|
+                                  "staticcall",
                                   [
-                                    M.get (| "_22" |);
                                     M.call (|
-                                      "add",
+                                      "gas",
+                                      []
+                                    |);
+                                    [Literal.number 2];
+                                    M.get (| "_13" |);
+                                    M.call (|
+                                      "sub",
                                       [
-                                        M.get (| "expr_145_mpos" |);
-                                        [Literal.number 0x20]
+                                        M.get (| "_14" |);
+                                        M.get (| "_13" |)
+                                      ]
+                                    |);
+                                    [Literal.number 0];
+                                    [Literal.number 32]
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.if_ (|
+                                M.call (|
+                                  "iszero",
+                                  [
+                                    M.get (| "_15" |)
+                                  ]
+                                |),
+                                ltac:(M.monadic (
+                                  let _ :=
+                                    M.call (|
+                                      "revert_forward",
+                                      []
+                                    |) in
+                                  tt
+                                ))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_14"],
+                                Some (M.call (|
+                                  "shift_left",
+                                  [
+                                    M.call (|
+                                      "mload",
+                                      [
+                                        [Literal.number 0]
                                       ]
                                     |)
                                   ]
-                                |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.call (|
-                              "finalize_allocation",
-                              [
-                                M.get (| "expr_145_mpos" |);
-                                M.call (|
-                                  "sub",
+                                |))
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["var_node"],
+                                M.get (| "expr_14" |)
+                              |) in
+                            tt
+                          ))                  );
+                        (
+                          None,
+                          ltac:(M.monadic (
+                            let _ :=
+                              M.assign (|
+                                ["_slot"],
+                                Some ([Literal.number 0x00])
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_slot"],
+                                Some (M.get (| "_slot" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_16"],
+                                Some (M.get (| "var_height" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_15"],
+                                Some (M.get (| "_16" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_17"; "_18"],
+                                Some (M.call (|
+                                  "storage_array_index_access_bytes",
                                   [
-                                    M.get (| "_22" |);
-                                    M.get (| "expr_145_mpos" |)
+                                    M.get (| "expr_slot" |);
+                                    M.get (| "expr_15" |)
                                   ]
-                                |)
-                              ]
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_23"],
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_19"],
+                                Some (M.call (|
+                                  "read_from_storage_split_dynamic_bytes32",
+                                  [
+                                    M.get (| "_17" |);
+                                    M.get (| "_18" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_16"],
+                                Some (M.get (| "_19" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_20"],
+                                Some (M.get (| "var_node" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_17"],
+                                Some (M.get (| "_20" |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_145_mpos"],
+                                Some (M.call (|
+                                  "allocate_unbounded",
+                                  []
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_21"],
+                                Some (M.call (|
+                                  "add",
+                                  [
+                                    M.get (| "expr_145_mpos" |);
+                                    [Literal.number 0x20]
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_22"],
+                                Some (M.call (|
+                                  "abi_encode_packed_bytes32_bytes32",
+                                  [
+                                    M.get (| "_21" |);
+                                    M.get (| "expr_16" |);
+                                    M.get (| "expr_17" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
                               M.call (|
-                                "allocate_unbounded",
+                                "mstore",
                                 [
-
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_24"],
-                              M.call (|
-                                "abi_encode_packed_bytes",
-                                [
-                                  M.get (| "_23" |);
-                                  M.get (| "expr_145_mpos" |)
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["_25"],
-                              M.call (|
-                                "staticcall",
-                                [
-                                  M.call (|
-                                    "gas",
-                                    [
-
-                                    ]
-                                  |);
-                                  [Literal.number 2];
-                                  M.get (| "_23" |);
+                                  M.get (| "expr_145_mpos" |);
                                   M.call (|
                                     "sub",
                                     [
-                                      M.get (| "_24" |);
-                                      M.get (| "_23" |)
-                                    ]
-                                  |);
-                                  [Literal.number 0];
-                                  [Literal.number 32]
-                                ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.if_ (|
-                              M.call (|
-                                "iszero",
-                                [
-                                  M.get (| "_25" |)
-                                ]
-                              |),
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.call (|
-                                    "revert_forward",
-                                    [
-
-                                    ]
-                                  |) in
-                                tt
-                              ))
-                            |) in
-                          let _ :=
-                            M.assign (|
-                              ["expr_18"],
-                              M.call (|
-                                "shift_left",
-                                [
-                                  M.call (|
-                                    "mload",
-                                    [
-                                      [Literal.number 0]
+                                      M.get (| "_22" |);
+                                      M.call (|
+                                        "add",
+                                        [
+                                          M.get (| "expr_145_mpos" |);
+                                          [Literal.number 0x20]
+                                        ]
+                                      |)
                                     ]
                                   |)
                                 ]
-                              |)
-                            |) in
-                          let _ :=
-                            M.declare (|
-                              ["var_node"],
-                              M.get (| "expr_18" |)
-                            |) in
-                          tt
-                        ))                )              ]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_19"],
-                    [Literal.number 0x02]
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_26"],
-                    M.call (|
-                      "convert_rational_2_by_1_to_uint256",
-                      [
-                        M.get (| "expr_19" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["_27"],
-                    M.get (| "var_size" |)
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["expr_20"],
-                    M.call (|
-                      "checked_div_uint256",
-                      [
-                        M.get (| "_27" |);
-                        M.get (| "_26" |)
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["var_size"],
-                    M.get (| "expr_20" |)
-                  |) in
-                tt
+                              |) in
+                            let _ :=
+                              M.call (|
+                                "finalize_allocation",
+                                [
+                                  M.get (| "expr_145_mpos" |);
+                                  M.call (|
+                                    "sub",
+                                    [
+                                      M.get (| "_22" |);
+                                      M.get (| "expr_145_mpos" |)
+                                    ]
+                                  |)
+                                ]
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_23"],
+                                Some (M.call (|
+                                  "allocate_unbounded",
+                                  []
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_24"],
+                                Some (M.call (|
+                                  "abi_encode_packed_bytes",
+                                  [
+                                    M.get (| "_23" |);
+                                    M.get (| "expr_145_mpos" |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["_25"],
+                                Some (M.call (|
+                                  "staticcall",
+                                  [
+                                    M.call (|
+                                      "gas",
+                                      []
+                                    |);
+                                    [Literal.number 2];
+                                    M.get (| "_23" |);
+                                    M.call (|
+                                      "sub",
+                                      [
+                                        M.get (| "_24" |);
+                                        M.get (| "_23" |)
+                                      ]
+                                    |);
+                                    [Literal.number 0];
+                                    [Literal.number 32]
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.if_ (|
+                                M.call (|
+                                  "iszero",
+                                  [
+                                    M.get (| "_25" |)
+                                  ]
+                                |),
+                                ltac:(M.monadic (
+                                  let _ :=
+                                    M.call (|
+                                      "revert_forward",
+                                      []
+                                    |) in
+                                  tt
+                                ))
+                              |) in
+                            let _ :=
+                              M.assign (|
+                                ["expr_18"],
+                                Some (M.call (|
+                                  "shift_left",
+                                  [
+                                    M.call (|
+                                      "mload",
+                                      [
+                                        [Literal.number 0]
+                                      ]
+                                    |)
+                                  ]
+                                |))
+                              |) in
+                            let _ :=
+                              M.declare (|
+                                ["var_node"],
+                                M.get (| "expr_18" |)
+                              |) in
+                            tt
+                          ))                  )                ]
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_19"],
+                      Some ([Literal.number 0x02])
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_26"],
+                      Some (M.call (|
+                        "convert_rational_2_by_1_to_uint256",
+                        [
+                          M.get (| "expr_19" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["_27"],
+                      Some (M.get (| "var_size" |))
+                    |) in
+                  let _ :=
+                    M.assign (|
+                      ["expr_20"],
+                      Some (M.call (|
+                        "checked_div_uint256",
+                        [
+                          M.get (| "_27" |);
+                          M.get (| "_26" |)
+                        ]
+                      |))
+                    |) in
+                  let _ :=
+                    M.declare (|
+                      ["var_size"],
+                      M.get (| "expr_20" |)
+                    |) in
+                  tt
+                ))
               |) in
             let _ :=
               M.assign (|
                 ["_28"],
-                M.get (| "var_node" |)
+                Some (M.get (| "var_node" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_21"],
-                M.get (| "_28" |)
+                Some (M.get (| "_28" |))
               |) in
             let _ :=
               M.assign (|
                 ["_29"],
-                M.call (|
+                Some (M.call (|
                   "read_from_storage_split_offset_uint256",
                   [
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_22"],
-                M.get (| "_29" |)
+                Some (M.get (| "_29" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_23"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint256_to_uint64",
                   [
                     M.get (| "expr_22" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_177_mpos"],
-                M.call (|
+                Some (M.call (|
                   "fun_to_little_endian",
                   [
                     M.get (| "expr_23" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_24"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["expr_25"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_by_to_bytes24",
                   [
                     M.get (| "expr_24" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_182_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_30"],
-                M.call (|
+                Some (M.call (|
                   "add",
                   [
                     M.get (| "expr_182_mpos" |);
                     [Literal.number 0x20]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_31"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes32_bytes_bytes24",
                   [
                     M.get (| "_30" |);
@@ -11599,7 +11372,7 @@ Module DepositContract_541.
                     M.get (| "expr_177_mpos" |);
                     M.get (| "expr_25" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.call (|
@@ -11638,35 +11411,31 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_32"],
-                M.call (|
+                Some (M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_33"],
-                M.call (|
+                Some (M.call (|
                   "abi_encode_packed_bytes",
                   [
                     M.get (| "_32" |);
                     M.get (| "expr_182_mpos" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_34"],
-                M.call (|
+                Some (M.call (|
                   "staticcall",
                   [
                     M.call (|
                       "gas",
-                      [
-
-                      ]
+                      []
                     |);
                     [Literal.number 2];
                     M.get (| "_32" |);
@@ -11680,7 +11449,7 @@ Module DepositContract_541.
                     [Literal.number 0];
                     [Literal.number 32]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -11694,9 +11463,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "revert_forward",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11704,7 +11471,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_26"],
-                M.call (|
+                Some (M.call (|
                   "shift_left",
                   [
                     M.call (|
@@ -11714,7 +11481,7 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -11780,9 +11547,7 @@ Module DepositContract_541.
                 ["memPtr"],
                 M.call (|
                   "allocate_unbounded",
-                  [
-
-                  ]
+                  []
                 |)
               |) in
             let _ :=
@@ -11815,9 +11580,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x41",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -11855,12 +11618,12 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["allocSize"],
-                M.call (|
+                Some (M.call (|
                   "array_allocation_size_bytes",
                   [
                     M.get (| "length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -11896,9 +11659,7 @@ Module DepositContract_541.
                   M.get (| "dataStart" |);
                   M.call (|
                     "calldatasize",
-                    [
-
-                    ]
+                    []
                   |);
                   M.get (| "dataSizeInBytes" |)
                 ]
@@ -11925,17 +11686,17 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["dataStart"],
-                M.get (| "memPtr" |)
+                Some (M.get (| "memPtr" |))
               |) in
             let _ :=
               M.assign (|
                 ["dataSize"],
-                M.call (|
+                Some (M.call (|
                   "array_allocation_size_bytes",
                   [
                     M.get (| "length" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -12137,9 +11898,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -12147,13 +11906,13 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["offset"],
-                M.call (|
+                Some (M.call (|
                   "mul",
                   [
                     M.get (| "index" |);
                     [Literal.number 1]
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -12361,12 +12120,10 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["zero_bytes_memory_ptr_mpos"],
-                M.call (|
+                Some (M.call (|
                   "zero_value_for_split_bytes",
-                  [
-
-                  ]
-                |)
+                  []
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -12376,27 +12133,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr"],
-                [Literal.number 0x08]
+                Some ([Literal.number 0x08])
               |) in
             let _ :=
               M.assign (|
                 ["_1"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_8_by_1_to_uint256",
                   [
                     M.get (| "expr" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_465_mpos"],
-                M.call (|
+                Some (M.call (|
                   "allocate_and_zero_memory_array_bytes",
                   [
                     M.get (| "_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.declare (|
@@ -12406,52 +12163,52 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_2"],
-                M.get (| "var_value" |)
+                Some (M.get (| "var_value" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_1"],
-                M.get (| "_2" |)
+                Some (M.get (| "_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_2"],
-                M.call (|
+                Some (M.call (|
                   "convert_uint64_to_bytes8",
                   [
                     M.get (| "expr_1" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["var_bytesValue"],
-                M.get (| "expr_2" |)
+                Some (M.get (| "expr_2" |))
               |) in
             let _ :=
               M.assign (|
                 ["_3"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_3"],
-                M.get (| "_3" |)
+                Some (M.get (| "_3" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_4"],
-                [Literal.number 0x07]
+                Some ([Literal.number 0x07])
               |) in
             let _ :=
               M.assign (|
                 ["_4"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_7_by_1_to_uint256",
                   [
                     M.get (| "expr_4" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -12471,9 +12228,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -12481,7 +12236,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_5"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -12492,27 +12247,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_140_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_475_mpos"],
-                M.get (| "_140_mpos" |)
+                Some (M.get (| "_140_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_6"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["_5"],
-                M.get (| "expr_5" |)
+                Some (M.get (| "expr_5" |))
               |) in
             let _ :=
               M.call (|
@@ -12542,27 +12297,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_6"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_7"],
-                M.get (| "_6" |)
+                Some (M.get (| "_6" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_8"],
-                [Literal.number 0x06]
+                Some ([Literal.number 0x06])
               |) in
             let _ :=
               M.assign (|
                 ["_7"],
-                M.call (|
+                Some (M.call (|
                   "convert_t_rational_by_to_t_uint256",
                   [
                     M.get (| "expr_8" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -12582,9 +12337,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -12592,7 +12345,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_9"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -12603,27 +12356,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_144_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_483_mpos"],
-                M.get (| "_144_mpos" |)
+                Some (M.get (| "_144_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_10"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_8"],
-                M.get (| "expr_9" |)
+                Some (M.get (| "expr_9" |))
               |) in
             let _ :=
               M.call (|
@@ -12653,27 +12406,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_9"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_11"],
-                M.get (| "_9" |)
+                Some (M.get (| "_9" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_12"],
-                [Literal.number 0x05]
+                Some ([Literal.number 0x05])
               |) in
             let _ :=
               M.assign (|
                 ["_10"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_5_by_1_to_uint256",
                   [
                     M.get (| "expr_12" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -12693,9 +12446,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -12703,7 +12454,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_13"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -12714,27 +12465,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_148_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_491_mpos"],
-                M.get (| "_148_mpos" |)
+                Some (M.get (| "_148_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_14"],
-                [Literal.number 0x02]
+                Some ([Literal.number 0x02])
               |) in
             let _ :=
               M.assign (|
                 ["_11"],
-                M.get (| "expr_13" |)
+                Some (M.get (| "expr_13" |))
               |) in
             let _ :=
               M.call (|
@@ -12764,27 +12515,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_12"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_15"],
-                M.get (| "_12" |)
+                Some (M.get (| "_12" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_16"],
-                [Literal.number 0x04]
+                Some ([Literal.number 0x04])
               |) in
             let _ :=
               M.assign (|
                 ["_13"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_4_by_1_to_uint256",
                   [
                     M.get (| "expr_16" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -12804,9 +12555,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -12814,7 +12563,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_17"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -12825,27 +12574,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_152_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_499_mpos"],
-                M.get (| "_152_mpos" |)
+                Some (M.get (| "_152_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_18"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["_14"],
-                M.get (| "expr_17" |)
+                Some (M.get (| "expr_17" |))
               |) in
             let _ :=
               M.call (|
@@ -12875,27 +12624,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_15"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_19"],
-                M.get (| "_15" |)
+                Some (M.get (| "_15" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_20"],
-                [Literal.number 0x03]
+                Some ([Literal.number 0x03])
               |) in
             let _ :=
               M.assign (|
                 ["_16"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_3_by_1_to_uint256",
                   [
                     M.get (| "expr_20" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -12915,9 +12664,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -12925,7 +12672,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_21"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -12936,27 +12683,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_507_mpos"],
-                M.get (| "_mpos" |)
+                Some (M.get (| "_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_22"],
-                [Literal.number 0x04]
+                Some ([Literal.number 0x04])
               |) in
             let _ :=
               M.assign (|
                 ["_17"],
-                M.get (| "expr_21" |)
+                Some (M.get (| "expr_21" |))
               |) in
             let _ :=
               M.call (|
@@ -12986,27 +12733,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_18"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_23"],
-                M.get (| "_18" |)
+                Some (M.get (| "_18" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_24"],
-                [Literal.number 0x02]
+                Some ([Literal.number 0x02])
               |) in
             let _ :=
               M.assign (|
                 ["_19"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_2_by_1_to_uint256",
                   [
                     M.get (| "expr_24" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -13026,9 +12773,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -13036,7 +12781,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_25"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -13047,27 +12792,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_160_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_515_mpos"],
-                M.get (| "_160_mpos" |)
+                Some (M.get (| "_160_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_26"],
-                [Literal.number 0x05]
+                Some ([Literal.number 0x05])
               |) in
             let _ :=
               M.assign (|
                 ["_20"],
-                M.get (| "expr_25" |)
+                Some (M.get (| "expr_25" |))
               |) in
             let _ :=
               M.call (|
@@ -13097,27 +12842,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_21"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_27"],
-                M.get (| "_21" |)
+                Some (M.get (| "_21" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_28"],
-                [Literal.number 0x01]
+                Some ([Literal.number 0x01])
               |) in
             let _ :=
               M.assign (|
                 ["_22"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_1_by_1_to_uint256",
                   [
                     M.get (| "expr_28" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -13137,9 +12882,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -13147,7 +12890,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_29"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -13158,27 +12901,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_164_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_523_mpos"],
-                M.get (| "_164_mpos" |)
+                Some (M.get (| "_164_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_30"],
-                [Literal.number 0x06]
+                Some ([Literal.number 0x06])
               |) in
             let _ :=
               M.assign (|
                 ["_23"],
-                M.get (| "expr_29" |)
+                Some (M.get (| "expr_29" |))
               |) in
             let _ :=
               M.call (|
@@ -13208,27 +12951,27 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["_24"],
-                M.get (| "var_bytesValue" |)
+                Some (M.get (| "var_bytesValue" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_31"],
-                M.get (| "_24" |)
+                Some (M.get (| "_24" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_32"],
-                [Literal.number 0x00]
+                Some ([Literal.number 0x00])
               |) in
             let _ :=
               M.assign (|
                 ["_25"],
-                M.call (|
+                Some (M.call (|
                   "convert_rational_0_by_1_to_uint256",
                   [
                     M.get (| "expr_32" |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.if_ (|
@@ -13248,9 +12991,7 @@ Module DepositContract_541.
                   let _ :=
                     M.call (|
                       "panic_error_0x32",
-                      [
-
-                      ]
+                      []
                     |) in
                   tt
                 ))
@@ -13258,7 +12999,7 @@ Module DepositContract_541.
             let _ :=
               M.assign (|
                 ["expr_33"],
-                M.call (|
+                Some (M.call (|
                   "shift_left_248",
                   [
                     M.call (|
@@ -13269,27 +13010,27 @@ Module DepositContract_541.
                       ]
                     |)
                   ]
-                |)
+                |))
               |) in
             let _ :=
               M.assign (|
                 ["_168_mpos"],
-                M.get (| "var_ret_mpos" |)
+                Some (M.get (| "var_ret_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_531_mpos"],
-                M.get (| "_168_mpos" |)
+                Some (M.get (| "_168_mpos" |))
               |) in
             let _ :=
               M.assign (|
                 ["expr_34"],
-                [Literal.number 0x07]
+                Some ([Literal.number 0x07])
               |) in
             let _ :=
               M.assign (|
                 ["_26"],
-                M.get (| "expr_33" |)
+                Some (M.get (| "expr_33" |))
               |) in
             let _ :=
               M.call (|
@@ -13323,6 +13064,6 @@ Module DepositContract_541.
     )).
 
     Definition data : string :=
-      "a26469706673582212207dbdfac963fe40d15b5a5cb92ad4ab6bd017b45b1c07f04aa4a82fe85f794a5e64736f6c634300081b0033".
+      "a26469706673582212209758edc5569ed0869eda6cc7442c6d023308d55ae602b71ae40afb33aee9f93a64736f6c634300081b0033".
   End DepositContract_541_deployed.
 End DepositContract_541.

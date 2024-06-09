@@ -21,17 +21,13 @@ Module c_11.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module c_11.
       let _ :=
         M.call (|
           "constructor_c",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -222,12 +214,12 @@ Module c_11.
           let _ :=
             M.assign (|
               ["mask"],
-              M.call (|
+              Some (M.call (|
                 "not",
                 [
                   [Literal.number 0]
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -327,12 +319,12 @@ Module c_11.
           let _ :=
             M.assign (|
               ["convertedValue"],
-              M.call (|
+              Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
                   M.get (| "value" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -370,17 +362,17 @@ Module c_11.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x12725dd1d243aba0e75fe645cc4873f9e65afe688c928e1f22]
+              Some ([Literal.number 0x12725dd1d243aba0e75fe645cc4873f9e65afe688c928e1f22])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.call (|
@@ -415,9 +407,7 @@ Module c_11.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -441,6 +431,6 @@ Module c_11.
     )).
 
     Definition data : string :=
-      "a2646970667358221220f09392b5f7eab7547c2393f84b0032f3f9ad00273ed63374dceb1a4885f6500064736f6c634300081b0033".
+      "a2646970667358221220dd802f2eb52a31242ca8254ef7f0198b380bc9e651f7cef6bbd06a3c015018fc64736f6c634300081b0033".
   End c_11_deployed.
 End c_11.

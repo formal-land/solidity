@@ -21,17 +21,13 @@ Module C_13.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_13.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -216,7 +208,7 @@ Module C_13.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x00]
+              Some ([Literal.number 0x00])
             |) in
           let _ :=
             M.if_ (|
@@ -225,22 +217,22 @@ Module C_13.
                 let _ :=
                   M.assign (|
                     ["expr_1"],
-                    [Literal.number 0x01]
+                    Some ([Literal.number 0x01])
                   |) in
                 let _ :=
                   M.assign (|
                     ["_1"],
-                    M.call (|
+                    Some (M.call (|
                       "convert_rational_by_to_uint256",
                       [
                         M.get (| "expr_1" |)
                       ]
-                    |)
+                    |))
                   |) in
                 let _ :=
                   M.assign (|
                     ["_2"],
-                    M.get (| "_1" |)
+                    Some (M.get (| "_1" |))
                   |) in
                 let _ :=
                   M.call (|
@@ -278,9 +270,7 @@ Module C_13.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -304,6 +294,6 @@ Module C_13.
     )).
 
     Definition data : string :=
-      "a26469706673582212209b2a1319f8e5f43a22c1a30f33bdb129dacf73bc5318fe0dca4b4446ff8432b864736f6c634300081b0033".
+      "a264697066735822122065f49b21044ea956224d35f014b4aa787bd6ade3e3239592ab9d3e3064eae28564736f6c634300081b0033".
   End C_13_deployed.
 End C_13.

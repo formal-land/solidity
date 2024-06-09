@@ -21,17 +21,13 @@ Module C_32.
         M.if_ (|
           M.call (|
             "callvalue",
-            [
-
-            ]
+            []
           |),
           ltac:(M.monadic (
             let _ :=
               M.call (|
                 "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                [
-
-                ]
+                []
               |) in
             tt
           ))
@@ -39,19 +35,15 @@ Module C_32.
       let _ :=
         M.call (|
           "constructor_C",
-          [
-
-          ]
+          []
         |) in
       let _ :=
         M.assign (|
           ["_1"],
-          M.call (|
+          Some (M.call (|
             "allocate_unbounded",
-            [
-
-            ]
-          |)
+            []
+          |))
         |) in
       let _ :=
         M.call (|
@@ -159,17 +151,15 @@ Module C_32.
           let _ :=
             M.assign (|
               ["expr_component"; "expr_component_1"],
-              M.call (|
+              Some (M.call (|
                 "fun_f",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.get (| "expr_component_1" |)
+              Some (M.get (| "expr_component_1" |))
             |) in
           let _ :=
             M.call (|
@@ -182,7 +172,7 @@ Module C_32.
           let _ :=
             M.assign (|
               ["_2"],
-              M.get (| "expr_component" |)
+              Some (M.get (| "expr_component" |))
             |) in
           let _ :=
             M.call (|
@@ -333,12 +323,10 @@ Module C_32.
           let _ :=
             M.assign (|
               ["zero_t_uint256"],
-              M.call (|
+              Some (M.call (|
                 "zero_value_for_split_uint256",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -348,12 +336,10 @@ Module C_32.
           let _ :=
             M.assign (|
               ["zero_uint256"],
-              M.call (|
+              Some (M.call (|
                 "zero_value_for_split_uint256",
-                [
-
-                ]
-              |)
+                []
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -363,17 +349,17 @@ Module C_32.
           let _ :=
             M.assign (|
               ["expr"],
-              [Literal.number 0x03]
+              Some ([Literal.number 0x03])
             |) in
           let _ :=
             M.assign (|
               ["_1"],
-              M.call (|
+              Some (M.call (|
                 "convert_t_rational_by_to_t_uint256",
                 [
                   M.get (| "expr" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -383,17 +369,17 @@ Module C_32.
           let _ :=
             M.assign (|
               ["expr_1"],
-              [Literal.number 0x04]
+              Some ([Literal.number 0x04])
             |) in
           let _ :=
             M.assign (|
               ["_2"],
-              M.call (|
+              Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
                   M.get (| "expr_1" |)
                 ]
-              |)
+              |))
             |) in
           let _ :=
             M.declare (|
@@ -425,9 +411,7 @@ Module C_32.
         let _ :=
           M.call (|
             "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            [
-
-            ]
+            []
           |) in
         tt in
       let _ :=
@@ -451,6 +435,6 @@ Module C_32.
     )).
 
     Definition data : string :=
-      "a26469706673582212202b1f762a8dfebaac44d910cfe35480e4e3107c6573b82bb33fa5fc6b0de8330364736f6c634300081b0033".
+      "a2646970667358221220569b3eed0f507fba936df6535b9fa88fe878e4859d9b6b4c9e1cc17689d81d6964736f6c634300081b0033".
   End C_32_deployed.
 End C_32.

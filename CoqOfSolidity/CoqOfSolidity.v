@@ -34,7 +34,7 @@ Module M.
 
   Parameter if_ : list U256.t -> t unit -> t unit.
 
-  Parameter assign : list string -> list U256.t -> t unit.
+  Parameter assign : list string -> option (list U256.t) -> t unit.
 
   Parameter declare : list string -> list U256.t -> t unit.
 
@@ -42,7 +42,15 @@ Module M.
 
   Parameter function : string -> list string -> list string -> t unit -> t unit.
 
-  Parameter case : list U256.t -> t unit -> t unit.
+  Parameter switch : list U256.t -> list (option U256.t * t unit) -> t unit.
+
+  Parameter for_ : list U256.t -> t unit -> t unit -> t unit.
+
+  Parameter break : t unit.
+
+  Parameter continue : t unit.
+
+  Parameter leave : t unit.
 
   (** A tactic that replaces all [M.run] markers with a bind operation.
       This allows to represent Rust programs without introducing
@@ -101,12 +109,12 @@ Export M.
 Export Notations.
 
 Module Literal.
-  Definition number (z : Z) : list U256.t :=
-    [z].
+  Definition number (z : Z) : U256.t :=
+    z.
 
-  Definition bool (b : bool) : list U256.t :=
-    if b then [1] else [0].
+  Definition bool (b : bool) : U256.t :=
+    if b then 1 else 0.
 
-  Definition string (hex : string) : list U256.t :=
-    [HexString.to_Z hex].
+  Definition string (hex : string) : U256.t :=
+    HexString.to_Z hex.
 End Literal.
