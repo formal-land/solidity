@@ -81,6 +81,7 @@ struct CompilerOutputs
 			{"ir-ast-json", &CompilerOutputs::irAstJson},
 			{"ir-optimized", &CompilerOutputs::irOptimized},
 			{"ir-optimized-ast-json", &CompilerOutputs::irOptimizedAstJson},
+			{"ir-coq", &CompilerOutputs::irCoq},
 			{"hashes", &CompilerOutputs::signatureHashes},
 			{"userdoc", &CompilerOutputs::natspecUser},
 			{"devdoc", &CompilerOutputs::natspecDev},
@@ -101,6 +102,7 @@ struct CompilerOutputs
 	bool irAstJson = false;
 	bool irOptimized = false;
 	bool irOptimizedAstJson = false;
+	bool irCoq = false;
 	bool signatureHashes = false;
 	bool natspecUser = false;
 	bool natspecDev = false;

@@ -132,6 +132,7 @@ public:
 		langutil::CharStreamProvider const* _soliditySourceProvider = nullptr
 	) const;
 	Json astJson() const;
+	std::string astCoq() const;
 	/// Return the parsed and analyzed object.
 	std::shared_ptr<Object> parserResult() const;
 

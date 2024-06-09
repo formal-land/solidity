@@ -62,8 +62,6 @@ public:
 	std::string operator()(Label const& _node);
 
 private:
-	template <class T>
-	std::string vectorOfVariantsToString(std::vector<T> const& vec);
 	std::string indent() const;
 
 	std::optional<size_t> const m_sourceIndex;

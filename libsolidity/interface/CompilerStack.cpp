@@ -975,6 +975,14 @@ Json const& CompilerStack::yulIROptimizedAst(std::string const& _contractName) c
 	return contract(_contractName).yulIROptimizedAst;
 }
 
+std::string const& CompilerStack::yulIRCoq(std::string const& _contractName) const
+{
+	if (m_stackState != CompilationSuccessful)
+		solThrow(CompilerError, "Compilation was not successful.");
+
+	return contract(_contractName).yulIRCoq;
+}
+
 evmasm::LinkerObject const& CompilerStack::object(std::string const& _contractName) const
 {
 	if (m_stackState != CompilationSuccessful)
@@ -1575,6 +1583,7 @@ void CompilerStack::generateIR(ContractDefinition const& _contract)
 	stack.optimize();
 	compiledContract.yulIROptimized = stack.print(this);
 	compiledContract.yulIROptimizedAst = stack.astJson();
+	compiledContract.yulIRCoq = stack.astCoq();
 }
 
 void CompilerStack::generateEVMFromIR(ContractDefinition const& _contract)

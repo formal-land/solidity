@@ -23,7 +23,7 @@
 
 #include <libyul/AsmPrinter.h>
 #include <libyul/AsmCoqConverter.h>
-// #include <libyul/AsmJsonConverter.h>
+#include <libyul/AsmJsonConverter.h>
 #include <libyul/AST.h>
 #include <libyul/Exceptions.h>
 
@@ -90,9 +90,7 @@ Json Object::toJson() const
 
 	Json codeJson;
 	codeJson["nodeType"] = "YulCode";
-	// codeJson["block"] = AsmJsonConverter(0 /* sourceIndex */)(*code);
-	std::cout << AsmCoqConverter(0 /* sourceIndex */)(*code);
-	codeJson["block"] = Json(AsmCoqConverter(0 /* sourceIndex */)(*code));
+	codeJson["block"] = AsmJsonConverter(0 /* sourceIndex */)(*code);
 
 	Json subObjectsJson = Json::array();
 	for (std::shared_ptr<ObjectNode> const& subObject: subObjects)
@@ -104,6 +102,25 @@ Json Object::toJson() const
 	ret["code"] = codeJson;
 	ret["subObjects"] = subObjectsJson;
 	return ret;
+}
+
+std::string Data::toCoq() const
+{
+	return "Definition data : string :=\n  \"" + util::toHex(data) + "\".";
+}
+
+std::string Object::toCoq() const
+{
+	yulAssert(code, "No code");
+
+	std::string inner = "Definition code : M.t unit := ltac:(M.monadic (\n";
+	inner += prefixLines(AsmCoqConverter(0)(*code), "  ") + "\n)).";
+
+	for (auto const& subObject: subObjects)
+		inner += "\n\n" + subObject->toCoq();
+
+	return "Module " + name.str() + ".\n" + prefixLines(inner, "  ") + "\nEnd " + name.str() + ".";
+
 }
 
 std::set<YulString> Object::qualifiedDataNames() const
