@@ -54,7 +54,7 @@ Module M.
       (k : t A)
   | CallFunction
       (name : string)
-      (arguments : list (list U256.t))
+      (arguments : list U256.t)
       (k : list U256.t -> t A)
   | DeclareFunction
       (name : string)
@@ -99,17 +99,15 @@ Module M.
   Definition expr_stmt (_ : list U256.t) : t BlockUnit.t :=
     od.
 
-  Definition impossible {A : Set} (message : string) : t A :=
-    Impossible message.
-
   Definition call (name : string) (arguments : list (list U256.t)) : t (list U256.t) :=
+    let arguments := List.map (fun argument => List.hd 0 argument) arguments in
     CallFunction name arguments Pure.
 
   Definition if_ (condition : list U256.t) (success : t BlockUnit.t) : t BlockUnit.t :=
     match condition with
     | [0] => Pure BlockUnit.Ok
     | [1] => success
-    | _ => impossible "if_ condition must be a single boolean"
+    | _ => Impossible "if_ condition must be a single boolean"
     end.
 
   Definition assign (names : list string) (values : option (list U256.t)) : t BlockUnit.t :=
@@ -144,7 +142,7 @@ Module M.
   Fixpoint switch_aux (value : U256.t) (cases : list (option U256.t * t BlockUnit.t)) :
       t BlockUnit.t :=
     match cases with
-    | [] => impossible "switch must have at least one case"
+    | [] => Impossible "switch must have at least one case"
     | (None, body) :: _ => body
     | (Some current_value, body) :: cases =>
       if Z.eqb current_value value then
@@ -158,7 +156,7 @@ Module M.
     let_ (
       match values with
       | [value] => Pure value
-      | _ => impossible "switch value must be a single value"
+      | _ => Impossible "switch value must be a single value"
       end
     ) (fun value =>
       switch_aux value cases
