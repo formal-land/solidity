@@ -2,120 +2,48 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module A_9.
-  Definition code : M.t unit := ltac:(M.monadic (
-    let _ :=
-      let _ :=
-        M.call (|
-          "mstore",
-          [
-            [Literal.number 64];
-            M.call (|
-              "memoryguard",
-              [
-                [Literal.number 0x80]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.if_ (|
-          M.call (|
-            "callvalue",
-            []
-          |),
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                []
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.assign (|
-          ["_1"],
-          Some (M.call (|
-            "allocate_unbounded",
-            []
-          |))
-        |) in
-      let _ :=
-        M.call (|
-          "codecopy",
-          [
-            M.get (| "_1" |);
-            M.call (|
-              "dataoffset",
-              [
-                [Literal.string "415f395f6465706c6f796564"]
-              ]
-            |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "415f395f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.call (|
-          "return",
-          [
-            M.get (| "_1" |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "415f395f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      tt in
-    let _ :=
+  Definition code : M.t BlockUnit.t :=
+    do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "mload",
-                [
-                  [Literal.number 64]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "mload",
+              [
+                [Literal.number 64]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
-        ltac:(M.monadic (
-          let _ :=
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "revert",
               [
                 [Literal.number 0];
                 [Literal.number 0]
               ]
-            |) in
-          tt
-        ))
-      |) in
-    tt
-  )).
-
-  Module A_9_deployed.
-    Definition code : M.t unit := ltac:(M.monadic (
-      let _ :=
-        let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
           M.call (|
             "mstore",
             [
@@ -127,109 +55,155 @@ Module A_9.
                 ]
               |)
             ]
-          |) in
-        let _ :=
-          M.if_ (|
-            M.call (|
-              "iszero",
-              [
-                M.call (|
-                  "calldatasize",
-                  []
-                |)
-              ]
-            |),
-            ltac:(M.monadic (
-              let _ :=
-                M.call (|
-                  "fun",
-                  []
-                |) in
-              let _ :=
-                M.call (|
-                  "stop",
-                  []
-                |) in
-              tt
-            ))
-          |) in
-        let _ :=
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.if_ (|
           M.call (|
-            "revert_error_d228b4ceac16d8e91d6dc7ca8d4a5394f524b2e550555324088cb23b86b87b98",
+            "callvalue",
             []
-          |) in
-        tt in
-      let _ :=
+          |),
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                []
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.assign (|
+          ["_1"],
+          Some (M.call (|
+            "allocate_unbounded",
+            []
+          |))
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "codecopy",
+            [
+              M.get (| "_1" |);
+              M.call (|
+                "dataoffset",
+                [
+                  [Literal.string "415f395f6465706c6f796564"]
+                ]
+              |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "415f395f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "return",
+            [
+              M.get (| "_1" |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "415f395f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      M.od
+    )) in
+    M.od.
+
+  Module A_9_deployed.
+    Definition code : M.t BlockUnit.t :=
+      do* ltac:(M.monadic (
         M.function (|
           "allocate_unbounded",
           [],
           ["memPtr"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["memPtr"],
-                M.call (|
-                  "mload",
-                  [
-                    [Literal.number 64]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPtr"],
+              Some (M.call (|
+                "mload",
+                [
+                  [Literal.number 64]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "revert_error_d228b4ceac16d8e91d6dc7ca8d4a5394f524b2e550555324088cb23b86b87b98",
           [],
           [],
-          ltac:(M.monadic (
-            let _ :=
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "revert",
                 [
                   [Literal.number 0];
                   [Literal.number 0]
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "array_storeLengthForEncoding_string",
           ["pos"; "length"],
           ["updated_pos"],
-          ltac:(M.monadic (
-            let _ :=
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
                   M.get (| "pos" |);
                   M.get (| "length" |)
                 ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["updated_pos"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "pos" |);
-                    [Literal.number 0x20]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["updated_pos"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "pos" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "store_literal_in_memory_aee56a7c3da5786b41fbf1e96df13d01fc01184dc9834a923c36ec3d940fe6d6",
           ["memPtr"],
           [],
-          ltac:(M.monadic (
-            let _ :=
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -242,66 +216,73 @@ Module A_9.
                   |);
                   [Literal.string "6e6f5f72656365697665"]
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "abi_encode_stringliteral_aee56a7c3da5786b41fbf1e96df13d01fc01184dc9834a923c36ec3d940fe6d6",
           ["pos"],
           ["end"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["pos"],
-                M.call (|
-                  "array_storeLengthForEncoding_string",
-                  [
-                    M.get (| "pos" |);
-                    [Literal.number 10]
-                  ]
-                |)
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["pos"],
+              Some (M.call (|
+                "array_storeLengthForEncoding_string",
+                [
+                  M.get (| "pos" |);
+                  [Literal.number 10]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "store_literal_in_memory_aee56a7c3da5786b41fbf1e96df13d01fc01184dc9834a923c36ec3d940fe6d6",
                 [
                   M.get (| "pos" |)
                 ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["end"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "pos" |);
-                    [Literal.number 32]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["end"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "pos" |);
+                  [Literal.number 32]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "abi_encode_stringliteral_aee5",
           ["headStart"],
           ["tail"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["tail"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "headStart" |);
-                    [Literal.number 32]
-                  ]
-                |)
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["tail"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "headStart" |);
+                  [Literal.number 32]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -320,35 +301,39 @@ Module A_9.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["tail"],
-                M.call (|
-                  "abi_encode_stringliteral_aee56a7c3da5786b41fbf1e96df13d01fc01184dc9834a923c36ec3d940fe6d6",
-                  [
-                    M.get (| "tail" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["tail"],
+              Some (M.call (|
+                "abi_encode_stringliteral_aee56a7c3da5786b41fbf1e96df13d01fc01184dc9834a923c36ec3d940fe6d6",
+                [
+                  M.get (| "tail" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "fun",
           [],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["_1"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_1"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -361,24 +346,28 @@ Module A_9.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["_2"],
-                Some (M.call (|
-                  "abi_encode_stringliteral_aee5",
-                  [
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "_1" |);
-                        [Literal.number 4]
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_2"],
+              Some (M.call (|
+                "abi_encode_stringliteral_aee5",
+                [
+                  M.call (|
+                    "add",
+                    [
+                      M.get (| "_1" |);
+                      [Literal.number 4]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "revert",
                 [
@@ -391,14 +380,72 @@ Module A_9.
                     ]
                   |)
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      tt
-    )).
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "mstore",
+              [
+                [Literal.number 64];
+                M.call (|
+                  "memoryguard",
+                  [
+                    [Literal.number 0x80]
+                  ]
+                |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "iszero",
+              [
+                M.call (|
+                  "calldatasize",
+                  []
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "fun",
+                  []
+                |)
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "stop",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "revert_error_d228b4ceac16d8e91d6dc7ca8d4a5394f524b2e550555324088cb23b86b87b98",
+              []
+            |)
+          |)
+        )) in
+        M.od
+      )) in
+      M.od.
 
     Definition data : string :=
-      "a2646970667358221220227973391993243f43932ae99d0330cbd7c0c79421984a70efe44726ae5e3e9b64736f6c634300081b0033".
+      "a2646970667358221220e65a266ac9696a0e3bdec7fa15694691daf055053cf0850cae0baf79d5a8e55364736f6c634300081b0033".
   End A_9_deployed.
 End A_9.

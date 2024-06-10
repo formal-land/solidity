@@ -17,42 +17,165 @@ Global Open Scope Z_scope.
 
 Export List.ListNotations.
 
+Inductive sigS {A : Type} (P : A -> Set) : Set :=
+| existS : forall (x : A), P x -> sigS P.
+Arguments existS {_ _}.
+
+Reserved Notation "{ x @ P }" (at level 0, x at level 99).
+Reserved Notation "{ x : A @ P }" (at level 0, x at level 99).
+Reserved Notation "{ ' pat : A @ P }"
+  (at level 0, pat strict pattern, format "{ ' pat : A @ P }").
+
+Notation "{ x @ P }" := (sigS (fun x => P)) : type_scope.
+Notation "{ x : A @ P }" := (sigS (A := A) (fun x => P)) : type_scope.
+Notation "{ ' pat : A @ P }" := (sigS (A := A) (fun pat => P)) : type_scope.
+
 Module U256.
   Definition t := Z.
 End U256.
 
+Module BlockUnit.
+  Inductive t : Set :=
+  | Ok
+  | Break
+  | Continue
+  | Leave.
+End BlockUnit.
+
 Module M.
-  Parameter t : Set -> Set.
+  Inductive t (A : Set) : Set :=
+  | Pure (output : A)
+  | GetVar
+      (name : string)
+      (k : U256.t -> t A)
+  | SetVar
+      (names : list string)
+      (values : list U256.t)
+      (k : t A)
+  | CallFunction
+      (name : string)
+      (arguments : list (list U256.t))
+      (k : list U256.t -> t A)
+  | DeclareFunction
+      (name : string)
+      (body : list U256.t -> t (list U256.t))
+      (k : t A)
+  | Impossible (message : string).
+  Arguments Pure {_}.
+  Arguments GetVar {_}.
+  Arguments SetVar {_}.
+  Arguments CallFunction {_}.
+  Arguments DeclareFunction {_}.
+  Arguments Impossible {_}.
 
-  Parameter pure : forall {A : Set}, A -> t A.
-
-  Parameter let_ : forall {A B : Set}, t A -> (A -> t B) -> t B.
-
+  (** This axiom is only used as a marker, we eliminate it later. *)
   Parameter run : forall {A : Set}, t A -> A.
 
-  Parameter call : string -> list (list U256.t) -> t (list U256.t).
+  Fixpoint let_ {A B : Set} (e1 : t A) (e2 : A -> t B) : t B :=
+    match e1 with
+    | Pure (output) =>
+      e2 output
+    | GetVar name k =>
+      GetVar name (fun value => let_ (k value) e2)
+    | SetVar names values k =>
+      SetVar names values (let_ k e2)
+    | CallFunction name arguments k =>
+      CallFunction name arguments (fun values => let_ (k values) e2)
+    | DeclareFunction name body k =>
+      DeclareFunction name body (let_ k e2)
+    | Impossible message => Impossible message
+    end.
 
-  Parameter if_ : list U256.t -> t unit -> t unit.
+  Definition do (e1 : t BlockUnit.t) (e2 : t BlockUnit.t) : t BlockUnit.t :=
+    let_ e1 (fun output =>
+    match output with
+    | BlockUnit.Ok => e2
+    | _ => Pure output
+    end).
 
-  Parameter assign : list string -> option (list U256.t) -> t unit.
+  Definition od : t BlockUnit.t :=
+    Pure BlockUnit.Ok.
 
-  Parameter declare : list string -> list U256.t -> t unit.
+  Definition expr_stmt (_ : list U256.t) : t BlockUnit.t :=
+    od.
 
-  Parameter get : string -> t (list U256.t).
+  Definition impossible {A : Set} (message : string) : t A :=
+    Impossible message.
 
-  Parameter function : string -> list string -> list string -> t unit -> t unit.
+  Definition call (name : string) (arguments : list (list U256.t)) : t (list U256.t) :=
+    CallFunction name arguments Pure.
 
-  Parameter switch : list U256.t -> list (option U256.t * t unit) -> t unit.
+  Definition if_ (condition : list U256.t) (success : t BlockUnit.t) : t BlockUnit.t :=
+    match condition with
+    | [0] => Pure BlockUnit.Ok
+    | [1] => success
+    | _ => impossible "if_ condition must be a single boolean"
+    end.
 
-  Parameter for_ : list U256.t -> t unit -> t unit -> t unit.
+  Definition assign (names : list string) (values : option (list U256.t)) : t BlockUnit.t :=
+    let values_with_default :=
+      match values with
+      | None => List.map (fun _ => 0) names
+      | Some values => values
+      end in
+    SetVar names values_with_default (Pure BlockUnit.Ok).
 
-  Parameter break : t unit.
+  Definition get (name : string) : t (list U256.t) :=
+    GetVar name (fun value => Pure [value]).
 
-  Parameter continue : t unit.
+  Fixpoint gets (names : list string) : t (list U256.t) :=
+    match names with
+    | [] => Pure []
+    | name :: names =>
+      GetVar name (fun value =>
+      let_ (gets names) (fun values =>
+      Pure (value :: values)))
+    end.
 
-  Parameter leave : t unit.
+  Definition function (name : string) (arguments results : list string) (body : t BlockUnit.t) :
+      t BlockUnit.t :=
+    let body : list U256.t -> t (list U256.t) :=
+      fun argument_values =>
+        let_ (assign arguments (Some argument_values)) (fun _ =>
+        let_ body (fun _ =>
+        gets results)) in
+    DeclareFunction name body (Pure BlockUnit.Ok).
 
-  (** A tactic that replaces all [M.run] markers with a bind operation.
+  Fixpoint switch_aux (value : U256.t) (cases : list (option U256.t * t BlockUnit.t)) :
+      t BlockUnit.t :=
+    match cases with
+    | [] => impossible "switch must have at least one case"
+    | (None, body) :: _ => body
+    | (Some current_value, body) :: cases =>
+      if Z.eqb current_value value then
+        body
+      else
+        switch_aux value cases
+    end.
+
+  Definition switch (values : list U256.t) (cases : list (option U256.t * t BlockUnit.t)) :
+      t BlockUnit.t :=
+    let_ (
+      match values with
+      | [value] => Pure value
+      | _ => impossible "switch value must be a single value"
+      end
+    ) (fun value =>
+      switch_aux value cases
+    ).
+
+  Parameter for_ : list U256.t -> t BlockUnit.t -> t BlockUnit.t -> t BlockUnit.t.
+
+  Definition break : t BlockUnit.t :=
+    Pure BlockUnit.Break.
+
+  Definition continue : t BlockUnit.t :=
+    Pure BlockUnit.Continue.
+
+  Definition leave : t BlockUnit.t :=
+    Pure BlockUnit.Leave.
+
+  (** A tactic that replaces all [run] markers with a bind operation.
       This allows to represent Rust programs without introducing
       explicit names for all intermediate computation results. *)
   Ltac monadic e :=
@@ -90,12 +213,16 @@ Module M.
     | _ =>
       lazymatch type of e with
       | t _ => exact e
-      | _ => exact (pure e)
+      | _ => exact (Pure e)
       end
     end.
 End M.
 
 Module Notations.
+  Notation "'do*' a 'in' b" :=
+    (M.do a b)
+    (at level 200).
+
   Notation "e (| e1 , .. , en |)" :=
     (M.run ((.. (e e1) ..) en))
     (at level 100).

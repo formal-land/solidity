@@ -2,325 +2,377 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C_120.
-  Definition code : M.t unit := ltac:(M.monadic (
-    let _ :=
-      let _ :=
-        M.call (|
-          "codecopy",
-          [
-            [Literal.number 0];
-            M.call (|
-              "dataoffset",
-              [
-                [Literal.string "435f3132305f6465706c6f796564"]
-              ]
-            |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "435f3132305f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.call (|
-          "return",
-          [
-            [Literal.number 0];
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "435f3132305f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      tt in
-    tt
-  )).
-
-  Module C_120_deployed.
-    Definition code : M.t unit := ltac:(M.monadic (
-      let _ :=
-        let _ :=
+  Definition code : M.t BlockUnit.t :=
+    do* ltac:(M.monadic (
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
           M.call (|
-            "fun_fun$unit$unit$$",
-            []
-          |) in
-        let _ :=
-          M.call (|
-            "revert",
+            "codecopy",
             [
               [Literal.number 0];
-              [Literal.number 0]
+              M.call (|
+                "dataoffset",
+                [
+                  [Literal.string "435f3132305f6465706c6f796564"]
+                ]
+              |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "435f3132305f6465706c6f796564"]
+                ]
+              |)
             ]
-          |) in
-        tt in
-      let _ :=
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "return",
+            [
+              [Literal.number 0];
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "435f3132305f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      M.od
+    )) in
+    M.od.
+
+  Module C_120_deployed.
+    Definition code : M.t BlockUnit.t :=
+      do* ltac:(M.monadic (
         M.function (|
           "fun_fun$unit$unit$$",
           [],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["var_boolResult1"],
-                None
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_boolResult2"],
-                None
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr"],
-                Some (M.call (|
-                  "fun_new$fun$unit$t_Cat$$",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_c"],
-                Some (M.get (| "expr" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some (M.get (| "var_c" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_2"],
-                Some (M.call (|
-                  "fun_alive$fun$t_Cat$bool$$",
-                  [
-                    M.get (| "expr_1" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_boolResult1"],
-                M.get (| "expr_2" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_3"],
-                Some (M.call (|
-                  "fun_new$fun$unit$t_Dog$$",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_d"],
-                Some (M.get (| "expr_3" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_4"],
-                Some (M.get (| "var_d" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_5"],
-                Some (M.call (|
-                  "fun_alive$fun$t_Dog$bool$$",
-                  [
-                    M.get (| "expr_4" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_boolResult2"],
-                M.get (| "expr_5" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_6"],
-                Some (M.get (| "var_boolResult1" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_7"],
-                Some (M.get (| "expr_6" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_wordResult1"],
-                Some (M.get (| "expr_7" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_8"],
-                Some (M.get (| "var_boolResult2" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_9"],
-                Some (M.get (| "expr_8" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_wordResult2"],
-                Some (M.get (| "expr_9" |))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_boolResult1"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_boolResult2"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some (M.call (|
+                "fun_new$fun$unit$t_Cat$$",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_c"],
+              Some (M.get (| "expr" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some (M.get (| "var_c" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_2"],
+              Some (M.call (|
+                "fun_alive$fun$t_Cat$bool$$",
+                [
+                  M.get (| "expr_1" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_boolResult1"],
+              Some (M.get (| "expr_2" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_3"],
+              Some (M.call (|
+                "fun_new$fun$unit$t_Dog$$",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_d"],
+              Some (M.get (| "expr_3" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_4"],
+              Some (M.get (| "var_d" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_5"],
+              Some (M.call (|
+                "fun_alive$fun$t_Dog$bool$$",
+                [
+                  M.get (| "expr_4" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_boolResult2"],
+              Some (M.get (| "expr_5" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_6"],
+              Some (M.get (| "var_boolResult1" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_7"],
+              Some (M.get (| "expr_6" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_wordResult1"],
+              Some (M.get (| "expr_7" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_8"],
+              Some (M.get (| "var_boolResult2" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_9"],
+              Some (M.get (| "expr_8" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_wordResult2"],
+              Some (M.get (| "expr_9" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
                   [Literal.number 0];
                   M.get (| "var_wordResult1" |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
                   [Literal.number 32];
                   M.get (| "var_wordResult2" |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "return",
                 [
                   [Literal.number 0];
                   [Literal.number 64]
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "fun_new$fun$unit$t_Cat$$",
           [],
           ["expr"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["var_c"],
-                None
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some (M.get (| "var_c" |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["expr"],
-                M.get (| "expr_1" |)
-              |) in
-            let _ :=
-              M.leave (||) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_c"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some (M.get (| "var_c" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some (M.get (| "expr_1" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.leave (||)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "fun_alive$fun$t_Cat$bool$$",
           ["var_self"],
           ["expr"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["var_w"],
-                None
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_w"],
-                [Literal.number 1]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some (M.get (| "var_w" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_2"],
-                Some (M.call (|
-                  "iszero",
-                  [
-                    M.call (|
-                      "iszero",
-                      [
-                        M.get (| "expr_1" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["expr"],
-                M.get (| "expr_2" |)
-              |) in
-            let _ :=
-              M.leave (||) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_w"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_w"],
+              Some ([Literal.number 1])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some (M.get (| "var_w" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_2"],
+              Some (M.call (|
+                "iszero",
+                [
+                  M.call (|
+                    "iszero",
+                    [
+                      M.get (| "expr_1" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some (M.get (| "expr_2" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.leave (||)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "fun_new$fun$unit$t_Dog$$",
           [],
           ["expr"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["var_d"],
-                None
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some (M.get (| "var_d" |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["expr"],
-                M.get (| "expr_1" |)
-              |) in
-            let _ :=
-              M.leave (||) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_d"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some (M.get (| "var_d" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some (M.get (| "expr_1" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.leave (||)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "fun_alive$fun$t_Dog$bool$$",
           ["var_self"],
           ["expr"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["var_b"],
-                None
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some (M.get (| "var_b" |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["expr"],
-                M.get (| "expr_1" |)
-              |) in
-            let _ :=
-              M.leave (||) in
-            tt
-          ))
-        |) in
-      tt
-    )).
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_b"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some (M.get (| "var_b" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some (M.get (| "expr_1" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.leave (||)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "fun_fun$unit$unit$$",
+              []
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "revert",
+              [
+                [Literal.number 0];
+                [Literal.number 0]
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      )) in
+      M.od.
   End C_120_deployed.
 End C_120.

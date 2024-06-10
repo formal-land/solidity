@@ -113,8 +113,8 @@ std::string Object::toCoq() const
 {
 	yulAssert(code, "No code");
 
-	std::string inner = "Definition code : M.t unit := ltac:(M.monadic (\n";
-	inner += prefixLines(AsmCoqConverter(0)(*code), "  ") + "\n)).";
+	std::string inner = "Definition code : M.t BlockUnit.t :=\n";
+	inner += prefixLines(AsmCoqConverter(0)(*code), "  ") + ".";
 
 	for (auto const& subObject: subObjects)
 		inner += "\n\n" + subObject->toCoq();

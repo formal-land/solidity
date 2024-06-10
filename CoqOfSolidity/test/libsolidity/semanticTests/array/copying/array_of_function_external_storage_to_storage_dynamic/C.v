@@ -2,227 +2,154 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C_161.
-  Definition code : M.t unit := ltac:(M.monadic (
-    let _ :=
-      let _ :=
-        M.call (|
-          "mstore",
-          [
-            [Literal.number 64];
-            M.call (|
-              "memoryguard",
-              [
-                [Literal.number 0x80]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.if_ (|
-          M.call (|
-            "callvalue",
-            []
-          |),
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                []
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.call (|
-          "constructor_C",
-          []
-        |) in
-      let _ :=
-        M.assign (|
-          ["_1"],
-          Some (M.call (|
-            "allocate_unbounded",
-            []
-          |))
-        |) in
-      let _ :=
-        M.call (|
-          "codecopy",
-          [
-            M.get (| "_1" |);
-            M.call (|
-              "dataoffset",
-              [
-                [Literal.string "435f3136315f6465706c6f796564"]
-              ]
-            |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "435f3136315f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.call (|
-          "return",
-          [
-            M.get (| "_1" |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "435f3136315f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      tt in
-    let _ :=
+  Definition code : M.t BlockUnit.t :=
+    do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "mload",
-                [
-                  [Literal.number 64]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "mload",
+              [
+                [Literal.number 64]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
-        ltac:(M.monadic (
-          let _ :=
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "revert",
               [
                 [Literal.number 0];
                 [Literal.number 0]
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "cleanup_rational_by",
         ["value"],
         ["cleaned"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["cleaned"],
-              M.get (| "value" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["cleaned"],
+            Some (M.get (| "value" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "cleanup_uint256",
         ["value"],
         ["cleaned"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["cleaned"],
-              M.get (| "value" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["cleaned"],
+            Some (M.get (| "value" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "identity",
         ["value"],
         ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              M.get (| "value" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some (M.get (| "value" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "convert_rational_by_to_uint256",
         ["value"],
         ["converted"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["converted"],
-              M.call (|
-                "cleanup_uint256",
-                [
-                  M.call (|
-                    "identity",
-                    [
-                      M.call (|
-                        "cleanup_rational_by",
-                        [
-                          M.get (| "value" |)
-                        ]
-                      |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["converted"],
+            Some (M.call (|
+              "cleanup_uint256",
+              [
+                M.call (|
+                  "identity",
+                  [
+                    M.call (|
+                      "cleanup_rational_by",
+                      [
+                        M.get (| "value" |)
+                      ]
+                    |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "round_up_to_mul_of",
         ["value"],
         ["result"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["result"],
-              M.call (|
-                "and",
-                [
-                  M.call (|
-                    "add",
-                    [
-                      M.get (| "value" |);
-                      [Literal.number 31]
-                    ]
-                  |);
-                  M.call (|
-                    "not",
-                    [
-                      [Literal.number 31]
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["result"],
+            Some (M.call (|
+              "and",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "value" |);
+                    [Literal.number 31]
+                  ]
+                |);
+                M.call (|
+                  "not",
+                  [
+                    [Literal.number 31]
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "panic_error_0x41",
         [],
         [],
-        ltac:(M.monadic (
-          let _ :=
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "mstore",
               [
@@ -235,252 +162,276 @@ Module C_161.
                   ]
                 |)
               ]
-            |) in
-          let _ :=
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "mstore",
               [
                 [Literal.number 4];
                 [Literal.number 0x41]
               ]
-            |) in
-          let _ :=
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "revert",
               [
                 [Literal.number 0];
                 [Literal.number 0x24]
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "finalize_allocation",
         ["memPtr"; "size"],
         [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["newFreePtr"],
-              Some (M.call (|
-                "add",
-                [
-                  M.get (| "memPtr" |);
-                  M.call (|
-                    "round_up_to_mul_of",
-                    [
-                      M.get (| "size" |)
-                    ]
-                  |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "or",
-                [
-                  M.call (|
-                    "gt",
-                    [
-                      M.get (| "newFreePtr" |);
-                      M.call (|
-                        "sub",
-                        [
-                          M.call (|
-                            "shl",
-                            [
-                              [Literal.number 64];
-                              [Literal.number 1]
-                            ]
-                          |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    ]
-                  |);
-                  M.call (|
-                    "lt",
-                    [
-                      M.get (| "newFreePtr" |);
-                      M.get (| "memPtr" |)
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["newFreePtr"],
+            Some (M.call (|
+              "add",
+              [
+                M.get (| "memPtr" |);
+                M.call (|
+                  "round_up_to_mul_of",
+                  [
+                    M.get (| "size" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "or",
+              [
+                M.call (|
+                  "gt",
+                  [
+                    M.get (| "newFreePtr" |);
+                    M.call (|
+                      "sub",
+                      [
+                        M.call (|
+                          "shl",
+                          [
+                            [Literal.number 64];
+                            [Literal.number 1]
+                          ]
+                        |);
+                        [Literal.number 1]
+                      ]
+                    |)
+                  ]
+                |);
+                M.call (|
+                  "lt",
+                  [
+                    M.get (| "newFreePtr" |);
+                    M.get (| "memPtr" |)
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "mstore",
               [
                 [Literal.number 64];
                 M.get (| "newFreePtr" |)
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "allocate_memory",
         ["size"],
         ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "allocate_unbounded",
-                []
-              |)
-            |) in
-          let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "allocate_unbounded",
+              []
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "finalize_allocation",
               [
                 M.get (| "memPtr" |);
                 M.get (| "size" |)
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "array_allocation_size_array_function_external_nonpayable_returns_dyn",
         ["length"],
         ["size"],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "mul",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 0x20]
-                ]
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
               |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "add",
-                [
-                  M.get (| "size" |);
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "mul",
+              [
+                M.get (| "length" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "add",
+              [
+                M.get (| "size" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "allocate_memory_array_array_function_external_nonpayable_returns_dyn",
         ["length"],
         ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["allocSize"],
-              Some (M.call (|
-                "array_allocation_size_array_function_external_nonpayable_returns_dyn",
-                [
-                  M.get (| "length" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "allocate_memory",
-                [
-                  M.get (| "allocSize" |)
-                ]
-              |)
-            |) in
-          let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["allocSize"],
+            Some (M.call (|
+              "array_allocation_size_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "allocate_memory",
+              [
+                M.get (| "allocSize" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "mstore",
               [
                 M.get (| "memPtr" |);
                 M.get (| "length" |)
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "zero_value_for_function_external_nonpayable_returns",
         [],
         ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              [Literal.number 0]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "zero_complex_memory_array_array_function_external_nonpayable_returns_dyn",
         ["dataStart"; "dataSizeInBytes"],
         [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["i"],
-              Some ([Literal.number 0])
-            |) in
-          let _ :=
-            let _ :=
-              tt in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["i"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
             M.for_ (|
               M.call (|
                 "lt",
@@ -489,22 +440,21 @@ Module C_161.
                   M.get (| "dataSizeInBytes" |)
                 ]
               |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 32]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["i"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "i" |);
+                      [Literal.number 32]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
                   M.call (|
                     "mstore",
                     [
@@ -520,326 +470,346 @@ Module C_161.
                         []
                       |)
                     ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "allocate_and_zero_memory_array_array_function_external_nonpayable_returns_dyn",
         ["length"],
         ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "allocate_memory_array_array_function_external_nonpayable_returns_dyn",
-                [
-                  M.get (| "length" |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.assign (|
-              ["dataStart"],
-              Some (M.get (| "memPtr" |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["dataSize"],
-              Some (M.call (|
-                "array_allocation_size_array_function_external_nonpayable_returns_dyn",
-                [
-                  M.get (| "length" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["dataStart"],
-              M.call (|
-                "add",
-                [
-                  M.get (| "dataStart" |);
-                  [Literal.number 32]
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["dataSize"],
-              M.call (|
-                "sub",
-                [
-                  M.get (| "dataSize" |);
-                  [Literal.number 32]
-                ]
-              |)
-            |) in
-          let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "allocate_memory_array_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataStart"],
+            Some (M.get (| "memPtr" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataSize"],
+            Some (M.call (|
+              "array_allocation_size_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataStart"],
+            Some (M.call (|
+              "add",
+              [
+                M.get (| "dataStart" |);
+                [Literal.number 32]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataSize"],
+            Some (M.call (|
+              "sub",
+              [
+                M.get (| "dataSize" |);
+                [Literal.number 32]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "zero_complex_memory_array_array_function_external_nonpayable_returns_dyn",
               [
                 M.get (| "dataStart" |);
                 M.get (| "dataSize" |)
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "array_length_array_function_external_nonpayable_returns_dyn_storage",
         ["value"],
         ["length"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["length"],
-              M.call (|
-                "sload",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "sload",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
         ["length"],
         ["size"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.get (| "length" |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "div",
-                [
-                  M.call (|
-                    "add",
-                    [
-                      M.get (| "length" |);
-                      M.call (|
-                        "sub",
-                        [
-                          [Literal.number 1];
-                          [Literal.number 1]
-                        ]
-                      |)
-                    ]
-                  |);
-                  [Literal.number 1]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.get (| "length" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "div",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "length" |);
+                    M.call (|
+                      "sub",
+                      [
+                        [Literal.number 1];
+                        [Literal.number 1]
+                      ]
+                    |)
+                  ]
+                |);
+                [Literal.number 1]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
         ["ptr"],
         ["data"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.get (| "ptr" |)
-            |) in
-          let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.get (| "ptr" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "mstore",
               [
                 [Literal.number 0];
                 M.get (| "ptr" |)
               ]
-            |) in
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.call (|
-                "keccak256",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.call (|
+              "keccak256",
+              [
+                [Literal.number 0];
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "shift_left_dynamic",
         ["bits"; "value"],
         ["newValue"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["newValue"],
-              M.call (|
-                "shl",
-                [
-                  M.get (| "bits" |);
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["newValue"],
+            Some (M.call (|
+              "shl",
+              [
+                M.get (| "bits" |);
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "update_byte_slice_dynamic32",
         ["value"; "shiftBytes"; "toInsert"],
         ["result"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["shiftBits"],
-              Some (M.call (|
-                "mul",
-                [
-                  M.get (| "shiftBytes" |);
-                  [Literal.number 8]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["mask"],
-              Some (M.call (|
-                "shift_left_dynamic",
-                [
-                  M.get (| "shiftBits" |);
-                  M.call (|
-                    "not",
-                    [
-                      [Literal.number 0]
-                    ]
-                  |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["toInsert"],
-              M.call (|
-                "shift_left_dynamic",
-                [
-                  M.get (| "shiftBits" |);
-                  M.get (| "toInsert" |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["value"],
-              M.call (|
-                "and",
-                [
-                  M.get (| "value" |);
-                  M.call (|
-                    "not",
-                    [
-                      M.get (| "mask" |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["result"],
-              M.call (|
-                "or",
-                [
-                  M.get (| "value" |);
-                  M.call (|
-                    "and",
-                    [
-                      M.get (| "toInsert" |);
-                      M.get (| "mask" |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["shiftBits"],
+            Some (M.call (|
+              "mul",
+              [
+                M.get (| "shiftBytes" |);
+                [Literal.number 8]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["mask"],
+            Some (M.call (|
+              "shift_left_dynamic",
+              [
+                M.get (| "shiftBits" |);
+                M.call (|
+                  "not",
+                  [
+                    [Literal.number 0]
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["toInsert"],
+            Some (M.call (|
+              "shift_left_dynamic",
+              [
+                M.get (| "shiftBits" |);
+                M.get (| "toInsert" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["value"],
+            Some (M.call (|
+              "and",
+              [
+                M.get (| "value" |);
+                M.call (|
+                  "not",
+                  [
+                    M.get (| "mask" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["result"],
+            Some (M.call (|
+              "or",
+              [
+                M.get (| "value" |);
+                M.call (|
+                  "and",
+                  [
+                    M.get (| "toInsert" |);
+                    M.get (| "mask" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "convert_uint256_to_uint256",
         ["value"],
         ["converted"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["converted"],
-              M.call (|
-                "cleanup_uint256",
-                [
-                  M.call (|
-                    "identity",
-                    [
-                      M.call (|
-                        "cleanup_uint256",
-                        [
-                          M.get (| "value" |)
-                        ]
-                      |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["converted"],
+            Some (M.call (|
+              "cleanup_uint256",
+              [
+                M.call (|
+                  "identity",
+                  [
+                    M.call (|
+                      "cleanup_uint256",
+                      [
+                        M.get (| "value" |)
+                      ]
+                    |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "prepare_store_uint256",
         ["value"],
         ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              M.get (| "value" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some (M.get (| "value" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "update_storage_value_uint256_to_uint256",
         ["slot"; "offset"; "value"],
         [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["convertedValue"],
-              Some (M.call (|
-                "convert_uint256_to_uint256",
-                [
-                  M.get (| "value" |)
-                ]
-              |))
-            |) in
-          let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["convertedValue"],
+            Some (M.call (|
+              "convert_uint256_to_uint256",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "sstore",
               [
@@ -863,39 +833,42 @@ Module C_161.
                   ]
                 |)
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "zero_value_for_split_uint256",
         [],
         ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              [Literal.number 0]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "storage_set_to_zero_uint256",
         ["slot"; "offset"],
         [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["zero"],
-              Some (M.call (|
-                "zero_value_for_split_uint256",
-                []
-              |))
-            |) in
-          let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["zero"],
+            Some (M.call (|
+              "zero_value_for_split_uint256",
+              []
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "update_storage_value_uint256_to_uint256",
               [
@@ -903,19 +876,21 @@ Module C_161.
                 M.get (| "offset" |);
                 M.get (| "zero" |)
               ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "clear_storage_range_function_external_nonpayable_returns",
         ["start"; "end"],
         [],
-        ltac:(M.monadic (
-          let _ :=
-            let _ :=
-              tt in
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
             M.for_ (|
               M.call (|
                 "lt",
@@ -924,62 +899,5214 @@ Module C_161.
                   M.get (| "end" |)
                 ]
               |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["start"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "start" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["start"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "start" |);
+                      [Literal.number 1]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
                   M.call (|
                     "storage_set_to_zero_uint256",
                     [
                       M.get (| "start" |);
                       [Literal.number 0]
                     ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "shift_right_unsigned_dynamic",
         ["bits"; "value"],
         ["newValue"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["newValue"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["newValue"],
+            Some (M.call (|
+              "shr",
+              [
+                M.get (| "bits" |);
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "partial_clear_storage_slot",
+        ["slot"; "offset"],
+        [],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["mask"],
+            Some (M.call (|
+              "shift_right_unsigned_dynamic",
+              [
+                M.call (|
+                  "mul",
+                  [
+                    [Literal.number 8];
+                    M.call (|
+                      "sub",
+                      [
+                        [Literal.number 32];
+                        M.get (| "offset" |)
+                      ]
+                    |)
+                  ]
+                |);
+                M.call (|
+                  "not",
+                  [
+                    [Literal.number 0]
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "sstore",
+              [
+                M.get (| "slot" |);
+                M.call (|
+                  "and",
+                  [
+                    M.get (| "mask" |);
+                    M.call (|
+                      "sload",
+                      [
+                        M.get (| "slot" |)
+                      ]
+                    |)
+                  ]
+                |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "cleanup_storage_array_end_array_function_external_nonpayable_returns_dyn",
+        ["array"; "len"; "startIndex"],
+        [],
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "lt",
+              [
+                M.get (| "startIndex" |);
+                M.get (| "len" |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["oldSlotCount"],
+                Some (M.call (|
+                  "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
+                  [
+                    M.get (| "len" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["newSlotCount"],
+                Some (M.call (|
+                  "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
+                  [
+                    M.get (| "startIndex" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["arrayDataStart"],
+                Some (M.call (|
+                  "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+                  [
+                    M.get (| "array" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["deleteStart"],
+                Some (M.call (|
+                  "add",
+                  [
+                    M.get (| "arrayDataStart" |);
+                    M.get (| "newSlotCount" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["deleteEnd"],
+                Some (M.call (|
+                  "add",
+                  [
+                    M.get (| "arrayDataStart" |);
+                    M.get (| "oldSlotCount" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "clear_storage_range_function_external_nonpayable_returns",
+                  [
+                    M.get (| "deleteStart" |);
+                    M.get (| "deleteEnd" |)
+                  ]
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "resize_array_array_function_external_nonpayable_returns_dyn_storage",
+        ["array"; "newLen"],
+        [],
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "newLen" |);
+                [Literal.number 18446744073709551616]
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["oldLen"],
+            Some (M.call (|
+              "array_length_array_function_external_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "array" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "sstore",
+              [
+                M.get (| "array" |);
+                M.get (| "newLen" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "cleanup_storage_array_end_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "array" |);
+                M.get (| "oldLen" |);
+                M.get (| "newLen" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_length_array_function_external_nonpayable_returns_dyn",
+        ["value"],
+        ["length"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "mload",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "shift_right_unsigned",
+        ["value"],
+        ["newValue"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["newValue"],
+            Some (M.call (|
+              "shr",
+              [
+                [Literal.number 32];
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "shift_right_64_unsigned",
+        ["value"],
+        ["newValue"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["newValue"],
+            Some (M.call (|
+              "shr",
+              [
+                [Literal.number 64];
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "split_external_function_id",
+        ["combined"],
+        ["addr";
+    "selector"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["combined"],
+            Some (M.call (|
+              "shift_right_64_unsigned",
+              [
+                M.get (| "combined" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["selector"],
+            Some (M.call (|
+              "and",
+              [
+                M.get (| "combined" |);
+                [Literal.number 0xffffffff]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["addr"],
+            Some (M.call (|
+              "shift_right_unsigned",
+              [
+                M.get (| "combined" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "cleanup_bytes24",
+        ["value"],
+        ["cleaned"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["cleaned"],
+            Some (M.call (|
+              "and",
+              [
+                M.get (| "value" |);
+                M.call (|
+                  "not",
+                  [
+                    M.call (|
+                      "sub",
+                      [
+                        M.call (|
+                          "shl",
+                          [
+                            [Literal.number 64];
+                            [Literal.number 1]
+                          ]
+                        |);
+                        [Literal.number 1]
+                      ]
+                    |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "cleanup_function_external_nonpayable_returns",
+        ["value"],
+        ["cleaned"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["cleaned"],
+            Some (M.call (|
+              "cleanup_bytes24",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "read_from_memoryt_function_external_nonpayable_returns",
+        ["ptr"],
+        ["addr";
+    "selector"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["value"],
+            Some (M.call (|
+              "cleanup_function_external_nonpayable_returns",
+              [
+                M.call (|
+                  "mload",
+                  [
+                    M.get (| "ptr" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["addr"; "selector"],
+            Some (M.call (|
+              "split_external_function_id",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_dataslot_array_function_external_nonpayable_returns_dyn",
+        ["ptr"],
+        ["data"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.get (| "ptr" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.call (|
+              "add",
+              [
+                M.get (| "ptr" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "shift_left",
+        ["value"],
+        ["newValue"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["newValue"],
+            Some (M.call (|
+              "shl",
+              [
+                [Literal.number 64];
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "prepare_store_bytes24",
+        ["value"],
+        ["ret"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some (M.call (|
+              "shift_right_64_unsigned",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "shift_left_32",
+        ["value"],
+        ["newValue"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["newValue"],
+            Some (M.call (|
+              "shl",
+              [
+                [Literal.number 32];
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "combine_external_function_id",
+        ["addr"; "selector"],
+        ["combined"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["combined"],
+            Some (M.call (|
+              "shift_left",
+              [
+                M.call (|
+                  "or",
+                  [
+                    M.call (|
+                      "shift_left_32",
+                      [
+                        M.get (| "addr" |)
+                      ]
+                    |);
+                    M.call (|
+                      "and",
+                      [
+                        M.get (| "selector" |);
+                        [Literal.number 0xffffffff]
+                      ]
+                    |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "prepare_store_function_external_nonpayable_returns",
+        ["addr"; "selector"],
+        ["ret"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some (M.call (|
+              "prepare_store_bytes24",
+              [
+                M.call (|
+                  "combine_external_function_id",
+                  [
+                    M.get (| "addr" |);
+                    M.get (| "selector" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "copy_array_to_storage_from_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
+        ["dst"; "src"],
+        [],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "array_length_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "resize_array_array_function_external_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |);
+                M.get (| "length" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["srcPtr"],
+            Some (M.call (|
+              "array_dataslot_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dstSlot"],
+            Some (M.call (|
+              "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["fullSlots"],
+            Some (M.call (|
+              "div",
+              [
+                M.get (| "length" |);
+                [Literal.number 1]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["i"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
+            M.for_ (|
               M.call (|
+                "lt",
+                [
+                  M.get (| "i" |);
+                  M.get (| "fullSlots" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["i"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "i" |);
+                      [Literal.number 1]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue"],
+                  Some ([Literal.number 0])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["stackItem"; "stackItem_1"],
+                  Some (M.call (|
+                    "read_from_memoryt_function_external_nonpayable_returns",
+                    [
+                      M.get (| "srcPtr" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["itemValue"],
+                  Some (M.call (|
+                    "prepare_store_function_external_nonpayable_returns",
+                    [
+                      M.get (| "stackItem" |);
+                      M.get (| "stackItem_1" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue"],
+                  Some (M.get (| "itemValue" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["srcPtr"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "srcPtr" |);
+                      [Literal.number 32]
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "sstore",
+                    [
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "dstSlot" |);
+                          M.get (| "i" |)
+                        ]
+                      |);
+                      M.get (| "dstSlotValue" |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "update_storage_value_offsett_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
+        ["slot"; "value"],
+        [],
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "copy_array_to_storage_from_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "slot" |);
+                M.get (| "value" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_allocation_size_array_function_external_nonpayable_returns",
+        ["length"],
+        ["size"],
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "mul",
+              [
+                M.get (| "length" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "allocate_memory_array_array_function_external_nonpayable_returns",
+        ["length"],
+        ["memPtr"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["allocSize"],
+            Some (M.call (|
+              "array_allocation_size_array_function_external_nonpayable_returns",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "allocate_memory",
+              [
+                M.get (| "allocSize" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "cleanup_uint160",
+        ["value"],
+        ["cleaned"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["cleaned"],
+            Some (M.call (|
+              "and",
+              [
+                M.get (| "value" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 160];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "convert_uint160_to_uint160",
+        ["value"],
+        ["converted"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["converted"],
+            Some (M.call (|
+              "cleanup_uint160",
+              [
+                M.call (|
+                  "identity",
+                  [
+                    M.call (|
+                      "cleanup_uint160",
+                      [
+                        M.get (| "value" |)
+                      ]
+                    |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "convert_uint160_to_address",
+        ["value"],
+        ["converted"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["converted"],
+            Some (M.call (|
+              "convert_uint160_to_uint160",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "convert_contract_C_to_address",
+        ["value"],
+        ["converted"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["converted"],
+            Some (M.call (|
+              "convert_uint160_to_address",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "write_to_memory_function_external_nonpayable_returns",
+        ["memPtr"; "addr"; "selector"],
+        [],
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "mstore",
+              [
+                M.get (| "memPtr" |);
+                M.call (|
+                  "combine_external_function_id",
+                  [
+                    M.get (| "addr" |);
+                    M.get (| "selector" |)
+                  ]
+                |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_length_array_function_external_nonpayable_returns",
+        ["value"],
+        ["length"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some ([Literal.number 0x03])
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_dataslot_array_function_external_nonpayable_returns",
+        ["ptr"],
+        ["data"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.get (| "ptr" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "copy_array_to_storage_from_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
+        ["dst"; "src"],
+        [],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "array_length_array_function_external_nonpayable_returns",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "resize_array_array_function_external_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |);
+                M.get (| "length" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["srcPtr"],
+            Some (M.call (|
+              "array_dataslot_array_function_external_nonpayable_returns",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dstSlot"],
+            Some (M.call (|
+              "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["fullSlots"],
+            Some (M.call (|
+              "div",
+              [
+                M.get (| "length" |);
+                [Literal.number 1]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["i"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
+            M.for_ (|
+              M.call (|
+                "lt",
+                [
+                  M.get (| "i" |);
+                  M.get (| "fullSlots" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["i"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "i" |);
+                      [Literal.number 1]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue"],
+                  Some ([Literal.number 0])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["stackItem"; "stackItem_1"],
+                  Some (M.call (|
+                    "read_from_memoryt_function_external_nonpayable_returns",
+                    [
+                      M.get (| "srcPtr" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["itemValue"],
+                  Some (M.call (|
+                    "prepare_store_function_external_nonpayable_returns",
+                    [
+                      M.get (| "stackItem" |);
+                      M.get (| "stackItem_1" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue"],
+                  Some (M.get (| "itemValue" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["srcPtr"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "srcPtr" |);
+                      [Literal.number 32]
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "sstore",
+                    [
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "dstSlot" |);
+                          M.get (| "i" |)
+                        ]
+                      |);
+                      M.get (| "dstSlotValue" |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "update_storage_value_offsett_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
+        ["slot"; "value"],
+        [],
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "copy_array_to_storage_from_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "slot" |);
+                M.get (| "value" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_allocation_size_array_function_internal_nonpayable_returns_dyn",
+        ["length"],
+        ["size"],
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "mul",
+              [
+                M.get (| "length" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "add",
+              [
+                M.get (| "size" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "allocate_memory_array_array_function_internal_nonpayable_returns_dyn",
+        ["length"],
+        ["memPtr"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["allocSize"],
+            Some (M.call (|
+              "array_allocation_size_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "allocate_memory",
+              [
+                M.get (| "allocSize" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "mstore",
+              [
+                M.get (| "memPtr" |);
+                M.get (| "length" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "zero_value_for_function_internal_nonpayable_returns",
+        [],
+        ["ret"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "zero_complex_memory_array_array_function_internal_nonpayable_returns_dyn",
+        ["dataStart"; "dataSizeInBytes"],
+        [],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["i"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
+            M.for_ (|
+              M.call (|
+                "lt",
+                [
+                  M.get (| "i" |);
+                  M.get (| "dataSizeInBytes" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["i"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "i" |);
+                      [Literal.number 32]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "mstore",
+                    [
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "dataStart" |);
+                          M.get (| "i" |)
+                        ]
+                      |);
+                      M.call (|
+                        "zero_value_for_function_internal_nonpayable_returns",
+                        []
+                      |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "allocate_and_zero_memory_array_array_function_internal_nonpayable_returns_dyn",
+        ["length"],
+        ["memPtr"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "allocate_memory_array_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataStart"],
+            Some (M.get (| "memPtr" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataSize"],
+            Some (M.call (|
+              "array_allocation_size_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataStart"],
+            Some (M.call (|
+              "add",
+              [
+                M.get (| "dataStart" |);
+                [Literal.number 32]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dataSize"],
+            Some (M.call (|
+              "sub",
+              [
+                M.get (| "dataSize" |);
+                [Literal.number 32]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "zero_complex_memory_array_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "dataStart" |);
+                M.get (| "dataSize" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+        ["value"],
+        ["length"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "sload",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
+        ["length"],
+        ["size"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.get (| "length" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "div",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "length" |);
+                    M.call (|
+                      "sub",
+                      [
+                        [Literal.number 4];
+                        [Literal.number 1]
+                      ]
+                    |)
+                  ]
+                |);
+                [Literal.number 4]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+        ["ptr"],
+        ["data"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.get (| "ptr" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "mstore",
+              [
+                [Literal.number 0];
+                M.get (| "ptr" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.call (|
+              "keccak256",
+              [
+                [Literal.number 0];
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "clear_storage_range_function_internal_nonpayable_returns",
+        ["start"; "end"],
+        [],
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
+            M.for_ (|
+              M.call (|
+                "lt",
+                [
+                  M.get (| "start" |);
+                  M.get (| "end" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["start"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "start" |);
+                      [Literal.number 1]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "storage_set_to_zero_uint256",
+                    [
+                      M.get (| "start" |);
+                      [Literal.number 0]
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "cleanup_storage_array_end_array_function_internal_nonpayable_returns_dyn",
+        ["array"; "len"; "startIndex"],
+        [],
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "lt",
+              [
+                M.get (| "startIndex" |);
+                M.get (| "len" |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["oldSlotCount"],
+                Some (M.call (|
+                  "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
+                  [
+                    M.get (| "len" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["newSlotCount"],
+                Some (M.call (|
+                  "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
+                  [
+                    M.get (| "startIndex" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["arrayDataStart"],
+                Some (M.call (|
+                  "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+                  [
+                    M.get (| "array" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["deleteStart"],
+                Some (M.call (|
+                  "add",
+                  [
+                    M.get (| "arrayDataStart" |);
+                    M.get (| "newSlotCount" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["deleteEnd"],
+                Some (M.call (|
+                  "add",
+                  [
+                    M.get (| "arrayDataStart" |);
+                    M.get (| "oldSlotCount" |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["offset"],
+                Some (M.call (|
+                  "mul",
+                  [
+                    M.call (|
+                      "mod",
+                      [
+                        M.get (| "startIndex" |);
+                        [Literal.number 4]
+                      ]
+                    |);
+                    [Literal.number 8]
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.if_ (|
+                M.call (|
+                  "gt",
+                  [
+                    M.get (| "offset" |);
+                    [Literal.number 0]
+                  ]
+                |),
+                do* ltac:(M.monadic (
+                  M.expr_stmt (|
+                    M.call (|
+                      "partial_clear_storage_slot",
+                      [
+                        M.call (|
+                          "sub",
+                          [
+                            M.get (| "deleteStart" |);
+                            [Literal.number 1]
+                          ]
+                        |);
+                        M.get (| "offset" |)
+                      ]
+                    |)
+                  |)
+                )) in
+                M.od
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "clear_storage_range_function_internal_nonpayable_returns",
+                  [
+                    M.get (| "deleteStart" |);
+                    M.get (| "deleteEnd" |)
+                  ]
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
+        ["array"; "newLen"],
+        [],
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "newLen" |);
+                [Literal.number 18446744073709551616]
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["oldLen"],
+            Some (M.call (|
+              "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "array" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "sstore",
+              [
+                M.get (| "array" |);
+                M.get (| "newLen" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "cleanup_storage_array_end_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "array" |);
+                M.get (| "oldLen" |);
+                M.get (| "newLen" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_length_array_function_internal_nonpayable_returns_dyn",
+        ["value"],
+        ["length"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "mload",
+              [
+                M.get (| "value" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "cleanup_function_internal_nonpayable_returns",
+        ["value"],
+        ["cleaned"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["cleaned"],
+            Some (M.get (| "value" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "read_from_memoryt_function_internal_nonpayable_returns",
+        ["ptr"],
+        ["returnValue"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["value"],
+            Some (M.call (|
+              "cleanup_function_internal_nonpayable_returns",
+              [
+                M.call (|
+                  "mload",
+                  [
+                    M.get (| "ptr" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["returnValue"],
+            Some (M.get (| "value" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_dataslot_array_function_internal_nonpayable_returns_dyn",
+        ["ptr"],
+        ["data"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.get (| "ptr" |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.call (|
+              "add",
+              [
+                M.get (| "ptr" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "update_byte_slice_dynamic8",
+        ["value"; "shiftBytes"; "toInsert"],
+        ["result"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["shiftBits"],
+            Some (M.call (|
+              "mul",
+              [
+                M.get (| "shiftBytes" |);
+                [Literal.number 8]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["mask"],
+            Some (M.call (|
+              "shift_left_dynamic",
+              [
+                M.get (| "shiftBits" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["toInsert"],
+            Some (M.call (|
+              "shift_left_dynamic",
+              [
+                M.get (| "shiftBits" |);
+                M.get (| "toInsert" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["value"],
+            Some (M.call (|
+              "and",
+              [
+                M.get (| "value" |);
+                M.call (|
+                  "not",
+                  [
+                    M.get (| "mask" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["result"],
+            Some (M.call (|
+              "or",
+              [
+                M.get (| "value" |);
+                M.call (|
+                  "and",
+                  [
+                    M.get (| "toInsert" |);
+                    M.get (| "mask" |)
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "prepare_store_function_internal_nonpayable_returns",
+        ["value"],
+        ["ret"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["ret"],
+            Some (M.get (| "value" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "copy_array_to_storage_from_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
+        ["dst"; "src"],
+        [],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "array_length_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |);
+                M.get (| "length" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["srcPtr"],
+            Some (M.call (|
+              "array_dataslot_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dstSlot"],
+            Some (M.call (|
+              "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["fullSlots"],
+            Some (M.call (|
+              "div",
+              [
+                M.get (| "length" |);
+                [Literal.number 4]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["i"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
+            M.for_ (|
+              M.call (|
+                "lt",
+                [
+                  M.get (| "i" |);
+                  M.get (| "fullSlots" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["i"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "i" |);
+                      [Literal.number 1]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue"],
+                  Some ([Literal.number 0])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["j"],
+                  Some ([Literal.number 0])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                do*
+                  M.od in
+    ltac:(M.monadic (
+                  M.for_ (|
+                    M.call (|
+                      "lt",
+                      [
+                        M.get (| "j" |);
+                        [Literal.number 4]
+                      ]
+                    |),
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["j"],
+                        Some (M.call (|
+                          "add",
+                          [
+                            M.get (| "j" |);
+                            [Literal.number 1]
+                          ]
+                        |))
+                      |)
+                    )) in
+                    M.od,
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["stackItem"],
+                        Some (M.call (|
+                          "read_from_memoryt_function_internal_nonpayable_returns",
+                          [
+                            M.get (| "srcPtr" |)
+                          ]
+                        |))
+                      |)
+                    )) in
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["itemValue"],
+                        Some (M.call (|
+                          "prepare_store_function_internal_nonpayable_returns",
+                          [
+                            M.get (| "stackItem" |)
+                          ]
+                        |))
+                      |)
+                    )) in
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["dstSlotValue"],
+                        Some (M.call (|
+                          "update_byte_slice_dynamic8",
+                          [
+                            M.get (| "dstSlotValue" |);
+                            M.call (|
+                              "mul",
+                              [
+                                [Literal.number 8];
+                                M.get (| "j" |)
+                              ]
+                            |);
+                            M.get (| "itemValue" |)
+                          ]
+                        |))
+                      |)
+                    )) in
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["srcPtr"],
+                        Some (M.call (|
+                          "add",
+                          [
+                            M.get (| "srcPtr" |);
+                            [Literal.number 32]
+                          ]
+                        |))
+                      |)
+                    )) in
+                    M.od
+                  |)
+                ))
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "sstore",
+                    [
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "dstSlot" |);
+                          M.get (| "i" |)
+                        ]
+                      |);
+                      M.get (| "dstSlotValue" |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["spill"],
+            Some (M.call (|
+              "sub",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "mul",
+                  [
+                    M.get (| "fullSlots" |);
+                    [Literal.number 4]
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "spill" |);
+                [Literal.number 0]
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["dstSlotValue_1"],
+                Some ([Literal.number 0])
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["j_1"],
+                Some ([Literal.number 0])
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              do*
+                M.od in
+    ltac:(M.monadic (
+                M.for_ (|
+                  M.call (|
+                    "lt",
+                    [
+                      M.get (| "j_1" |);
+                      M.get (| "spill" |)
+                    ]
+                  |),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["j_1"],
+                      Some (M.call (|
+                        "add",
+                        [
+                          M.get (| "j_1" |);
+                          [Literal.number 1]
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["stackItem_1"],
+                      Some (M.call (|
+                        "read_from_memoryt_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "srcPtr" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["itemValue_1"],
+                      Some (M.call (|
+                        "prepare_store_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "stackItem_1" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["dstSlotValue_1"],
+                      Some (M.call (|
+                        "update_byte_slice_dynamic8",
+                        [
+                          M.get (| "dstSlotValue_1" |);
+                          M.call (|
+                            "mul",
+                            [
+                              [Literal.number 8];
+                              M.get (| "j_1" |)
+                            ]
+                          |);
+                          M.get (| "itemValue_1" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["srcPtr"],
+                      Some (M.call (|
+                        "add",
+                        [
+                          M.get (| "srcPtr" |);
+                          [Literal.number 32]
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                |)
+              ))
+            )) in
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "sstore",
+                  [
+                    M.call (|
+                      "add",
+                      [
+                        M.get (| "dstSlot" |);
+                        M.get (| "fullSlots" |)
+                      ]
+                    |);
+                    M.get (| "dstSlotValue_1" |)
+                  ]
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "update_storage_value_offsett_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
+        ["slot"; "value"],
+        [],
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "copy_array_to_storage_from_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "slot" |);
+                M.get (| "value" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_allocation_size_array_function_internal_nonpayable_returns",
+        ["length"],
+        ["size"],
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["size"],
+            Some (M.call (|
+              "mul",
+              [
+                M.get (| "length" |);
+                [Literal.number 0x20]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "allocate_memory_array_array_function_internal_nonpayable_returns",
+        ["length"],
+        ["memPtr"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["allocSize"],
+            Some (M.call (|
+              "array_allocation_size_array_function_internal_nonpayable_returns",
+              [
+                M.get (| "length" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "allocate_memory",
+              [
+                M.get (| "allocSize" |)
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "write_to_memory_function_internal_nonpayable_returns",
+        ["memPtr"; "value"],
+        [],
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "mstore",
+              [
+                M.get (| "memPtr" |);
+                M.call (|
+                  "cleanup_function_internal_nonpayable_returns",
+                  [
+                    M.get (| "value" |)
+                  ]
+                |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_length_array_function_internal_nonpayable_returns",
+        ["value"],
+        ["length"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some ([Literal.number 0x03])
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "array_dataslot_array_function_internal_nonpayable_returns",
+        ["ptr"],
+        ["data"],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["data"],
+            Some (M.get (| "ptr" |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "copy_array_to_storage_from_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
+        ["dst"; "src"],
+        [],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["length"],
+            Some (M.call (|
+              "array_length_array_function_internal_nonpayable_returns",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "sub",
+                  [
+                    M.call (|
+                      "shl",
+                      [
+                        [Literal.number 64];
+                        [Literal.number 1]
+                      ]
+                    |);
+                    [Literal.number 1]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "panic_error_0x41",
+                  []
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |);
+                M.get (| "length" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["srcPtr"],
+            Some (M.call (|
+              "array_dataslot_array_function_internal_nonpayable_returns",
+              [
+                M.get (| "src" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["dstSlot"],
+            Some (M.call (|
+              "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+              [
+                M.get (| "dst" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["fullSlots"],
+            Some (M.call (|
+              "div",
+              [
+                M.get (| "length" |);
+                [Literal.number 4]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["i"],
+            Some ([Literal.number 0])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          do*
+            M.od in
+    ltac:(M.monadic (
+            M.for_ (|
+              M.call (|
+                "lt",
+                [
+                  M.get (| "i" |);
+                  M.get (| "fullSlots" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["i"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "i" |);
+                      [Literal.number 1]
+                    ]
+                  |))
+                |)
+              )) in
+              M.od,
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue"],
+                  Some ([Literal.number 0])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["j"],
+                  Some ([Literal.number 0])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                do*
+                  M.od in
+    ltac:(M.monadic (
+                  M.for_ (|
+                    M.call (|
+                      "lt",
+                      [
+                        M.get (| "j" |);
+                        [Literal.number 4]
+                      ]
+                    |),
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["j"],
+                        Some (M.call (|
+                          "add",
+                          [
+                            M.get (| "j" |);
+                            [Literal.number 1]
+                          ]
+                        |))
+                      |)
+                    )) in
+                    M.od,
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["stackItem"],
+                        Some (M.call (|
+                          "read_from_memoryt_function_internal_nonpayable_returns",
+                          [
+                            M.get (| "srcPtr" |)
+                          ]
+                        |))
+                      |)
+                    )) in
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["itemValue"],
+                        Some (M.call (|
+                          "prepare_store_function_internal_nonpayable_returns",
+                          [
+                            M.get (| "stackItem" |)
+                          ]
+                        |))
+                      |)
+                    )) in
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["dstSlotValue"],
+                        Some (M.call (|
+                          "update_byte_slice_dynamic8",
+                          [
+                            M.get (| "dstSlotValue" |);
+                            M.call (|
+                              "mul",
+                              [
+                                [Literal.number 8];
+                                M.get (| "j" |)
+                              ]
+                            |);
+                            M.get (| "itemValue" |)
+                          ]
+                        |))
+                      |)
+                    )) in
+                    do* ltac:(M.monadic (
+                      M.assign (|
+                        ["srcPtr"],
+                        Some (M.call (|
+                          "add",
+                          [
+                            M.get (| "srcPtr" |);
+                            [Literal.number 32]
+                          ]
+                        |))
+                      |)
+                    )) in
+                    M.od
+                  |)
+                ))
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "sstore",
+                    [
+                      M.call (|
+                        "add",
+                        [
+                          M.get (| "dstSlot" |);
+                          M.get (| "i" |)
+                        ]
+                      |);
+                      M.get (| "dstSlotValue" |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          ))
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["spill"],
+            Some (M.call (|
+              "sub",
+              [
+                M.get (| "length" |);
+                M.call (|
+                  "mul",
+                  [
+                    M.get (| "fullSlots" |);
+                    [Literal.number 4]
+                  ]
+                |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "gt",
+              [
+                M.get (| "spill" |);
+                [Literal.number 0]
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["dstSlotValue_1"],
+                Some ([Literal.number 0])
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["j_1"],
+                Some ([Literal.number 0])
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              do*
+                M.od in
+    ltac:(M.monadic (
+                M.for_ (|
+                  M.call (|
+                    "lt",
+                    [
+                      M.get (| "j_1" |);
+                      M.get (| "spill" |)
+                    ]
+                  |),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["j_1"],
+                      Some (M.call (|
+                        "add",
+                        [
+                          M.get (| "j_1" |);
+                          [Literal.number 1]
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["stackItem_1"],
+                      Some (M.call (|
+                        "read_from_memoryt_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "srcPtr" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["itemValue_1"],
+                      Some (M.call (|
+                        "prepare_store_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "stackItem_1" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["dstSlotValue_1"],
+                      Some (M.call (|
+                        "update_byte_slice_dynamic8",
+                        [
+                          M.get (| "dstSlotValue_1" |);
+                          M.call (|
+                            "mul",
+                            [
+                              [Literal.number 8];
+                              M.get (| "j_1" |)
+                            ]
+                          |);
+                          M.get (| "itemValue_1" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["srcPtr"],
+                      Some (M.call (|
+                        "add",
+                        [
+                          M.get (| "srcPtr" |);
+                          [Literal.number 32]
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                |)
+              ))
+            )) in
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "sstore",
+                  [
+                    M.call (|
+                      "add",
+                      [
+                        M.get (| "dstSlot" |);
+                        M.get (| "fullSlots" |)
+                      ]
+                    |);
+                    M.get (| "dstSlotValue_1" |)
+                  ]
+                |)
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "update_storage_value_offsett_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
+        ["slot"; "value"],
+        [],
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "copy_array_to_storage_from_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "slot" |);
+                M.get (| "value" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.function (|
+        "constructor_C",
+        [],
+        [],
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr"],
+            Some ([Literal.number 0x03])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["_1"],
+            Some (M.call (|
+              "convert_rational_by_to_uint256",
+              [
+                M.get (| "expr" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_mpos"],
+            Some (M.call (|
+              "allocate_and_zero_memory_array_array_function_external_nonpayable_returns_dyn",
+              [
+                M.get (| "_1" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "update_storage_value_offsett_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
+              [
+                [Literal.number 0x00];
+                M.get (| "expr_mpos" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_52_mpos"],
+            Some (M.call (|
+              "allocate_memory_array_array_function_external_nonpayable_returns",
+              [
+                [Literal.number 3]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_46_address"],
+            Some (M.call (|
+              "address",
+              []
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_address"],
+            Some (M.call (|
+              "convert_contract_C_to_address",
+              [
+                M.get (| "expr_46_address" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_47_functionSelector"],
+            Some ([Literal.number 0x3c289b53])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "write_to_memory_function_external_nonpayable_returns",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "expr_52_mpos" |);
+                    [Literal.number 0]
+                  ]
+                |);
+                M.get (| "expr_address" |);
+                M.get (| "expr_47_functionSelector" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_48_address"],
+            Some (M.call (|
+              "address",
+              []
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_49_address"],
+            Some (M.call (|
+              "convert_contract_C_to_address",
+              [
+                M.get (| "expr_48_address" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_49_functionSelector"],
+            Some ([Literal.number 0xb8fb063e])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "write_to_memory_function_external_nonpayable_returns",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "expr_52_mpos" |);
+                    [Literal.number 32]
+                  ]
+                |);
+                M.get (| "expr_49_address" |);
+                M.get (| "expr_49_functionSelector" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_50_address"],
+            Some (M.call (|
+              "address",
+              []
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_51_address"],
+            Some (M.call (|
+              "convert_contract_C_to_address",
+              [
+                M.get (| "expr_50_address" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_functionSelector"],
+            Some ([Literal.number 0xc743d74b])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "write_to_memory_function_external_nonpayable_returns",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "expr_52_mpos" |);
+                    [Literal.number 64]
+                  ]
+                |);
+                M.get (| "expr_51_address" |);
+                M.get (| "expr_functionSelector" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "update_storage_value_offsett_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
+              [
+                [Literal.number 0x01];
+                M.get (| "expr_52_mpos" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_1"],
+            Some ([Literal.number 0x03])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["_2"],
+            Some (M.call (|
+              "convert_rational_by_to_uint256",
+              [
+                M.get (| "expr_1" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_62_mpos"],
+            Some (M.call (|
+              "allocate_and_zero_memory_array_array_function_internal_nonpayable_returns_dyn",
+              [
+                M.get (| "_2" |)
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "update_storage_value_offsett_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
+              [
+                [Literal.number 0x02];
+                M.get (| "expr_62_mpos" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_69_mpos"],
+            Some (M.call (|
+              "allocate_memory_array_array_function_internal_nonpayable_returns",
+              [
+                [Literal.number 3]
+              ]
+            |))
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_functionIdentifier"],
+            Some ([Literal.number 1])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "write_to_memory_function_internal_nonpayable_returns",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "expr_69_mpos" |);
+                    [Literal.number 0]
+                  ]
+                |);
+                M.get (| "expr_functionIdentifier" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_67_functionIdentifier"],
+            Some ([Literal.number 2])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "write_to_memory_function_internal_nonpayable_returns",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "expr_69_mpos" |);
+                    [Literal.number 32]
+                  ]
+                |);
+                M.get (| "expr_67_functionIdentifier" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["expr_68_functionIdentifier"],
+            Some ([Literal.number 3])
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "write_to_memory_function_internal_nonpayable_returns",
+              [
+                M.call (|
+                  "add",
+                  [
+                    M.get (| "expr_69_mpos" |);
+                    [Literal.number 64]
+                  ]
+                |);
+                M.get (| "expr_68_functionIdentifier" |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "update_storage_value_offsett_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
+              [
+                [Literal.number 0x03];
+                M.get (| "expr_69_mpos" |)
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "mstore",
+            [
+              [Literal.number 64];
+              M.call (|
+                "memoryguard",
+                [
+                  [Literal.number 0x80]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.if_ (|
+          M.call (|
+            "callvalue",
+            []
+          |),
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                []
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "constructor_C",
+            []
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.assign (|
+          ["_1"],
+          Some (M.call (|
+            "allocate_unbounded",
+            []
+          |))
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "codecopy",
+            [
+              M.get (| "_1" |);
+              M.call (|
+                "dataoffset",
+                [
+                  [Literal.string "435f3136315f6465706c6f796564"]
+                ]
+              |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "435f3136315f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "return",
+            [
+              M.get (| "_1" |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "435f3136315f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      M.od
+    )) in
+    M.od.
+
+  Module C_161_deployed.
+    Definition code : M.t BlockUnit.t :=
+      do* ltac:(M.monadic (
+        M.function (|
+          "shift_right_unsigned",
+          ["value"],
+          ["newValue"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["newValue"],
+              Some (M.call (|
+                "shr",
+                [
+                  [Literal.number 224];
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "allocate_unbounded",
+          [],
+          ["memPtr"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPtr"],
+              Some (M.call (|
+                "mload",
+                [
+                  [Literal.number 64]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_decode",
+          ["headStart"; "dataEnd"],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "slt",
+                [
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "dataEnd" |);
+                      M.get (| "headStart" |)
+                    ]
+                  |);
+                  [Literal.number 0]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encode_tuple",
+          ["headStart"],
+          ["tail"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["tail"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "headStart" |);
+                  [Literal.number 0]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "external_fun_testFunction1",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "callvalue",
+                []
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_decode",
+                [
+                  [Literal.number 4];
+                  M.call (|
+                    "calldatasize",
+                    []
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memEnd"],
+              Some (M.call (|
+                "abi_encode_tuple",
+                [
+                  M.get (| "memPos" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "return",
+                [
+                  M.get (| "memPos" |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "memEnd" |);
+                      M.get (| "memPos" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_bool",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.call (|
+                "iszero",
+                [
+                  M.call (|
+                    "iszero",
+                    [
+                      M.get (| "value" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encode_bool_to_bool",
+          ["value"; "pos"],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  M.get (| "pos" |);
+                  M.call (|
+                    "cleanup_bool",
+                    [
+                      M.get (| "value" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encode_bool",
+          ["headStart"; "value0"],
+          ["tail"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["tail"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "headStart" |);
+                  [Literal.number 32]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_encode_bool_to_bool",
+                [
+                  M.get (| "value0" |);
+                  M.call (|
+                    "add",
+                    [
+                      M.get (| "headStart" |);
+                      [Literal.number 0]
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "external_fun_copyExternalStorageArrayOfFunctionType",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "callvalue",
+                []
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_decode",
+                [
+                  [Literal.number 4];
+                  M.call (|
+                    "calldatasize",
+                    []
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some (M.call (|
+                "fun_copyExternalStorageArrayOfFunctionType",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memEnd"],
+              Some (M.call (|
+                "abi_encode_bool",
+                [
+                  M.get (| "memPos" |);
+                  M.get (| "ret" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "return",
+                [
+                  M.get (| "memPos" |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "memEnd" |);
+                      M.get (| "memPos" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "external_fun_testFunction2",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "callvalue",
+                []
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_decode",
+                [
+                  [Literal.number 4];
+                  M.call (|
+                    "calldatasize",
+                    []
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memEnd"],
+              Some (M.call (|
+                "abi_encode_tuple",
+                [
+                  M.get (| "memPos" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "return",
+                [
+                  M.get (| "memPos" |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "memEnd" |);
+                      M.get (| "memPos" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "external_fun_testFunction3",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "callvalue",
+                []
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_decode",
+                [
+                  [Literal.number 4];
+                  M.call (|
+                    "calldatasize",
+                    []
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memEnd"],
+              Some (M.call (|
+                "abi_encode_tuple",
+                [
+                  M.get (| "memPos" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "return",
+                [
+                  M.get (| "memPos" |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "memEnd" |);
+                      M.get (| "memPos" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "external_fun_copyInternalArrayOfFunctionType",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "callvalue",
+                []
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_decode",
+                [
+                  [Literal.number 4];
+                  M.call (|
+                    "calldatasize",
+                    []
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some (M.call (|
+                "fun_copyInternalArrayOfFunctionType",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memEnd"],
+              Some (M.call (|
+                "abi_encode_bool",
+                [
+                  M.get (| "memPos" |);
+                  M.get (| "ret" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "return",
+                [
+                  M.get (| "memPos" |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "memEnd" |);
+                      M.get (| "memPos" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "zero_value_for_split_bool",
+          [],
+          ["ret"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some ([Literal.number 0])
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "array_length_array_function_external_nonpayable_returns_dyn_storage",
+          ["value"],
+          ["length"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["length"],
+              Some (M.call (|
+                "sload",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "array_storeLengthForEncoding_array_function_external_nonpayable_returns_dyn",
+          ["pos"; "length"],
+          ["updated_pos"],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  M.get (| "pos" |);
+                  M.get (| "length" |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["updated_pos"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "pos" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+          ["ptr"],
+          ["data"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["data"],
+              Some (M.get (| "ptr" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 0];
+                  M.get (| "ptr" |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["data"],
+              Some (M.call (|
+                "keccak256",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_bytes24",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.call (|
+                "and",
+                [
+                  M.get (| "value" |);
+                  M.call (|
+                    "not",
+                    [
+                      [Literal.number 0xffffffffffffffff]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_function_external_nonpayable_returns",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.call (|
+                "cleanup_bytes24",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encode_function_external_nonpayable_returns",
+          ["addr_and_function_id"; "pos"],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  M.get (| "pos" |);
+                  M.call (|
+                    "cleanup_function_external_nonpayable_returns",
+                    [
+                      M.get (| "addr_and_function_id" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encodeUpdatedPos_function_external_nonpayable_returns",
+          ["value0"; "pos"],
+          ["updatedPos"],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_encode_function_external_nonpayable_returns",
+                [
+                  M.get (| "value0" |);
+                  M.get (| "pos" |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["updatedPos"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "pos" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "shift_right_0_unsigned",
+          ["value"],
+          ["newValue"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["newValue"],
+              Some (M.call (|
+                "shr",
+                [
+                  [Literal.number 0];
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "shift_left",
+          ["value"],
+          ["newValue"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["newValue"],
+              Some (M.call (|
+                "shl",
+                [
+                  [Literal.number 64];
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_from_storage_function_external_nonpayable_returns",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.call (|
+                "shift_left",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "extract_from_storage_value_offsett_function_external_nonpayable_returns",
+          ["slot_value"],
+          ["value"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["value"],
+              Some (M.call (|
+                "cleanup_from_storage_function_external_nonpayable_returns",
+                [
+                  M.call (|
+                    "shift_right_0_unsigned",
+                    [
+                      M.get (| "slot_value" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "read_from_storage_offset_function_external_nonpayable_returns",
+          ["slot"],
+          ["value"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["value"],
+              Some (M.call (|
+                "extract_from_storage_value_offsett_function_external_nonpayable_returns",
+                [
+                  M.call (|
+                    "sload",
+                    [
+                      M.get (| "slot" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "array_nextElement_array_function_external_nonpayable_returns_dyn_storage",
+          ["ptr"],
+          ["next"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["next"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "ptr" |);
+                  [Literal.number 0x01]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encode_array_function_external_nonpayable_returns_dyn_storage_to_array_function_external_nonpayable_returns_dyn",
+          ["value"; "pos"],
+          ["end"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["length"],
+              Some (M.call (|
+                "array_length_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["pos"],
+              Some (M.call (|
+                "array_storeLengthForEncoding_array_function_external_nonpayable_returns_dyn",
+                [
+                  M.get (| "pos" |);
+                  M.get (| "length" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["baseRef"],
+              Some (M.call (|
+                "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["srcPtr"],
+              Some (M.get (| "baseRef" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["i"],
+              Some ([Literal.number 0])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            do*
+              M.od in
+      ltac:(M.monadic (
+              M.for_ (|
+                M.call (|
+                  "lt",
+                  [
+                    M.get (| "i" |);
+                    M.get (| "length" |)
+                  ]
+                |),
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["i"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "i" |);
+                        [Literal.number 1]
+                      ]
+                    |))
+                  |)
+                )) in
+                M.od,
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["elementValue0"],
+                    Some (M.call (|
+                      "read_from_storage_offset_function_external_nonpayable_returns",
+                      [
+                        M.get (| "srcPtr" |)
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["pos"],
+                    Some (M.call (|
+                      "abi_encodeUpdatedPos_function_external_nonpayable_returns",
+                      [
+                        M.get (| "elementValue0" |);
+                        M.get (| "pos" |)
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["srcPtr"],
+                    Some (M.call (|
+                      "array_nextElement_array_function_external_nonpayable_returns_dyn_storage",
+                      [
+                        M.get (| "srcPtr" |)
+                      ]
+                    |))
+                  |)
+                )) in
+                M.od
+              |)
+            ))
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["end"],
+              Some (M.get (| "pos" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
+          ["headStart"; "value0"],
+          ["tail"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["tail"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "headStart" |);
+                  [Literal.number 32]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  M.call (|
+                    "add",
+                    [
+                      M.get (| "headStart" |);
+                      [Literal.number 0]
+                    ]
+                  |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "tail" |);
+                      M.get (| "headStart" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["tail"],
+              Some (M.call (|
+                "abi_encode_array_function_external_nonpayable_returns_dyn_storage_to_array_function_external_nonpayable_returns_dyn",
+                [
+                  M.get (| "value0" |);
+                  M.get (| "tail" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "round_up_to_mul_of",
+          ["value"],
+          ["result"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["result"],
+              Some (M.call (|
+                "and",
+                [
+                  M.call (|
+                    "add",
+                    [
+                      M.get (| "value" |);
+                      [Literal.number 31]
+                    ]
+                  |);
+                  M.call (|
+                    "not",
+                    [
+                      [Literal.number 31]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "panic_error_0x41",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 0];
+                  M.call (|
+                    "shl",
+                    [
+                      [Literal.number 224];
+                      [Literal.number 0x4e487b71]
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 4];
+                  [Literal.number 0x41]
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0x24]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "finalize_allocation",
+          ["memPtr"; "size"],
+          [],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["newFreePtr"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "memPtr" |);
+                  M.call (|
+                    "round_up_to_mul_of",
+                    [
+                      M.get (| "size" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "or",
+                [
+                  M.call (|
+                    "gt",
+                    [
+                      M.get (| "newFreePtr" |);
+                      [Literal.number 0xffffffffffffffff]
+                    ]
+                  |);
+                  M.call (|
+                    "lt",
+                    [
+                      M.get (| "newFreePtr" |);
+                      M.get (| "memPtr" |)
+                    ]
+                  |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x41",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 64];
+                  M.get (| "newFreePtr" |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "array_dataslot_bytes",
+          ["ptr"],
+          ["data"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["data"],
+              Some (M.get (| "ptr" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["data"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "ptr" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "array_length_bytes",
+          ["value"],
+          ["length"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["length"],
+              Some (M.call (|
+                "mload",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_bytes32",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "panic_error_0x01",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 0];
+                  M.call (|
+                    "shl",
+                    [
+                      [Literal.number 224];
+                      [Literal.number 0x4e487b71]
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 4];
+                  [Literal.number 0x01]
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0x24]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "assert_helper",
+          ["condition"],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "iszero",
+                [
+                  M.get (| "condition" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x01",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_uint256",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
+          ["length"],
+          ["size"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["size"],
+              Some (M.get (| "length" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["size"],
+              Some (M.call (|
+                "div",
+                [
+                  M.call (|
+                    "add",
+                    [
+                      M.get (| "length" |);
+                      M.call (|
+                        "sub",
+                        [
+                          [Literal.number 1];
+                          [Literal.number 1]
+                        ]
+                      |)
+                    ]
+                  |);
+                  [Literal.number 1]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "shift_left_dynamic",
+          ["bits"; "value"],
+          ["newValue"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["newValue"],
+              Some (M.call (|
+                "shl",
+                [
+                  M.get (| "bits" |);
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "update_byte_slice_dynamic32",
+          ["value"; "shiftBytes"; "toInsert"],
+          ["result"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["shiftBits"],
+              Some (M.call (|
+                "mul",
+                [
+                  M.get (| "shiftBytes" |);
+                  [Literal.number 8]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["mask"],
+              Some (M.call (|
+                "shift_left_dynamic",
+                [
+                  M.get (| "shiftBits" |);
+                  M.call (|
+                    "not",
+                    [
+                      [Literal.number 0]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["toInsert"],
+              Some (M.call (|
+                "shift_left_dynamic",
+                [
+                  M.get (| "shiftBits" |);
+                  M.get (| "toInsert" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["value"],
+              Some (M.call (|
+                "and",
+                [
+                  M.get (| "value" |);
+                  M.call (|
+                    "not",
+                    [
+                      M.get (| "mask" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["result"],
+              Some (M.call (|
+                "or",
+                [
+                  M.get (| "value" |);
+                  M.call (|
+                    "and",
+                    [
+                      M.get (| "toInsert" |);
+                      M.get (| "mask" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "identity",
+          ["value"],
+          ["ret"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "convert_uint256_to_uint256",
+          ["value"],
+          ["converted"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["converted"],
+              Some (M.call (|
+                "cleanup_uint256",
+                [
+                  M.call (|
+                    "identity",
+                    [
+                      M.call (|
+                        "cleanup_uint256",
+                        [
+                          M.get (| "value" |)
+                        ]
+                      |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "prepare_store_uint256",
+          ["value"],
+          ["ret"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "update_storage_value_uint256_to_uint256",
+          ["slot"; "offset"; "value"],
+          [],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["convertedValue"],
+              Some (M.call (|
+                "convert_uint256_to_uint256",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "sstore",
+                [
+                  M.get (| "slot" |);
+                  M.call (|
+                    "update_byte_slice_dynamic32",
+                    [
+                      M.call (|
+                        "sload",
+                        [
+                          M.get (| "slot" |)
+                        ]
+                      |);
+                      M.get (| "offset" |);
+                      M.call (|
+                        "prepare_store_uint256",
+                        [
+                          M.get (| "convertedValue" |)
+                        ]
+                      |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "zero_value_for_split_uint256",
+          [],
+          ["ret"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some ([Literal.number 0])
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "storage_set_to_zero_uint256",
+          ["slot"; "offset"],
+          [],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["zero"],
+              Some (M.call (|
+                "zero_value_for_split_uint256",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "update_storage_value_uint256_to_uint256",
+                [
+                  M.get (| "slot" |);
+                  M.get (| "offset" |);
+                  M.get (| "zero" |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "clear_storage_range_function_external_nonpayable_returns",
+          ["start"; "end"],
+          [],
+          do* ltac:(M.monadic (
+            do*
+              M.od in
+      ltac:(M.monadic (
+              M.for_ (|
+                M.call (|
+                  "lt",
+                  [
+                    M.get (| "start" |);
+                    M.get (| "end" |)
+                  ]
+                |),
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["start"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "start" |);
+                        [Literal.number 1]
+                      ]
+                    |))
+                  |)
+                )) in
+                M.od,
+                do* ltac:(M.monadic (
+                  M.expr_stmt (|
+                    M.call (|
+                      "storage_set_to_zero_uint256",
+                      [
+                        M.get (| "start" |);
+                        [Literal.number 0]
+                      ]
+                    |)
+                  |)
+                )) in
+                M.od
+              |)
+            ))
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "shift_right_unsigned_dynamic",
+          ["bits"; "value"],
+          ["newValue"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["newValue"],
+              Some (M.call (|
                 "shr",
                 [
                   M.get (| "bits" |);
                   M.get (| "value" |)
                 ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "partial_clear_storage_slot",
-        ["slot"; "offset"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "partial_clear_storage_slot",
+          ["slot"; "offset"],
+          [],
+          do* ltac:(M.monadic (
             M.assign (|
               ["mask"],
               Some (M.call (|
@@ -1006,4843 +6133,10 @@ Module C_161.
                   |)
                 ]
               |))
-            |) in
-          let _ :=
-            M.call (|
-              "sstore",
-              [
-                M.get (| "slot" |);
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "mask" |);
-                    M.call (|
-                      "sload",
-                      [
-                        M.get (| "slot" |)
-                      ]
-                    |)
-                  ]
-                |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "cleanup_storage_array_end_array_function_external_nonpayable_returns_dyn",
-        ["array"; "len"; "startIndex"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "startIndex" |);
-                  M.get (| "len" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["oldSlotCount"],
-                    Some (M.call (|
-                      "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
-                      [
-                        M.get (| "len" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["newSlotCount"],
-                    Some (M.call (|
-                      "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
-                      [
-                        M.get (| "startIndex" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["arrayDataStart"],
-                    Some (M.call (|
-                      "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-                      [
-                        M.get (| "array" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["deleteStart"],
-                    Some (M.call (|
-                      "add",
-                      [
-                        M.get (| "arrayDataStart" |);
-                        M.get (| "newSlotCount" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["deleteEnd"],
-                    Some (M.call (|
-                      "add",
-                      [
-                        M.get (| "arrayDataStart" |);
-                        M.get (| "oldSlotCount" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.call (|
-                    "clear_storage_range_function_external_nonpayable_returns",
-                    [
-                      M.get (| "deleteStart" |);
-                      M.get (| "deleteEnd" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "resize_array_array_function_external_nonpayable_returns_dyn_storage",
-        ["array"; "newLen"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "newLen" |);
-                  [Literal.number 18446744073709551616]
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.assign (|
-              ["oldLen"],
-              Some (M.call (|
-                "array_length_array_function_external_nonpayable_returns_dyn_storage",
-                [
-                  M.get (| "array" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.call (|
-              "sstore",
-              [
-                M.get (| "array" |);
-                M.get (| "newLen" |)
-              ]
-            |) in
-          let _ :=
-            M.call (|
-              "cleanup_storage_array_end_array_function_external_nonpayable_returns_dyn",
-              [
-                M.get (| "array" |);
-                M.get (| "oldLen" |);
-                M.get (| "newLen" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_length_array_function_external_nonpayable_returns_dyn",
-        ["value"],
-        ["length"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["length"],
-              M.call (|
-                "mload",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "shift_right_unsigned",
-        ["value"],
-        ["newValue"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["newValue"],
-              M.call (|
-                "shr",
-                [
-                  [Literal.number 32];
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "shift_right_64_unsigned",
-        ["value"],
-        ["newValue"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["newValue"],
-              M.call (|
-                "shr",
-                [
-                  [Literal.number 64];
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "split_external_function_id",
-        ["combined"],
-        ["addr";
-    "selector"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["combined"],
-              M.call (|
-                "shift_right_64_unsigned",
-                [
-                  M.get (| "combined" |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["selector"],
-              M.call (|
-                "and",
-                [
-                  M.get (| "combined" |);
-                  [Literal.number 0xffffffff]
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["addr"],
-              M.call (|
-                "shift_right_unsigned",
-                [
-                  M.get (| "combined" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "cleanup_bytes24",
-        ["value"],
-        ["cleaned"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["cleaned"],
-              M.call (|
-                "and",
-                [
-                  M.get (| "value" |);
-                  M.call (|
-                    "not",
-                    [
-                      M.call (|
-                        "sub",
-                        [
-                          M.call (|
-                            "shl",
-                            [
-                              [Literal.number 64];
-                              [Literal.number 1]
-                            ]
-                          |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "cleanup_function_external_nonpayable_returns",
-        ["value"],
-        ["cleaned"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["cleaned"],
-              M.call (|
-                "cleanup_bytes24",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "read_from_memoryt_function_external_nonpayable_returns",
-        ["ptr"],
-        ["addr";
-    "selector"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["value"],
-              Some (M.call (|
-                "cleanup_function_external_nonpayable_returns",
-                [
-                  M.call (|
-                    "mload",
-                    [
-                      M.get (| "ptr" |)
-                    ]
-                  |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["addr"; "selector"],
-              M.call (|
-                "split_external_function_id",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_dataslot_array_function_external_nonpayable_returns_dyn",
-        ["ptr"],
-        ["data"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.get (| "ptr" |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.call (|
-                "add",
-                [
-                  M.get (| "ptr" |);
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "shift_left",
-        ["value"],
-        ["newValue"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["newValue"],
-              M.call (|
-                "shl",
-                [
-                  [Literal.number 64];
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "prepare_store_bytes24",
-        ["value"],
-        ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              M.call (|
-                "shift_right_64_unsigned",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "shift_left_32",
-        ["value"],
-        ["newValue"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["newValue"],
-              M.call (|
-                "shl",
-                [
-                  [Literal.number 32];
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "combine_external_function_id",
-        ["addr"; "selector"],
-        ["combined"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["combined"],
-              M.call (|
-                "shift_left",
-                [
-                  M.call (|
-                    "or",
-                    [
-                      M.call (|
-                        "shift_left_32",
-                        [
-                          M.get (| "addr" |)
-                        ]
-                      |);
-                      M.call (|
-                        "and",
-                        [
-                          M.get (| "selector" |);
-                          [Literal.number 0xffffffff]
-                        ]
-                      |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "prepare_store_function_external_nonpayable_returns",
-        ["addr"; "selector"],
-        ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              M.call (|
-                "prepare_store_bytes24",
-                [
-                  M.call (|
-                    "combine_external_function_id",
-                    [
-                      M.get (| "addr" |);
-                      M.get (| "selector" |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "copy_array_to_storage_from_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
-        ["dst"; "src"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["length"],
-              Some (M.call (|
-                "array_length_array_function_external_nonpayable_returns_dyn",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.call (|
-              "resize_array_array_function_external_nonpayable_returns_dyn_storage",
-              [
-                M.get (| "dst" |);
-                M.get (| "length" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["srcPtr"],
-              Some (M.call (|
-                "array_dataslot_array_function_external_nonpayable_returns_dyn",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["dstSlot"],
-              Some (M.call (|
-                "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-                [
-                  M.get (| "dst" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["fullSlots"],
-              Some (M.call (|
-                "div",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 1]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["i"],
-              Some ([Literal.number 0])
-            |) in
-          let _ :=
-            let _ :=
-              tt in
-            M.for_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "i" |);
-                  M.get (| "fullSlots" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["stackItem"; "stackItem_1"],
-                    Some (M.call (|
-                      "read_from_memoryt_function_external_nonpayable_returns",
-                      [
-                        M.get (| "srcPtr" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["itemValue"],
-                    Some (M.call (|
-                      "prepare_store_function_external_nonpayable_returns",
-                      [
-                        M.get (| "stackItem" |);
-                        M.get (| "stackItem_1" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["dstSlotValue"],
-                    M.get (| "itemValue" |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["srcPtr"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "srcPtr" |);
-                        [Literal.number 32]
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "dstSlot" |);
-                          M.get (| "i" |)
-                        ]
-                      |);
-                      M.get (| "dstSlotValue" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "update_storage_value_offsett_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
-        ["slot"; "value"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.call (|
-              "copy_array_to_storage_from_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
-              [
-                M.get (| "slot" |);
-                M.get (| "value" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_allocation_size_array_function_external_nonpayable_returns",
-        ["length"],
-        ["size"],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "mul",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "allocate_memory_array_array_function_external_nonpayable_returns",
-        ["length"],
-        ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["allocSize"],
-              Some (M.call (|
-                "array_allocation_size_array_function_external_nonpayable_returns",
-                [
-                  M.get (| "length" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "allocate_memory",
-                [
-                  M.get (| "allocSize" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "cleanup_uint160",
-        ["value"],
-        ["cleaned"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["cleaned"],
-              M.call (|
-                "and",
-                [
-                  M.get (| "value" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 160];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "convert_uint160_to_uint160",
-        ["value"],
-        ["converted"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["converted"],
-              M.call (|
-                "cleanup_uint160",
-                [
-                  M.call (|
-                    "identity",
-                    [
-                      M.call (|
-                        "cleanup_uint160",
-                        [
-                          M.get (| "value" |)
-                        ]
-                      |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "convert_uint160_to_address",
-        ["value"],
-        ["converted"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["converted"],
-              M.call (|
-                "convert_uint160_to_uint160",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "convert_contract_C_to_address",
-        ["value"],
-        ["converted"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["converted"],
-              M.call (|
-                "convert_uint160_to_address",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "write_to_memory_function_external_nonpayable_returns",
-        ["memPtr"; "addr"; "selector"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.call (|
-              "mstore",
-              [
-                M.get (| "memPtr" |);
-                M.call (|
-                  "combine_external_function_id",
-                  [
-                    M.get (| "addr" |);
-                    M.get (| "selector" |)
-                  ]
-                |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_length_array_function_external_nonpayable_returns",
-        ["value"],
-        ["length"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["length"],
-              [Literal.number 0x03]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_dataslot_array_function_external_nonpayable_returns",
-        ["ptr"],
-        ["data"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.get (| "ptr" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "copy_array_to_storage_from_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
-        ["dst"; "src"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["length"],
-              Some (M.call (|
-                "array_length_array_function_external_nonpayable_returns",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.call (|
-              "resize_array_array_function_external_nonpayable_returns_dyn_storage",
-              [
-                M.get (| "dst" |);
-                M.get (| "length" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["srcPtr"],
-              Some (M.call (|
-                "array_dataslot_array_function_external_nonpayable_returns",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["dstSlot"],
-              Some (M.call (|
-                "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-                [
-                  M.get (| "dst" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["fullSlots"],
-              Some (M.call (|
-                "div",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 1]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["i"],
-              Some ([Literal.number 0])
-            |) in
-          let _ :=
-            let _ :=
-              tt in
-            M.for_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "i" |);
-                  M.get (| "fullSlots" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["stackItem"; "stackItem_1"],
-                    Some (M.call (|
-                      "read_from_memoryt_function_external_nonpayable_returns",
-                      [
-                        M.get (| "srcPtr" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["itemValue"],
-                    Some (M.call (|
-                      "prepare_store_function_external_nonpayable_returns",
-                      [
-                        M.get (| "stackItem" |);
-                        M.get (| "stackItem_1" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["dstSlotValue"],
-                    M.get (| "itemValue" |)
-                  |) in
-                let _ :=
-                  M.declare (|
-                    ["srcPtr"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "srcPtr" |);
-                        [Literal.number 32]
-                      ]
-                    |)
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "dstSlot" |);
-                          M.get (| "i" |)
-                        ]
-                      |);
-                      M.get (| "dstSlotValue" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "update_storage_value_offsett_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
-        ["slot"; "value"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.call (|
-              "copy_array_to_storage_from_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
-              [
-                M.get (| "slot" |);
-                M.get (| "value" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_allocation_size_array_function_internal_nonpayable_returns_dyn",
-        ["length"],
-        ["size"],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "mul",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "add",
-                [
-                  M.get (| "size" |);
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "allocate_memory_array_array_function_internal_nonpayable_returns_dyn",
-        ["length"],
-        ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["allocSize"],
-              Some (M.call (|
-                "array_allocation_size_array_function_internal_nonpayable_returns_dyn",
-                [
-                  M.get (| "length" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "allocate_memory",
-                [
-                  M.get (| "allocSize" |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.call (|
-              "mstore",
-              [
-                M.get (| "memPtr" |);
-                M.get (| "length" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "zero_value_for_function_internal_nonpayable_returns",
-        [],
-        ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              [Literal.number 0]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "zero_complex_memory_array_array_function_internal_nonpayable_returns_dyn",
-        ["dataStart"; "dataSizeInBytes"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["i"],
-              Some ([Literal.number 0])
-            |) in
-          let _ :=
-            let _ :=
-              tt in
-            M.for_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "i" |);
-                  M.get (| "dataSizeInBytes" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 32]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "mstore",
-                    [
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "dataStart" |);
-                          M.get (| "i" |)
-                        ]
-                      |);
-                      M.call (|
-                        "zero_value_for_function_internal_nonpayable_returns",
-                        []
-                      |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "allocate_and_zero_memory_array_array_function_internal_nonpayable_returns_dyn",
-        ["length"],
-        ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "allocate_memory_array_array_function_internal_nonpayable_returns_dyn",
-                [
-                  M.get (| "length" |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.assign (|
-              ["dataStart"],
-              Some (M.get (| "memPtr" |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["dataSize"],
-              Some (M.call (|
-                "array_allocation_size_array_function_internal_nonpayable_returns_dyn",
-                [
-                  M.get (| "length" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["dataStart"],
-              M.call (|
-                "add",
-                [
-                  M.get (| "dataStart" |);
-                  [Literal.number 32]
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["dataSize"],
-              M.call (|
-                "sub",
-                [
-                  M.get (| "dataSize" |);
-                  [Literal.number 32]
-                ]
-              |)
-            |) in
-          let _ :=
-            M.call (|
-              "zero_complex_memory_array_array_function_internal_nonpayable_returns_dyn",
-              [
-                M.get (| "dataStart" |);
-                M.get (| "dataSize" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_length_array_function_internal_nonpayable_returns_dyn_storage",
-        ["value"],
-        ["length"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["length"],
-              M.call (|
-                "sload",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
-        ["length"],
-        ["size"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.get (| "length" |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "div",
-                [
-                  M.call (|
-                    "add",
-                    [
-                      M.get (| "length" |);
-                      M.call (|
-                        "sub",
-                        [
-                          [Literal.number 4];
-                          [Literal.number 1]
-                        ]
-                      |)
-                    ]
-                  |);
-                  [Literal.number 4]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-        ["ptr"],
-        ["data"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.get (| "ptr" |)
-            |) in
-          let _ :=
-            M.call (|
-              "mstore",
-              [
-                [Literal.number 0];
-                M.get (| "ptr" |)
-              ]
-            |) in
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.call (|
-                "keccak256",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "clear_storage_range_function_internal_nonpayable_returns",
-        ["start"; "end"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            let _ :=
-              tt in
-            M.for_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "start" |);
-                  M.get (| "end" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["start"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "start" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "storage_set_to_zero_uint256",
-                    [
-                      M.get (| "start" |);
-                      [Literal.number 0]
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "cleanup_storage_array_end_array_function_internal_nonpayable_returns_dyn",
-        ["array"; "len"; "startIndex"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "startIndex" |);
-                  M.get (| "len" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["oldSlotCount"],
-                    Some (M.call (|
-                      "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
-                      [
-                        M.get (| "len" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["newSlotCount"],
-                    Some (M.call (|
-                      "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
-                      [
-                        M.get (| "startIndex" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["arrayDataStart"],
-                    Some (M.call (|
-                      "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-                      [
-                        M.get (| "array" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["deleteStart"],
-                    Some (M.call (|
-                      "add",
-                      [
-                        M.get (| "arrayDataStart" |);
-                        M.get (| "newSlotCount" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["deleteEnd"],
-                    Some (M.call (|
-                      "add",
-                      [
-                        M.get (| "arrayDataStart" |);
-                        M.get (| "oldSlotCount" |)
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["offset"],
-                    Some (M.call (|
-                      "mul",
-                      [
-                        M.call (|
-                          "mod",
-                          [
-                            M.get (| "startIndex" |);
-                            [Literal.number 4]
-                          ]
-                        |);
-                        [Literal.number 8]
-                      ]
-                    |))
-                  |) in
-                let _ :=
-                  M.if_ (|
-                    M.call (|
-                      "gt",
-                      [
-                        M.get (| "offset" |);
-                        [Literal.number 0]
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.call (|
-                          "partial_clear_storage_slot",
-                          [
-                            M.call (|
-                              "sub",
-                              [
-                                M.get (| "deleteStart" |);
-                                [Literal.number 1]
-                              ]
-                            |);
-                            M.get (| "offset" |)
-                          ]
-                        |) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.call (|
-                    "clear_storage_range_function_internal_nonpayable_returns",
-                    [
-                      M.get (| "deleteStart" |);
-                      M.get (| "deleteEnd" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
-        ["array"; "newLen"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "newLen" |);
-                  [Literal.number 18446744073709551616]
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.assign (|
-              ["oldLen"],
-              Some (M.call (|
-                "array_length_array_function_internal_nonpayable_returns_dyn_storage",
-                [
-                  M.get (| "array" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.call (|
-              "sstore",
-              [
-                M.get (| "array" |);
-                M.get (| "newLen" |)
-              ]
-            |) in
-          let _ :=
-            M.call (|
-              "cleanup_storage_array_end_array_function_internal_nonpayable_returns_dyn",
-              [
-                M.get (| "array" |);
-                M.get (| "oldLen" |);
-                M.get (| "newLen" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_length_array_function_internal_nonpayable_returns_dyn",
-        ["value"],
-        ["length"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["length"],
-              M.call (|
-                "mload",
-                [
-                  M.get (| "value" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "cleanup_function_internal_nonpayable_returns",
-        ["value"],
-        ["cleaned"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["cleaned"],
-              M.get (| "value" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "read_from_memoryt_function_internal_nonpayable_returns",
-        ["ptr"],
-        ["returnValue"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["value"],
-              Some (M.call (|
-                "cleanup_function_internal_nonpayable_returns",
-                [
-                  M.call (|
-                    "mload",
-                    [
-                      M.get (| "ptr" |)
-                    ]
-                  |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["returnValue"],
-              M.get (| "value" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_dataslot_array_function_internal_nonpayable_returns_dyn",
-        ["ptr"],
-        ["data"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.get (| "ptr" |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.call (|
-                "add",
-                [
-                  M.get (| "ptr" |);
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "update_byte_slice_dynamic8",
-        ["value"; "shiftBytes"; "toInsert"],
-        ["result"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["shiftBits"],
-              Some (M.call (|
-                "mul",
-                [
-                  M.get (| "shiftBytes" |);
-                  [Literal.number 8]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["mask"],
-              Some (M.call (|
-                "shift_left_dynamic",
-                [
-                  M.get (| "shiftBits" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["toInsert"],
-              M.call (|
-                "shift_left_dynamic",
-                [
-                  M.get (| "shiftBits" |);
-                  M.get (| "toInsert" |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["value"],
-              M.call (|
-                "and",
-                [
-                  M.get (| "value" |);
-                  M.call (|
-                    "not",
-                    [
-                      M.get (| "mask" |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          let _ :=
-            M.declare (|
-              ["result"],
-              M.call (|
-                "or",
-                [
-                  M.get (| "value" |);
-                  M.call (|
-                    "and",
-                    [
-                      M.get (| "toInsert" |);
-                      M.get (| "mask" |)
-                    ]
-                  |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "prepare_store_function_internal_nonpayable_returns",
-        ["value"],
-        ["ret"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["ret"],
-              M.get (| "value" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "copy_array_to_storage_from_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
-        ["dst"; "src"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["length"],
-              Some (M.call (|
-                "array_length_array_function_internal_nonpayable_returns_dyn",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.call (|
-              "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
-              [
-                M.get (| "dst" |);
-                M.get (| "length" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["srcPtr"],
-              Some (M.call (|
-                "array_dataslot_array_function_internal_nonpayable_returns_dyn",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["dstSlot"],
-              Some (M.call (|
-                "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-                [
-                  M.get (| "dst" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["fullSlots"],
-              Some (M.call (|
-                "div",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 4]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["i"],
-              Some ([Literal.number 0])
-            |) in
-          let _ :=
-            let _ :=
-              tt in
-            M.for_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "i" |);
-                  M.get (| "fullSlots" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["j"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  let _ :=
-                    tt in
-                  M.for_ (|
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "j" |);
-                        [Literal.number 4]
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.declare (|
-                          ["j"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "j" |);
-                              [Literal.number 1]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    )),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["stackItem"],
-                          Some (M.call (|
-                            "read_from_memoryt_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "srcPtr" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["itemValue"],
-                          Some (M.call (|
-                            "prepare_store_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "stackItem" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["dstSlotValue"],
-                          M.call (|
-                            "update_byte_slice_dynamic8",
-                            [
-                              M.get (| "dstSlotValue" |);
-                              M.call (|
-                                "mul",
-                                [
-                                  [Literal.number 8];
-                                  M.get (| "j" |)
-                                ]
-                              |);
-                              M.get (| "itemValue" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["srcPtr"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "srcPtr" |);
-                              [Literal.number 32]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "dstSlot" |);
-                          M.get (| "i" |)
-                        ]
-                      |);
-                      M.get (| "dstSlotValue" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.assign (|
-              ["spill"],
-              Some (M.call (|
-                "sub",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "mul",
-                    [
-                      M.get (| "fullSlots" |);
-                      [Literal.number 4]
-                    ]
-                  |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "spill" |);
-                  [Literal.number 0]
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue_1"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["j_1"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  let _ :=
-                    tt in
-                  M.for_ (|
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "j_1" |);
-                        M.get (| "spill" |)
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.declare (|
-                          ["j_1"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "j_1" |);
-                              [Literal.number 1]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    )),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["stackItem_1"],
-                          Some (M.call (|
-                            "read_from_memoryt_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "srcPtr" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["itemValue_1"],
-                          Some (M.call (|
-                            "prepare_store_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "stackItem_1" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["dstSlotValue_1"],
-                          M.call (|
-                            "update_byte_slice_dynamic8",
-                            [
-                              M.get (| "dstSlotValue_1" |);
-                              M.call (|
-                                "mul",
-                                [
-                                  [Literal.number 8];
-                                  M.get (| "j_1" |)
-                                ]
-                              |);
-                              M.get (| "itemValue_1" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["srcPtr"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "srcPtr" |);
-                              [Literal.number 32]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "dstSlot" |);
-                          M.get (| "fullSlots" |)
-                        ]
-                      |);
-                      M.get (| "dstSlotValue_1" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "update_storage_value_offsett_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
-        ["slot"; "value"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.call (|
-              "copy_array_to_storage_from_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
-              [
-                M.get (| "slot" |);
-                M.get (| "value" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_allocation_size_array_function_internal_nonpayable_returns",
-        ["length"],
-        ["size"],
-        ltac:(M.monadic (
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.declare (|
-              ["size"],
-              M.call (|
-                "mul",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 0x20]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "allocate_memory_array_array_function_internal_nonpayable_returns",
-        ["length"],
-        ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["allocSize"],
-              Some (M.call (|
-                "array_allocation_size_array_function_internal_nonpayable_returns",
-                [
-                  M.get (| "length" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "allocate_memory",
-                [
-                  M.get (| "allocSize" |)
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "write_to_memory_function_internal_nonpayable_returns",
-        ["memPtr"; "value"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.call (|
-              "mstore",
-              [
-                M.get (| "memPtr" |);
-                M.call (|
-                  "cleanup_function_internal_nonpayable_returns",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_length_array_function_internal_nonpayable_returns",
-        ["value"],
-        ["length"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["length"],
-              [Literal.number 0x03]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "array_dataslot_array_function_internal_nonpayable_returns",
-        ["ptr"],
-        ["data"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["data"],
-              M.get (| "ptr" |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "copy_array_to_storage_from_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
-        ["dst"; "src"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["length"],
-              Some (M.call (|
-                "array_length_array_function_internal_nonpayable_returns",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.call (|
-                        "shl",
-                        [
-                          [Literal.number 64];
-                          [Literal.number 1]
-                        ]
-                      |);
-                      [Literal.number 1]
-                    ]
-                  |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.call (|
-                    "panic_error_0x41",
-                    []
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.call (|
-              "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
-              [
-                M.get (| "dst" |);
-                M.get (| "length" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["srcPtr"],
-              Some (M.call (|
-                "array_dataslot_array_function_internal_nonpayable_returns",
-                [
-                  M.get (| "src" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["dstSlot"],
-              Some (M.call (|
-                "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-                [
-                  M.get (| "dst" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["fullSlots"],
-              Some (M.call (|
-                "div",
-                [
-                  M.get (| "length" |);
-                  [Literal.number 4]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["i"],
-              Some ([Literal.number 0])
-            |) in
-          let _ :=
-            let _ :=
-              tt in
-            M.for_ (|
-              M.call (|
-                "lt",
-                [
-                  M.get (| "i" |);
-                  M.get (| "fullSlots" |)
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.declare (|
-                    ["i"],
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "i" |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  |) in
-                tt
-              )),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["j"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  let _ :=
-                    tt in
-                  M.for_ (|
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "j" |);
-                        [Literal.number 4]
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.declare (|
-                          ["j"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "j" |);
-                              [Literal.number 1]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    )),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["stackItem"],
-                          Some (M.call (|
-                            "read_from_memoryt_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "srcPtr" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["itemValue"],
-                          Some (M.call (|
-                            "prepare_store_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "stackItem" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["dstSlotValue"],
-                          M.call (|
-                            "update_byte_slice_dynamic8",
-                            [
-                              M.get (| "dstSlotValue" |);
-                              M.call (|
-                                "mul",
-                                [
-                                  [Literal.number 8];
-                                  M.get (| "j" |)
-                                ]
-                              |);
-                              M.get (| "itemValue" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["srcPtr"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "srcPtr" |);
-                              [Literal.number 32]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "dstSlot" |);
-                          M.get (| "i" |)
-                        ]
-                      |);
-                      M.get (| "dstSlotValue" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          let _ :=
-            M.assign (|
-              ["spill"],
-              Some (M.call (|
-                "sub",
-                [
-                  M.get (| "length" |);
-                  M.call (|
-                    "mul",
-                    [
-                      M.get (| "fullSlots" |);
-                      [Literal.number 4]
-                    ]
-                  |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.if_ (|
-              M.call (|
-                "gt",
-                [
-                  M.get (| "spill" |);
-                  [Literal.number 0]
-                ]
-              |),
-              ltac:(M.monadic (
-                let _ :=
-                  M.assign (|
-                    ["dstSlotValue_1"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  M.assign (|
-                    ["j_1"],
-                    Some ([Literal.number 0])
-                  |) in
-                let _ :=
-                  let _ :=
-                    tt in
-                  M.for_ (|
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "j_1" |);
-                        M.get (| "spill" |)
-                      ]
-                    |),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.declare (|
-                          ["j_1"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "j_1" |);
-                              [Literal.number 1]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    )),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["stackItem_1"],
-                          Some (M.call (|
-                            "read_from_memoryt_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "srcPtr" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["itemValue_1"],
-                          Some (M.call (|
-                            "prepare_store_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "stackItem_1" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["dstSlotValue_1"],
-                          M.call (|
-                            "update_byte_slice_dynamic8",
-                            [
-                              M.get (| "dstSlotValue_1" |);
-                              M.call (|
-                                "mul",
-                                [
-                                  [Literal.number 8];
-                                  M.get (| "j_1" |)
-                                ]
-                              |);
-                              M.get (| "itemValue_1" |)
-                            ]
-                          |)
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["srcPtr"],
-                          M.call (|
-                            "add",
-                            [
-                              M.get (| "srcPtr" |);
-                              [Literal.number 32]
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))
-                  |) in
-                let _ :=
-                  M.call (|
-                    "sstore",
-                    [
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "dstSlot" |);
-                          M.get (| "fullSlots" |)
-                        ]
-                      |);
-                      M.get (| "dstSlotValue_1" |)
-                    ]
-                  |) in
-                tt
-              ))
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "update_storage_value_offsett_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
-        ["slot"; "value"],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.call (|
-              "copy_array_to_storage_from_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
-              [
-                M.get (| "slot" |);
-                M.get (| "value" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
-      M.function (|
-        "constructor_C",
-        [],
-        [],
-        ltac:(M.monadic (
-          let _ :=
-            M.assign (|
-              ["expr"],
-              Some ([Literal.number 0x03])
-            |) in
-          let _ :=
-            M.assign (|
-              ["_1"],
-              Some (M.call (|
-                "convert_rational_by_to_uint256",
-                [
-                  M.get (| "expr" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_mpos"],
-              Some (M.call (|
-                "allocate_and_zero_memory_array_array_function_external_nonpayable_returns_dyn",
-                [
-                  M.get (| "_1" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.call (|
-              "update_storage_value_offsett_array_function_external_nonpayable_returns_dyn_to_array_function_external_nonpayable_returns_dyn",
-              [
-                [Literal.number 0x00];
-                M.get (| "expr_mpos" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_52_mpos"],
-              Some (M.call (|
-                "allocate_memory_array_array_function_external_nonpayable_returns",
-                [
-                  [Literal.number 3]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_46_address"],
-              Some (M.call (|
-                "address",
-                []
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_address"],
-              Some (M.call (|
-                "convert_contract_C_to_address",
-                [
-                  M.get (| "expr_46_address" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_47_functionSelector"],
-              Some ([Literal.number 0x3c289b53])
-            |) in
-          let _ :=
-            M.call (|
-              "write_to_memory_function_external_nonpayable_returns",
-              [
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_52_mpos" |);
-                    [Literal.number 0]
-                  ]
-                |);
-                M.get (| "expr_address" |);
-                M.get (| "expr_47_functionSelector" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_48_address"],
-              Some (M.call (|
-                "address",
-                []
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_49_address"],
-              Some (M.call (|
-                "convert_contract_C_to_address",
-                [
-                  M.get (| "expr_48_address" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_49_functionSelector"],
-              Some ([Literal.number 0xb8fb063e])
-            |) in
-          let _ :=
-            M.call (|
-              "write_to_memory_function_external_nonpayable_returns",
-              [
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_52_mpos" |);
-                    [Literal.number 32]
-                  ]
-                |);
-                M.get (| "expr_49_address" |);
-                M.get (| "expr_49_functionSelector" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_50_address"],
-              Some (M.call (|
-                "address",
-                []
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_51_address"],
-              Some (M.call (|
-                "convert_contract_C_to_address",
-                [
-                  M.get (| "expr_50_address" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_functionSelector"],
-              Some ([Literal.number 0xc743d74b])
-            |) in
-          let _ :=
-            M.call (|
-              "write_to_memory_function_external_nonpayable_returns",
-              [
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_52_mpos" |);
-                    [Literal.number 64]
-                  ]
-                |);
-                M.get (| "expr_51_address" |);
-                M.get (| "expr_functionSelector" |)
-              ]
-            |) in
-          let _ :=
-            M.call (|
-              "update_storage_value_offsett_array_function_external_nonpayable_returns_to_array_function_external_nonpayable_returns_dyn",
-              [
-                [Literal.number 0x01];
-                M.get (| "expr_52_mpos" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_1"],
-              Some ([Literal.number 0x03])
-            |) in
-          let _ :=
-            M.assign (|
-              ["_2"],
-              Some (M.call (|
-                "convert_rational_by_to_uint256",
-                [
-                  M.get (| "expr_1" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_62_mpos"],
-              Some (M.call (|
-                "allocate_and_zero_memory_array_array_function_internal_nonpayable_returns_dyn",
-                [
-                  M.get (| "_2" |)
-                ]
-              |))
-            |) in
-          let _ :=
-            M.call (|
-              "update_storage_value_offsett_array_function_internal_nonpayable_returns_dyn_to_array_function_internal_nonpayable_returns_dyn",
-              [
-                [Literal.number 0x02];
-                M.get (| "expr_62_mpos" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_69_mpos"],
-              Some (M.call (|
-                "allocate_memory_array_array_function_internal_nonpayable_returns",
-                [
-                  [Literal.number 3]
-                ]
-              |))
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_functionIdentifier"],
-              Some ([Literal.number 1])
-            |) in
-          let _ :=
-            M.call (|
-              "write_to_memory_function_internal_nonpayable_returns",
-              [
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_69_mpos" |);
-                    [Literal.number 0]
-                  ]
-                |);
-                M.get (| "expr_functionIdentifier" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_67_functionIdentifier"],
-              Some ([Literal.number 2])
-            |) in
-          let _ :=
-            M.call (|
-              "write_to_memory_function_internal_nonpayable_returns",
-              [
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_69_mpos" |);
-                    [Literal.number 32]
-                  ]
-                |);
-                M.get (| "expr_67_functionIdentifier" |)
-              ]
-            |) in
-          let _ :=
-            M.assign (|
-              ["expr_68_functionIdentifier"],
-              Some ([Literal.number 3])
-            |) in
-          let _ :=
-            M.call (|
-              "write_to_memory_function_internal_nonpayable_returns",
-              [
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_69_mpos" |);
-                    [Literal.number 64]
-                  ]
-                |);
-                M.get (| "expr_68_functionIdentifier" |)
-              ]
-            |) in
-          let _ :=
-            M.call (|
-              "update_storage_value_offsett_array_function_internal_nonpayable_returns_to_array_function_internal_nonpayable_returns_dyn",
-              [
-                [Literal.number 0x03];
-                M.get (| "expr_69_mpos" |)
-              ]
-            |) in
-          tt
-        ))
-      |) in
-    tt
-  )).
-
-  Module C_161_deployed.
-    Definition code : M.t unit := ltac:(M.monadic (
-      let _ :=
-        let _ :=
-          M.call (|
-            "mstore",
-            [
-              [Literal.number 64];
-              M.call (|
-                "memoryguard",
-                [
-                  [Literal.number 0x80]
-                ]
-              |)
-            ]
-          |) in
-        let _ :=
-          M.if_ (|
-            M.call (|
-              "iszero",
-              [
-                M.call (|
-                  "lt",
-                  [
-                    M.call (|
-                      "calldatasize",
-                      []
-                    |);
-                    [Literal.number 4]
-                  ]
-                |)
-              ]
-            |),
-            ltac:(M.monadic (
-              let _ :=
-                M.assign (|
-                  ["selector"],
-                  Some (M.call (|
-                    "shift_right_unsigned",
-                    [
-                      M.call (|
-                        "calldataload",
-                        [
-                          [Literal.number 0]
-                        ]
-                      |)
-                    ]
-                  |))
-                |) in
-              let _ :=
-                M.switch (|
-                  M.get (| "selector" |),
-                  [
-                    (
-                      Some (Literal.number 0x3c289b53),
-                      ltac:(M.monadic (
-                        let _ :=
-                          M.call (|
-                            "external_fun_testFunction1",
-                            []
-                          |) in
-                        tt
-                      ))              );
-                    (
-                      Some (Literal.number 0x7d58a8e5),
-                      ltac:(M.monadic (
-                        let _ :=
-                          M.call (|
-                            "external_fun_copyExternalStorageArrayOfFunctionType",
-                            []
-                          |) in
-                        tt
-                      ))              );
-                    (
-                      Some (Literal.number 0xb8fb063e),
-                      ltac:(M.monadic (
-                        let _ :=
-                          M.call (|
-                            "external_fun_testFunction2",
-                            []
-                          |) in
-                        tt
-                      ))              );
-                    (
-                      Some (Literal.number 0xc743d74b),
-                      ltac:(M.monadic (
-                        let _ :=
-                          M.call (|
-                            "external_fun_testFunction3",
-                            []
-                          |) in
-                        tt
-                      ))              );
-                    (
-                      Some (Literal.number 0xf62bbf53),
-                      ltac:(M.monadic (
-                        let _ :=
-                          M.call (|
-                            "external_fun_copyInternalArrayOfFunctionType",
-                            []
-                          |) in
-                        tt
-                      ))              );
-                    (
-                      None,
-                      ltac:(M.monadic (
-                        tt
-                      ))              )            ]
-                |) in
-              tt
-            ))
-          |) in
-        let _ :=
-          M.call (|
-            "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            []
-          |) in
-        tt in
-      let _ :=
-        M.function (|
-          "shift_right_unsigned",
-          ["value"],
-          ["newValue"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["newValue"],
-                M.call (|
-                  "shr",
-                  [
-                    [Literal.number 224];
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "allocate_unbounded",
-          [],
-          ["memPtr"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["memPtr"],
-                M.call (|
-                  "mload",
-                  [
-                    [Literal.number 64]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_decode",
-          ["headStart"; "dataEnd"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "slt",
-                  [
-                    M.call (|
-                      "sub",
-                      [
-                        M.get (| "dataEnd" |);
-                        M.get (| "headStart" |)
-                      ]
-                    |);
-                    [Literal.number 0]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encode_tuple",
-          ["headStart"],
-          ["tail"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["tail"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "headStart" |);
-                    [Literal.number 0]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "external_fun_testFunction1",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "callvalue",
-                  []
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.call (|
-                "abi_decode",
-                [
-                  [Literal.number 4];
-                  M.call (|
-                    "calldatasize",
-                    []
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["memPos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memEnd"],
-                Some (M.call (|
-                  "abi_encode_tuple",
-                  [
-                    M.get (| "memPos" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "return",
-                [
-                  M.get (| "memPos" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_bool",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.call (|
-                  "iszero",
-                  [
-                    M.call (|
-                      "iszero",
-                      [
-                        M.get (| "value" |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encode_bool_to_bool",
-          ["value"; "pos"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  M.get (| "pos" |);
-                  M.call (|
-                    "cleanup_bool",
-                    [
-                      M.get (| "value" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encode_bool",
-          ["headStart"; "value0"],
-          ["tail"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["tail"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "headStart" |);
-                    [Literal.number 32]
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.call (|
-                "abi_encode_bool_to_bool",
-                [
-                  M.get (| "value0" |);
-                  M.call (|
-                    "add",
-                    [
-                      M.get (| "headStart" |);
-                      [Literal.number 0]
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "external_fun_copyExternalStorageArrayOfFunctionType",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "callvalue",
-                  []
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.call (|
-                "abi_decode",
-                [
-                  [Literal.number 4];
-                  M.call (|
-                    "calldatasize",
-                    []
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["ret"],
-                Some (M.call (|
-                  "fun_copyExternalStorageArrayOfFunctionType",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memPos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memEnd"],
-                Some (M.call (|
-                  "abi_encode_bool",
-                  [
-                    M.get (| "memPos" |);
-                    M.get (| "ret" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "return",
-                [
-                  M.get (| "memPos" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "external_fun_testFunction2",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "callvalue",
-                  []
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.call (|
-                "abi_decode",
-                [
-                  [Literal.number 4];
-                  M.call (|
-                    "calldatasize",
-                    []
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["memPos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memEnd"],
-                Some (M.call (|
-                  "abi_encode_tuple",
-                  [
-                    M.get (| "memPos" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "return",
-                [
-                  M.get (| "memPos" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "external_fun_testFunction3",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "callvalue",
-                  []
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.call (|
-                "abi_decode",
-                [
-                  [Literal.number 4];
-                  M.call (|
-                    "calldatasize",
-                    []
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["memPos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memEnd"],
-                Some (M.call (|
-                  "abi_encode_tuple",
-                  [
-                    M.get (| "memPos" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "return",
-                [
-                  M.get (| "memPos" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "external_fun_copyInternalArrayOfFunctionType",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "callvalue",
-                  []
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.call (|
-                "abi_decode",
-                [
-                  [Literal.number 4];
-                  M.call (|
-                    "calldatasize",
-                    []
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["ret"],
-                Some (M.call (|
-                  "fun_copyInternalArrayOfFunctionType",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memPos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memEnd"],
-                Some (M.call (|
-                  "abi_encode_bool",
-                  [
-                    M.get (| "memPos" |);
-                    M.get (| "ret" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "return",
-                [
-                  M.get (| "memPos" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "zero_value_for_split_bool",
-          [],
-          ["ret"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["ret"],
-                [Literal.number 0]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "array_length_array_function_external_nonpayable_returns_dyn_storage",
-          ["value"],
-          ["length"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["length"],
-                M.call (|
-                  "sload",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "array_storeLengthForEncoding_array_function_external_nonpayable_returns_dyn",
-          ["pos"; "length"],
-          ["updated_pos"],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
-                ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["updated_pos"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "pos" |);
-                    [Literal.number 0x20]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-          ["ptr"],
-          ["data"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["data"],
-                M.get (| "ptr" |)
-              |) in
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 0];
-                  M.get (| "ptr" |)
-                ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["data"],
-                M.call (|
-                  "keccak256",
-                  [
-                    [Literal.number 0];
-                    [Literal.number 0x20]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_bytes24",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "value" |);
-                    M.call (|
-                      "not",
-                      [
-                        [Literal.number 0xffffffffffffffff]
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_function_external_nonpayable_returns",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.call (|
-                  "cleanup_bytes24",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encode_function_external_nonpayable_returns",
-          ["addr_and_function_id"; "pos"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  M.get (| "pos" |);
-                  M.call (|
-                    "cleanup_function_external_nonpayable_returns",
-                    [
-                      M.get (| "addr_and_function_id" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encodeUpdatedPos_function_external_nonpayable_returns",
-          ["value0"; "pos"],
-          ["updatedPos"],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "abi_encode_function_external_nonpayable_returns",
-                [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
-                ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["updatedPos"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "pos" |);
-                    [Literal.number 0x20]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "shift_right_0_unsigned",
-          ["value"],
-          ["newValue"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["newValue"],
-                M.call (|
-                  "shr",
-                  [
-                    [Literal.number 0];
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "shift_left",
-          ["value"],
-          ["newValue"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["newValue"],
-                M.call (|
-                  "shl",
-                  [
-                    [Literal.number 64];
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_from_storage_function_external_nonpayable_returns",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.call (|
-                  "shift_left",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "extract_from_storage_value_offsett_function_external_nonpayable_returns",
-          ["slot_value"],
-          ["value"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["value"],
-                M.call (|
-                  "cleanup_from_storage_function_external_nonpayable_returns",
-                  [
-                    M.call (|
-                      "shift_right_0_unsigned",
-                      [
-                        M.get (| "slot_value" |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "read_from_storage_offset_function_external_nonpayable_returns",
-          ["slot"],
-          ["value"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["value"],
-                M.call (|
-                  "extract_from_storage_value_offsett_function_external_nonpayable_returns",
-                  [
-                    M.call (|
-                      "sload",
-                      [
-                        M.get (| "slot" |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "array_nextElement_array_function_external_nonpayable_returns_dyn_storage",
-          ["ptr"],
-          ["next"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["next"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "ptr" |);
-                    [Literal.number 0x01]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encode_array_function_external_nonpayable_returns_dyn_storage_to_array_function_external_nonpayable_returns_dyn",
-          ["value"; "pos"],
-          ["end"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["length"],
-                Some (M.call (|
-                  "array_length_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["pos"],
-                M.call (|
-                  "array_storeLengthForEncoding_array_function_external_nonpayable_returns_dyn",
-                  [
-                    M.get (| "pos" |);
-                    M.get (| "length" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["baseRef"],
-                Some (M.call (|
-                  "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["srcPtr"],
-                Some (M.get (| "baseRef" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["i"],
-                Some ([Literal.number 0])
-              |) in
-            let _ :=
-              let _ :=
-                tt in
-              M.for_ (|
-                M.call (|
-                  "lt",
-                  [
-                    M.get (| "i" |);
-                    M.get (| "length" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.declare (|
-                      ["i"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "i" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  tt
-                )),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["elementValue0"],
-                      Some (M.call (|
-                        "read_from_storage_offset_function_external_nonpayable_returns",
-                        [
-                          M.get (| "srcPtr" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["pos"],
-                      M.call (|
-                        "abi_encodeUpdatedPos_function_external_nonpayable_returns",
-                        [
-                          M.get (| "elementValue0" |);
-                          M.get (| "pos" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcPtr"],
-                      M.call (|
-                        "array_nextElement_array_function_external_nonpayable_returns_dyn_storage",
-                        [
-                          M.get (| "srcPtr" |)
-                        ]
-                      |)
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.declare (|
-                ["end"],
-                M.get (| "pos" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
-          ["headStart"; "value0"],
-          ["tail"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["tail"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "headStart" |);
-                    [Literal.number 32]
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  M.call (|
-                    "add",
-                    [
-                      M.get (| "headStart" |);
-                      [Literal.number 0]
-                    ]
-                  |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
-                    ]
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["tail"],
-                M.call (|
-                  "abi_encode_array_function_external_nonpayable_returns_dyn_storage_to_array_function_external_nonpayable_returns_dyn",
-                  [
-                    M.get (| "value0" |);
-                    M.get (| "tail" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "round_up_to_mul_of",
-          ["value"],
-          ["result"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["result"],
-                M.call (|
-                  "and",
-                  [
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "value" |);
-                        [Literal.number 31]
-                      ]
-                    |);
-                    M.call (|
-                      "not",
-                      [
-                        [Literal.number 31]
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "panic_error_0x41",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 0];
-                  M.call (|
-                    "shl",
-                    [
-                      [Literal.number 224];
-                      [Literal.number 0x4e487b71]
-                    ]
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 4];
-                  [Literal.number 0x41]
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0x24]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "finalize_allocation",
-          ["memPtr"; "size"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["newFreePtr"],
-                Some (M.call (|
-                  "add",
-                  [
-                    M.get (| "memPtr" |);
-                    M.call (|
-                      "round_up_to_mul_of",
-                      [
-                        M.get (| "size" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "or",
-                  [
-                    M.call (|
-                      "gt",
-                      [
-                        M.get (| "newFreePtr" |);
-                        [Literal.number 0xffffffffffffffff]
-                      ]
-                    |);
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "newFreePtr" |);
-                        M.get (| "memPtr" |)
-                      ]
-                    |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x41",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 64];
-                  M.get (| "newFreePtr" |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "array_dataslot_bytes",
-          ["ptr"],
-          ["data"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["data"],
-                M.get (| "ptr" |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["data"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "ptr" |);
-                    [Literal.number 0x20]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "array_length_bytes",
-          ["value"],
-          ["length"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["length"],
-                M.call (|
-                  "mload",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_bytes32",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "panic_error_0x01",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 0];
-                  M.call (|
-                    "shl",
-                    [
-                      [Literal.number 224];
-                      [Literal.number 0x4e487b71]
-                    ]
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 4];
-                  [Literal.number 0x01]
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0x24]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "assert_helper",
-          ["condition"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "iszero",
-                  [
-                    M.get (| "condition" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x01",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_uint256",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
-          ["length"],
-          ["size"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["size"],
-                M.get (| "length" |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["size"],
-                M.call (|
-                  "div",
-                  [
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "length" |);
-                        M.call (|
-                          "sub",
-                          [
-                            [Literal.number 1];
-                            [Literal.number 1]
-                          ]
-                        |)
-                      ]
-                    |);
-                    [Literal.number 1]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "shift_left_dynamic",
-          ["bits"; "value"],
-          ["newValue"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["newValue"],
-                M.call (|
-                  "shl",
-                  [
-                    M.get (| "bits" |);
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "update_byte_slice_dynamic32",
-          ["value"; "shiftBytes"; "toInsert"],
-          ["result"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["shiftBits"],
-                Some (M.call (|
-                  "mul",
-                  [
-                    M.get (| "shiftBytes" |);
-                    [Literal.number 8]
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["mask"],
-                Some (M.call (|
-                  "shift_left_dynamic",
-                  [
-                    M.get (| "shiftBits" |);
-                    M.call (|
-                      "not",
-                      [
-                        [Literal.number 0]
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["toInsert"],
-                M.call (|
-                  "shift_left_dynamic",
-                  [
-                    M.get (| "shiftBits" |);
-                    M.get (| "toInsert" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["value"],
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "value" |);
-                    M.call (|
-                      "not",
-                      [
-                        M.get (| "mask" |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["result"],
-                M.call (|
-                  "or",
-                  [
-                    M.get (| "value" |);
-                    M.call (|
-                      "and",
-                      [
-                        M.get (| "toInsert" |);
-                        M.get (| "mask" |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "identity",
-          ["value"],
-          ["ret"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["ret"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "convert_uint256_to_uint256",
-          ["value"],
-          ["converted"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["converted"],
-                M.call (|
-                  "cleanup_uint256",
-                  [
-                    M.call (|
-                      "identity",
-                      [
-                        M.call (|
-                          "cleanup_uint256",
-                          [
-                            M.get (| "value" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "prepare_store_uint256",
-          ["value"],
-          ["ret"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["ret"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "update_storage_value_uint256_to_uint256",
-          ["slot"; "offset"; "value"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["convertedValue"],
-                Some (M.call (|
-                  "convert_uint256_to_uint256",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "sstore",
-                [
-                  M.get (| "slot" |);
-                  M.call (|
-                    "update_byte_slice_dynamic32",
-                    [
-                      M.call (|
-                        "sload",
-                        [
-                          M.get (| "slot" |)
-                        ]
-                      |);
-                      M.get (| "offset" |);
-                      M.call (|
-                        "prepare_store_uint256",
-                        [
-                          M.get (| "convertedValue" |)
-                        ]
-                      |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "zero_value_for_split_uint256",
-          [],
-          ["ret"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["ret"],
-                [Literal.number 0]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "storage_set_to_zero_uint256",
-          ["slot"; "offset"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["zero"],
-                Some (M.call (|
-                  "zero_value_for_split_uint256",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "update_storage_value_uint256_to_uint256",
-                [
-                  M.get (| "slot" |);
-                  M.get (| "offset" |);
-                  M.get (| "zero" |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "clear_storage_range_function_external_nonpayable_returns",
-          ["start"; "end"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              let _ :=
-                tt in
-              M.for_ (|
-                M.call (|
-                  "lt",
-                  [
-                    M.get (| "start" |);
-                    M.get (| "end" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.declare (|
-                      ["start"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "start" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  tt
-                )),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "storage_set_to_zero_uint256",
-                      [
-                        M.get (| "start" |);
-                        [Literal.number 0]
-                      ]
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "shift_right_unsigned_dynamic",
-          ["bits"; "value"],
-          ["newValue"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["newValue"],
-                M.call (|
-                  "shr",
-                  [
-                    M.get (| "bits" |);
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "partial_clear_storage_slot",
-          ["slot"; "offset"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["mask"],
-                Some (M.call (|
-                  "shift_right_unsigned_dynamic",
-                  [
-                    M.call (|
-                      "mul",
-                      [
-                        [Literal.number 8];
-                        M.call (|
-                          "sub",
-                          [
-                            [Literal.number 32];
-                            M.get (| "offset" |)
-                          ]
-                        |)
-                      ]
-                    |);
-                    M.call (|
-                      "not",
-                      [
-                        [Literal.number 0]
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "sstore",
                 [
@@ -5860,135 +6154,149 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "cleanup_storage_array_end_array_function_external_nonpayable_returns_dyn",
           ["array"; "len"; "startIndex"],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "lt",
-                  [
-                    M.get (| "startIndex" |);
-                    M.get (| "len" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["oldSlotCount"],
-                      Some (M.call (|
-                        "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
-                        [
-                          M.get (| "len" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["newSlotCount"],
-                      Some (M.call (|
-                        "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
-                        [
-                          M.get (| "startIndex" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["arrayDataStart"],
-                      Some (M.call (|
-                        "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-                        [
-                          M.get (| "array" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["deleteStart"],
-                      Some (M.call (|
-                        "add",
-                        [
-                          M.get (| "arrayDataStart" |);
-                          M.get (| "newSlotCount" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["deleteEnd"],
-                      Some (M.call (|
-                        "add",
-                        [
-                          M.get (| "arrayDataStart" |);
-                          M.get (| "oldSlotCount" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.call (|
-                      "clear_storage_range_function_external_nonpayable_returns",
-                      [
-                        M.get (| "deleteStart" |);
-                        M.get (| "deleteEnd" |)
-                      ]
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "lt",
+                [
+                  M.get (| "startIndex" |);
+                  M.get (| "len" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["oldSlotCount"],
+                  Some (M.call (|
+                    "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
+                    [
+                      M.get (| "len" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["newSlotCount"],
+                  Some (M.call (|
+                    "array_convert_length_to_size_array_function_external_nonpayable_returns_dyn_storage",
+                    [
+                      M.get (| "startIndex" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["arrayDataStart"],
+                  Some (M.call (|
+                    "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+                    [
+                      M.get (| "array" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["deleteStart"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "arrayDataStart" |);
+                      M.get (| "newSlotCount" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["deleteEnd"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "arrayDataStart" |);
+                      M.get (| "oldSlotCount" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "clear_storage_range_function_external_nonpayable_returns",
+                    [
+                      M.get (| "deleteStart" |);
+                      M.get (| "deleteEnd" |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "resize_array_array_function_external_nonpayable_returns_dyn_storage",
           ["array"; "newLen"],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "gt",
-                  [
-                    M.get (| "newLen" |);
-                    [Literal.number 18446744073709551616]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x41",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["oldLen"],
-                Some (M.call (|
-                  "array_length_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "array" |)
-                  ]
-                |))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "gt",
+                [
+                  M.get (| "newLen" |);
+                  [Literal.number 18446744073709551616]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x41",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["oldLen"],
+              Some (M.call (|
+                "array_length_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "array" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "sstore",
                 [
                   M.get (| "array" |);
                   M.get (| "newLen" |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "cleanup_storage_array_end_array_function_external_nonpayable_returns_dyn",
                 [
@@ -5996,195 +6304,209 @@ Module C_161.
                   M.get (| "oldLen" |);
                   M.get (| "newLen" |)
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "mask_lower_order_bytes_24",
           ["data"],
           ["result"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["result"],
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "data" |);
-                    M.call (|
-                      "sub",
-                      [
-                        M.call (|
-                          "shl",
-                          [
-                            [Literal.number 192];
-                            [Literal.number 1]
-                          ]
-                        |);
-                        [Literal.number 1]
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["result"],
+              Some (M.call (|
+                "and",
+                [
+                  M.get (| "data" |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.call (|
+                        "shl",
+                        [
+                          [Literal.number 192];
+                          [Literal.number 1]
+                        ]
+                      |);
+                      [Literal.number 1]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "mask_lower_order_bytes_dynamic",
           ["data"; "bytes"],
           ["result"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["mask"],
-                Some (M.call (|
-                  "not",
-                  [
-                    M.call (|
-                      "shift_left_dynamic",
-                      [
-                        M.call (|
-                          "mul",
-                          [
-                            [Literal.number 8];
-                            M.get (| "bytes" |)
-                          ]
-                        |);
-                        M.call (|
-                          "not",
-                          [
-                            [Literal.number 0]
-                          ]
-                        |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["result"],
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "data" |);
-                    M.get (| "mask" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["mask"],
+              Some (M.call (|
+                "not",
+                [
+                  M.call (|
+                    "shift_left_dynamic",
+                    [
+                      M.call (|
+                        "mul",
+                        [
+                          [Literal.number 8];
+                          M.get (| "bytes" |)
+                        ]
+                      |);
+                      M.call (|
+                        "not",
+                        [
+                          [Literal.number 0]
+                        ]
+                      |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["result"],
+              Some (M.call (|
+                "and",
+                [
+                  M.get (| "data" |);
+                  M.get (| "mask" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "copy_array_to_storage_from_array_function_external_nonpayable_returns_dyn__to_array_function_external_nonpayable_returns_dyn",
           ["dst"; "src"],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "eq",
-                  [
-                    M.get (| "dst" |);
-                    M.get (| "src" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.leave (||) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["length"],
-                Some (M.call (|
-                  "array_length_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "src" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "gt",
-                  [
-                    M.get (| "length" |);
-                    [Literal.number 0xffffffffffffffff]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x41",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "eq",
+                [
+                  M.get (| "dst" |);
+                  M.get (| "src" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.leave (||)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["length"],
+              Some (M.call (|
+                "array_length_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "src" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "gt",
+                [
+                  M.get (| "length" |);
+                  [Literal.number 0xffffffffffffffff]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x41",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "resize_array_array_function_external_nonpayable_returns_dyn_storage",
                 [
                   M.get (| "dst" |);
                   M.get (| "length" |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["srcPtr"],
-                Some (M.call (|
-                  "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "src" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["dstSlot"],
-                Some (M.call (|
-                  "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "dst" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["fullSlots"],
-                Some (M.call (|
-                  "div",
-                  [
-                    M.get (| "length" |);
-                    [Literal.number 1]
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["srcSlotValue"],
-                Some (M.call (|
-                  "sload",
-                  [
-                    M.get (| "srcPtr" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["i"],
-                Some ([Literal.number 0])
-              |) in
-            let _ :=
-              let _ :=
-                tt in
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["srcPtr"],
+              Some (M.call (|
+                "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "src" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["dstSlot"],
+              Some (M.call (|
+                "array_dataslot_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "dst" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["fullSlots"],
+              Some (M.call (|
+                "div",
+                [
+                  M.get (| "length" |);
+                  [Literal.number 1]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["srcSlotValue"],
+              Some (M.call (|
+                "sload",
+                [
+                  M.get (| "srcPtr" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["i"],
+              Some ([Literal.number 0])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            do*
+              M.od in
+      ltac:(M.monadic (
               M.for_ (|
                 M.call (|
                   "lt",
@@ -6193,58 +6515,61 @@ Module C_161.
                     M.get (| "fullSlots" |)
                   ]
                 |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.declare (|
-                      ["i"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "i" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  tt
-                )),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["dstSlotValue"],
-                      Some ([Literal.number 0])
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["dstSlotValue"],
-                      M.call (|
-                        "mask_lower_order_bytes_24",
-                        [
-                          M.get (| "srcSlotValue" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcPtr"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "srcPtr" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcSlotValue"],
-                      M.call (|
-                        "sload",
-                        [
-                          M.get (| "srcPtr" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["i"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "i" |);
+                        [Literal.number 1]
+                      ]
+                    |))
+                  |)
+                )) in
+                M.od,
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["dstSlotValue"],
+                    Some ([Literal.number 0])
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["dstSlotValue"],
+                    Some (M.call (|
+                      "mask_lower_order_bytes_24",
+                      [
+                        M.get (| "srcSlotValue" |)
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["srcPtr"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "srcPtr" |);
+                        [Literal.number 1]
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["srcSlotValue"],
+                    Some (M.call (|
+                      "sload",
+                      [
+                        M.get (| "srcPtr" |)
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.expr_stmt (|
                     M.call (|
                       "sstore",
                       [
@@ -6257,90 +6582,102 @@ Module C_161.
                         |);
                         M.get (| "dstSlotValue" |)
                       ]
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+                    |)
+                  |)
+                )) in
+                M.od
+              |)
+            ))
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "update_storage_value_offsett_array_function_external_nonpayable_returns_dyn__to_array_function_external_nonpayable_returns_dyn",
           ["slot"; "value"],
           [],
-          ltac:(M.monadic (
-            let _ :=
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "copy_array_to_storage_from_array_function_external_nonpayable_returns_dyn__to_array_function_external_nonpayable_returns_dyn",
                 [
                   M.get (| "slot" |);
                   M.get (| "value" |)
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "fun_copyExternalStorageArrayOfFunctionType",
           [],
           ["var"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["zero_t_bool"],
-                Some (M.call (|
-                  "zero_value_for_split_bool",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var"],
-                M.get (| "zero_t_bool" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_2_slot"],
-                Some ([Literal.number 0x00])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_82_slot"],
-                Some (M.get (| "_2_slot" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_83_mpos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_1"],
-                Some (M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_83_mpos" |);
-                    [Literal.number 0x20]
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_2"],
-                Some (M.call (|
-                  "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "_1" |);
-                    M.get (| "expr_82_slot" |)
-                  ]
-                |))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["zero_t_bool"],
+              Some (M.call (|
+                "zero_value_for_split_bool",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var"],
+              Some (M.get (| "zero_t_bool" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_2_slot"],
+              Some ([Literal.number 0x00])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_82_slot"],
+              Some (M.get (| "_2_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_83_mpos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_1"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "expr_83_mpos" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_2"],
+              Some (M.call (|
+                "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "_1" |);
+                  M.get (| "expr_82_slot" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -6359,8 +6696,11 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "finalize_allocation",
                 [
@@ -6373,69 +6713,78 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr"],
-                Some (M.call (|
-                  "keccak256",
-                  [
-                    M.call (|
-                      "array_dataslot_bytes",
-                      [
-                        M.get (| "expr_83_mpos" |)
-                      ]
-                    |);
-                    M.call (|
-                      "array_length_bytes",
-                      [
-                        M.get (| "expr_83_mpos" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_5_slot"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_88_slot"],
-                Some (M.get (| "_5_slot" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_89_mpos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_3"],
-                Some (M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_89_mpos" |);
-                    [Literal.number 0x20]
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_4"],
-                Some (M.call (|
-                  "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "_3" |);
-                    M.get (| "expr_88_slot" |)
-                  ]
-                |))
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some (M.call (|
+                "keccak256",
+                [
+                  M.call (|
+                    "array_dataslot_bytes",
+                    [
+                      M.get (| "expr_83_mpos" |)
+                    ]
+                  |);
+                  M.call (|
+                    "array_length_bytes",
+                    [
+                      M.get (| "expr_83_mpos" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_5_slot"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_88_slot"],
+              Some (M.get (| "_5_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_89_mpos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_3"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "expr_89_mpos" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_4"],
+              Some (M.call (|
+                "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "_3" |);
+                  M.get (| "expr_88_slot" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -6454,8 +6803,11 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "finalize_allocation",
                 [
@@ -6468,120 +6820,138 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some (M.call (|
-                  "keccak256",
-                  [
-                    M.call (|
-                      "array_dataslot_bytes",
-                      [
-                        M.get (| "expr_89_mpos" |)
-                      ]
-                    |);
-                    M.call (|
-                      "array_length_bytes",
-                      [
-                        M.get (| "expr_89_mpos" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_2"],
-                Some (M.call (|
-                  "iszero",
-                  [
-                    M.call (|
-                      "eq",
-                      [
-                        M.call (|
-                          "cleanup_bytes32",
-                          [
-                            M.get (| "expr" |)
-                          ]
-                        |);
-                        M.call (|
-                          "cleanup_bytes32",
-                          [
-                            M.get (| "expr_1" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some (M.call (|
+                "keccak256",
+                [
+                  M.call (|
+                    "array_dataslot_bytes",
+                    [
+                      M.get (| "expr_89_mpos" |)
+                    ]
+                  |);
+                  M.call (|
+                    "array_length_bytes",
+                    [
+                      M.get (| "expr_89_mpos" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_2"],
+              Some (M.call (|
+                "iszero",
+                [
+                  M.call (|
+                    "eq",
+                    [
+                      M.call (|
+                        "cleanup_bytes32",
+                        [
+                          M.get (| "expr" |)
+                        ]
+                      |);
+                      M.call (|
+                        "cleanup_bytes32",
+                        [
+                          M.get (| "expr_1" |)
+                        ]
+                      |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "assert_helper",
                 [
                   M.get (| "expr_2" |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["_8_slot"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_95_slot"],
-                Some (M.get (| "_8_slot" |))
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_8_slot"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_95_slot"],
+              Some (M.get (| "_8_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "update_storage_value_offsett_array_function_external_nonpayable_returns_dyn__to_array_function_external_nonpayable_returns_dyn",
                 [
                   [Literal.number 0x00];
                   M.get (| "expr_95_slot" |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["_10_slot"],
-                Some ([Literal.number 0x00])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_101_slot"],
-                Some (M.get (| "_10_slot" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_mpos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_5"],
-                Some (M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_mpos" |);
-                    [Literal.number 0x20]
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_6"],
-                Some (M.call (|
-                  "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "_5" |);
-                    M.get (| "expr_101_slot" |)
-                  ]
-                |))
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_10_slot"],
+              Some ([Literal.number 0x00])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_101_slot"],
+              Some (M.get (| "_10_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_mpos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_5"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "expr_mpos" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_6"],
+              Some (M.call (|
+                "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "_5" |);
+                  M.get (| "expr_101_slot" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -6600,8 +6970,11 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "finalize_allocation",
                 [
@@ -6614,69 +6987,78 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_3"],
-                Some (M.call (|
-                  "keccak256",
-                  [
-                    M.call (|
-                      "array_dataslot_bytes",
-                      [
-                        M.get (| "expr_mpos" |)
-                      ]
-                    |);
-                    M.call (|
-                      "array_length_bytes",
-                      [
-                        M.get (| "expr_mpos" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_13_slot"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_107_slot"],
-                Some (M.get (| "_13_slot" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_108_mpos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_7"],
-                Some (M.call (|
-                  "add",
-                  [
-                    M.get (| "expr_108_mpos" |);
-                    [Literal.number 0x20]
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_8"],
-                Some (M.call (|
-                  "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "_7" |);
-                    M.get (| "expr_107_slot" |)
-                  ]
-                |))
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_3"],
+              Some (M.call (|
+                "keccak256",
+                [
+                  M.call (|
+                    "array_dataslot_bytes",
+                    [
+                      M.get (| "expr_mpos" |)
+                    ]
+                  |);
+                  M.call (|
+                    "array_length_bytes",
+                    [
+                      M.get (| "expr_mpos" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_13_slot"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_107_slot"],
+              Some (M.get (| "_13_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_108_mpos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_7"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "expr_108_mpos" |);
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_8"],
+              Some (M.call (|
+                "abi_encode_array_function_external_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "_7" |);
+                  M.get (| "expr_107_slot" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -6695,8 +7077,11 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "finalize_allocation",
                 [
@@ -6709,157 +7094,168 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_4"],
-                Some (M.call (|
-                  "keccak256",
-                  [
-                    M.call (|
-                      "array_dataslot_bytes",
-                      [
-                        M.get (| "expr_108_mpos" |)
-                      ]
-                    |);
-                    M.call (|
-                      "array_length_bytes",
-                      [
-                        M.get (| "expr_108_mpos" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_5"],
-                Some (M.call (|
-                  "eq",
-                  [
-                    M.call (|
-                      "cleanup_bytes32",
-                      [
-                        M.get (| "expr_3" |)
-                      ]
-                    |);
-                    M.call (|
-                      "cleanup_bytes32",
-                      [
-                        M.get (| "expr_4" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var"],
-                M.get (| "expr_5" |)
-              |) in
-            let _ :=
-              M.leave (||) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_4"],
+              Some (M.call (|
+                "keccak256",
+                [
+                  M.call (|
+                    "array_dataslot_bytes",
+                    [
+                      M.get (| "expr_108_mpos" |)
+                    ]
+                  |);
+                  M.call (|
+                    "array_length_bytes",
+                    [
+                      M.get (| "expr_108_mpos" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_5"],
+              Some (M.call (|
+                "eq",
+                [
+                  M.call (|
+                    "cleanup_bytes32",
+                    [
+                      M.get (| "expr_3" |)
+                    ]
+                  |);
+                  M.call (|
+                    "cleanup_bytes32",
+                    [
+                      M.get (| "expr_4" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var"],
+              Some (M.get (| "expr_5" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.leave (||)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "array_length_array_function_internal_nonpayable_returns_dyn_storage",
           ["value"],
           ["length"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["length"],
-                M.call (|
-                  "sload",
-                  [
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["length"],
+              Some (M.call (|
+                "sload",
+                [
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
           ["length"],
           ["size"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["size"],
-                M.get (| "length" |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["size"],
-                M.call (|
-                  "div",
-                  [
-                    M.call (|
-                      "add",
-                      [
-                        M.get (| "length" |);
-                        M.call (|
-                          "sub",
-                          [
-                            [Literal.number 4];
-                            [Literal.number 1]
-                          ]
-                        |)
-                      ]
-                    |);
-                    [Literal.number 4]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["size"],
+              Some (M.get (| "length" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["size"],
+              Some (M.call (|
+                "div",
+                [
+                  M.call (|
+                    "add",
+                    [
+                      M.get (| "length" |);
+                      M.call (|
+                        "sub",
+                        [
+                          [Literal.number 4];
+                          [Literal.number 1]
+                        ]
+                      |)
+                    ]
+                  |);
+                  [Literal.number 4]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
           ["ptr"],
           ["data"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["data"],
-                M.get (| "ptr" |)
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["data"],
+              Some (M.get (| "ptr" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
                   [Literal.number 0];
                   M.get (| "ptr" |)
                 ]
-              |) in
-            let _ :=
-              M.declare (|
-                ["data"],
-                M.call (|
-                  "keccak256",
-                  [
-                    [Literal.number 0];
-                    [Literal.number 0x20]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["data"],
+              Some (M.call (|
+                "keccak256",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0x20]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "clear_storage_range_function_internal_nonpayable_returns",
           ["start"; "end"],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              let _ :=
-                tt in
+          do* ltac:(M.monadic (
+            do*
+              M.od in
+      ltac:(M.monadic (
               M.for_ (|
                 M.call (|
                   "lt",
@@ -6868,204 +7264,221 @@ Module C_161.
                     M.get (| "end" |)
                   ]
                 |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.declare (|
-                      ["start"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "start" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  tt
-                )),
-                ltac:(M.monadic (
-                  let _ :=
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["start"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "start" |);
+                        [Literal.number 1]
+                      ]
+                    |))
+                  |)
+                )) in
+                M.od,
+                do* ltac:(M.monadic (
+                  M.expr_stmt (|
                     M.call (|
                       "storage_set_to_zero_uint256",
                       [
                         M.get (| "start" |);
                         [Literal.number 0]
                       ]
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+                    |)
+                  |)
+                )) in
+                M.od
+              |)
+            ))
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "cleanup_storage_array_end_array_function_internal_nonpayable_returns_dyn",
           ["array"; "len"; "startIndex"],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "lt",
-                  [
-                    M.get (| "startIndex" |);
-                    M.get (| "len" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["oldSlotCount"],
-                      Some (M.call (|
-                        "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "lt",
+                [
+                  M.get (| "startIndex" |);
+                  M.get (| "len" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["oldSlotCount"],
+                  Some (M.call (|
+                    "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
+                    [
+                      M.get (| "len" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["newSlotCount"],
+                  Some (M.call (|
+                    "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
+                    [
+                      M.get (| "startIndex" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["arrayDataStart"],
+                  Some (M.call (|
+                    "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+                    [
+                      M.get (| "array" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["deleteStart"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "arrayDataStart" |);
+                      M.get (| "newSlotCount" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["deleteEnd"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "arrayDataStart" |);
+                      M.get (| "oldSlotCount" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["offset"],
+                  Some (M.call (|
+                    "mul",
+                    [
+                      M.call (|
+                        "mod",
                         [
-                          M.get (| "len" |)
+                          M.get (| "startIndex" |);
+                          [Literal.number 4]
                         ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["newSlotCount"],
-                      Some (M.call (|
-                        "array_convert_length_to_size_array_function_internal_nonpayable_returns_dyn_storage",
-                        [
-                          M.get (| "startIndex" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["arrayDataStart"],
-                      Some (M.call (|
-                        "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-                        [
-                          M.get (| "array" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["deleteStart"],
-                      Some (M.call (|
-                        "add",
-                        [
-                          M.get (| "arrayDataStart" |);
-                          M.get (| "newSlotCount" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["deleteEnd"],
-                      Some (M.call (|
-                        "add",
-                        [
-                          M.get (| "arrayDataStart" |);
-                          M.get (| "oldSlotCount" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["offset"],
-                      Some (M.call (|
-                        "mul",
+                      |);
+                      [Literal.number 8]
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.if_ (|
+                  M.call (|
+                    "gt",
+                    [
+                      M.get (| "offset" |);
+                      [Literal.number 0]
+                    ]
+                  |),
+                  do* ltac:(M.monadic (
+                    M.expr_stmt (|
+                      M.call (|
+                        "partial_clear_storage_slot",
                         [
                           M.call (|
-                            "mod",
+                            "sub",
                             [
-                              M.get (| "startIndex" |);
-                              [Literal.number 4]
+                              M.get (| "deleteStart" |);
+                              [Literal.number 1]
                             ]
                           |);
-                          [Literal.number 8]
+                          M.get (| "offset" |)
                         ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.if_ (|
-                      M.call (|
-                        "gt",
-                        [
-                          M.get (| "offset" |);
-                          [Literal.number 0]
-                        ]
-                      |),
-                      ltac:(M.monadic (
-                        let _ :=
-                          M.call (|
-                            "partial_clear_storage_slot",
-                            [
-                              M.call (|
-                                "sub",
-                                [
-                                  M.get (| "deleteStart" |);
-                                  [Literal.number 1]
-                                ]
-                              |);
-                              M.get (| "offset" |)
-                            ]
-                          |) in
-                        tt
-                      ))
-                    |) in
-                  let _ :=
-                    M.call (|
-                      "clear_storage_range_function_internal_nonpayable_returns",
-                      [
-                        M.get (| "deleteStart" |);
-                        M.get (| "deleteEnd" |)
-                      ]
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+                      |)
+                    |)
+                  )) in
+                  M.od
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "clear_storage_range_function_internal_nonpayable_returns",
+                    [
+                      M.get (| "deleteStart" |);
+                      M.get (| "deleteEnd" |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
           ["array"; "newLen"],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "gt",
-                  [
-                    M.get (| "newLen" |);
-                    [Literal.number 18446744073709551616]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x41",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["oldLen"],
-                Some (M.call (|
-                  "array_length_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "array" |)
-                  ]
-                |))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "gt",
+                [
+                  M.get (| "newLen" |);
+                  [Literal.number 18446744073709551616]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x41",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["oldLen"],
+              Some (M.call (|
+                "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "array" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "sstore",
                 [
                   M.get (| "array" |);
                   M.get (| "newLen" |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "cleanup_storage_array_end_array_function_internal_nonpayable_returns_dyn",
                 [
@@ -7073,155 +7486,168 @@ Module C_161.
                   M.get (| "oldLen" |);
                   M.get (| "newLen" |)
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "cleanup_function_internal_nonpayable_returns",
           ["value"],
           ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "mask_lower_order_bytes",
           ["data"],
           ["result"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["result"],
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "data" |);
-                    M.call (|
-                      "not",
-                      [
-                        [Literal.number 0]
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["result"],
+              Some (M.call (|
+                "and",
+                [
+                  M.get (| "data" |);
+                  M.call (|
+                    "not",
+                    [
+                      [Literal.number 0]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "copy_array_to_storage_from_array_function_internal_nonpayable_returns_dyn__to_array_function_internal_nonpayable_returns_dyn",
           ["dst"; "src"],
           [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "eq",
-                  [
-                    M.get (| "dst" |);
-                    M.get (| "src" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.leave (||) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["length"],
-                Some (M.call (|
-                  "array_length_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "src" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "gt",
-                  [
-                    M.get (| "length" |);
-                    [Literal.number 0xffffffffffffffff]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x41",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "eq",
+                [
+                  M.get (| "dst" |);
+                  M.get (| "src" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.leave (||)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["length"],
+              Some (M.call (|
+                "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "src" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "gt",
+                [
+                  M.get (| "length" |);
+                  [Literal.number 0xffffffffffffffff]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x41",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "resize_array_array_function_internal_nonpayable_returns_dyn_storage",
                 [
                   M.get (| "dst" |);
                   M.get (| "length" |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["srcPtr"],
-                Some (M.call (|
-                  "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "src" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["dstSlot"],
-                Some (M.call (|
-                  "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "dst" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["fullSlots"],
-                Some (M.call (|
-                  "div",
-                  [
-                    M.get (| "length" |);
-                    [Literal.number 4]
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["srcSlotValue"],
-                Some (M.call (|
-                  "sload",
-                  [
-                    M.get (| "srcPtr" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["i"],
-                Some ([Literal.number 0])
-              |) in
-            let _ :=
-              let _ :=
-                tt in
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["srcPtr"],
+              Some (M.call (|
+                "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "src" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["dstSlot"],
+              Some (M.call (|
+                "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "dst" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["fullSlots"],
+              Some (M.call (|
+                "div",
+                [
+                  M.get (| "length" |);
+                  [Literal.number 4]
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["srcSlotValue"],
+              Some (M.call (|
+                "sload",
+                [
+                  M.get (| "srcPtr" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["i"],
+              Some ([Literal.number 0])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            do*
+              M.od in
+      ltac:(M.monadic (
               M.for_ (|
                 M.call (|
                   "lt",
@@ -7230,58 +7656,61 @@ Module C_161.
                     M.get (| "fullSlots" |)
                   ]
                 |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.declare (|
-                      ["i"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "i" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  tt
-                )),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["dstSlotValue"],
-                      Some ([Literal.number 0])
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["dstSlotValue"],
-                      M.call (|
-                        "mask_lower_order_bytes",
-                        [
-                          M.get (| "srcSlotValue" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcPtr"],
-                      M.call (|
-                        "add",
-                        [
-                          M.get (| "srcPtr" |);
-                          [Literal.number 1]
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcSlotValue"],
-                      M.call (|
-                        "sload",
-                        [
-                          M.get (| "srcPtr" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["i"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "i" |);
+                        [Literal.number 1]
+                      ]
+                    |))
+                  |)
+                )) in
+                M.od,
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["dstSlotValue"],
+                    Some ([Literal.number 0])
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["dstSlotValue"],
+                    Some (M.call (|
+                      "mask_lower_order_bytes",
+                      [
+                        M.get (| "srcSlotValue" |)
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["srcPtr"],
+                    Some (M.call (|
+                      "add",
+                      [
+                        M.get (| "srcPtr" |);
+                        [Literal.number 1]
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.assign (|
+                    ["srcSlotValue"],
+                    Some (M.call (|
+                      "sload",
+                      [
+                        M.get (| "srcPtr" |)
+                      ]
+                    |))
+                  |)
+                )) in
+                do* ltac:(M.monadic (
+                  M.expr_stmt (|
                     M.call (|
                       "sstore",
                       [
@@ -7294,167 +7723,179 @@ Module C_161.
                         |);
                         M.get (| "dstSlotValue" |)
                       ]
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["spill"],
-                Some (M.call (|
-                  "sub",
-                  [
-                    M.get (| "length" |);
-                    M.call (|
-                      "mul",
-                      [
-                        M.get (| "fullSlots" |);
-                        [Literal.number 4]
-                      ]
                     |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "gt",
-                  [
-                    M.get (| "spill" |);
-                    [Literal.number 0]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["dstSlotValue_1"],
-                      Some ([Literal.number 0])
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["dstSlotValue_1"],
+                  |)
+                )) in
+                M.od
+              |)
+            ))
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["spill"],
+              Some (M.call (|
+                "sub",
+                [
+                  M.get (| "length" |);
+                  M.call (|
+                    "mul",
+                    [
+                      M.get (| "fullSlots" |);
+                      [Literal.number 4]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "gt",
+                [
+                  M.get (| "spill" |);
+                  [Literal.number 0]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue_1"],
+                  Some ([Literal.number 0])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["dstSlotValue_1"],
+                  Some (M.call (|
+                    "mask_lower_order_bytes_dynamic",
+                    [
+                      M.get (| "srcSlotValue" |);
                       M.call (|
-                        "mask_lower_order_bytes_dynamic",
+                        "mul",
                         [
-                          M.get (| "srcSlotValue" |);
-                          M.call (|
-                            "mul",
-                            [
-                              M.get (| "spill" |);
-                              [Literal.number 8]
-                            ]
-                          |)
+                          M.get (| "spill" |);
+                          [Literal.number 8]
                         ]
                       |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcPtr"],
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["srcPtr"],
+                  Some (M.call (|
+                    "add",
+                    [
+                      M.get (| "srcPtr" |);
+                      [Literal.number 1]
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["srcSlotValue"],
+                  Some (M.call (|
+                    "sload",
+                    [
+                      M.get (| "srcPtr" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "sstore",
+                    [
                       M.call (|
                         "add",
                         [
-                          M.get (| "srcPtr" |);
-                          [Literal.number 1]
+                          M.get (| "dstSlot" |);
+                          M.get (| "fullSlots" |)
                         ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["srcSlotValue"],
-                      M.call (|
-                        "sload",
-                        [
-                          M.get (| "srcPtr" |)
-                        ]
-                      |)
-                    |) in
-                  let _ :=
-                    M.call (|
-                      "sstore",
-                      [
-                        M.call (|
-                          "add",
-                          [
-                            M.get (| "dstSlot" |);
-                            M.get (| "fullSlots" |)
-                          ]
-                        |);
-                        M.get (| "dstSlotValue_1" |)
-                      ]
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+                      |);
+                      M.get (| "dstSlotValue_1" |)
+                    ]
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "update_storage_value_offsett_array_function_internal_nonpayable_returns_dyn__to_array_function_internal_nonpayable_returns_dyn",
           ["slot"; "value"],
           [],
-          ltac:(M.monadic (
-            let _ :=
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "copy_array_to_storage_from_array_function_internal_nonpayable_returns_dyn__to_array_function_internal_nonpayable_returns_dyn",
                 [
                   M.get (| "slot" |);
                   M.get (| "value" |)
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "cleanup_rational_by",
           ["value"],
           ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "convert_rational_by_to_uint256",
           ["value"],
           ["converted"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["converted"],
-                M.call (|
-                  "cleanup_uint256",
-                  [
-                    M.call (|
-                      "identity",
-                      [
-                        M.call (|
-                          "cleanup_rational_by",
-                          [
-                            M.get (| "value" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["converted"],
+              Some (M.call (|
+                "cleanup_uint256",
+                [
+                  M.call (|
+                    "identity",
+                    [
+                      M.call (|
+                        "cleanup_rational_by",
+                        [
+                          M.get (| "value" |)
+                        ]
+                      |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "panic_error_0x32",
           [],
           [],
-          ltac:(M.monadic (
-            let _ :=
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
@@ -7467,720 +7908,930 @@ Module C_161.
                     ]
                   |)
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
                   [Literal.number 4];
                   [Literal.number 0x32]
                 ]
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "revert",
                 [
                   [Literal.number 0];
                   [Literal.number 0x24]
                 ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "storage_array_index_access_function_internal_nonpayable_returns_dyn",
           ["array"; "index"],
           ["slot";
       "offset"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["arrayLength"],
-                Some (M.call (|
-                  "array_length_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "array" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "iszero",
-                  [
-                    M.call (|
-                      "lt",
-                      [
-                        M.get (| "index" |);
-                        M.get (| "arrayLength" |)
-                      ]
-                    |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x32",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["dataArea"],
-                Some (M.call (|
-                  "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "array" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["slot"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "dataArea" |);
-                    M.call (|
-                      "div",
-                      [
-                        M.get (| "index" |);
-                        [Literal.number 4]
-                      ]
-                    |)
-                  ]
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["arrayLength"],
+              Some (M.call (|
+                "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "array" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "iszero",
+                [
+                  M.call (|
+                    "lt",
+                    [
+                      M.get (| "index" |);
+                      M.get (| "arrayLength" |)
+                    ]
+                  |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x32",
+                    []
+                  |)
                 |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["offset"],
-                M.call (|
-                  "mul",
-                  [
-                    M.call (|
-                      "mod",
-                      [
-                        M.get (| "index" |);
-                        [Literal.number 4]
-                      ]
-                    |);
-                    [Literal.number 8]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["dataArea"],
+              Some (M.call (|
+                "array_dataslot_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "array" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["slot"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "dataArea" |);
+                  M.call (|
+                    "div",
+                    [
+                      M.get (| "index" |);
+                      [Literal.number 4]
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["offset"],
+              Some (M.call (|
+                "mul",
+                [
+                  M.call (|
+                    "mod",
+                    [
+                      M.get (| "index" |);
+                      [Literal.number 4]
+                    ]
+                  |);
+                  [Literal.number 8]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "cleanup_from_storage_function_internal_nonpayable_returns",
           ["value"],
           ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "value" |);
-                    [Literal.number 0xffffffffffffffff]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.call (|
+                "and",
+                [
+                  M.get (| "value" |);
+                  [Literal.number 0xffffffffffffffff]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "extract_from_storage_value_dynamict_function_internal_nonpayable_returns",
           ["slot_value"; "offset"],
           ["value"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["value"],
-                M.call (|
-                  "cleanup_from_storage_function_internal_nonpayable_returns",
-                  [
-                    M.call (|
-                      "shift_right_unsigned_dynamic",
-                      [
-                        M.call (|
-                          "mul",
-                          [
-                            M.get (| "offset" |);
-                            [Literal.number 8]
-                          ]
-                        |);
-                        M.get (| "slot_value" |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["value"],
+              Some (M.call (|
+                "cleanup_from_storage_function_internal_nonpayable_returns",
+                [
+                  M.call (|
+                    "shift_right_unsigned_dynamic",
+                    [
+                      M.call (|
+                        "mul",
+                        [
+                          M.get (| "offset" |);
+                          [Literal.number 8]
+                        ]
+                      |);
+                      M.get (| "slot_value" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
           ["slot"; "offset"],
           ["value"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["value"],
-                M.call (|
-                  "extract_from_storage_value_dynamict_function_internal_nonpayable_returns",
-                  [
-                    M.call (|
-                      "sload",
-                      [
-                        M.get (| "slot" |)
-                      ]
-                    |);
-                    M.get (| "offset" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["value"],
+              Some (M.call (|
+                "extract_from_storage_value_dynamict_function_internal_nonpayable_returns",
+                [
+                  M.call (|
+                    "sload",
+                    [
+                      M.get (| "slot" |)
+                    ]
+                  |);
+                  M.get (| "offset" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
         M.function (|
           "fun_copyInternalArrayOfFunctionType",
           [],
           ["var_"],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["zero_bool"],
-                Some (M.call (|
-                  "zero_value_for_split_bool",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_"],
-                M.get (| "zero_bool" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_17_slot"],
-                Some ([Literal.number 0x03])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_119_slot"],
-                Some (M.get (| "_17_slot" |))
-              |) in
-            let _ :=
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["zero_bool"],
+              Some (M.call (|
+                "zero_value_for_split_bool",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_"],
+              Some (M.get (| "zero_bool" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_17_slot"],
+              Some ([Literal.number 0x03])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_119_slot"],
+              Some (M.get (| "_17_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "update_storage_value_offsett_array_function_internal_nonpayable_returns_dyn__to_array_function_internal_nonpayable_returns_dyn",
                 [
                   [Literal.number 0x02];
                   M.get (| "expr_119_slot" |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["_19_slot"],
-                Some ([Literal.number 0x02])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_123_slot"],
-                Some (M.get (| "_19_slot" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr"],
-                Some (M.call (|
-                  "array_length_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "expr_123_slot" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some ([Literal.number 0x03])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_2"],
-                Some (M.call (|
-                  "eq",
-                  [
-                    M.call (|
-                      "cleanup_uint256",
-                      [
-                        M.get (| "expr" |)
-                      ]
-                    |);
-                    M.call (|
-                      "convert_rational_by_to_uint256",
-                      [
-                        M.get (| "expr_1" |)
-                      ]
-                    |)
-                  ]
-                |))
-              |) in
-            let _ :=
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_19_slot"],
+              Some ([Literal.number 0x02])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_123_slot"],
+              Some (M.get (| "_19_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some (M.call (|
+                "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "expr_123_slot" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some ([Literal.number 0x03])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_2"],
+              Some (M.call (|
+                "eq",
+                [
+                  M.call (|
+                    "cleanup_uint256",
+                    [
+                      M.get (| "expr" |)
+                    ]
+                  |);
+                  M.call (|
+                    "convert_rational_by_to_uint256",
+                    [
+                      M.get (| "expr_1" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
               M.call (|
                 "assert_helper",
                 [
                   M.get (| "expr_2" |)
                 ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["_20_slot"],
-                Some ([Literal.number 0x02])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_129_slot"],
-                Some (M.get (| "_20_slot" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_3"],
-                Some (M.call (|
-                  "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_20_slot"],
+              Some ([Literal.number 0x02])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_129_slot"],
+              Some (M.get (| "_20_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_3"],
+              Some (M.call (|
+                "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "expr_129_slot" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_21_slot"],
+              Some ([Literal.number 0x03])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_131_slot"],
+              Some (M.get (| "_21_slot" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_4"],
+              Some (M.call (|
+                "array_length_array_function_internal_nonpayable_returns_dyn_storage",
+                [
+                  M.get (| "expr_131_slot" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_5"],
+              Some (M.call (|
+                "eq",
+                [
+                  M.call (|
+                    "cleanup_uint256",
+                    [
+                      M.get (| "expr_3" |)
+                    ]
+                  |);
+                  M.call (|
+                    "cleanup_uint256",
+                    [
+                      M.get (| "expr_4" |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_6"],
+              Some (M.get (| "expr_5" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.get (| "expr_6" |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_22_slot"],
+                  Some ([Literal.number 0x02])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_134_slot"],
+                  Some (M.get (| "_22_slot" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_7"],
+                  Some ([Literal.number 0x00])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_1"; "_2"],
+                  Some (M.call (|
+                    "storage_array_index_access_function_internal_nonpayable_returns_dyn",
+                    [
+                      M.get (| "expr_134_slot" |);
+                      M.get (| "expr_7" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_25_functionIdentifier"],
+                  Some (M.call (|
+                    "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
+                    [
+                      M.get (| "_1" |);
+                      M.get (| "_2" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_136_functionIdentifier"],
+                  Some (M.get (| "_25_functionIdentifier" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_26_slot"],
+                  Some ([Literal.number 0x03])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_137_slot"],
+                  Some (M.get (| "_26_slot" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_8"],
+                  Some ([Literal.number 0x00])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_3"; "_4"],
+                  Some (M.call (|
+                    "storage_array_index_access_function_internal_nonpayable_returns_dyn",
+                    [
+                      M.get (| "expr_137_slot" |);
+                      M.get (| "expr_8" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_29_functionIdentifier"],
+                  Some (M.call (|
+                    "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
+                    [
+                      M.get (| "_3" |);
+                      M.get (| "_4" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_139_functionIdentifier"],
+                  Some (M.get (| "_29_functionIdentifier" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_9"],
+                  Some (M.call (|
+                    "eq",
+                    [
+                      M.call (|
+                        "cleanup_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "expr_136_functionIdentifier" |)
+                        ]
+                      |);
+                      M.call (|
+                        "cleanup_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "expr_139_functionIdentifier" |)
+                        ]
+                      |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_6"],
+                  Some (M.get (| "expr_9" |))
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_10"],
+              Some (M.get (| "expr_6" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.get (| "expr_10" |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_30_slot"],
+                  Some ([Literal.number 0x02])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_142_slot"],
+                  Some (M.get (| "_30_slot" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_11"],
+                  Some ([Literal.number 0x01])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_5"; "_6"],
+                  Some (M.call (|
+                    "storage_array_index_access_function_internal_nonpayable_returns_dyn",
+                    [
+                      M.get (| "expr_142_slot" |);
+                      M.get (| "expr_11" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_33_functionIdentifier"],
+                  Some (M.call (|
+                    "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
+                    [
+                      M.get (| "_5" |);
+                      M.get (| "_6" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_144_functionIdentifier"],
+                  Some (M.get (| "_33_functionIdentifier" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_34_slot"],
+                  Some ([Literal.number 0x03])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_145_slot"],
+                  Some (M.get (| "_34_slot" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_12"],
+                  Some ([Literal.number 0x01])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_7"; "_8"],
+                  Some (M.call (|
+                    "storage_array_index_access_function_internal_nonpayable_returns_dyn",
+                    [
+                      M.get (| "expr_145_slot" |);
+                      M.get (| "expr_12" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_37_functionIdentifier"],
+                  Some (M.call (|
+                    "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
+                    [
+                      M.get (| "_7" |);
+                      M.get (| "_8" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_functionIdentifier"],
+                  Some (M.get (| "_37_functionIdentifier" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_13"],
+                  Some (M.call (|
+                    "eq",
+                    [
+                      M.call (|
+                        "cleanup_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "expr_144_functionIdentifier" |)
+                        ]
+                      |);
+                      M.call (|
+                        "cleanup_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "expr_functionIdentifier" |)
+                        ]
+                      |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_10"],
+                  Some (M.get (| "expr_13" |))
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_14"],
+              Some (M.get (| "expr_10" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.get (| "expr_14" |),
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_slot"],
+                  Some ([Literal.number 0x02])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_150_slot"],
+                  Some (M.get (| "_slot" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_15"],
+                  Some ([Literal.number 0x02])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_9"; "_10"],
+                  Some (M.call (|
+                    "storage_array_index_access_function_internal_nonpayable_returns_dyn",
+                    [
+                      M.get (| "expr_150_slot" |);
+                      M.get (| "expr_15" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_41_functionIdentifier"],
+                  Some (M.call (|
+                    "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
+                    [
+                      M.get (| "_9" |);
+                      M.get (| "_10" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_152_functionIdentifier"],
+                  Some (M.get (| "_41_functionIdentifier" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_42_slot"],
+                  Some ([Literal.number 0x03])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_slot"],
+                  Some (M.get (| "_42_slot" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_16"],
+                  Some ([Literal.number 0x02])
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_11"; "_12"],
+                  Some (M.call (|
+                    "storage_array_index_access_function_internal_nonpayable_returns_dyn",
+                    [
+                      M.get (| "expr_slot" |);
+                      M.get (| "expr_16" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["_functionIdentifier"],
+                  Some (M.call (|
+                    "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
+                    [
+                      M.get (| "_11" |);
+                      M.get (| "_12" |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_155_functionIdentifier"],
+                  Some (M.get (| "_functionIdentifier" |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_17"],
+                  Some (M.call (|
+                    "eq",
+                    [
+                      M.call (|
+                        "cleanup_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "expr_152_functionIdentifier" |)
+                        ]
+                      |);
+                      M.call (|
+                        "cleanup_function_internal_nonpayable_returns",
+                        [
+                          M.get (| "expr_155_functionIdentifier" |)
+                        ]
+                      |)
+                    ]
+                  |))
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.assign (|
+                  ["expr_14"],
+                  Some (M.get (| "expr_17" |))
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_"],
+              Some (M.get (| "expr_14" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.leave (||)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "mstore",
+              [
+                [Literal.number 64];
+                M.call (|
+                  "memoryguard",
                   [
-                    M.get (| "expr_129_slot" |)
+                    [Literal.number 0x80]
                   ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_21_slot"],
-                Some ([Literal.number 0x03])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_131_slot"],
-                Some (M.get (| "_21_slot" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_4"],
-                Some (M.call (|
-                  "array_length_array_function_internal_nonpayable_returns_dyn_storage",
-                  [
-                    M.get (| "expr_131_slot" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_5"],
-                Some (M.call (|
-                  "eq",
+                |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.if_ (|
+            M.call (|
+              "iszero",
+              [
+                M.call (|
+                  "lt",
                   [
                     M.call (|
-                      "cleanup_uint256",
-                      [
-                        M.get (| "expr_3" |)
-                      ]
+                      "calldatasize",
+                      []
                     |);
+                    [Literal.number 4]
+                  ]
+                |)
+              ]
+            |),
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["selector"],
+                Some (M.call (|
+                  "shift_right_unsigned",
+                  [
                     M.call (|
-                      "cleanup_uint256",
+                      "calldataload",
                       [
-                        M.get (| "expr_4" |)
+                        [Literal.number 0]
                       ]
                     |)
                   ]
                 |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_6"],
-                Some (M.get (| "expr_5" |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.get (| "expr_6" |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["_22_slot"],
-                      Some ([Literal.number 0x02])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_134_slot"],
-                      Some (M.get (| "_22_slot" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_7"],
-                      Some ([Literal.number 0x00])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_1"; "_2"],
-                      Some (M.call (|
-                        "storage_array_index_access_function_internal_nonpayable_returns_dyn",
-                        [
-                          M.get (| "expr_134_slot" |);
-                          M.get (| "expr_7" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_25_functionIdentifier"],
-                      Some (M.call (|
-                        "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
-                        [
-                          M.get (| "_1" |);
-                          M.get (| "_2" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_136_functionIdentifier"],
-                      Some (M.get (| "_25_functionIdentifier" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_26_slot"],
-                      Some ([Literal.number 0x03])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_137_slot"],
-                      Some (M.get (| "_26_slot" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_8"],
-                      Some ([Literal.number 0x00])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_3"; "_4"],
-                      Some (M.call (|
-                        "storage_array_index_access_function_internal_nonpayable_returns_dyn",
-                        [
-                          M.get (| "expr_137_slot" |);
-                          M.get (| "expr_8" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_29_functionIdentifier"],
-                      Some (M.call (|
-                        "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
-                        [
-                          M.get (| "_3" |);
-                          M.get (| "_4" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_139_functionIdentifier"],
-                      Some (M.get (| "_29_functionIdentifier" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_9"],
-                      Some (M.call (|
-                        "eq",
-                        [
-                          M.call (|
-                            "cleanup_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "expr_136_functionIdentifier" |)
-                            ]
-                          |);
-                          M.call (|
-                            "cleanup_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "expr_139_functionIdentifier" |)
-                            ]
-                          |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["expr_6"],
-                      M.get (| "expr_9" |)
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_10"],
-                Some (M.get (| "expr_6" |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.get (| "expr_10" |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["_30_slot"],
-                      Some ([Literal.number 0x02])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_142_slot"],
-                      Some (M.get (| "_30_slot" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_11"],
-                      Some ([Literal.number 0x01])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_5"; "_6"],
-                      Some (M.call (|
-                        "storage_array_index_access_function_internal_nonpayable_returns_dyn",
-                        [
-                          M.get (| "expr_142_slot" |);
-                          M.get (| "expr_11" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_33_functionIdentifier"],
-                      Some (M.call (|
-                        "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
-                        [
-                          M.get (| "_5" |);
-                          M.get (| "_6" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_144_functionIdentifier"],
-                      Some (M.get (| "_33_functionIdentifier" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_34_slot"],
-                      Some ([Literal.number 0x03])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_145_slot"],
-                      Some (M.get (| "_34_slot" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_12"],
-                      Some ([Literal.number 0x01])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_7"; "_8"],
-                      Some (M.call (|
-                        "storage_array_index_access_function_internal_nonpayable_returns_dyn",
-                        [
-                          M.get (| "expr_145_slot" |);
-                          M.get (| "expr_12" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_37_functionIdentifier"],
-                      Some (M.call (|
-                        "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
-                        [
-                          M.get (| "_7" |);
-                          M.get (| "_8" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_functionIdentifier"],
-                      Some (M.get (| "_37_functionIdentifier" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_13"],
-                      Some (M.call (|
-                        "eq",
-                        [
-                          M.call (|
-                            "cleanup_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "expr_144_functionIdentifier" |)
-                            ]
-                          |);
-                          M.call (|
-                            "cleanup_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "expr_functionIdentifier" |)
-                            ]
-                          |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["expr_10"],
-                      M.get (| "expr_13" |)
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_14"],
-                Some (M.get (| "expr_10" |))
-              |) in
-            let _ :=
-              M.if_ (|
-                M.get (| "expr_14" |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.assign (|
-                      ["_slot"],
-                      Some ([Literal.number 0x02])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_150_slot"],
-                      Some (M.get (| "_slot" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_15"],
-                      Some ([Literal.number 0x02])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_9"; "_10"],
-                      Some (M.call (|
-                        "storage_array_index_access_function_internal_nonpayable_returns_dyn",
-                        [
-                          M.get (| "expr_150_slot" |);
-                          M.get (| "expr_15" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_41_functionIdentifier"],
-                      Some (M.call (|
-                        "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
-                        [
-                          M.get (| "_9" |);
-                          M.get (| "_10" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_152_functionIdentifier"],
-                      Some (M.get (| "_41_functionIdentifier" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_42_slot"],
-                      Some ([Literal.number 0x03])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_slot"],
-                      Some (M.get (| "_42_slot" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_16"],
-                      Some ([Literal.number 0x02])
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_11"; "_12"],
-                      Some (M.call (|
-                        "storage_array_index_access_function_internal_nonpayable_returns_dyn",
-                        [
-                          M.get (| "expr_slot" |);
-                          M.get (| "expr_16" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["_functionIdentifier"],
-                      Some (M.call (|
-                        "read_from_storage_split_dynamic_function_internal_nonpayable_returns",
-                        [
-                          M.get (| "_11" |);
-                          M.get (| "_12" |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_155_functionIdentifier"],
-                      Some (M.get (| "_functionIdentifier" |))
-                    |) in
-                  let _ :=
-                    M.assign (|
-                      ["expr_17"],
-                      Some (M.call (|
-                        "eq",
-                        [
-                          M.call (|
-                            "cleanup_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "expr_152_functionIdentifier" |)
-                            ]
-                          |);
-                          M.call (|
-                            "cleanup_function_internal_nonpayable_returns",
-                            [
-                              M.get (| "expr_155_functionIdentifier" |)
-                            ]
-                          |)
-                        ]
-                      |))
-                    |) in
-                  let _ :=
-                    M.declare (|
-                      ["expr_14"],
-                      M.get (| "expr_17" |)
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_"],
-                M.get (| "expr_14" |)
-              |) in
-            let _ :=
-              M.leave (||) in
-            tt
-          ))
-        |) in
-      tt
-    )).
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.switch (|
+                M.get (| "selector" |),
+                [
+                  (
+                    Some (Literal.number 0x3c289b53),
+                    do* ltac:(M.monadic (
+                      M.expr_stmt (|
+                        M.call (|
+                          "external_fun_testFunction1",
+                          []
+                        |)
+                      |)
+                    )) in
+                    M.od
+                  );
+                  (
+                    Some (Literal.number 0x7d58a8e5),
+                    do* ltac:(M.monadic (
+                      M.expr_stmt (|
+                        M.call (|
+                          "external_fun_copyExternalStorageArrayOfFunctionType",
+                          []
+                        |)
+                      |)
+                    )) in
+                    M.od
+                  );
+                  (
+                    Some (Literal.number 0xb8fb063e),
+                    do* ltac:(M.monadic (
+                      M.expr_stmt (|
+                        M.call (|
+                          "external_fun_testFunction2",
+                          []
+                        |)
+                      |)
+                    )) in
+                    M.od
+                  );
+                  (
+                    Some (Literal.number 0xc743d74b),
+                    do* ltac:(M.monadic (
+                      M.expr_stmt (|
+                        M.call (|
+                          "external_fun_testFunction3",
+                          []
+                        |)
+                      |)
+                    )) in
+                    M.od
+                  );
+                  (
+                    Some (Literal.number 0xf62bbf53),
+                    do* ltac:(M.monadic (
+                      M.expr_stmt (|
+                        M.call (|
+                          "external_fun_copyInternalArrayOfFunctionType",
+                          []
+                        |)
+                      |)
+                    )) in
+                    M.od
+                  );
+                  (
+                    None,
+                    M.od
+                  )          ]
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
+              []
+            |)
+          |)
+        )) in
+        M.od
+      )) in
+      M.od.
 
     Definition data : string :=
-      "a26469706673582212209b2ae61d912931b68f137161607bee3c4b15deef8d72f5ceb186486261c9c1ef64736f6c634300081b0033".
+      "a264697066735822122000c302aa40c78d20ba0a526d8ffc136c040023f958e063e41cf1ee16d17ad0cb64736f6c634300081b0033".
   End C_161_deployed.
 End C_161.

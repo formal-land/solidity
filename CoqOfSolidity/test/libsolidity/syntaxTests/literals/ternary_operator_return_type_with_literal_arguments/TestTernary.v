@@ -2,120 +2,48 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module TestTernary_238.
-  Definition code : M.t unit := ltac:(M.monadic (
-    let _ :=
-      let _ :=
-        M.call (|
-          "mstore",
-          [
-            [Literal.number 64];
-            M.call (|
-              "memoryguard",
-              [
-                [Literal.number 0x80]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.if_ (|
-          M.call (|
-            "callvalue",
-            []
-          |),
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                []
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.assign (|
-          ["_1"],
-          Some (M.call (|
-            "allocate_unbounded",
-            []
-          |))
-        |) in
-      let _ :=
-        M.call (|
-          "codecopy",
-          [
-            M.get (| "_1" |);
-            M.call (|
-              "dataoffset",
-              [
-                [Literal.string "546573745465726e6172795f3233385f6465706c6f796564"]
-              ]
-            |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "546573745465726e6172795f3233385f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.call (|
-          "return",
-          [
-            M.get (| "_1" |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "546573745465726e6172795f3233385f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      tt in
-    let _ :=
+  Definition code : M.t BlockUnit.t :=
+    do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
-        ltac:(M.monadic (
-          let _ :=
-            M.declare (|
-              ["memPtr"],
-              M.call (|
-                "mload",
-                [
-                  [Literal.number 64]
-                ]
-              |)
-            |) in
-          tt
-        ))
-      |) in
-    let _ :=
+        do* ltac:(M.monadic (
+          M.assign (|
+            ["memPtr"],
+            Some (M.call (|
+              "mload",
+              [
+                [Literal.number 64]
+              ]
+            |))
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
       M.function (|
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
-        ltac:(M.monadic (
-          let _ :=
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
             M.call (|
               "revert",
               [
                 [Literal.number 0];
                 [Literal.number 0]
               ]
-            |) in
-          tt
-        ))
-      |) in
-    tt
-  )).
-
-  Module TestTernary_238_deployed.
-    Definition code : M.t unit := ltac:(M.monadic (
-      let _ :=
-        let _ :=
+            |)
+          |)
+        )) in
+        M.od
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
           M.call (|
             "mstore",
             [
@@ -127,8 +55,3227 @@ Module TestTernary_238.
                 ]
               |)
             ]
-          |) in
-        let _ :=
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.if_ (|
+          M.call (|
+            "callvalue",
+            []
+          |),
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                []
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.assign (|
+          ["_1"],
+          Some (M.call (|
+            "allocate_unbounded",
+            []
+          |))
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "codecopy",
+            [
+              M.get (| "_1" |);
+              M.call (|
+                "dataoffset",
+                [
+                  [Literal.string "546573745465726e6172795f3233385f6465706c6f796564"]
+                ]
+              |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "546573745465726e6172795f3233385f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "return",
+            [
+              M.get (| "_1" |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "546573745465726e6172795f3233385f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      M.od
+    )) in
+    M.od.
+
+  Module TestTernary_238_deployed.
+    Definition code : M.t BlockUnit.t :=
+      do* ltac:(M.monadic (
+        M.function (|
+          "shift_right_unsigned",
+          ["value"],
+          ["newValue"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["newValue"],
+              Some (M.call (|
+                "shr",
+                [
+                  [Literal.number 224];
+                  M.get (| "value" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "allocate_unbounded",
+          [],
+          ["memPtr"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPtr"],
+              Some (M.call (|
+                "mload",
+                [
+                  [Literal.number 64]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_decode",
+          ["headStart"; "dataEnd"],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "slt",
+                [
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "dataEnd" |);
+                      M.get (| "headStart" |)
+                    ]
+                  |);
+                  [Literal.number 0]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "abi_encode_tuple",
+          ["headStart"],
+          ["tail"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["tail"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "headStart" |);
+                  [Literal.number 0]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "external_fun_g",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "callvalue",
+                []
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "abi_decode",
+                [
+                  [Literal.number 4];
+                  M.call (|
+                    "calldatasize",
+                    []
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "fun_g",
+                []
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memPos"],
+              Some (M.call (|
+                "allocate_unbounded",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["memEnd"],
+              Some (M.call (|
+                "abi_encode_tuple",
+                [
+                  M.get (| "memPos" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "return",
+                [
+                  M.get (| "memPos" |);
+                  M.call (|
+                    "sub",
+                    [
+                      M.get (| "memEnd" |);
+                      M.get (| "memPos" |)
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_rational_by",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_uint8",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.call (|
+                "and",
+                [
+                  M.get (| "value" |);
+                  [Literal.number 0xff]
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "identity",
+          ["value"],
+          ["ret"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "convert_rational_by_to_uint8",
+          ["value"],
+          ["converted"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["converted"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.call (|
+                    "identity",
+                    [
+                      M.call (|
+                        "cleanup_rational_by",
+                        [
+                          M.get (| "value" |)
+                        ]
+                      |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "cleanup_t_rational_by",
+          ["value"],
+          ["cleaned"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["cleaned"],
+              Some (M.get (| "value" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "convert_t_rational_by_to_t_uint8",
+          ["value"],
+          ["converted"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["converted"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.call (|
+                    "identity",
+                    [
+                      M.call (|
+                        "cleanup_t_rational_by",
+                        [
+                          M.get (| "value" |)
+                        ]
+                      |)
+                    ]
+                  |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "zero_value_for_split_uint8",
+          [],
+          ["ret"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["ret"],
+              Some ([Literal.number 0])
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "panic_error_0x11",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 0];
+                  M.call (|
+                    "shl",
+                    [
+                      [Literal.number 224];
+                      [Literal.number 0x4e487b71]
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 4];
+                  [Literal.number 0x11]
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0x24]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "checked_add_uint8",
+          ["x"; "y"],
+          ["sum"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["x"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "x" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["y"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["sum"],
+              Some (M.call (|
+                "add",
+                [
+                  M.get (| "x" |);
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "gt",
+                [
+                  M.get (| "sum" |);
+                  [Literal.number 0xff]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x11",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "checked_sub_uint8",
+          ["x"; "y"],
+          ["diff"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["x"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "x" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["y"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["diff"],
+              Some (M.call (|
+                "sub",
+                [
+                  M.get (| "x" |);
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "gt",
+                [
+                  M.get (| "diff" |);
+                  [Literal.number 0xff]
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x11",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "checked_mul_uint8",
+          ["x"; "y"],
+          ["product"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["x"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "x" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["y"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["product_raw"],
+              Some (M.call (|
+                "mul",
+                [
+                  M.get (| "x" |);
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["product"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "product_raw" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "iszero",
+                [
+                  M.call (|
+                    "eq",
+                    [
+                      M.get (| "product" |);
+                      M.get (| "product_raw" |)
+                    ]
+                  |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x11",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "panic_error_0x12",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 0];
+                  M.call (|
+                    "shl",
+                    [
+                      [Literal.number 224];
+                      [Literal.number 0x4e487b71]
+                    ]
+                  |)
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "mstore",
+                [
+                  [Literal.number 4];
+                  [Literal.number 0x12]
+                ]
+              |)
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.expr_stmt (|
+              M.call (|
+                "revert",
+                [
+                  [Literal.number 0];
+                  [Literal.number 0x24]
+                ]
+              |)
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "checked_div_uint8",
+          ["x"; "y"],
+          ["r"],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["x"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "x" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["y"],
+              Some (M.call (|
+                "cleanup_uint8",
+                [
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.if_ (|
+              M.call (|
+                "iszero",
+                [
+                  M.get (| "y" |)
+                ]
+              |),
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "panic_error_0x12",
+                    []
+                  |)
+                |)
+              )) in
+              M.od
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["r"],
+              Some (M.call (|
+                "div",
+                [
+                  M.get (| "x" |);
+                  M.get (| "y" |)
+                ]
+              |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.function (|
+          "fun_g",
+          [],
+          [],
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_t"],
+              Some (M.get (| "expr" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_1"],
+              Some ([Literal.number 0x00])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_f"],
+              Some (M.get (| "expr_1" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_2"],
+              Some ([Literal.number 0xff])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_v255"],
+              Some (M.call (|
+                "convert_rational_by_to_uint8",
+                [
+                  M.get (| "expr_2" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_3"],
+              Some ([Literal.number 0x3f])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_v63"],
+              Some (M.call (|
+                "convert_t_rational_by_to_t_uint8",
+                [
+                  M.get (| "expr_3" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["zero_uint8"],
+              Some (M.call (|
+                "zero_value_for_split_uint8",
+                []
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "zero_uint8" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_1"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_4"],
+              Some (M.get (| "_1" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_5"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_4" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_6"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_5"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_6" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_7"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_5"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_7" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_8"],
+              Some (M.get (| "expr_5" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_2"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_9"],
+              Some (M.get (| "_2" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_10"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_9" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_11"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_10"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_11" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_12"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_10"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_12" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_13"],
+              Some (M.get (| "expr_10" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_14"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_8" |);
+                  M.get (| "expr_13" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_14" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_3"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_15"],
+              Some (M.get (| "_3" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_16"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_15" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_17"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_16"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_17" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_18"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_16"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_18" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_19"],
+              Some (M.get (| "expr_16" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_4"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_20"],
+              Some (M.get (| "_4" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_21"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_20" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_22"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_21"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_22" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_23"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_21"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_23" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_24"],
+              Some (M.get (| "expr_21" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_25"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_19" |);
+                  M.get (| "expr_24" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_25" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_5"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_26"],
+              Some (M.get (| "_5" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_27"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_26" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_28"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_27"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_28" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_29"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_30"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_29" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_27"],
+                      Some (M.get (| "expr_30" |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_31"],
+              Some (M.get (| "expr_27" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_6"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_32"],
+              Some (M.get (| "_6" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_33"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_32" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_34"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_35"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_34" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_33"],
+                      Some (M.get (| "expr_35" |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_36"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_33"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_36" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_37"],
+              Some (M.get (| "expr_33" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_38"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_31" |);
+                  M.get (| "expr_37" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_38" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_7"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_39"],
+              Some (M.get (| "_7" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_40"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_39" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_41"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_40"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_41" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["_8"],
+                      Some (M.get (| "var_v63" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_42"],
+                      Some (M.get (| "_8" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_40"],
+                      Some (M.get (| "expr_42" |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_43"],
+              Some (M.get (| "expr_40" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_9"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_44"],
+              Some (M.get (| "_9" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_45"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_44" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["_10"],
+                      Some (M.get (| "var_v255" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_46"],
+                      Some (M.get (| "_10" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_45"],
+                      Some (M.get (| "expr_46" |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_47"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_45"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_47" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_48"],
+              Some (M.get (| "expr_45" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_49"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_43" |);
+                  M.get (| "expr_48" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_49" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_50"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_51"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_50" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_52"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_51"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_52" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_53"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_51"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_53" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_54"],
+              Some (M.get (| "expr_51" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_55"],
+              Some ([Literal.number 0x00])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_56"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_55" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_57"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_56"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_57" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_58"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_56"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_58" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_59"],
+              Some (M.get (| "expr_56" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_60"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_54" |);
+                  M.get (| "expr_59" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_60" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_61"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_62"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_61" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_63"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_62"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_63" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_64"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_62"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_64" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_65"],
+              Some (M.get (| "expr_62" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_66"],
+              Some ([Literal.number 0x00])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_67"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_66" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_68"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_67"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_68" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_69"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_67"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_69" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_70"],
+              Some (M.get (| "expr_67" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_71"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_65" |);
+                  M.get (| "expr_70" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_71" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_72"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_73"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_72" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_74"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_73"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_74" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_75"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_76"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_75" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_73"],
+                      Some (M.get (| "expr_76" |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_77"],
+              Some (M.get (| "expr_73" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_78"],
+              Some ([Literal.number 0x00])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_79"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_78" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_80"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_81"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_80" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_79"],
+                      Some (M.get (| "expr_81" |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_82"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_79"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_82" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_83"],
+              Some (M.get (| "expr_79" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_84"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_77" |);
+                  M.get (| "expr_83" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_84" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_85"],
+              Some ([Literal.number 0x01])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_86"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_85" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_87"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_86"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_87" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["_11"],
+                      Some (M.get (| "var_v63" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_88"],
+                      Some (M.get (| "_11" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_86"],
+                      Some (M.get (| "expr_88" |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_89"],
+              Some (M.get (| "expr_86" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_90"],
+              Some ([Literal.number 0x00])
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_91"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_90" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["_12"],
+                      Some (M.get (| "var_v255" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_92"],
+                      Some (M.get (| "_12" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_91"],
+                      Some (M.get (| "expr_92" |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_93"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_91"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_93" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_94"],
+              Some (M.get (| "expr_91" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_95"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_89" |);
+                  M.get (| "expr_94" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_95" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_13"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_96"],
+              Some (M.get (| "_13" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_97"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_96" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_98"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_97"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_98" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_99"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_97"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_99" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_100"],
+              Some (M.get (| "expr_97" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_14"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_101"],
+              Some (M.get (| "_14" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_102"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_101" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_103"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_102"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_103" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_104"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_102"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_104" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_105"],
+              Some (M.get (| "expr_102" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_106"],
+              Some (M.call (|
+                "checked_sub_uint8",
+                [
+                  M.get (| "expr_100" |);
+                  M.get (| "expr_105" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_106" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_15"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_107"],
+              Some (M.get (| "_15" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_108"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_107" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_109"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_108"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_109" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_110"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_108"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_110" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_111"],
+              Some (M.get (| "expr_108" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_16"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_112"],
+              Some (M.get (| "_16" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_113"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_112" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_114"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_113"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_114" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_115"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_113"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_115" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_116"],
+              Some (M.get (| "expr_113" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_117"],
+              Some (M.call (|
+                "checked_mul_uint8",
+                [
+                  M.get (| "expr_111" |);
+                  M.get (| "expr_116" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_117" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_17"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_118"],
+              Some (M.get (| "_17" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_119"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_118" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_120"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_119"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_120" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_121"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_119"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_121" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_122"],
+              Some (M.get (| "expr_119" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_18"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_123"],
+              Some (M.get (| "_18" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_124"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_123" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_125"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_124"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_125" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_126"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_124"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_126" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_127"],
+              Some (M.get (| "expr_124" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_128"],
+              Some (M.call (|
+                "checked_div_uint8",
+                [
+                  M.get (| "expr_122" |);
+                  M.get (| "expr_127" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_128" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_19"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_129"],
+              Some (M.get (| "_19" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_130"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_129" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_131"],
+                      Some ([Literal.number 0x00])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_132"],
+                      None
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.switch (|
+                      M.get (| "expr_131" |),
+                      [
+                        (
+                          Some (Literal.number 0),
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_133"],
+                              Some ([Literal.number 0xff])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_132"],
+                              Some (M.call (|
+                                "convert_rational_by_to_uint8",
+                                [
+                                  M.get (| "expr_133" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        );
+                        (
+                          None,
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_134"],
+                              Some ([Literal.number 0x3f])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_132"],
+                              Some (M.call (|
+                                "convert_t_rational_by_to_t_uint8",
+                                [
+                                  M.get (| "expr_134" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        )                ]
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_135"],
+                      Some (M.get (| "expr_132" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_130"],
+                      Some (M.get (| "expr_135" |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_136"],
+                      Some ([Literal.number 0x01])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_137"],
+                      None
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.switch (|
+                      M.get (| "expr_136" |),
+                      [
+                        (
+                          Some (Literal.number 0),
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_138"],
+                              Some ([Literal.number 0xff])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_137"],
+                              Some (M.call (|
+                                "convert_rational_by_to_uint8",
+                                [
+                                  M.get (| "expr_138" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        );
+                        (
+                          None,
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_139"],
+                              Some ([Literal.number 0x3f])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_137"],
+                              Some (M.call (|
+                                "convert_t_rational_by_to_t_uint8",
+                                [
+                                  M.get (| "expr_139" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        )                ]
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_140"],
+                      Some (M.get (| "expr_137" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_130"],
+                      Some (M.get (| "expr_140" |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_141"],
+              Some (M.get (| "expr_130" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_20"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_142"],
+              Some (M.get (| "_20" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_143"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_142" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["_21"],
+                      Some (M.get (| "var_f" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_144"],
+                      Some (M.get (| "_21" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_145"],
+                      None
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.switch (|
+                      M.get (| "expr_144" |),
+                      [
+                        (
+                          Some (Literal.number 0),
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_146"],
+                              Some ([Literal.number 0xff])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_145"],
+                              Some (M.call (|
+                                "convert_rational_by_to_uint8",
+                                [
+                                  M.get (| "expr_146" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        );
+                        (
+                          None,
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_147"],
+                              Some ([Literal.number 0x3f])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_145"],
+                              Some (M.call (|
+                                "convert_t_rational_by_to_t_uint8",
+                                [
+                                  M.get (| "expr_147" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        )                ]
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_148"],
+                      Some (M.get (| "expr_145" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_143"],
+                      Some (M.get (| "expr_148" |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["_22"],
+                      Some (M.get (| "var_t" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_149"],
+                      Some (M.get (| "_22" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_150"],
+                      None
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.switch (|
+                      M.get (| "expr_149" |),
+                      [
+                        (
+                          Some (Literal.number 0),
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_151"],
+                              Some ([Literal.number 0xff])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_150"],
+                              Some (M.call (|
+                                "convert_rational_by_to_uint8",
+                                [
+                                  M.get (| "expr_151" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        );
+                        (
+                          None,
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_152"],
+                              Some ([Literal.number 0x3f])
+                            |)
+                          )) in
+                          do* ltac:(M.monadic (
+                            M.assign (|
+                              ["expr_150"],
+                              Some (M.call (|
+                                "convert_t_rational_by_to_t_uint8",
+                                [
+                                  M.get (| "expr_152" |)
+                                ]
+                              |))
+                            |)
+                          )) in
+                          M.od
+                        )                ]
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_153"],
+                      Some (M.get (| "expr_150" |))
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_143"],
+                      Some (M.get (| "expr_153" |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_154"],
+              Some (M.get (| "expr_143" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_155"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_141" |);
+                  M.get (| "expr_154" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_155" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_23"],
+              Some (M.get (| "var_t" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_156"],
+              Some (M.get (| "_23" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_157"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_156" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_158"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_157"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_158" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_159"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_157"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_159" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_160"],
+              Some (M.get (| "expr_157" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["_24"],
+              Some (M.get (| "var_f" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_161"],
+              Some (M.get (| "_24" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_162"],
+              None
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.switch (|
+              M.get (| "expr_161" |),
+              [
+                (
+                  Some (Literal.number 0),
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_163"],
+                      Some ([Literal.number 0xff])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_162"],
+                      Some (M.call (|
+                        "convert_rational_by_to_uint8",
+                        [
+                          M.get (| "expr_163" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                );
+                (
+                  None,
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_164"],
+                      Some ([Literal.number 0x3f])
+                    |)
+                  )) in
+                  do* ltac:(M.monadic (
+                    M.assign (|
+                      ["expr_162"],
+                      Some (M.call (|
+                        "convert_t_rational_by_to_t_uint8",
+                        [
+                          M.get (| "expr_164" |)
+                        ]
+                      |))
+                    |)
+                  )) in
+                  M.od
+                )        ]
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_165"],
+              Some (M.get (| "expr_162" |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["expr_166"],
+              Some (M.call (|
+                "checked_add_uint8",
+                [
+                  M.get (| "expr_160" |);
+                  M.get (| "expr_165" |)
+                ]
+              |))
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.assign (|
+              ["var_a"],
+              Some (M.get (| "expr_166" |))
+            |)
+          )) in
+          M.od
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "mstore",
+              [
+                [Literal.number 64];
+                M.call (|
+                  "memoryguard",
+                  [
+                    [Literal.number 0x80]
+                  ]
+                |)
+              ]
+            |)
+          |)
+        )) in
+        do* ltac:(M.monadic (
           M.if_ (|
             M.call (|
               "iszero",
@@ -145,2893 +3292,60 @@ Module TestTernary_238.
                 |)
               ]
             |),
-            ltac:(M.monadic (
-              let _ :=
-                M.assign (|
-                  ["selector"],
-                  Some (M.call (|
-                    "shift_right_unsigned",
-                    [
-                      M.call (|
-                        "calldataload",
-                        [
-                          [Literal.number 0]
-                        ]
+            do* ltac:(M.monadic (
+              M.assign (|
+                ["selector"],
+                Some (M.call (|
+                  "shift_right_unsigned",
+                  [
+                    M.call (|
+                      "calldataload",
+                      [
+                        [Literal.number 0]
+                      ]
+                    |)
+                  ]
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.switch (|
+                M.get (| "selector" |),
+                [
+                  (
+                    Some (Literal.number 0xe2179b8e),
+                    do* ltac:(M.monadic (
+                      M.expr_stmt (|
+                        M.call (|
+                          "external_fun_g",
+                          []
+                        |)
                       |)
-                    ]
-                  |))
-                |) in
-              let _ :=
-                M.switch (|
-                  M.get (| "selector" |),
-                  [
-                    (
-                      Some (Literal.number 0xe2179b8e),
-                      ltac:(M.monadic (
-                        let _ :=
-                          M.call (|
-                            "external_fun_g",
-                            []
-                          |) in
-                        tt
-                      ))              );
-                    (
-                      None,
-                      ltac:(M.monadic (
-                        tt
-                      ))              )            ]
-                |) in
-              tt
-            ))
-          |) in
-        let _ :=
-          M.call (|
-            "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-            []
-          |) in
-        tt in
-      let _ :=
-        M.function (|
-          "shift_right_unsigned",
-          ["value"],
-          ["newValue"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["newValue"],
-                M.call (|
-                  "shr",
-                  [
-                    [Literal.number 224];
-                    M.get (| "value" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "allocate_unbounded",
-          [],
-          ["memPtr"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["memPtr"],
-                M.call (|
-                  "mload",
-                  [
-                    [Literal.number 64]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_decode",
-          ["headStart"; "dataEnd"],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "slt",
-                  [
-                    M.call (|
-                      "sub",
-                      [
-                        M.get (| "dataEnd" |);
-                        M.get (| "headStart" |)
-                      ]
-                    |);
-                    [Literal.number 0]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "abi_encode_tuple",
-          ["headStart"],
-          ["tail"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["tail"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "headStart" |);
-                    [Literal.number 0]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "external_fun_g",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "callvalue",
-                  []
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.call (|
-                "abi_decode",
-                [
-                  [Literal.number 4];
-                  M.call (|
-                    "calldatasize",
-                    []
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "fun_g",
-                []
-              |) in
-            let _ :=
-              M.assign (|
-                ["memPos"],
-                Some (M.call (|
-                  "allocate_unbounded",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["memEnd"],
-                Some (M.call (|
-                  "abi_encode_tuple",
-                  [
-                    M.get (| "memPos" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.call (|
-                "return",
-                [
-                  M.get (| "memPos" |);
-                  M.call (|
-                    "sub",
-                    [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
-                    ]
-                  |)
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_rational_by",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_uint8",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.call (|
-                  "and",
-                  [
-                    M.get (| "value" |);
-                    [Literal.number 0xff]
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "identity",
-          ["value"],
-          ["ret"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["ret"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "convert_rational_by_to_uint8",
-          ["value"],
-          ["converted"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["converted"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.call (|
-                      "identity",
-                      [
-                        M.call (|
-                          "cleanup_rational_by",
-                          [
-                            M.get (| "value" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "cleanup_t_rational_by",
-          ["value"],
-          ["cleaned"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["cleaned"],
-                M.get (| "value" |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "convert_t_rational_by_to_t_uint8",
-          ["value"],
-          ["converted"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["converted"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.call (|
-                      "identity",
-                      [
-                        M.call (|
-                          "cleanup_t_rational_by",
-                          [
-                            M.get (| "value" |)
-                          ]
-                        |)
-                      ]
-                    |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "zero_value_for_split_uint8",
-          [],
-          ["ret"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["ret"],
-                [Literal.number 0]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "panic_error_0x11",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 0];
-                  M.call (|
-                    "shl",
-                    [
-                      [Literal.number 224];
-                      [Literal.number 0x4e487b71]
-                    ]
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 4];
-                  [Literal.number 0x11]
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0x24]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "checked_add_uint8",
-          ["x"; "y"],
-          ["sum"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["x"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "x" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["y"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "y" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["sum"],
-                M.call (|
-                  "add",
-                  [
-                    M.get (| "x" |);
-                    M.get (| "y" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "gt",
-                  [
-                    M.get (| "sum" |);
-                    [Literal.number 0xff]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x11",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "checked_sub_uint8",
-          ["x"; "y"],
-          ["diff"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["x"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "x" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["y"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "y" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["diff"],
-                M.call (|
-                  "sub",
-                  [
-                    M.get (| "x" |);
-                    M.get (| "y" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "gt",
-                  [
-                    M.get (| "diff" |);
-                    [Literal.number 0xff]
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x11",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "checked_mul_uint8",
-          ["x"; "y"],
-          ["product"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["x"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "x" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["y"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "y" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["product_raw"],
-                Some (M.call (|
-                  "mul",
-                  [
-                    M.get (| "x" |);
-                    M.get (| "y" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["product"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "product_raw" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "iszero",
-                  [
-                    M.call (|
-                      "eq",
-                      [
-                        M.get (| "product" |);
-                        M.get (| "product_raw" |)
-                      ]
-                    |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x11",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "panic_error_0x12",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 0];
-                  M.call (|
-                    "shl",
-                    [
-                      [Literal.number 224];
-                      [Literal.number 0x4e487b71]
-                    ]
-                  |)
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 4];
-                  [Literal.number 0x12]
-                ]
-              |) in
-            let _ :=
-              M.call (|
-                "revert",
-                [
-                  [Literal.number 0];
-                  [Literal.number 0x24]
-                ]
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "checked_div_uint8",
-          ["x"; "y"],
-          ["r"],
-          ltac:(M.monadic (
-            let _ :=
-              M.declare (|
-                ["x"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "x" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.declare (|
-                ["y"],
-                M.call (|
-                  "cleanup_uint8",
-                  [
-                    M.get (| "y" |)
-                  ]
-                |)
-              |) in
-            let _ :=
-              M.if_ (|
-                M.call (|
-                  "iszero",
-                  [
-                    M.get (| "y" |)
-                  ]
-                |),
-                ltac:(M.monadic (
-                  let _ :=
-                    M.call (|
-                      "panic_error_0x12",
-                      []
-                    |) in
-                  tt
-                ))
-              |) in
-            let _ :=
-              M.declare (|
-                ["r"],
-                M.call (|
-                  "div",
-                  [
-                    M.get (| "x" |);
-                    M.get (| "y" |)
-                  ]
-                |)
-              |) in
-            tt
-          ))
-        |) in
-      let _ :=
-        M.function (|
-          "fun_g",
-          [],
-          [],
-          ltac:(M.monadic (
-            let _ :=
-              M.assign (|
-                ["expr"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_t"],
-                Some (M.get (| "expr" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_1"],
-                Some ([Literal.number 0x00])
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_f"],
-                Some (M.get (| "expr_1" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_2"],
-                Some ([Literal.number 0xff])
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_v255"],
-                Some (M.call (|
-                  "convert_rational_by_to_uint8",
-                  [
-                    M.get (| "expr_2" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_3"],
-                Some ([Literal.number 0x3f])
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_v63"],
-                Some (M.call (|
-                  "convert_t_rational_by_to_t_uint8",
-                  [
-                    M.get (| "expr_3" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["var_a"],
-                None
-              |) in
-            let _ :=
-              M.assign (|
-                ["zero_uint8"],
-                Some (M.call (|
-                  "zero_value_for_split_uint8",
-                  []
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "zero_uint8" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_1"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_4"],
-                Some (M.get (| "_1" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_5"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_4" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_6"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_5"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_6" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
+                    )) in
+                    M.od
+                  );
                   (
                     None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_7"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_5"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_7" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_8"],
-                Some (M.get (| "expr_5" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_2"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_9"],
-                Some (M.get (| "_2" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_10"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_9" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_11"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_10"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_11" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_12"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_10"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_12" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_13"],
-                Some (M.get (| "expr_10" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_14"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_8" |);
-                    M.get (| "expr_13" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_14" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_3"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_15"],
-                Some (M.get (| "_3" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_16"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_15" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_17"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_16"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_17" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_18"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_16"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_18" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_19"],
-                Some (M.get (| "expr_16" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_4"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_20"],
-                Some (M.get (| "_4" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_21"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_20" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_22"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_21"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_22" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_23"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_21"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_23" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_24"],
-                Some (M.get (| "expr_21" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_25"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_19" |);
-                    M.get (| "expr_24" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_25" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_5"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_26"],
-                Some (M.get (| "_5" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_27"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_26" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_28"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_27"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_28" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_29"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_30"],
-                          Some (M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_29" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_27"],
-                          M.get (| "expr_30" |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_31"],
-                Some (M.get (| "expr_27" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_6"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_32"],
-                Some (M.get (| "_6" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_33"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_32" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_34"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_35"],
-                          Some (M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_34" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_33"],
-                          M.get (| "expr_35" |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_36"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_33"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_36" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_37"],
-                Some (M.get (| "expr_33" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_38"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_31" |);
-                    M.get (| "expr_37" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_38" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_7"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_39"],
-                Some (M.get (| "_7" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_40"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_39" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_41"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_40"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_41" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_8"],
-                          Some (M.get (| "var_v63" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_42"],
-                          Some (M.get (| "_8" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_40"],
-                          M.get (| "expr_42" |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_43"],
-                Some (M.get (| "expr_40" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_9"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_44"],
-                Some (M.get (| "_9" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_45"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_44" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_10"],
-                          Some (M.get (| "var_v255" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_46"],
-                          Some (M.get (| "_10" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_45"],
-                          M.get (| "expr_46" |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_47"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_45"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_47" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_48"],
-                Some (M.get (| "expr_45" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_49"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_43" |);
-                    M.get (| "expr_48" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_49" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_50"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_51"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_50" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_52"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_51"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_52" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_53"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_51"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_53" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_54"],
-                Some (M.get (| "expr_51" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_55"],
-                Some ([Literal.number 0x00])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_56"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_55" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_57"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_56"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_57" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_58"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_56"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_58" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_59"],
-                Some (M.get (| "expr_56" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_60"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_54" |);
-                    M.get (| "expr_59" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_60" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_61"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_62"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_61" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_63"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_62"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_63" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_64"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_62"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_64" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_65"],
-                Some (M.get (| "expr_62" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_66"],
-                Some ([Literal.number 0x00])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_67"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_66" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_68"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_67"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_68" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_69"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_67"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_69" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_70"],
-                Some (M.get (| "expr_67" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_71"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_65" |);
-                    M.get (| "expr_70" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_71" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_72"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_73"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_72" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_74"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_73"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_74" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_75"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_76"],
-                          Some (M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_75" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_73"],
-                          M.get (| "expr_76" |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_77"],
-                Some (M.get (| "expr_73" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_78"],
-                Some ([Literal.number 0x00])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_79"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_78" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_80"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_81"],
-                          Some (M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_80" |)
-                            ]
-                          |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_79"],
-                          M.get (| "expr_81" |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_82"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_79"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_82" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_83"],
-                Some (M.get (| "expr_79" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_84"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_77" |);
-                    M.get (| "expr_83" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_84" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_85"],
-                Some ([Literal.number 0x01])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_86"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_85" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_87"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_86"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_87" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_11"],
-                          Some (M.get (| "var_v63" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_88"],
-                          Some (M.get (| "_11" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_86"],
-                          M.get (| "expr_88" |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_89"],
-                Some (M.get (| "expr_86" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_90"],
-                Some ([Literal.number 0x00])
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_91"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_90" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_12"],
-                          Some (M.get (| "var_v255" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_92"],
-                          Some (M.get (| "_12" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_91"],
-                          M.get (| "expr_92" |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_93"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_91"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_93" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_94"],
-                Some (M.get (| "expr_91" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_95"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_89" |);
-                    M.get (| "expr_94" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_95" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_13"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_96"],
-                Some (M.get (| "_13" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_97"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_96" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_98"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_97"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_98" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_99"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_97"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_99" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_100"],
-                Some (M.get (| "expr_97" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_14"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_101"],
-                Some (M.get (| "_14" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_102"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_101" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_103"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_102"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_103" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_104"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_102"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_104" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_105"],
-                Some (M.get (| "expr_102" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_106"],
-                Some (M.call (|
-                  "checked_sub_uint8",
-                  [
-                    M.get (| "expr_100" |);
-                    M.get (| "expr_105" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_106" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_15"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_107"],
-                Some (M.get (| "_15" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_108"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_107" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_109"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_108"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_109" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_110"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_108"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_110" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_111"],
-                Some (M.get (| "expr_108" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_16"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_112"],
-                Some (M.get (| "_16" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_113"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_112" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_114"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_113"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_114" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_115"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_113"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_115" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_116"],
-                Some (M.get (| "expr_113" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_117"],
-                Some (M.call (|
-                  "checked_mul_uint8",
-                  [
-                    M.get (| "expr_111" |);
-                    M.get (| "expr_116" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_117" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_17"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_118"],
-                Some (M.get (| "_17" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_119"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_118" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_120"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_119"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_120" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_121"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_119"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_121" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_122"],
-                Some (M.get (| "expr_119" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_18"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_123"],
-                Some (M.get (| "_18" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_124"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_123" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_125"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_124"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_125" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_126"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_124"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_126" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_127"],
-                Some (M.get (| "expr_124" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_128"],
-                Some (M.call (|
-                  "checked_div_uint8",
-                  [
-                    M.get (| "expr_122" |);
-                    M.get (| "expr_127" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_128" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_19"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_129"],
-                Some (M.get (| "_19" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_130"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_129" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_131"],
-                          Some ([Literal.number 0x00])
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_132"],
-                          None
-                        |) in
-                      let _ :=
-                        M.switch (|
-                          M.get (| "expr_131" |),
-                          [
-                            (
-                              Some (Literal.number 0),
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_133"],
-                                    Some ([Literal.number 0xff])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_132"],
-                                    M.call (|
-                                      "convert_rational_by_to_uint8",
-                                      [
-                                        M.get (| "expr_133" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      );
-                            (
-                              None,
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_134"],
-                                    Some ([Literal.number 0x3f])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_132"],
-                                    M.call (|
-                                      "convert_t_rational_by_to_t_uint8",
-                                      [
-                                        M.get (| "expr_134" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      )                    ]
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_135"],
-                          Some (M.get (| "expr_132" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_130"],
-                          M.get (| "expr_135" |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_136"],
-                          Some ([Literal.number 0x01])
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_137"],
-                          None
-                        |) in
-                      let _ :=
-                        M.switch (|
-                          M.get (| "expr_136" |),
-                          [
-                            (
-                              Some (Literal.number 0),
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_138"],
-                                    Some ([Literal.number 0xff])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_137"],
-                                    M.call (|
-                                      "convert_rational_by_to_uint8",
-                                      [
-                                        M.get (| "expr_138" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      );
-                            (
-                              None,
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_139"],
-                                    Some ([Literal.number 0x3f])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_137"],
-                                    M.call (|
-                                      "convert_t_rational_by_to_t_uint8",
-                                      [
-                                        M.get (| "expr_139" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      )                    ]
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_140"],
-                          Some (M.get (| "expr_137" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_130"],
-                          M.get (| "expr_140" |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_141"],
-                Some (M.get (| "expr_130" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_20"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_142"],
-                Some (M.get (| "_20" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_143"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_142" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_21"],
-                          Some (M.get (| "var_f" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_144"],
-                          Some (M.get (| "_21" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_145"],
-                          None
-                        |) in
-                      let _ :=
-                        M.switch (|
-                          M.get (| "expr_144" |),
-                          [
-                            (
-                              Some (Literal.number 0),
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_146"],
-                                    Some ([Literal.number 0xff])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_145"],
-                                    M.call (|
-                                      "convert_rational_by_to_uint8",
-                                      [
-                                        M.get (| "expr_146" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      );
-                            (
-                              None,
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_147"],
-                                    Some ([Literal.number 0x3f])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_145"],
-                                    M.call (|
-                                      "convert_t_rational_by_to_t_uint8",
-                                      [
-                                        M.get (| "expr_147" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      )                    ]
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_148"],
-                          Some (M.get (| "expr_145" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_143"],
-                          M.get (| "expr_148" |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["_22"],
-                          Some (M.get (| "var_t" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_149"],
-                          Some (M.get (| "_22" |))
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_150"],
-                          None
-                        |) in
-                      let _ :=
-                        M.switch (|
-                          M.get (| "expr_149" |),
-                          [
-                            (
-                              Some (Literal.number 0),
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_151"],
-                                    Some ([Literal.number 0xff])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_150"],
-                                    M.call (|
-                                      "convert_rational_by_to_uint8",
-                                      [
-                                        M.get (| "expr_151" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      );
-                            (
-                              None,
-                              ltac:(M.monadic (
-                                let _ :=
-                                  M.assign (|
-                                    ["expr_152"],
-                                    Some ([Literal.number 0x3f])
-                                  |) in
-                                let _ :=
-                                  M.declare (|
-                                    ["expr_150"],
-                                    M.call (|
-                                      "convert_t_rational_by_to_t_uint8",
-                                      [
-                                        M.get (| "expr_152" |)
-                                      ]
-                                    |)
-                                  |) in
-                                tt
-                              ))                      )                    ]
-                        |) in
-                      let _ :=
-                        M.assign (|
-                          ["expr_153"],
-                          Some (M.get (| "expr_150" |))
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_143"],
-                          M.get (| "expr_153" |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_154"],
-                Some (M.get (| "expr_143" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_155"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_141" |);
-                    M.get (| "expr_154" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_155" |)
-              |) in
-            let _ :=
-              M.assign (|
-                ["_23"],
-                Some (M.get (| "var_t" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_156"],
-                Some (M.get (| "_23" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_157"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_156" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_158"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_157"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_158" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_159"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_157"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_159" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_160"],
-                Some (M.get (| "expr_157" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["_24"],
-                Some (M.get (| "var_f" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_161"],
-                Some (M.get (| "_24" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_162"],
-                None
-              |) in
-            let _ :=
-              M.switch (|
-                M.get (| "expr_161" |),
-                [
-                  (
-                    Some (Literal.number 0),
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_163"],
-                          Some ([Literal.number 0xff])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_162"],
-                          M.call (|
-                            "convert_rational_by_to_uint8",
-                            [
-                              M.get (| "expr_163" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            );
-                  (
-                    None,
-                    ltac:(M.monadic (
-                      let _ :=
-                        M.assign (|
-                          ["expr_164"],
-                          Some ([Literal.number 0x3f])
-                        |) in
-                      let _ :=
-                        M.declare (|
-                          ["expr_162"],
-                          M.call (|
-                            "convert_t_rational_by_to_t_uint8",
-                            [
-                              M.get (| "expr_164" |)
-                            ]
-                          |)
-                        |) in
-                      tt
-                    ))            )          ]
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_165"],
-                Some (M.get (| "expr_162" |))
-              |) in
-            let _ :=
-              M.assign (|
-                ["expr_166"],
-                Some (M.call (|
-                  "checked_add_uint8",
-                  [
-                    M.get (| "expr_160" |);
-                    M.get (| "expr_165" |)
-                  ]
-                |))
-              |) in
-            let _ :=
-              M.declare (|
-                ["var_a"],
-                M.get (| "expr_166" |)
-              |) in
-            tt
-          ))
-        |) in
-      tt
-    )).
+                    M.od
+                  )          ]
+              |)
+            )) in
+            M.od
+          |)
+        )) in
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
+              []
+            |)
+          |)
+        )) in
+        M.od
+      )) in
+      M.od.
 
     Definition data : string :=
-      "a264697066735822122069c62ed400212fdacfa338d736271775c734069040da5a70b041f5ad9a86bca464736f6c634300081b0033".
+      "a26469706673582212200e010c53e2230b9cb2fe1644b20f146ebec58204c7f01dd9bb5df843b74a3e9d64736f6c634300081b0033".
   End TestTernary_238_deployed.
 End TestTernary_238.

@@ -2,57 +2,66 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C_10.
-  Definition code : M.t unit := ltac:(M.monadic (
-    let _ :=
-      let _ :=
-        M.call (|
-          "codecopy",
-          [
-            [Literal.number 0];
-            M.call (|
-              "dataoffset",
-              [
-                [Literal.string "435f31305f6465706c6f796564"]
-              ]
-            |);
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "435f31305f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      let _ :=
-        M.call (|
-          "return",
-          [
-            [Literal.number 0];
-            M.call (|
-              "datasize",
-              [
-                [Literal.string "435f31305f6465706c6f796564"]
-              ]
-            |)
-          ]
-        |) in
-      tt in
-    tt
-  )).
-
-  Module C_10_deployed.
-    Definition code : M.t unit := ltac:(M.monadic (
-      let _ :=
-        let _ :=
+  Definition code : M.t BlockUnit.t :=
+    do* ltac:(M.monadic (
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
           M.call (|
-            "revert",
+            "codecopy",
             [
               [Literal.number 0];
-              [Literal.number 0]
+              M.call (|
+                "dataoffset",
+                [
+                  [Literal.string "435f31305f6465706c6f796564"]
+                ]
+              |);
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "435f31305f6465706c6f796564"]
+                ]
+              |)
             ]
-          |) in
-        tt in
-      tt
-    )).
+          |)
+        |)
+      )) in
+      do* ltac:(M.monadic (
+        M.expr_stmt (|
+          M.call (|
+            "return",
+            [
+              [Literal.number 0];
+              M.call (|
+                "datasize",
+                [
+                  [Literal.string "435f31305f6465706c6f796564"]
+                ]
+              |)
+            ]
+          |)
+        |)
+      )) in
+      M.od
+    )) in
+    M.od.
+
+  Module C_10_deployed.
+    Definition code : M.t BlockUnit.t :=
+      do* ltac:(M.monadic (
+        do* ltac:(M.monadic (
+          M.expr_stmt (|
+            M.call (|
+              "revert",
+              [
+                [Literal.number 0];
+                [Literal.number 0]
+              ]
+            |)
+          |)
+        )) in
+        M.od
+      )) in
+      M.od.
   End C_10_deployed.
 End C_10.

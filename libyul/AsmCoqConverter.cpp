@@ -35,14 +35,32 @@ std::string AsmCoqConverter::operator()(Block const& _node)
 
 	for (auto const& statement: _node.statements)
 	{
-		ret += "let _ :=\n";
-		m_indent++;
-		ret += indent() + std::visit(*this, statement) + " in\n";
-		m_indent--;
-		ret += indent();
+		// We put all the functions before so that their definitions are available
+		if (std::holds_alternative<FunctionDefinition>(statement))
+		{
+			ret += "do* ltac:(M.monadic (\n";
+			m_indent++;
+			ret += indent() + std::visit(*this, statement) + "\n";
+			m_indent--;
+			ret += indent() + ")) in\n";
+			ret += indent();
+		}
 	}
 
-	ret += "tt";
+	for (auto const& statement: _node.statements)
+	{
+		if (!std::holds_alternative<FunctionDefinition>(statement))
+		{
+			ret += "do* ltac:(M.monadic (\n";
+			m_indent++;
+			ret += indent() + std::visit(*this, statement) + "\n";
+			m_indent--;
+			ret += indent() + ")) in\n";
+			ret += indent();
+		}
+	}
+
+	ret += "M.od";
 
 	return ret;
 }
@@ -71,23 +89,13 @@ std::string AsmCoqConverter::operator()(Identifier const& _node)
 std::string AsmCoqConverter::operator()(Assignment const& _node)
 {
 	yulAssert(_node.variableNames.size() >= 1, "Invalid assignment syntax");
-	std::string ret = "M.declare (|\n";
-	m_indent++;
-	ret += indent() + "[";
-	bool isFirst = true;
-	for (auto const& var: _node.variableNames)
-	{
-		if (!isFirst)
-			ret += "; ";
-		isFirst = false;
-		ret += "\"" + var.name.str() + "\"";
-	}
-	ret += "],\n";
-	ret += indent() + (_node.value ? std::visit(*this, *_node.value) : "Literal.undefined");
-	m_indent--;
-	ret += "\n" + indent() + "|)";
 
-	return ret;
+	return rawAssign(_node.variableNames, _node.value);
+}
+
+std::string AsmCoqConverter::operator()(VariableDeclaration const& _node)
+{
+	return rawAssign(_node.variables, _node.value);
 }
 
 std::string AsmCoqConverter::operator()(FunctionCall const& _node)
@@ -121,28 +129,11 @@ std::string AsmCoqConverter::operator()(FunctionCall const& _node)
 
 std::string AsmCoqConverter::operator()(ExpressionStatement const& _node)
 {
-	std::string ret = std::visit(*this, _node.expression);
-
-	return ret;
-}
-
-std::string AsmCoqConverter::operator()(VariableDeclaration const& _node)
-{
-	std::string ret = "M.assign (|\n";
+	std::string ret = "M.expr_stmt (|\n";
 	m_indent++;
-	ret += indent() + "[";
-	bool isFirst = true;
-	for (auto const& var: _node.variables)
-	{
-		if (!isFirst)
-			ret += "; ";
-		isFirst = false;
-		ret += "\"" + var.name.str() + "\"";
-	}
-	ret += "],\n";
-	ret += indent() + (_node.value ? "Some (" + std::visit(*this, *_node.value) + ")" : "None");
+	ret += indent() + std::visit(*this, _node.expression) + "\n";
 	m_indent--;
-	ret += "\n" + indent() + "|)";
+	ret += indent() + "|)";
 
 	return ret;
 }
@@ -173,11 +164,7 @@ std::string AsmCoqConverter::operator()(FunctionDefinition const& _node)
 		ret += "\"" + var.name.str() + "\"";
 	}
 	ret += "],\n";
-	ret += indent() + "ltac:(M.monadic (\n";
-	m_indent++;
 	ret += indent() + (*this)(_node.body) + "\n";
-	m_indent--;
-	ret += indent() + "))\n";
 	m_indent--;
 	ret += indent() + "|)";
 
@@ -190,11 +177,7 @@ std::string AsmCoqConverter::operator()(If const& _node)
 	std::string ret = "M.if_ (|\n";
 	m_indent++;
 	ret += indent() + std::visit(*this, *_node.condition) + ",\n";
-	ret += indent() + "ltac:(M.monadic (\n";
-	m_indent++;
 	ret += indent() + (*this)(_node.body) + "\n";
-	m_indent--;
-	ret += indent() + "))\n";
 	m_indent--;
 	ret += indent() + "|)";
 
@@ -230,11 +213,7 @@ std::string AsmCoqConverter::operator()(Case const& _node)
 	std::string ret = "(\n";
 	m_indent++;
 	ret += indent() + (_node.value ? "Some (" + rawLiteral(*_node.value) + ")" : "None") + ",\n";
-	ret += indent() + "ltac:(M.monadic (\n";
-	m_indent++;
 	ret += indent() + (*this)(_node.body) + "\n";
-	m_indent--;
-	ret += indent() + "))";
 	m_indent--;
 	ret += indent() + ")";
 
@@ -244,25 +223,21 @@ std::string AsmCoqConverter::operator()(Case const& _node)
 std::string AsmCoqConverter::operator()(ForLoop const& _node)
 {
 	yulAssert(_node.condition, "Invalid for loop condition.");
-	std::string ret = "let _ :=\n";
+	std::string ret = "do*\n";
 	m_indent++;
 	ret += indent() + (*this)(_node.pre) + " in\n";
 	m_indent--;
+	ret += "ltac:(M.monadic (\n";
+	m_indent++;
 	ret += indent() + "M.for_ (|\n";
 	m_indent++;
 	ret += indent() + std::visit(*this, *_node.condition) + ",\n";
-	ret += indent() + "ltac:(M.monadic (\n";
-	m_indent++;
-	ret += indent() + (*this)(_node.post) + "\n";
-	m_indent--;
-	ret += indent() + ")),\n";
-	ret += indent() + "ltac:(M.monadic (\n";
-	m_indent++;
+	ret += indent() + (*this)(_node.post) + ",\n";
 	ret += indent() + (*this)(_node.body) + "\n";
 	m_indent--;
-	ret += indent() + "))\n";
+	ret += indent() + "|)\n";
 	m_indent--;
-	ret += indent() + "|)";
+	ret += indent() + "))";
 
 	return ret;
 }
@@ -308,6 +283,31 @@ std::string AsmCoqConverter::rawLiteral(Literal const& _node) const
 		yulAssert(false, "Invalid literal kind");
 		return "invalid literal";
 	}
+}
+
+template <class T>
+std::string AsmCoqConverter::rawAssign(
+	std::vector<T> const& variables,
+	std::unique_ptr<Expression> const& value
+)
+{
+	std::string ret = "M.assign (|\n";
+	m_indent++;
+	ret += indent() + "[";
+	bool isFirst = true;
+	for (auto const& var: variables)
+	{
+		if (!isFirst)
+			ret += "; ";
+		isFirst = false;
+		ret += "\"" + var.name.str() + "\"";
+	}
+	ret += "],\n";
+	ret += indent() + (value ? "Some (" + std::visit(*this, *value) + ")" : "None");
+	m_indent--;
+	ret += "\n" + indent() + "|)";
+
+	return ret;
 }
 
 }
