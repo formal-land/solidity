@@ -73,3 +73,61 @@ Module Run.
   where "{{ locals | e ⇓ output | locals' }}" :=
     (t locals output e locals').
 End Run.
+
+Import Run.
+
+(** A function to evaluate an expression given enought [fuel]. *)
+Fixpoint eval {A : Set} (fuel : nat) (locals : Locals.t) (e : M.t A) : (A + string) * Locals.t :=
+  match fuel with
+  | O => (inr "out of fuel", locals)
+  | S fuel =>
+    match e with
+    | M.Pure output => (inl output, locals)
+    | M.GetVar name k =>
+      let value := Locals.get_var locals name in
+      eval fuel locals (k value)
+    | M.SetVar names values k =>
+      eval fuel (Locals.set_vars locals names values) k
+    | M.CallFunction name arguments k =>
+      let function := Locals.get_function locals name in
+      let (results, locals_inter) := eval fuel locals (function arguments) in
+      match results with
+      | inl results => eval fuel locals_inter (k results)
+      | inr message => (inr message, locals)
+      end
+    | M.DeclareFunction name body k =>
+      eval fuel (Locals.declare_function locals name body) k
+    | M.Impossible message => (inr ("impossible " ++ message)%string, locals)
+    end
+  end.
+
+(** The [eval] function follows the semantics given by [Run.t]. *)
+Fixpoint eval_is_run {A : Set}
+    (fuel : nat) (locals : Locals.t) (e : M.t A) (output : A) (locals' : Locals.t) :
+  eval fuel locals e = (inl output, locals') ->
+  {{ locals | e ⇓ output | locals' }}.
+Proof.
+  destruct fuel as [|fuel]; [discriminate|].
+  destruct e; cbn; intros H_eval.
+  { inversion H_eval; constructor. }
+  { constructor.
+    eapply eval_is_run.
+    eassumption.
+  }
+  { constructor.
+    eapply eval_is_run.
+    eassumption.
+  }
+  { destruct eval as [[results | message] locals_inter] eqn:H_eval_inter in H_eval.
+    { econstructor;
+        apply eval_is_run with (fuel := fuel);
+        eassumption.
+    }
+    { discriminate. }
+  }
+  { constructor.
+    eapply eval_is_run.
+    eassumption.
+  }
+  { discriminate. }
+Qed.
