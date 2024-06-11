@@ -17,7 +17,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
  * @date 2019
- * Converts inline assembly AST to JSON format
+ * Converts inline assembly AST to Coq format
  */
 
 #include <libyul/AsmCoqConverter.h>
