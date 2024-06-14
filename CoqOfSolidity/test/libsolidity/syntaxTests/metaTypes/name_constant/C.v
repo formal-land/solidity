@@ -3,11 +3,13 @@ Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C_7.
   Definition code : M.t BlockUnit.t :=
+    do* M.open_scope in
     do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["memPtr"],
@@ -19,7 +21,7 @@ Module C_7.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -27,6 +29,7 @@ Module C_7.
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -38,10 +41,11 @@ Module C_7.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.expr_stmt (|
           M.call (|
@@ -64,6 +68,7 @@ Module C_7.
             "callvalue",
             []
           |),
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -72,11 +77,11 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
-        M.assign (|
+        M.declare (|
           ["_1"],
           Some (M.call (|
             "allocate_unbounded",
@@ -89,7 +94,7 @@ Module C_7.
           M.call (|
             "codecopy",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "dataoffset",
                 [
@@ -111,7 +116,7 @@ Module C_7.
           M.call (|
             "return",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "datasize",
                 [
@@ -122,17 +127,19 @@ Module C_7.
           |)
         |)
       )) in
-      M.od
+      M.close_scope
     )) in
-    M.od.
+    M.close_scope.
 
   Module C_7_deployed.
     Definition code : M.t BlockUnit.t :=
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.function (|
           "shift_right_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -140,12 +147,12 @@ Module C_7.
                 "shr",
                 [
                   [Literal.number 224];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -153,6 +160,7 @@ Module C_7.
           "allocate_unbounded",
           [],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -164,7 +172,7 @@ Module C_7.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -172,6 +180,7 @@ Module C_7.
           "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -183,7 +192,7 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -191,6 +200,7 @@ Module C_7.
           "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -202,7 +212,7 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -210,6 +220,7 @@ Module C_7.
           "abi_decode",
           ["headStart"; "dataEnd"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -218,13 +229,14 @@ Module C_7.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 0]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -233,10 +245,10 @@ Module C_7.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -244,6 +256,7 @@ Module C_7.
           "round_up_to_mul_of",
           ["value"],
           ["result"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["result"],
@@ -253,7 +266,7 @@ Module C_7.
                   M.call (|
                     "add",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       [Literal.number 31]
                     ]
                   |);
@@ -267,7 +280,7 @@ Module C_7.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -275,6 +288,7 @@ Module C_7.
           "panic_error_0x41",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -314,7 +328,7 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -322,17 +336,18 @@ Module C_7.
           "finalize_allocation",
           ["memPtr"; "size"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["newFreePtr"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "memPtr" |);
+                  M.get_var (| "memPtr" |);
                   M.call (|
                     "round_up_to_mul_of",
                     [
-                      M.get (| "size" |)
+                      M.get_var (| "size" |)
                     ]
                   |)
                 ]
@@ -347,19 +362,20 @@ Module C_7.
                   M.call (|
                     "gt",
                     [
-                      M.get (| "newFreePtr" |);
+                      M.get_var (| "newFreePtr" |);
                       [Literal.number 0xffffffffffffffff]
                     ]
                   |);
                   M.call (|
                     "lt",
                     [
-                      M.get (| "newFreePtr" |);
-                      M.get (| "memPtr" |)
+                      M.get_var (| "newFreePtr" |);
+                      M.get_var (| "memPtr" |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -368,7 +384,7 @@ Module C_7.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -377,12 +393,12 @@ Module C_7.
                 "mstore",
                 [
                   [Literal.number 64];
-                  M.get (| "newFreePtr" |)
+                  M.get_var (| "newFreePtr" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -390,6 +406,7 @@ Module C_7.
           "allocate_memory",
           ["size"],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -404,13 +421,13 @@ Module C_7.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "memPtr" |);
-                  M.get (| "size" |)
+                  M.get_var (| "memPtr" |);
+                  M.get_var (| "size" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -418,15 +435,17 @@ Module C_7.
           "array_allocation_size_string",
           ["length"],
           ["size"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "gt",
                 [
-                  M.get (| "length" |);
+                  M.get_var (| "length" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -435,7 +454,7 @@ Module C_7.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -444,7 +463,7 @@ Module C_7.
               Some (M.call (|
                 "round_up_to_mul_of",
                 [
-                  M.get (| "length" |)
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -455,13 +474,13 @@ Module C_7.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "size" |);
+                  M.get_var (| "size" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -469,13 +488,14 @@ Module C_7.
           "allocate_memory_array_string",
           ["length"],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["allocSize"],
               Some (M.call (|
                 "array_allocation_size_string",
                 [
-                  M.get (| "length" |)
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -486,7 +506,7 @@ Module C_7.
               Some (M.call (|
                 "allocate_memory",
                 [
-                  M.get (| "allocSize" |)
+                  M.get_var (| "allocSize" |)
                 ]
               |))
             |)
@@ -496,13 +516,13 @@ Module C_7.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "memPtr" |);
-                  M.get (| "length" |)
+                  M.get_var (| "memPtr" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -510,6 +530,7 @@ Module C_7.
           "store_literal_in_memory_017e667f4b8c174291d1543c466717566e206df1bfd6f30271055ddafdb18f72",
           ["memPtr"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -518,7 +539,7 @@ Module C_7.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 0]
                     ]
                   |);
@@ -527,7 +548,7 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -535,6 +556,7 @@ Module C_7.
           "copy_literal_to_memory_017e667f4b8c174291d1543c466717566e206df1bfd6f30271055ddafdb18f72",
           [],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -554,7 +576,7 @@ Module C_7.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 32]
                     ]
                   |)
@@ -562,7 +584,7 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -570,8 +592,9 @@ Module C_7.
           "constant_name",
           [],
           ["ret_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_mpos"],
               Some (M.call (|
                 "copy_literal_to_memory_017e667f4b8c174291d1543c466717566e206df1bfd6f30271055ddafdb18f72",
@@ -580,18 +603,18 @@ Module C_7.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_mpos"],
-              Some (M.get (| "expr_mpos" |))
+              Some (M.get_var (| "expr_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret_mpos"],
-              Some (M.get (| "_mpos" |))
+              Some (M.get_var (| "_mpos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -599,6 +622,7 @@ Module C_7.
           "getter_fun_name",
           [],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
@@ -608,7 +632,7 @@ Module C_7.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -616,18 +640,19 @@ Module C_7.
           "array_length_string",
           ["value"],
           ["length"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["length"],
               Some (M.call (|
                 "mload",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -635,13 +660,14 @@ Module C_7.
           "array_storeLengthForEncoding_string",
           ["pos"; "length"],
           ["updated_pos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -652,13 +678,13 @@ Module C_7.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -666,14 +692,15 @@ Module C_7.
           "copy_memory_to_memory_with_cleanup",
           ["src"; "dst"; "length"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mcopy",
                 [
-                  M.get (| "dst" |);
-                  M.get (| "src" |);
-                  M.get (| "length" |)
+                  M.get_var (| "dst" |);
+                  M.get_var (| "src" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -686,8 +713,8 @@ Module C_7.
                   M.call (|
                     "add",
                     [
-                      M.get (| "dst" |);
-                      M.get (| "length" |)
+                      M.get_var (| "dst" |);
+                      M.get_var (| "length" |)
                     ]
                   |);
                   [Literal.number 0]
@@ -695,7 +722,7 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -703,13 +730,14 @@ Module C_7.
           "abi_encode_string_memory_ptr",
           ["value"; "pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["length"],
               Some (M.call (|
                 "array_length_string",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
@@ -720,8 +748,8 @@ Module C_7.
               Some (M.call (|
                 "array_storeLengthForEncoding_string",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -734,12 +762,12 @@ Module C_7.
                   M.call (|
                     "add",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       [Literal.number 0x20]
                     ]
                   |);
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -750,18 +778,18 @@ Module C_7.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "round_up_to_mul_of",
                     [
-                      M.get (| "length" |)
+                      M.get_var (| "length" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -769,13 +797,14 @@ Module C_7.
           "abi_encode_string",
           ["headStart"; "value0"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -789,15 +818,15 @@ Module C_7.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -810,13 +839,13 @@ Module C_7.
               Some (M.call (|
                 "abi_encode_string_memory_ptr",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -824,12 +853,14 @@ Module C_7.
           "external_fun_name",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -838,7 +869,7 @@ Module C_7.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -856,7 +887,7 @@ Module C_7.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "getter_fun_name",
@@ -865,7 +896,7 @@ Module C_7.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -874,13 +905,13 @@ Module C_7.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_string",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -890,19 +921,19 @@ Module C_7.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -910,6 +941,7 @@ Module C_7.
           "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -921,10 +953,11 @@ Module C_7.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -958,8 +991,9 @@ Module C_7.
                 |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["selector"],
                 Some (M.call (|
                   "shift_right_unsigned",
@@ -976,10 +1010,11 @@ Module C_7.
             )) in
             do* ltac:(M.monadic (
               M.switch (|
-                M.get (| "selector" |),
+                M.get_var (| "selector" |),
                 [
                   (
                     Some (Literal.number 0x06fdde03),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -988,15 +1023,16 @@ Module C_7.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     None,
-                    M.od
+                    do* M.open_scope in
+                    M.close_scope
                   )          ]
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
         do* ltac:(M.monadic (
@@ -1007,11 +1043,11 @@ Module C_7.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       )) in
-      M.od.
+      M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212201cdd34ed73991058bb7adb9bd24d23879a367c707aa53f78f7eba37d0dc19d8064736f6c634300081b0033".
+      "a2646970667358221220fbe62bbd64b389551e2d20df98cd767d81038d59c0e55c49e7d38f56faf86c7a64736f6c634300081b0033".
   End C_7_deployed.
 End C_7.

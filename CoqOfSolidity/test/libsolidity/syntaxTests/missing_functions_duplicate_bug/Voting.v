@@ -3,11 +3,13 @@ Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module Voting_47.
   Definition code : M.t BlockUnit.t :=
+    do* M.open_scope in
     do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["memPtr"],
@@ -19,7 +21,7 @@ Module Voting_47.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -27,6 +29,7 @@ Module Voting_47.
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -38,7 +41,7 @@ Module Voting_47.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -46,13 +49,14 @@ Module Voting_47.
         "cleanup_rational_by",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -60,13 +64,14 @@ Module Voting_47.
         "cleanup_uint256",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -74,13 +79,14 @@ Module Voting_47.
         "identity",
         ["value"],
         ["ret"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["ret"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -88,6 +94,7 @@ Module Voting_47.
         "convert_rational_by_to_uint256",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
@@ -100,7 +107,7 @@ Module Voting_47.
                     M.call (|
                       "cleanup_rational_by",
                       [
-                        M.get (| "value" |)
+                        M.get_var (| "value" |)
                       ]
                     |)
                   ]
@@ -109,7 +116,7 @@ Module Voting_47.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -117,19 +124,20 @@ Module Voting_47.
         "constructor_Voting",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr"],
             Some ([Literal.number 0x01])
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_1"],
             Some (M.call (|
               "convert_rational_by_to_uint256",
               [
-                M.get (| "expr" |)
+                M.get_var (| "expr" |)
               ]
             |))
           |)
@@ -139,12 +147,12 @@ Module Voting_47.
             M.call (|
               "fun_init",
               [
-                M.get (| "_1" |)
+                M.get_var (| "_1" |)
               ]
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -152,13 +160,14 @@ Module Voting_47.
         "array_storeLengthForEncoding_string",
         ["pos"; "length"],
         ["updated_pos"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
               "mstore",
               [
-                M.get (| "pos" |);
-                M.get (| "length" |)
+                M.get_var (| "pos" |);
+                M.get_var (| "length" |)
               ]
             |)
           |)
@@ -169,13 +178,13 @@ Module Voting_47.
             Some (M.call (|
               "add",
               [
-                M.get (| "pos" |);
+                M.get_var (| "pos" |);
                 [Literal.number 0x20]
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -183,13 +192,14 @@ Module Voting_47.
         "abi_encode_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
         ["pos"],
         ["end"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["pos"],
             Some (M.call (|
               "array_storeLengthForEncoding_string",
               [
-                M.get (| "pos" |);
+                M.get_var (| "pos" |);
                 [Literal.number 0]
               ]
             |))
@@ -201,13 +211,13 @@ Module Voting_47.
             Some (M.call (|
               "add",
               [
-                M.get (| "pos" |);
+                M.get_var (| "pos" |);
                 [Literal.number 0]
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -215,13 +225,14 @@ Module Voting_47.
         "abi_encode_stringliteral_c5d2",
         ["headStart"],
         ["tail"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["tail"],
             Some (M.call (|
               "add",
               [
-                M.get (| "headStart" |);
+                M.get_var (| "headStart" |);
                 [Literal.number 32]
               ]
             |))
@@ -235,15 +246,15 @@ Module Voting_47.
                 M.call (|
                   "add",
                   [
-                    M.get (| "headStart" |);
+                    M.get_var (| "headStart" |);
                     [Literal.number 0]
                   ]
                 |);
                 M.call (|
                   "sub",
                   [
-                    M.get (| "tail" |);
-                    M.get (| "headStart" |)
+                    M.get_var (| "tail" |);
+                    M.get_var (| "headStart" |)
                   ]
                 |)
               ]
@@ -256,12 +267,12 @@ Module Voting_47.
             Some (M.call (|
               "abi_encode_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
               [
-                M.get (| "tail" |)
+                M.get_var (| "tail" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -269,16 +280,18 @@ Module Voting_47.
         "require_helper_stringliteral_c5d2",
         ["condition"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.if_ (|
             M.call (|
               "iszero",
               [
-                M.get (| "condition" |)
+                M.get_var (| "condition" |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["memPtr"],
                 Some (M.call (|
                   "allocate_unbounded",
@@ -291,7 +304,7 @@ Module Voting_47.
                 M.call (|
                   "mstore",
                   [
-                    M.get (| "memPtr" |);
+                    M.get_var (| "memPtr" |);
                     M.call (|
                       "shl",
                       [
@@ -304,7 +317,7 @@ Module Voting_47.
               |)
             )) in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["end"],
                 Some (M.call (|
                   "abi_encode_stringliteral_c5d2",
@@ -312,7 +325,7 @@ Module Voting_47.
                     M.call (|
                       "add",
                       [
-                        M.get (| "memPtr" |);
+                        M.get_var (| "memPtr" |);
                         [Literal.number 4]
                       ]
                     |)
@@ -325,22 +338,22 @@ Module Voting_47.
                 M.call (|
                   "revert",
                   [
-                    M.get (| "memPtr" |);
+                    M.get_var (| "memPtr" |);
                     M.call (|
                       "sub",
                       [
-                        M.get (| "end" |);
-                        M.get (| "memPtr" |)
+                        M.get_var (| "end" |);
+                        M.get_var (| "memPtr" |)
                       ]
                     |)
                   ]
                 |)
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -348,8 +361,9 @@ Module Voting_47.
         "fun_init",
         ["var_phaseLength"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr"],
             Some ([Literal.number 0x01])
           |)
@@ -359,15 +373,16 @@ Module Voting_47.
             M.call (|
               "require_helper_stringliteral_c5d2",
               [
-                M.get (| "expr" |)
+                M.get_var (| "expr" |)
               ]
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.expr_stmt (|
           M.call (|
@@ -390,6 +405,7 @@ Module Voting_47.
             "callvalue",
             []
           |),
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -398,7 +414,7 @@ Module Voting_47.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -410,7 +426,7 @@ Module Voting_47.
         |)
       )) in
       do* ltac:(M.monadic (
-        M.assign (|
+        M.declare (|
           ["_1"],
           Some (M.call (|
             "allocate_unbounded",
@@ -423,7 +439,7 @@ Module Voting_47.
           M.call (|
             "codecopy",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "dataoffset",
                 [
@@ -445,7 +461,7 @@ Module Voting_47.
           M.call (|
             "return",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "datasize",
                 [
@@ -456,17 +472,19 @@ Module Voting_47.
           |)
         |)
       )) in
-      M.od
+      M.close_scope
     )) in
-    M.od.
+    M.close_scope.
 
   Module Voting_47_deployed.
     Definition code : M.t BlockUnit.t :=
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.function (|
           "shift_right_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -474,12 +492,12 @@ Module Voting_47.
                 "shr",
                 [
                   [Literal.number 224];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -487,6 +505,7 @@ Module Voting_47.
           "allocate_unbounded",
           [],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -498,7 +517,7 @@ Module Voting_47.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -506,6 +525,7 @@ Module Voting_47.
           "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -517,7 +537,7 @@ Module Voting_47.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -525,6 +545,7 @@ Module Voting_47.
           "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -536,7 +557,7 @@ Module Voting_47.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -544,6 +565,7 @@ Module Voting_47.
           "abi_decode",
           ["headStart"; "dataEnd"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -552,13 +574,14 @@ Module Voting_47.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 0]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -567,10 +590,10 @@ Module Voting_47.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -578,19 +601,20 @@ Module Voting_47.
           "abi_encode_tuple",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 0]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -598,12 +622,14 @@ Module Voting_47.
           "external_fun_renounceOwnership",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -612,7 +638,7 @@ Module Voting_47.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -638,7 +664,7 @@ Module Voting_47.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -647,12 +673,12 @@ Module Voting_47.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_tuple",
                 [
-                  M.get (| "memPos" |)
+                  M.get_var (| "memPos" |)
                 ]
               |))
             |)
@@ -662,19 +688,19 @@ Module Voting_47.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -682,6 +708,7 @@ Module Voting_47.
           "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -693,7 +720,7 @@ Module Voting_47.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -701,6 +728,7 @@ Module Voting_47.
           "shift_right_0_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -708,12 +736,12 @@ Module Voting_47.
                 "shr",
                 [
                   [Literal.number 0];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -721,13 +749,14 @@ Module Voting_47.
           "cleanup_from_storage_address",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "sub",
                     [
@@ -745,7 +774,7 @@ Module Voting_47.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -753,6 +782,7 @@ Module Voting_47.
           "extract_from_storage_value_offsett_address",
           ["slot_value"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
@@ -762,14 +792,14 @@ Module Voting_47.
                   M.call (|
                     "shift_right_0_unsigned",
                     [
-                      M.get (| "slot_value" |)
+                      M.get_var (| "slot_value" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -777,6 +807,7 @@ Module Voting_47.
           "read_from_storage_split_offset_address",
           ["slot"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
@@ -786,14 +817,14 @@ Module Voting_47.
                   M.call (|
                     "sload",
                     [
-                      M.get (| "slot" |)
+                      M.get_var (| "slot" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -801,13 +832,14 @@ Module Voting_47.
           "cleanup_uint160",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "sub",
                     [
@@ -825,7 +857,7 @@ Module Voting_47.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -833,18 +865,19 @@ Module Voting_47.
           "cleanup_address",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "cleanup_uint160",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -852,13 +885,14 @@ Module Voting_47.
           "array_storeLengthForEncoding_string",
           ["pos"; "length"],
           ["updated_pos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -869,13 +903,13 @@ Module Voting_47.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -883,6 +917,7 @@ Module Voting_47.
           "store_literal_in_memory_9924ebdf1add33d25d4ef888e16131f0a5687b0580a36c21b5c301a6c462effe",
           ["memPtr"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -891,7 +926,7 @@ Module Voting_47.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 0]
                     ]
                   |);
@@ -900,7 +935,7 @@ Module Voting_47.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -908,13 +943,14 @@ Module Voting_47.
           "abi_encode_stringliteral_9924",
           ["pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "array_storeLengthForEncoding_string",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 32]
                 ]
               |))
@@ -925,7 +961,7 @@ Module Voting_47.
               M.call (|
                 "store_literal_in_memory_9924ebdf1add33d25d4ef888e16131f0a5687b0580a36c21b5c301a6c462effe",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -936,13 +972,13 @@ Module Voting_47.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 32]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -950,13 +986,14 @@ Module Voting_47.
           "abi_encode_stringliteral",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -970,15 +1007,15 @@ Module Voting_47.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -991,12 +1028,12 @@ Module Voting_47.
               Some (M.call (|
                 "abi_encode_stringliteral_9924",
                 [
-                  M.get (| "tail" |)
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1004,16 +1041,18 @@ Module Voting_47.
           "require_helper_stringliteral",
           ["condition"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "iszero",
                 [
-                  M.get (| "condition" |)
+                  M.get_var (| "condition" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["memPtr"],
                   Some (M.call (|
                     "allocate_unbounded",
@@ -1026,7 +1065,7 @@ Module Voting_47.
                   M.call (|
                     "mstore",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "shl",
                         [
@@ -1039,7 +1078,7 @@ Module Voting_47.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["end"],
                   Some (M.call (|
                     "abi_encode_stringliteral",
@@ -1047,7 +1086,7 @@ Module Voting_47.
                       M.call (|
                         "add",
                         [
-                          M.get (| "memPtr" |);
+                          M.get_var (| "memPtr" |);
                           [Literal.number 4]
                         ]
                       |)
@@ -1060,22 +1099,22 @@ Module Voting_47.
                   M.call (|
                     "revert",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "sub",
                         [
-                          M.get (| "end" |);
-                          M.get (| "memPtr" |)
+                          M.get_var (| "end" |);
+                          M.get_var (| "memPtr" |)
                         ]
                       |)
                     ]
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1083,8 +1122,9 @@ Module Voting_47.
           "modifier_onlyOwner",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "caller",
@@ -1093,7 +1133,7 @@ Module Voting_47.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
               Some (M.call (|
                 "read_from_storage_split_offset_address",
@@ -1104,13 +1144,13 @@ Module Voting_47.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
               Some (M.call (|
                 "eq",
@@ -1118,13 +1158,13 @@ Module Voting_47.
                   M.call (|
                     "cleanup_address",
                     [
-                      M.get (| "expr" |)
+                      M.get_var (| "expr" |)
                     ]
                   |);
                   M.call (|
                     "cleanup_address",
                     [
-                      M.get (| "expr_1" |)
+                      M.get_var (| "expr_1" |)
                     ]
                   |)
                 ]
@@ -1136,12 +1176,12 @@ Module Voting_47.
               M.call (|
                 "require_helper_stringliteral",
                 [
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_2" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1149,6 +1189,7 @@ Module Voting_47.
           "fun_renounceOwnership",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1157,10 +1198,11 @@ Module Voting_47.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -1194,8 +1236,9 @@ Module Voting_47.
                 |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["selector"],
                 Some (M.call (|
                   "shift_right_unsigned",
@@ -1212,10 +1255,11 @@ Module Voting_47.
             )) in
             do* ltac:(M.monadic (
               M.switch (|
-                M.get (| "selector" |),
+                M.get_var (| "selector" |),
                 [
                   (
                     Some (Literal.number 0x715018a6),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -1224,15 +1268,16 @@ Module Voting_47.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     None,
-                    M.od
+                    do* M.open_scope in
+                    M.close_scope
                   )          ]
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
         do* ltac:(M.monadic (
@@ -1243,11 +1288,11 @@ Module Voting_47.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       )) in
-      M.od.
+      M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220ccf38942db4efc3a7879cc200a27afbaca3479e3e4385ba78090a989a912d8b364736f6c634300081b0033".
+      "a26469706673582212204f9d9e79ceb8c6eb2b3c8e4b6add6b1398468226ff6494bff261e2ccfb77f11564736f6c634300081b0033".
   End Voting_47_deployed.
 End Voting_47.

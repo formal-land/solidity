@@ -3,7 +3,9 @@ Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C_174.
   Definition code : M.t BlockUnit.t :=
+    do* M.open_scope in
     do* ltac:(M.monadic (
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.expr_stmt (|
           M.call (|
@@ -42,19 +44,21 @@ Module C_174.
           |)
         |)
       )) in
-      M.od
+      M.close_scope
     )) in
-    M.od.
+    M.close_scope.
 
   Module C_174_deployed.
     Definition code : M.t BlockUnit.t :=
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.function (|
           "fun_fun$unit$unit$$",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_arg"],
               None
             |)
@@ -71,19 +75,19 @@ Module C_174.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_x"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "var_arg" |))
+              Some (M.get_var (| "var_arg" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
               Some (M.call (|
                 "iszero",
@@ -91,7 +95,7 @@ Module C_174.
                   M.call (|
                     "iszero",
                     [
-                      M.get (| "expr" |)
+                      M.get_var (| "expr" |)
                     ]
                   |)
                 ]
@@ -100,72 +104,73 @@ Module C_174.
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_1" |),
+              M.get_var (| "expr_1" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.assign (|
                   ["var_x"],
                   Some ([Literal.number 0x10])
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "var_x" |))
+              Some (M.get_var (| "var_x" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "expr_2" |))
+              Some (M.get_var (| "expr_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_w"],
-              Some (M.get (| "expr_3" |))
+              Some (M.get_var (| "expr_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "var_w" |))
+              Some (M.get_var (| "var_w" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "var_w" |))
+              Some (M.get_var (| "var_w" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
               Some (M.call (|
                 "fun_mul$fun$pair$t_uint256$t_uint256$$t_uint256$$",
                 [
-                  M.get (| "expr_4" |);
-                  M.get (| "expr_5" |)
+                  M.get_var (| "expr_4" |);
+                  M.get_var (| "expr_5" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
-              Some (M.get (| "var_w" |))
+              Some (M.get_var (| "var_w" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_8"],
               Some (M.call (|
                 "fun_add$fun$pair$t_uint256$t_uint256$$t_uint256$$",
                 [
-                  M.get (| "expr_6" |);
-                  M.get (| "expr_7" |)
+                  M.get_var (| "expr_6" |);
+                  M.get_var (| "expr_7" |)
                 ]
               |))
             |)
@@ -173,11 +178,11 @@ Module C_174.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_w"],
-              Some (M.get (| "expr_8" |))
+              Some (M.get_var (| "expr_8" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_y"],
               None
             |)
@@ -189,31 +194,31 @@ Module C_174.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_9"],
-              Some (M.get (| "var_w" |))
+              Some (M.get_var (| "var_w" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_10"],
-              Some (M.get (| "expr_9" |))
+              Some (M.get_var (| "expr_9" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_11"],
-              Some (M.get (| "var_y" |))
+              Some (M.get_var (| "var_y" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_12"],
               Some (M.call (|
                 "fun_mul$fun$pair$word$word$$word$$",
                 [
-                  M.get (| "expr_10" |);
-                  M.get (| "expr_11" |)
+                  M.get_var (| "expr_10" |);
+                  M.get_var (| "expr_11" |)
                 ]
               |))
             |)
@@ -221,7 +226,7 @@ Module C_174.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_y"],
-              Some (M.get (| "expr_12" |))
+              Some (M.get_var (| "expr_12" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -230,7 +235,7 @@ Module C_174.
                 "mstore",
                 [
                   [Literal.number 0];
-                  M.get (| "var_y" |)
+                  M.get_var (| "var_y" |)
                 ]
               |)
             |)
@@ -246,7 +251,7 @@ Module C_174.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -254,40 +259,41 @@ Module C_174.
           "fun_mul$fun$pair$t_uint256$t_uint256$$t_uint256$$",
           ["var_x"; "var_y"],
           ["expr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "var_x" |))
+              Some (M.get_var (| "var_x" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "expr_1" |))
+              Some (M.get_var (| "expr_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_a"],
-              Some (M.get (| "expr_2" |))
+              Some (M.get_var (| "expr_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "var_y" |))
+              Some (M.get_var (| "var_y" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "expr_3" |))
+              Some (M.get_var (| "expr_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_b"],
-              Some (M.get (| "expr_4" |))
+              Some (M.get_var (| "expr_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -296,34 +302,34 @@ Module C_174.
               Some (M.call (|
                 "mul",
                 [
-                  M.get (| "var_a" |);
-                  M.get (| "var_b" |)
+                  M.get_var (| "var_a" |);
+                  M.get_var (| "var_b" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "var_a" |))
+              Some (M.get_var (| "var_a" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["expr"],
-              Some (M.get (| "expr_6" |))
+              Some (M.get_var (| "expr_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -331,40 +337,41 @@ Module C_174.
           "fun_add$fun$pair$t_uint256$t_uint256$$t_uint256$$",
           ["var_x"; "var_y"],
           ["expr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "var_x" |))
+              Some (M.get_var (| "var_x" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "expr_1" |))
+              Some (M.get_var (| "expr_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_a"],
-              Some (M.get (| "expr_2" |))
+              Some (M.get_var (| "expr_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "var_y" |))
+              Some (M.get_var (| "var_y" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "expr_3" |))
+              Some (M.get_var (| "expr_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_b"],
-              Some (M.get (| "expr_4" |))
+              Some (M.get_var (| "expr_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -373,34 +380,34 @@ Module C_174.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "var_a" |);
-                  M.get (| "var_b" |)
+                  M.get_var (| "var_a" |);
+                  M.get_var (| "var_b" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "var_a" |))
+              Some (M.get_var (| "var_a" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["expr"],
-              Some (M.get (| "expr_6" |))
+              Some (M.get_var (| "expr_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -408,8 +415,9 @@ Module C_174.
           "fun_mul$fun$pair$word$word$$word$$",
           ["var_x"; "var_y"],
           ["expr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_z"],
               None
             |)
@@ -420,31 +428,32 @@ Module C_174.
               Some (M.call (|
                 "mul",
                 [
-                  M.get (| "var_x" |);
-                  M.get (| "var_y" |)
+                  M.get_var (| "var_x" |);
+                  M.get_var (| "var_y" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "var_z" |))
+              Some (M.get_var (| "var_z" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["expr"],
-              Some (M.get (| "expr_1" |))
+              Some (M.get_var (| "expr_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -464,8 +473,8 @@ Module C_174.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       )) in
-      M.od.
+      M.close_scope.
   End C_174_deployed.
 End C_174.

@@ -3,11 +3,13 @@ Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module TestTernary_238.
   Definition code : M.t BlockUnit.t :=
+    do* M.open_scope in
     do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["memPtr"],
@@ -19,7 +21,7 @@ Module TestTernary_238.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -27,6 +29,7 @@ Module TestTernary_238.
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -38,10 +41,11 @@ Module TestTernary_238.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.expr_stmt (|
           M.call (|
@@ -64,6 +68,7 @@ Module TestTernary_238.
             "callvalue",
             []
           |),
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -72,11 +77,11 @@ Module TestTernary_238.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
-        M.assign (|
+        M.declare (|
           ["_1"],
           Some (M.call (|
             "allocate_unbounded",
@@ -89,7 +94,7 @@ Module TestTernary_238.
           M.call (|
             "codecopy",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "dataoffset",
                 [
@@ -111,7 +116,7 @@ Module TestTernary_238.
           M.call (|
             "return",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "datasize",
                 [
@@ -122,17 +127,19 @@ Module TestTernary_238.
           |)
         |)
       )) in
-      M.od
+      M.close_scope
     )) in
-    M.od.
+    M.close_scope.
 
   Module TestTernary_238_deployed.
     Definition code : M.t BlockUnit.t :=
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.function (|
           "shift_right_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -140,12 +147,12 @@ Module TestTernary_238.
                 "shr",
                 [
                   [Literal.number 224];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -153,6 +160,7 @@ Module TestTernary_238.
           "allocate_unbounded",
           [],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -164,7 +172,7 @@ Module TestTernary_238.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -172,6 +180,7 @@ Module TestTernary_238.
           "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -183,7 +192,7 @@ Module TestTernary_238.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -191,6 +200,7 @@ Module TestTernary_238.
           "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -202,7 +212,7 @@ Module TestTernary_238.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -210,6 +220,7 @@ Module TestTernary_238.
           "abi_decode",
           ["headStart"; "dataEnd"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -218,13 +229,14 @@ Module TestTernary_238.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 0]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -233,10 +245,10 @@ Module TestTernary_238.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -244,19 +256,20 @@ Module TestTernary_238.
           "abi_encode_tuple",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 0]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -264,12 +277,14 @@ Module TestTernary_238.
           "external_fun_g",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -278,7 +293,7 @@ Module TestTernary_238.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -304,7 +319,7 @@ Module TestTernary_238.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -313,12 +328,12 @@ Module TestTernary_238.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_tuple",
                 [
-                  M.get (| "memPos" |)
+                  M.get_var (| "memPos" |)
                 ]
               |))
             |)
@@ -328,19 +343,19 @@ Module TestTernary_238.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -348,6 +363,7 @@ Module TestTernary_238.
           "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -359,7 +375,7 @@ Module TestTernary_238.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -367,13 +383,14 @@ Module TestTernary_238.
           "cleanup_rational_by",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -381,19 +398,20 @@ Module TestTernary_238.
           "cleanup_uint8",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   [Literal.number 0xff]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -401,13 +419,14 @@ Module TestTernary_238.
           "identity",
           ["value"],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -415,6 +434,7 @@ Module TestTernary_238.
           "convert_rational_by_to_uint8",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
@@ -427,7 +447,7 @@ Module TestTernary_238.
                       M.call (|
                         "cleanup_rational_by",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -436,7 +456,7 @@ Module TestTernary_238.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -444,13 +464,14 @@ Module TestTernary_238.
           "cleanup_t_rational_by",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -458,6 +479,7 @@ Module TestTernary_238.
           "convert_t_rational_by_to_t_uint8",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
@@ -470,7 +492,7 @@ Module TestTernary_238.
                       M.call (|
                         "cleanup_t_rational_by",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -479,7 +501,7 @@ Module TestTernary_238.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -487,13 +509,14 @@ Module TestTernary_238.
           "zero_value_for_split_uint8",
           [],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
               Some ([Literal.number 0])
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -501,6 +524,7 @@ Module TestTernary_238.
           "panic_error_0x11",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -540,7 +564,7 @@ Module TestTernary_238.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -548,13 +572,14 @@ Module TestTernary_238.
           "checked_add_uint8",
           ["x"; "y"],
           ["sum"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["x"],
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "x" |)
+                  M.get_var (| "x" |)
                 ]
               |))
             |)
@@ -565,7 +590,7 @@ Module TestTernary_238.
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "y" |)
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -576,8 +601,8 @@ Module TestTernary_238.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "x" |);
-                  M.get (| "y" |)
+                  M.get_var (| "x" |);
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -587,10 +612,11 @@ Module TestTernary_238.
               M.call (|
                 "gt",
                 [
-                  M.get (| "sum" |);
+                  M.get_var (| "sum" |);
                   [Literal.number 0xff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -599,10 +625,10 @@ Module TestTernary_238.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -610,13 +636,14 @@ Module TestTernary_238.
           "checked_sub_uint8",
           ["x"; "y"],
           ["diff"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["x"],
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "x" |)
+                  M.get_var (| "x" |)
                 ]
               |))
             |)
@@ -627,7 +654,7 @@ Module TestTernary_238.
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "y" |)
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -638,8 +665,8 @@ Module TestTernary_238.
               Some (M.call (|
                 "sub",
                 [
-                  M.get (| "x" |);
-                  M.get (| "y" |)
+                  M.get_var (| "x" |);
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -649,10 +676,11 @@ Module TestTernary_238.
               M.call (|
                 "gt",
                 [
-                  M.get (| "diff" |);
+                  M.get_var (| "diff" |);
                   [Literal.number 0xff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -661,10 +689,10 @@ Module TestTernary_238.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -672,13 +700,14 @@ Module TestTernary_238.
           "checked_mul_uint8",
           ["x"; "y"],
           ["product"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["x"],
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "x" |)
+                  M.get_var (| "x" |)
                 ]
               |))
             |)
@@ -689,19 +718,19 @@ Module TestTernary_238.
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "y" |)
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["product_raw"],
               Some (M.call (|
                 "mul",
                 [
-                  M.get (| "x" |);
-                  M.get (| "y" |)
+                  M.get_var (| "x" |);
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -712,7 +741,7 @@ Module TestTernary_238.
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "product_raw" |)
+                  M.get_var (| "product_raw" |)
                 ]
               |))
             |)
@@ -725,12 +754,13 @@ Module TestTernary_238.
                   M.call (|
                     "eq",
                     [
-                      M.get (| "product" |);
-                      M.get (| "product_raw" |)
+                      M.get_var (| "product" |);
+                      M.get_var (| "product_raw" |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -739,10 +769,10 @@ Module TestTernary_238.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -750,6 +780,7 @@ Module TestTernary_238.
           "panic_error_0x12",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -789,7 +820,7 @@ Module TestTernary_238.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -797,13 +828,14 @@ Module TestTernary_238.
           "checked_div_uint8",
           ["x"; "y"],
           ["r"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["x"],
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "x" |)
+                  M.get_var (| "x" |)
                 ]
               |))
             |)
@@ -814,7 +846,7 @@ Module TestTernary_238.
               Some (M.call (|
                 "cleanup_uint8",
                 [
-                  M.get (| "y" |)
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -824,9 +856,10 @@ Module TestTernary_238.
               M.call (|
                 "iszero",
                 [
-                  M.get (| "y" |)
+                  M.get_var (| "y" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -835,7 +868,7 @@ Module TestTernary_238.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -844,13 +877,13 @@ Module TestTernary_238.
               Some (M.call (|
                 "div",
                 [
-                  M.get (| "x" |);
-                  M.get (| "y" |)
+                  M.get_var (| "x" |);
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -858,72 +891,73 @@ Module TestTernary_238.
           "fun_g",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_t"],
-              Some (M.get (| "expr" |))
+              Some (M.get_var (| "expr" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_f"],
-              Some (M.get (| "expr_1" |))
+              Some (M.get_var (| "expr_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
               Some ([Literal.number 0xff])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_v255"],
               Some (M.call (|
                 "convert_rational_by_to_uint8",
                 [
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some ([Literal.number 0x3f])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_v63"],
               Some (M.call (|
                 "convert_t_rational_by_to_t_uint8",
                 [
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_a"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_uint8"],
               Some (M.call (|
                 "zero_value_for_split_uint8",
@@ -934,35 +968,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "zero_uint8" |))
+              Some (M.get_var (| "zero_uint8" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_4" |),
+              M.get_var (| "expr_4" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_6"],
                       Some ([Literal.number 0xff])
                     |)
@@ -973,17 +1008,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_6" |)
+                          M.get_var (| "expr_6" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_7"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -994,47 +1030,48 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_7" |)
+                          M.get_var (| "expr_7" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_8"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_9"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_10"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_9" |),
+              M.get_var (| "expr_9" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_11"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1045,17 +1082,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_11" |)
+                          M.get_var (| "expr_11" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_12"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1066,29 +1104,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_12" |)
+                          M.get_var (| "expr_12" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_13"],
-              Some (M.get (| "expr_10" |))
+              Some (M.get_var (| "expr_10" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_14"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_8" |);
-                  M.get (| "expr_13" |)
+                  M.get_var (| "expr_8" |);
+                  M.get_var (| "expr_13" |)
                 ]
               |))
             |)
@@ -1096,35 +1134,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_14" |))
+              Some (M.get_var (| "expr_14" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_15"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_16"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_15" |),
+              M.get_var (| "expr_15" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_17"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1135,17 +1174,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_17" |)
+                          M.get_var (| "expr_17" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_18"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1156,47 +1196,48 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_18" |)
+                          M.get_var (| "expr_18" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_19"],
-              Some (M.get (| "expr_16" |))
+              Some (M.get_var (| "expr_16" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_20"],
-              Some (M.get (| "_4" |))
+              Some (M.get_var (| "_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_21"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_20" |),
+              M.get_var (| "expr_20" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_22"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1207,17 +1248,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_22" |)
+                          M.get_var (| "expr_22" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_23"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1228,29 +1270,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_23" |)
+                          M.get_var (| "expr_23" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_24"],
-              Some (M.get (| "expr_21" |))
+              Some (M.get_var (| "expr_21" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_25"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_19" |);
-                  M.get (| "expr_24" |)
+                  M.get_var (| "expr_19" |);
+                  M.get_var (| "expr_24" |)
                 ]
               |))
             |)
@@ -1258,35 +1300,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_25" |))
+              Some (M.get_var (| "expr_25" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_26"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_27"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_26" |),
+              M.get_var (| "expr_26" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_28"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1297,28 +1340,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_28" |)
+                          M.get_var (| "expr_28" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_29"],
                       Some ([Literal.number 0x3f])
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_30"],
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_29" |)
+                          M.get_var (| "expr_29" |)
                         ]
                       |))
                     |)
@@ -1326,56 +1370,57 @@ Module TestTernary_238.
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_27"],
-                      Some (M.get (| "expr_30" |))
+                      Some (M.get_var (| "expr_30" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_31"],
-              Some (M.get (| "expr_27" |))
+              Some (M.get_var (| "expr_27" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_6"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_32"],
-              Some (M.get (| "_6" |))
+              Some (M.get_var (| "_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_33"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_32" |),
+              M.get_var (| "expr_32" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_34"],
                       Some ([Literal.number 0xff])
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_35"],
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_34" |)
+                          M.get_var (| "expr_34" |)
                         ]
                       |))
                     |)
@@ -1383,15 +1428,16 @@ Module TestTernary_238.
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_33"],
-                      Some (M.get (| "expr_35" |))
+                      Some (M.get_var (| "expr_35" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_36"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1402,29 +1448,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_36" |)
+                          M.get_var (| "expr_36" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_37"],
-              Some (M.get (| "expr_33" |))
+              Some (M.get_var (| "expr_33" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_38"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_31" |);
-                  M.get (| "expr_37" |)
+                  M.get_var (| "expr_31" |);
+                  M.get_var (| "expr_37" |)
                 ]
               |))
             |)
@@ -1432,35 +1478,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_38" |))
+              Some (M.get_var (| "expr_38" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_7"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_39"],
-              Some (M.get (| "_7" |))
+              Some (M.get_var (| "_7" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_40"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_39" |),
+              M.get_var (| "expr_39" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_41"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1471,91 +1518,94 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_41" |)
+                          M.get_var (| "expr_41" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["_8"],
-                      Some (M.get (| "var_v63" |))
+                      Some (M.get_var (| "var_v63" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_42"],
-                      Some (M.get (| "_8" |))
+                      Some (M.get_var (| "_8" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_40"],
-                      Some (M.get (| "expr_42" |))
+                      Some (M.get_var (| "expr_42" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_43"],
-              Some (M.get (| "expr_40" |))
+              Some (M.get_var (| "expr_40" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_9"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_44"],
-              Some (M.get (| "_9" |))
+              Some (M.get_var (| "_9" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_45"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_44" |),
+              M.get_var (| "expr_44" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["_10"],
-                      Some (M.get (| "var_v255" |))
+                      Some (M.get_var (| "var_v255" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_46"],
-                      Some (M.get (| "_10" |))
+                      Some (M.get_var (| "_10" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_45"],
-                      Some (M.get (| "expr_46" |))
+                      Some (M.get_var (| "expr_46" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_47"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1566,29 +1616,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_47" |)
+                          M.get_var (| "expr_47" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_48"],
-              Some (M.get (| "expr_45" |))
+              Some (M.get_var (| "expr_45" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_49"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_43" |);
-                  M.get (| "expr_48" |)
+                  M.get_var (| "expr_43" |);
+                  M.get_var (| "expr_48" |)
                 ]
               |))
             |)
@@ -1596,29 +1646,30 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_49" |))
+              Some (M.get_var (| "expr_49" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_50"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_51"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_50" |),
+              M.get_var (| "expr_50" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_52"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1629,17 +1680,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_52" |)
+                          M.get_var (| "expr_52" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_53"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1650,41 +1702,42 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_53" |)
+                          M.get_var (| "expr_53" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_54"],
-              Some (M.get (| "expr_51" |))
+              Some (M.get_var (| "expr_51" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_55"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_56"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_55" |),
+              M.get_var (| "expr_55" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_57"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1695,17 +1748,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_57" |)
+                          M.get_var (| "expr_57" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_58"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1716,29 +1770,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_58" |)
+                          M.get_var (| "expr_58" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_59"],
-              Some (M.get (| "expr_56" |))
+              Some (M.get_var (| "expr_56" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_60"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_54" |);
-                  M.get (| "expr_59" |)
+                  M.get_var (| "expr_54" |);
+                  M.get_var (| "expr_59" |)
                 ]
               |))
             |)
@@ -1746,29 +1800,30 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_60" |))
+              Some (M.get_var (| "expr_60" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_61"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_62"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_61" |),
+              M.get_var (| "expr_61" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_63"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1779,17 +1834,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_63" |)
+                          M.get_var (| "expr_63" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_64"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1800,41 +1856,42 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_64" |)
+                          M.get_var (| "expr_64" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_65"],
-              Some (M.get (| "expr_62" |))
+              Some (M.get_var (| "expr_62" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_66"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_67"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_66" |),
+              M.get_var (| "expr_66" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_68"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1845,17 +1902,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_68" |)
+                          M.get_var (| "expr_68" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_69"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -1866,29 +1924,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_69" |)
+                          M.get_var (| "expr_69" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_70"],
-              Some (M.get (| "expr_67" |))
+              Some (M.get_var (| "expr_67" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_71"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_65" |);
-                  M.get (| "expr_70" |)
+                  M.get_var (| "expr_65" |);
+                  M.get_var (| "expr_70" |)
                 ]
               |))
             |)
@@ -1896,29 +1954,30 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_71" |))
+              Some (M.get_var (| "expr_71" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_72"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_73"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_72" |),
+              M.get_var (| "expr_72" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_74"],
                       Some ([Literal.number 0xff])
                     |)
@@ -1929,28 +1988,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_74" |)
+                          M.get_var (| "expr_74" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_75"],
                       Some ([Literal.number 0x3f])
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_76"],
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_75" |)
+                          M.get_var (| "expr_75" |)
                         ]
                       |))
                     |)
@@ -1958,50 +2018,51 @@ Module TestTernary_238.
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_73"],
-                      Some (M.get (| "expr_76" |))
+                      Some (M.get_var (| "expr_76" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_77"],
-              Some (M.get (| "expr_73" |))
+              Some (M.get_var (| "expr_73" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_78"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_79"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_78" |),
+              M.get_var (| "expr_78" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_80"],
                       Some ([Literal.number 0xff])
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_81"],
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_80" |)
+                          M.get_var (| "expr_80" |)
                         ]
                       |))
                     |)
@@ -2009,15 +2070,16 @@ Module TestTernary_238.
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_79"],
-                      Some (M.get (| "expr_81" |))
+                      Some (M.get_var (| "expr_81" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_82"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2028,29 +2090,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_82" |)
+                          M.get_var (| "expr_82" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_83"],
-              Some (M.get (| "expr_79" |))
+              Some (M.get_var (| "expr_79" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_84"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_77" |);
-                  M.get (| "expr_83" |)
+                  M.get_var (| "expr_77" |);
+                  M.get_var (| "expr_83" |)
                 ]
               |))
             |)
@@ -2058,29 +2120,30 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_84" |))
+              Some (M.get_var (| "expr_84" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_85"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_86"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_85" |),
+              M.get_var (| "expr_85" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_87"],
                       Some ([Literal.number 0xff])
                     |)
@@ -2091,85 +2154,88 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_87" |)
+                          M.get_var (| "expr_87" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["_11"],
-                      Some (M.get (| "var_v63" |))
+                      Some (M.get_var (| "var_v63" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_88"],
-                      Some (M.get (| "_11" |))
+                      Some (M.get_var (| "_11" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_86"],
-                      Some (M.get (| "expr_88" |))
+                      Some (M.get_var (| "expr_88" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_89"],
-              Some (M.get (| "expr_86" |))
+              Some (M.get_var (| "expr_86" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_90"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_91"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_90" |),
+              M.get_var (| "expr_90" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["_12"],
-                      Some (M.get (| "var_v255" |))
+                      Some (M.get_var (| "var_v255" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_92"],
-                      Some (M.get (| "_12" |))
+                      Some (M.get_var (| "_12" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_91"],
-                      Some (M.get (| "expr_92" |))
+                      Some (M.get_var (| "expr_92" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_93"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2180,29 +2246,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_93" |)
+                          M.get_var (| "expr_93" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_94"],
-              Some (M.get (| "expr_91" |))
+              Some (M.get_var (| "expr_91" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_95"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_89" |);
-                  M.get (| "expr_94" |)
+                  M.get_var (| "expr_89" |);
+                  M.get_var (| "expr_94" |)
                 ]
               |))
             |)
@@ -2210,35 +2276,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_95" |))
+              Some (M.get_var (| "expr_95" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_13"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_96"],
-              Some (M.get (| "_13" |))
+              Some (M.get_var (| "_13" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_97"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_96" |),
+              M.get_var (| "expr_96" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_98"],
                       Some ([Literal.number 0xff])
                     |)
@@ -2249,17 +2316,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_98" |)
+                          M.get_var (| "expr_98" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_99"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2270,47 +2338,48 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_99" |)
+                          M.get_var (| "expr_99" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_100"],
-              Some (M.get (| "expr_97" |))
+              Some (M.get_var (| "expr_97" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_14"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_101"],
-              Some (M.get (| "_14" |))
+              Some (M.get_var (| "_14" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_102"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_101" |),
+              M.get_var (| "expr_101" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_103"],
                       Some ([Literal.number 0xff])
                     |)
@@ -2321,17 +2390,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_103" |)
+                          M.get_var (| "expr_103" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_104"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2342,29 +2412,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_104" |)
+                          M.get_var (| "expr_104" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_105"],
-              Some (M.get (| "expr_102" |))
+              Some (M.get_var (| "expr_102" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_106"],
               Some (M.call (|
                 "checked_sub_uint8",
                 [
-                  M.get (| "expr_100" |);
-                  M.get (| "expr_105" |)
+                  M.get_var (| "expr_100" |);
+                  M.get_var (| "expr_105" |)
                 ]
               |))
             |)
@@ -2372,35 +2442,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_106" |))
+              Some (M.get_var (| "expr_106" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_15"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_107"],
-              Some (M.get (| "_15" |))
+              Some (M.get_var (| "_15" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_108"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_107" |),
+              M.get_var (| "expr_107" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_109"],
                       Some ([Literal.number 0xff])
                     |)
@@ -2411,17 +2482,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_109" |)
+                          M.get_var (| "expr_109" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_110"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2432,47 +2504,48 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_110" |)
+                          M.get_var (| "expr_110" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_111"],
-              Some (M.get (| "expr_108" |))
+              Some (M.get_var (| "expr_108" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_16"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_112"],
-              Some (M.get (| "_16" |))
+              Some (M.get_var (| "_16" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_113"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_112" |),
+              M.get_var (| "expr_112" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_114"],
                       Some ([Literal.number 0xff])
                     |)
@@ -2483,17 +2556,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_114" |)
+                          M.get_var (| "expr_114" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_115"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2504,29 +2578,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_115" |)
+                          M.get_var (| "expr_115" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_116"],
-              Some (M.get (| "expr_113" |))
+              Some (M.get_var (| "expr_113" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_117"],
               Some (M.call (|
                 "checked_mul_uint8",
                 [
-                  M.get (| "expr_111" |);
-                  M.get (| "expr_116" |)
+                  M.get_var (| "expr_111" |);
+                  M.get_var (| "expr_116" |)
                 ]
               |))
             |)
@@ -2534,35 +2608,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_117" |))
+              Some (M.get_var (| "expr_117" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_17"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_118"],
-              Some (M.get (| "_17" |))
+              Some (M.get_var (| "_17" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_119"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_118" |),
+              M.get_var (| "expr_118" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_120"],
                       Some ([Literal.number 0xff])
                     |)
@@ -2573,17 +2648,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_120" |)
+                          M.get_var (| "expr_120" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_121"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2594,47 +2670,48 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_121" |)
+                          M.get_var (| "expr_121" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_122"],
-              Some (M.get (| "expr_119" |))
+              Some (M.get_var (| "expr_119" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_18"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_123"],
-              Some (M.get (| "_18" |))
+              Some (M.get_var (| "_18" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_124"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_123" |),
+              M.get_var (| "expr_123" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_125"],
                       Some ([Literal.number 0xff])
                     |)
@@ -2645,17 +2722,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_125" |)
+                          M.get_var (| "expr_125" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_126"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -2666,29 +2744,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_126" |)
+                          M.get_var (| "expr_126" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_127"],
-              Some (M.get (| "expr_124" |))
+              Some (M.get_var (| "expr_124" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_128"],
               Some (M.call (|
                 "checked_div_uint8",
                 [
-                  M.get (| "expr_122" |);
-                  M.get (| "expr_127" |)
+                  M.get_var (| "expr_122" |);
+                  M.get_var (| "expr_127" |)
                 ]
               |))
             |)
@@ -2696,53 +2774,55 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_128" |))
+              Some (M.get_var (| "expr_128" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_19"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_129"],
-              Some (M.get (| "_19" |))
+              Some (M.get_var (| "_19" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_130"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_129" |),
+              M.get_var (| "expr_129" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_131"],
                       Some ([Literal.number 0x00])
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_132"],
                       None
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.switch (|
-                      M.get (| "expr_131" |),
+                      M.get_var (| "expr_131" |),
                       [
                         (
                           Some (Literal.number 0),
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_133"],
                               Some ([Literal.number 0xff])
                             |)
@@ -2753,17 +2833,18 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_rational_by_to_uint8",
                                 [
-                                  M.get (| "expr_133" |)
+                                  M.get_var (| "expr_133" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         );
                         (
                           None,
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_134"],
                               Some ([Literal.number 0x3f])
                             |)
@@ -2774,51 +2855,53 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_t_rational_by_to_t_uint8",
                                 [
-                                  M.get (| "expr_134" |)
+                                  M.get_var (| "expr_134" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         )                ]
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_135"],
-                      Some (M.get (| "expr_132" |))
+                      Some (M.get_var (| "expr_132" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_130"],
-                      Some (M.get (| "expr_135" |))
+                      Some (M.get_var (| "expr_135" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_136"],
                       Some ([Literal.number 0x01])
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_137"],
                       None
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.switch (|
-                      M.get (| "expr_136" |),
+                      M.get_var (| "expr_136" |),
                       [
                         (
                           Some (Literal.number 0),
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_138"],
                               Some ([Literal.number 0xff])
                             |)
@@ -2829,17 +2912,18 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_rational_by_to_uint8",
                                 [
-                                  M.get (| "expr_138" |)
+                                  M.get_var (| "expr_138" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         );
                         (
                           None,
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_139"],
                               Some ([Literal.number 0x3f])
                             |)
@@ -2850,87 +2934,89 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_t_rational_by_to_t_uint8",
                                 [
-                                  M.get (| "expr_139" |)
+                                  M.get_var (| "expr_139" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         )                ]
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_140"],
-                      Some (M.get (| "expr_137" |))
+                      Some (M.get_var (| "expr_137" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_130"],
-                      Some (M.get (| "expr_140" |))
+                      Some (M.get_var (| "expr_140" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_141"],
-              Some (M.get (| "expr_130" |))
+              Some (M.get_var (| "expr_130" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_20"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_142"],
-              Some (M.get (| "_20" |))
+              Some (M.get_var (| "_20" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_143"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_142" |),
+              M.get_var (| "expr_142" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["_21"],
-                      Some (M.get (| "var_f" |))
+                      Some (M.get_var (| "var_f" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_144"],
-                      Some (M.get (| "_21" |))
+                      Some (M.get_var (| "_21" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_145"],
                       None
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.switch (|
-                      M.get (| "expr_144" |),
+                      M.get_var (| "expr_144" |),
                       [
                         (
                           Some (Literal.number 0),
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_146"],
                               Some ([Literal.number 0xff])
                             |)
@@ -2941,17 +3027,18 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_rational_by_to_uint8",
                                 [
-                                  M.get (| "expr_146" |)
+                                  M.get_var (| "expr_146" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         );
                         (
                           None,
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_147"],
                               Some ([Literal.number 0x3f])
                             |)
@@ -2962,57 +3049,59 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_t_rational_by_to_t_uint8",
                                 [
-                                  M.get (| "expr_147" |)
+                                  M.get_var (| "expr_147" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         )                ]
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_148"],
-                      Some (M.get (| "expr_145" |))
+                      Some (M.get_var (| "expr_145" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_143"],
-                      Some (M.get (| "expr_148" |))
+                      Some (M.get_var (| "expr_148" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["_22"],
-                      Some (M.get (| "var_t" |))
+                      Some (M.get_var (| "var_t" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_149"],
-                      Some (M.get (| "_22" |))
+                      Some (M.get_var (| "_22" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_150"],
                       None
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.switch (|
-                      M.get (| "expr_149" |),
+                      M.get_var (| "expr_149" |),
                       [
                         (
                           Some (Literal.number 0),
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_151"],
                               Some ([Literal.number 0xff])
                             |)
@@ -3023,17 +3112,18 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_rational_by_to_uint8",
                                 [
-                                  M.get (| "expr_151" |)
+                                  M.get_var (| "expr_151" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         );
                         (
                           None,
+                          do* M.open_scope in
                           do* ltac:(M.monadic (
-                            M.assign (|
+                            M.declare (|
                               ["expr_152"],
                               Some ([Literal.number 0x3f])
                             |)
@@ -3044,45 +3134,45 @@ Module TestTernary_238.
                               Some (M.call (|
                                 "convert_t_rational_by_to_t_uint8",
                                 [
-                                  M.get (| "expr_152" |)
+                                  M.get_var (| "expr_152" |)
                                 ]
                               |))
                             |)
                           )) in
-                          M.od
+                          M.close_scope
                         )                ]
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_153"],
-                      Some (M.get (| "expr_150" |))
+                      Some (M.get_var (| "expr_150" |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     M.assign (|
                       ["expr_143"],
-                      Some (M.get (| "expr_153" |))
+                      Some (M.get_var (| "expr_153" |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_154"],
-              Some (M.get (| "expr_143" |))
+              Some (M.get_var (| "expr_143" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_155"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_141" |);
-                  M.get (| "expr_154" |)
+                  M.get_var (| "expr_141" |);
+                  M.get_var (| "expr_154" |)
                 ]
               |))
             |)
@@ -3090,35 +3180,36 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_155" |))
+              Some (M.get_var (| "expr_155" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_23"],
-              Some (M.get (| "var_t" |))
+              Some (M.get_var (| "var_t" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_156"],
-              Some (M.get (| "_23" |))
+              Some (M.get_var (| "_23" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_157"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_156" |),
+              M.get_var (| "expr_156" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_158"],
                       Some ([Literal.number 0xff])
                     |)
@@ -3129,17 +3220,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_158" |)
+                          M.get_var (| "expr_158" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_159"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -3150,47 +3242,48 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_159" |)
+                          M.get_var (| "expr_159" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_160"],
-              Some (M.get (| "expr_157" |))
+              Some (M.get_var (| "expr_157" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_24"],
-              Some (M.get (| "var_f" |))
+              Some (M.get_var (| "var_f" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_161"],
-              Some (M.get (| "_24" |))
+              Some (M.get_var (| "_24" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_162"],
               None
             |)
           )) in
           do* ltac:(M.monadic (
             M.switch (|
-              M.get (| "expr_161" |),
+              M.get_var (| "expr_161" |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_163"],
                       Some ([Literal.number 0xff])
                     |)
@@ -3201,17 +3294,18 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_rational_by_to_uint8",
                         [
-                          M.get (| "expr_163" |)
+                          M.get_var (| "expr_163" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   None,
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["expr_164"],
                       Some ([Literal.number 0x3f])
                     |)
@@ -3222,29 +3316,29 @@ Module TestTernary_238.
                       Some (M.call (|
                         "convert_t_rational_by_to_t_uint8",
                         [
-                          M.get (| "expr_164" |)
+                          M.get_var (| "expr_164" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_165"],
-              Some (M.get (| "expr_162" |))
+              Some (M.get_var (| "expr_162" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_166"],
               Some (M.call (|
                 "checked_add_uint8",
                 [
-                  M.get (| "expr_160" |);
-                  M.get (| "expr_165" |)
+                  M.get_var (| "expr_160" |);
+                  M.get_var (| "expr_165" |)
                 ]
               |))
             |)
@@ -3252,13 +3346,14 @@ Module TestTernary_238.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_a"],
-              Some (M.get (| "expr_166" |))
+              Some (M.get_var (| "expr_166" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -3292,8 +3387,9 @@ Module TestTernary_238.
                 |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["selector"],
                 Some (M.call (|
                   "shift_right_unsigned",
@@ -3310,10 +3406,11 @@ Module TestTernary_238.
             )) in
             do* ltac:(M.monadic (
               M.switch (|
-                M.get (| "selector" |),
+                M.get_var (| "selector" |),
                 [
                   (
                     Some (Literal.number 0xe2179b8e),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -3322,15 +3419,16 @@ Module TestTernary_238.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     None,
-                    M.od
+                    do* M.open_scope in
+                    M.close_scope
                   )          ]
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
         do* ltac:(M.monadic (
@@ -3341,11 +3439,11 @@ Module TestTernary_238.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       )) in
-      M.od.
+      M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212200e010c53e2230b9cb2fe1644b20f146ebec58204c7f01dd9bb5df843b74a3e9d64736f6c634300081b0033".
+      "a26469706673582212209fe17b07e7d1c0bbf47c02b4a71a886e90f9e68f6c0ebceda0017a05bf344e0464736f6c634300081b0033".
   End TestTernary_238_deployed.
 End TestTernary_238.

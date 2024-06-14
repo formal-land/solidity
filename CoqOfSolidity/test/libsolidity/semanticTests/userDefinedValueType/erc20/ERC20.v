@@ -3,11 +3,13 @@ Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module ERC20_493.
   Definition code : M.t BlockUnit.t :=
+    do* M.open_scope in
     do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["memPtr"],
@@ -19,7 +21,7 @@ Module ERC20_493.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -27,6 +29,7 @@ Module ERC20_493.
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -38,7 +41,7 @@ Module ERC20_493.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -46,13 +49,14 @@ Module ERC20_493.
         "cleanup_rational_by",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -60,13 +64,14 @@ Module ERC20_493.
         "cleanup_uint256",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -74,13 +79,14 @@ Module ERC20_493.
         "identity",
         ["value"],
         ["ret"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["ret"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -88,6 +94,7 @@ Module ERC20_493.
         "convert_rational_by_to_uint256",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
@@ -100,7 +107,7 @@ Module ERC20_493.
                     M.call (|
                       "cleanup_rational_by",
                       [
-                        M.get (| "value" |)
+                        M.get_var (| "value" |)
                       ]
                     |)
                   ]
@@ -109,7 +116,7 @@ Module ERC20_493.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -117,8 +124,9 @@ Module ERC20_493.
         "constructor_ERC20",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr"],
             Some (M.call (|
               "caller",
@@ -127,18 +135,18 @@ Module ERC20_493.
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_1"],
             Some ([Literal.number 0x14])
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_2"],
             Some (M.call (|
               "convert_rational_by_to_uint256",
               [
-                M.get (| "expr_1" |)
+                M.get_var (| "expr_1" |)
               ]
             |))
           |)
@@ -148,13 +156,13 @@ Module ERC20_493.
             M.call (|
               "fun_mint",
               [
-                M.get (| "expr" |);
-                M.get (| "expr_2" |)
+                M.get_var (| "expr" |);
+                M.get_var (| "expr_2" |)
               ]
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -162,13 +170,14 @@ Module ERC20_493.
         "cleanup_t_rational_by",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -176,13 +185,14 @@ Module ERC20_493.
         "cleanup_uint160",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
             Some (M.call (|
               "and",
               [
-                M.get (| "value" |);
+                M.get_var (| "value" |);
                 M.call (|
                   "sub",
                   [
@@ -200,7 +210,7 @@ Module ERC20_493.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -208,6 +218,7 @@ Module ERC20_493.
         "convert_rational_by_to_uint160",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
@@ -220,7 +231,7 @@ Module ERC20_493.
                     M.call (|
                       "cleanup_t_rational_by",
                       [
-                        M.get (| "value" |)
+                        M.get_var (| "value" |)
                       ]
                     |)
                   ]
@@ -229,7 +240,7 @@ Module ERC20_493.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -237,18 +248,19 @@ Module ERC20_493.
         "convert_rational_by_to_address",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
             Some (M.call (|
               "convert_rational_by_to_uint160",
               [
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -256,18 +268,19 @@ Module ERC20_493.
         "cleanup_address",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
             Some (M.call (|
               "cleanup_uint160",
               [
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -275,13 +288,14 @@ Module ERC20_493.
         "array_storeLengthForEncoding_string",
         ["pos"; "length"],
         ["updated_pos"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
               "mstore",
               [
-                M.get (| "pos" |);
-                M.get (| "length" |)
+                M.get_var (| "pos" |);
+                M.get_var (| "length" |)
               ]
             |)
           |)
@@ -292,13 +306,13 @@ Module ERC20_493.
             Some (M.call (|
               "add",
               [
-                M.get (| "pos" |);
+                M.get_var (| "pos" |);
                 [Literal.number 0x20]
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -306,6 +320,7 @@ Module ERC20_493.
         "store_literal_in_memory_fc0b381caf0a47702017f3c4b358ebe3d3aff6c60ce819a8bf3ef5a95d4f202e",
         ["memPtr"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -314,7 +329,7 @@ Module ERC20_493.
                 M.call (|
                   "add",
                   [
-                    M.get (| "memPtr" |);
+                    M.get_var (| "memPtr" |);
                     [Literal.number 0]
                   ]
                 |);
@@ -323,7 +338,7 @@ Module ERC20_493.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -331,13 +346,14 @@ Module ERC20_493.
         "abi_encode_stringliteral_fc0b381caf0a47702017f3c4b358ebe3d3aff6c60ce819a8bf3ef5a95d4f202e",
         ["pos"],
         ["end"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["pos"],
             Some (M.call (|
               "array_storeLengthForEncoding_string",
               [
-                M.get (| "pos" |);
+                M.get_var (| "pos" |);
                 [Literal.number 31]
               ]
             |))
@@ -348,7 +364,7 @@ Module ERC20_493.
             M.call (|
               "store_literal_in_memory_fc0b381caf0a47702017f3c4b358ebe3d3aff6c60ce819a8bf3ef5a95d4f202e",
               [
-                M.get (| "pos" |)
+                M.get_var (| "pos" |)
               ]
             |)
           |)
@@ -359,13 +375,13 @@ Module ERC20_493.
             Some (M.call (|
               "add",
               [
-                M.get (| "pos" |);
+                M.get_var (| "pos" |);
                 [Literal.number 32]
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -373,13 +389,14 @@ Module ERC20_493.
         "abi_encode_stringliteral_fc0b",
         ["headStart"],
         ["tail"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["tail"],
             Some (M.call (|
               "add",
               [
-                M.get (| "headStart" |);
+                M.get_var (| "headStart" |);
                 [Literal.number 32]
               ]
             |))
@@ -393,15 +410,15 @@ Module ERC20_493.
                 M.call (|
                   "add",
                   [
-                    M.get (| "headStart" |);
+                    M.get_var (| "headStart" |);
                     [Literal.number 0]
                   ]
                 |);
                 M.call (|
                   "sub",
                   [
-                    M.get (| "tail" |);
-                    M.get (| "headStart" |)
+                    M.get_var (| "tail" |);
+                    M.get_var (| "headStart" |)
                   ]
                 |)
               ]
@@ -414,12 +431,12 @@ Module ERC20_493.
             Some (M.call (|
               "abi_encode_stringliteral_fc0b381caf0a47702017f3c4b358ebe3d3aff6c60ce819a8bf3ef5a95d4f202e",
               [
-                M.get (| "tail" |)
+                M.get_var (| "tail" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -427,16 +444,18 @@ Module ERC20_493.
         "require_helper_stringliteral_fc0b",
         ["condition"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.if_ (|
             M.call (|
               "iszero",
               [
-                M.get (| "condition" |)
+                M.get_var (| "condition" |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["memPtr"],
                 Some (M.call (|
                   "allocate_unbounded",
@@ -449,7 +468,7 @@ Module ERC20_493.
                 M.call (|
                   "mstore",
                   [
-                    M.get (| "memPtr" |);
+                    M.get_var (| "memPtr" |);
                     M.call (|
                       "shl",
                       [
@@ -462,7 +481,7 @@ Module ERC20_493.
               |)
             )) in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["end"],
                 Some (M.call (|
                   "abi_encode_stringliteral_fc0b",
@@ -470,7 +489,7 @@ Module ERC20_493.
                     M.call (|
                       "add",
                       [
-                        M.get (| "memPtr" |);
+                        M.get_var (| "memPtr" |);
                         [Literal.number 4]
                       ]
                     |)
@@ -483,22 +502,22 @@ Module ERC20_493.
                 M.call (|
                   "revert",
                   [
-                    M.get (| "memPtr" |);
+                    M.get_var (| "memPtr" |);
                     M.call (|
                       "sub",
                       [
-                        M.get (| "end" |);
-                        M.get (| "memPtr" |)
+                        M.get_var (| "end" |);
+                        M.get_var (| "memPtr" |)
                       ]
                     |)
                   ]
                 |)
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -506,6 +525,7 @@ Module ERC20_493.
         "shift_right_unsigned",
         ["value"],
         ["newValue"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["newValue"],
@@ -513,12 +533,12 @@ Module ERC20_493.
               "shr",
               [
                 [Literal.number 0];
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -526,13 +546,14 @@ Module ERC20_493.
         "cleanup_from_storage_userDefinedValueType_UFixed18",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -540,6 +561,7 @@ Module ERC20_493.
         "extract_from_storage_value_offsett_userDefinedValueType_UFixed18",
         ["slot_value"],
         ["value"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["value"],
@@ -549,14 +571,14 @@ Module ERC20_493.
                 M.call (|
                   "shift_right_unsigned",
                   [
-                    M.get (| "slot_value" |)
+                    M.get_var (| "slot_value" |)
                   ]
                 |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -564,6 +586,7 @@ Module ERC20_493.
         "read_from_storage_split_offset_userDefinedValueType_UFixed18",
         ["slot"],
         ["value"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["value"],
@@ -573,14 +596,14 @@ Module ERC20_493.
                 M.call (|
                   "sload",
                   [
-                    M.get (| "slot" |)
+                    M.get_var (| "slot" |)
                   ]
                 |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -588,6 +611,7 @@ Module ERC20_493.
         "shift_left",
         ["value"],
         ["newValue"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["newValue"],
@@ -595,12 +619,12 @@ Module ERC20_493.
               "shl",
               [
                 [Literal.number 0];
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -608,8 +632,9 @@ Module ERC20_493.
         "update_byte_slice_shift",
         ["value"; "toInsert"],
         ["result"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["mask"],
             Some (M.call (|
               "not",
@@ -625,7 +650,7 @@ Module ERC20_493.
             Some (M.call (|
               "shift_left",
               [
-                M.get (| "toInsert" |)
+                M.get_var (| "toInsert" |)
               ]
             |))
           |)
@@ -636,11 +661,11 @@ Module ERC20_493.
             Some (M.call (|
               "and",
               [
-                M.get (| "value" |);
+                M.get_var (| "value" |);
                 M.call (|
                   "not",
                   [
-                    M.get (| "mask" |)
+                    M.get_var (| "mask" |)
                   ]
                 |)
               ]
@@ -653,19 +678,19 @@ Module ERC20_493.
             Some (M.call (|
               "or",
               [
-                M.get (| "value" |);
+                M.get_var (| "value" |);
                 M.call (|
                   "and",
                   [
-                    M.get (| "toInsert" |);
-                    M.get (| "mask" |)
+                    M.get_var (| "toInsert" |);
+                    M.get_var (| "mask" |)
                   ]
                 |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -673,6 +698,7 @@ Module ERC20_493.
         "convert_uint256_to_uint256",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
@@ -685,7 +711,7 @@ Module ERC20_493.
                     M.call (|
                       "cleanup_uint256",
                       [
-                        M.get (| "value" |)
+                        M.get_var (| "value" |)
                       ]
                     |)
                   ]
@@ -694,7 +720,7 @@ Module ERC20_493.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -702,13 +728,14 @@ Module ERC20_493.
         "prepare_store_userDefinedValueType_UFixed18",
         ["value"],
         ["ret"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["ret"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -716,13 +743,14 @@ Module ERC20_493.
         "update_storage_value_offsett_userDefinedValueType_UFixed18_to_userDefinedValueType_UFixed18",
         ["slot"; "value"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["convertedValue"],
             Some (M.call (|
               "convert_uint256_to_uint256",
               [
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
@@ -732,20 +760,20 @@ Module ERC20_493.
             M.call (|
               "sstore",
               [
-                M.get (| "slot" |);
+                M.get_var (| "slot" |);
                 M.call (|
                   "update_byte_slice_shift",
                   [
                     M.call (|
                       "sload",
                       [
-                        M.get (| "slot" |)
+                        M.get_var (| "slot" |)
                       ]
                     |);
                     M.call (|
                       "prepare_store_userDefinedValueType_UFixed18",
                       [
-                        M.get (| "convertedValue" |)
+                        M.get_var (| "convertedValue" |)
                       ]
                     |)
                   ]
@@ -754,7 +782,7 @@ Module ERC20_493.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -762,6 +790,7 @@ Module ERC20_493.
         "convert_uint160_to_uint160",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
@@ -774,7 +803,7 @@ Module ERC20_493.
                     M.call (|
                       "cleanup_uint160",
                       [
-                        M.get (| "value" |)
+                        M.get_var (| "value" |)
                       ]
                     |)
                   ]
@@ -783,7 +812,7 @@ Module ERC20_493.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -791,18 +820,19 @@ Module ERC20_493.
         "convert_uint160_to_address",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
             Some (M.call (|
               "convert_uint160_to_uint160",
               [
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -810,18 +840,19 @@ Module ERC20_493.
         "convert_address_to_address",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
             Some (M.call (|
               "convert_uint160_to_address",
               [
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -829,6 +860,7 @@ Module ERC20_493.
         "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
         ["slot"; "key"],
         ["dataSlot"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -838,7 +870,7 @@ Module ERC20_493.
                 M.call (|
                   "convert_address_to_address",
                   [
-                    M.get (| "key" |)
+                    M.get_var (| "key" |)
                   ]
                 |)
               ]
@@ -851,7 +883,7 @@ Module ERC20_493.
               "mstore",
               [
                 [Literal.number 0x20];
-                M.get (| "slot" |)
+                M.get_var (| "slot" |)
               ]
             |)
           |)
@@ -868,7 +900,7 @@ Module ERC20_493.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -876,23 +908,24 @@ Module ERC20_493.
         "abi_encode_userDefinedValueType_UFixed18_to_uint256",
         ["value"; "pos"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
               "mstore",
               [
-                M.get (| "pos" |);
+                M.get_var (| "pos" |);
                 M.call (|
                   "convert_uint256_to_uint256",
                   [
-                    M.get (| "value" |)
+                    M.get_var (| "value" |)
                   ]
                 |)
               ]
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -900,13 +933,14 @@ Module ERC20_493.
         "abi_encode_userDefinedValueType_UFixed18",
         ["headStart"; "value0"],
         ["tail"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["tail"],
             Some (M.call (|
               "add",
               [
-                M.get (| "headStart" |);
+                M.get_var (| "headStart" |);
                 [Literal.number 32]
               ]
             |))
@@ -917,11 +951,11 @@ Module ERC20_493.
             M.call (|
               "abi_encode_userDefinedValueType_UFixed18_to_uint256",
               [
-                M.get (| "value0" |);
+                M.get_var (| "value0" |);
                 M.call (|
                   "add",
                   [
-                    M.get (| "headStart" |);
+                    M.get_var (| "headStart" |);
                     [Literal.number 0]
                   ]
                 |)
@@ -929,7 +963,7 @@ Module ERC20_493.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -937,37 +971,38 @@ Module ERC20_493.
         "fun_mint",
         ["var_account"; "var_value"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_1"],
-            Some (M.get (| "var_account" |))
+            Some (M.get_var (| "var_account" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr"],
-            Some (M.get (| "_1" |))
+            Some (M.get_var (| "_1" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_1"],
             Some ([Literal.number 0x00])
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_2"],
             Some (M.call (|
               "convert_rational_by_to_address",
               [
-                M.get (| "expr_1" |)
+                M.get_var (| "expr_1" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_3"],
             Some (M.call (|
               "iszero",
@@ -978,13 +1013,13 @@ Module ERC20_493.
                     M.call (|
                       "cleanup_address",
                       [
-                        M.get (| "expr" |)
+                        M.get_var (| "expr" |)
                       ]
                     |);
                     M.call (|
                       "cleanup_address",
                       [
-                        M.get (| "expr_2" |)
+                        M.get_var (| "expr_2" |)
                       ]
                     |)
                   ]
@@ -998,13 +1033,13 @@ Module ERC20_493.
             M.call (|
               "require_helper_stringliteral_fc0b",
               [
-                M.get (| "expr_3" |)
+                M.get_var (| "expr_3" |)
               ]
             |)
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_2"],
             Some (M.call (|
               "read_from_storage_split_offset_userDefinedValueType_UFixed18",
@@ -1015,37 +1050,37 @@ Module ERC20_493.
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_4"],
-            Some (M.get (| "_2" |))
+            Some (M.get_var (| "_2" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_self"],
-            Some (M.get (| "expr_4" |))
+            Some (M.get_var (| "expr_4" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_3"],
-            Some (M.get (| "var_value" |))
+            Some (M.get_var (| "var_value" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_5"],
-            Some (M.get (| "_3" |))
+            Some (M.get_var (| "_3" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_6"],
             Some (M.call (|
               "fun_add",
               [
-                M.get (| "expr_self" |);
-                M.get (| "expr_5" |)
+                M.get_var (| "expr_self" |);
+                M.get_var (| "expr_5" |)
               ]
             |))
           |)
@@ -1056,126 +1091,126 @@ Module ERC20_493.
               "update_storage_value_offsett_userDefinedValueType_UFixed18_to_userDefinedValueType_UFixed18",
               [
                 [Literal.number 0x02];
-                M.get (| "expr_6" |)
+                M.get_var (| "expr_6" |)
               ]
             |)
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_slot"],
             Some ([Literal.number 0x00])
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_slot"],
-            Some (M.get (| "_slot" |))
+            Some (M.get_var (| "_slot" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_4"],
-            Some (M.get (| "var_account" |))
+            Some (M.get_var (| "var_account" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_7"],
-            Some (M.get (| "_4" |))
+            Some (M.get_var (| "_4" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_5"],
             Some (M.call (|
               "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
               [
-                M.get (| "expr_slot" |);
-                M.get (| "expr_7" |)
+                M.get_var (| "expr_slot" |);
+                M.get_var (| "expr_7" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_6"],
             Some (M.call (|
               "read_from_storage_split_offset_userDefinedValueType_UFixed18",
               [
-                M.get (| "_5" |)
+                M.get_var (| "_5" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_8"],
-            Some (M.get (| "_6" |))
+            Some (M.get_var (| "_6" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_357_self"],
-            Some (M.get (| "expr_8" |))
+            Some (M.get_var (| "expr_8" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_7"],
-            Some (M.get (| "var_value" |))
+            Some (M.get_var (| "var_value" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_9"],
-            Some (M.get (| "_7" |))
+            Some (M.get_var (| "_7" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_10"],
             Some (M.call (|
               "fun_add",
               [
-                M.get (| "expr_357_self" |);
-                M.get (| "expr_9" |)
+                M.get_var (| "expr_357_self" |);
+                M.get_var (| "expr_9" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_10_slot"],
             Some ([Literal.number 0x00])
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_351_slot"],
-            Some (M.get (| "_10_slot" |))
+            Some (M.get_var (| "_10_slot" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_8"],
-            Some (M.get (| "var_account" |))
+            Some (M.get_var (| "var_account" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_11"],
-            Some (M.get (| "_8" |))
+            Some (M.get_var (| "_8" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_9"],
             Some (M.call (|
               "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
               [
-                M.get (| "expr_351_slot" |);
-                M.get (| "expr_11" |)
+                M.get_var (| "expr_351_slot" |);
+                M.get_var (| "expr_11" |)
               ]
             |))
           |)
@@ -1185,83 +1220,83 @@ Module ERC20_493.
             M.call (|
               "update_storage_value_offsett_userDefinedValueType_UFixed18_to_userDefinedValueType_UFixed18",
               [
-                M.get (| "_9" |);
-                M.get (| "expr_10" |)
+                M.get_var (| "_9" |);
+                M.get_var (| "expr_10" |)
               ]
             |)
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_12"],
             Some ([Literal.number 0x00])
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_13"],
             Some (M.call (|
               "convert_rational_by_to_address",
               [
-                M.get (| "expr_12" |)
+                M.get_var (| "expr_12" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_10"],
-            Some (M.get (| "var_account" |))
+            Some (M.get_var (| "var_account" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_14"],
-            Some (M.get (| "_10" |))
+            Some (M.get_var (| "_10" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_11"],
-            Some (M.get (| "var_value" |))
+            Some (M.get_var (| "var_value" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_15"],
-            Some (M.get (| "_11" |))
+            Some (M.get_var (| "_11" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_12"],
             Some ([Literal.number 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef])
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_13"],
             Some (M.call (|
               "convert_address_to_address",
               [
-                M.get (| "expr_13" |)
+                M.get_var (| "expr_13" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_14"],
             Some (M.call (|
               "convert_address_to_address",
               [
-                M.get (| "expr_14" |)
+                M.get_var (| "expr_14" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_15"],
             Some (M.call (|
               "allocate_unbounded",
@@ -1270,13 +1305,13 @@ Module ERC20_493.
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_16"],
             Some (M.call (|
               "abi_encode_userDefinedValueType_UFixed18",
               [
-                M.get (| "_15" |);
-                M.get (| "expr_15" |)
+                M.get_var (| "_15" |);
+                M.get_var (| "expr_15" |)
               ]
             |))
           |)
@@ -1286,22 +1321,22 @@ Module ERC20_493.
             M.call (|
               "log3",
               [
-                M.get (| "_15" |);
+                M.get_var (| "_15" |);
                 M.call (|
                   "sub",
                   [
-                    M.get (| "_16" |);
-                    M.get (| "_15" |)
+                    M.get_var (| "_16" |);
+                    M.get_var (| "_15" |)
                   ]
                 |);
-                M.get (| "_12" |);
-                M.get (| "_13" |);
-                M.get (| "_14" |)
+                M.get_var (| "_12" |);
+                M.get_var (| "_13" |);
+                M.get_var (| "_14" |)
               ]
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -1309,13 +1344,14 @@ Module ERC20_493.
         "zero_value_for_split_userDefinedValueType_UFixed18",
         [],
         ["ret"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["ret"],
             Some ([Literal.number 0])
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -1323,6 +1359,7 @@ Module ERC20_493.
         "panic_error_0x11",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -1362,7 +1399,7 @@ Module ERC20_493.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -1370,13 +1407,14 @@ Module ERC20_493.
         "checked_add_uint256",
         ["x"; "y"],
         ["sum"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["x"],
             Some (M.call (|
               "cleanup_uint256",
               [
-                M.get (| "x" |)
+                M.get_var (| "x" |)
               ]
             |))
           |)
@@ -1387,7 +1425,7 @@ Module ERC20_493.
             Some (M.call (|
               "cleanup_uint256",
               [
-                M.get (| "y" |)
+                M.get_var (| "y" |)
               ]
             |))
           |)
@@ -1398,8 +1436,8 @@ Module ERC20_493.
             Some (M.call (|
               "add",
               [
-                M.get (| "x" |);
-                M.get (| "y" |)
+                M.get_var (| "x" |);
+                M.get_var (| "y" |)
               ]
             |))
           |)
@@ -1409,10 +1447,11 @@ Module ERC20_493.
             M.call (|
               "gt",
               [
-                M.get (| "x" |);
-                M.get (| "sum" |)
+                M.get_var (| "x" |);
+                M.get_var (| "sum" |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
               M.expr_stmt (|
                 M.call (|
@@ -1421,10 +1460,10 @@ Module ERC20_493.
                 |)
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -1432,8 +1471,9 @@ Module ERC20_493.
         "fun_add",
         ["var_a"; "var_b"],
         ["var_c"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["zero_userDefinedValueType_UFixed18"],
             Some (M.call (|
               "zero_value_for_split_userDefinedValueType_UFixed18",
@@ -1444,74 +1484,74 @@ Module ERC20_493.
         do* ltac:(M.monadic (
           M.assign (|
             ["var_c"],
-            Some (M.get (| "zero_userDefinedValueType_UFixed18" |))
+            Some (M.get_var (| "zero_userDefinedValueType_UFixed18" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_1"],
-            Some (M.get (| "var_a" |))
+            Some (M.get_var (| "var_a" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr"],
-            Some (M.get (| "_1" |))
+            Some (M.get_var (| "_1" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_1"],
             Some (M.call (|
               "convert_uint256_to_uint256",
               [
-                M.get (| "expr" |)
+                M.get_var (| "expr" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["_2"],
-            Some (M.get (| "var_b" |))
+            Some (M.get_var (| "var_b" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_2"],
-            Some (M.get (| "_2" |))
+            Some (M.get_var (| "_2" |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_3"],
             Some (M.call (|
               "convert_uint256_to_uint256",
               [
-                M.get (| "expr_2" |)
+                M.get_var (| "expr_2" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_4"],
             Some (M.call (|
               "checked_add_uint256",
               [
-                M.get (| "expr_1" |);
-                M.get (| "expr_3" |)
+                M.get_var (| "expr_1" |);
+                M.get_var (| "expr_3" |)
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["expr_5"],
             Some (M.call (|
               "convert_uint256_to_uint256",
               [
-                M.get (| "expr_4" |)
+                M.get_var (| "expr_4" |)
               ]
             |))
           |)
@@ -1519,16 +1559,17 @@ Module ERC20_493.
         do* ltac:(M.monadic (
           M.assign (|
             ["var_c"],
-            Some (M.get (| "expr_5" |))
+            Some (M.get_var (| "expr_5" |))
           |)
         )) in
         do* ltac:(M.monadic (
           M.leave (||)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.expr_stmt (|
           M.call (|
@@ -1551,6 +1592,7 @@ Module ERC20_493.
             "callvalue",
             []
           |),
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1559,7 +1601,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1571,7 +1613,7 @@ Module ERC20_493.
         |)
       )) in
       do* ltac:(M.monadic (
-        M.assign (|
+        M.declare (|
           ["_1"],
           Some (M.call (|
             "allocate_unbounded",
@@ -1584,7 +1626,7 @@ Module ERC20_493.
           M.call (|
             "codecopy",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "dataoffset",
                 [
@@ -1606,7 +1648,7 @@ Module ERC20_493.
           M.call (|
             "return",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "datasize",
                 [
@@ -1617,17 +1659,19 @@ Module ERC20_493.
           |)
         |)
       )) in
-      M.od
+      M.close_scope
     )) in
-    M.od.
+    M.close_scope.
 
   Module ERC20_493_deployed.
     Definition code : M.t BlockUnit.t :=
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.function (|
           "shift_right_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -1635,12 +1679,12 @@ Module ERC20_493.
                 "shr",
                 [
                   [Literal.number 224];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1648,6 +1692,7 @@ Module ERC20_493.
           "allocate_unbounded",
           [],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -1659,7 +1704,7 @@ Module ERC20_493.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1667,6 +1712,7 @@ Module ERC20_493.
           "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1678,7 +1724,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1686,6 +1732,7 @@ Module ERC20_493.
           "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1697,7 +1744,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1705,13 +1752,14 @@ Module ERC20_493.
           "cleanup_uint160",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "sub",
                     [
@@ -1729,7 +1777,7 @@ Module ERC20_493.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1737,18 +1785,19 @@ Module ERC20_493.
           "cleanup_address",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "cleanup_uint160",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1756,6 +1805,7 @@ Module ERC20_493.
           "validator_revert_address",
           ["value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1764,17 +1814,18 @@ Module ERC20_493.
                   M.call (|
                     "eq",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1786,10 +1837,10 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1797,13 +1848,14 @@ Module ERC20_493.
           "abi_decode_address",
           ["offset"; "end"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -1813,12 +1865,12 @@ Module ERC20_493.
               M.call (|
                 "validator_revert_address",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1826,13 +1878,14 @@ Module ERC20_493.
           "cleanup_uint256",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1840,6 +1893,7 @@ Module ERC20_493.
           "validator_revert_userDefinedValueType_UFixed18",
           ["value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1848,17 +1902,18 @@ Module ERC20_493.
                   M.call (|
                     "eq",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       M.call (|
                         "cleanup_uint256",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1870,10 +1925,10 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1881,13 +1936,14 @@ Module ERC20_493.
           "abi_decode_userDefinedValueType_UFixed18",
           ["offset"; "end"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -1897,12 +1953,12 @@ Module ERC20_493.
               M.call (|
                 "validator_revert_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1911,6 +1967,7 @@ Module ERC20_493.
           ["headStart"; "dataEnd"],
           ["value0";
       "value1"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1919,13 +1976,14 @@ Module ERC20_493.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 64]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1934,11 +1992,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some ([Literal.number 0])
             |)
@@ -1952,17 +2010,17 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_1"],
               Some ([Literal.number 32])
             |)
@@ -1976,16 +2034,16 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_1" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_1" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1993,6 +2051,7 @@ Module ERC20_493.
           "cleanup_bool",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
@@ -2002,14 +2061,14 @@ Module ERC20_493.
                   M.call (|
                     "iszero",
                     [
-                      M.get (| "value" |)
+                      M.get_var (| "value" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2017,23 +2076,24 @@ Module ERC20_493.
           "abi_encode_bool_to_bool",
           ["value"; "pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "cleanup_bool",
                     [
-                      M.get (| "value" |)
+                      M.get_var (| "value" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2041,13 +2101,14 @@ Module ERC20_493.
           "abi_encode_bool",
           ["headStart"; "value0"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -2058,11 +2119,11 @@ Module ERC20_493.
               M.call (|
                 "abi_encode_bool_to_bool",
                 [
-                  M.get (| "value0" |);
+                  M.get_var (| "value0" |);
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -2070,7 +2131,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2078,12 +2139,14 @@ Module ERC20_493.
           "external_fun_approve",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2092,11 +2155,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_addresst_userDefinedValueType_UFixed18",
@@ -2111,19 +2174,19 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_approve",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2132,13 +2195,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bool",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2148,19 +2211,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2168,6 +2231,7 @@ Module ERC20_493.
           "abi_decode",
           ["headStart"; "dataEnd"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -2176,13 +2240,14 @@ Module ERC20_493.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 0]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2191,10 +2256,10 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2202,13 +2267,14 @@ Module ERC20_493.
           "identity",
           ["value"],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2216,6 +2282,7 @@ Module ERC20_493.
           "convert_uint256_to_uint256",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
@@ -2228,7 +2295,7 @@ Module ERC20_493.
                       M.call (|
                         "cleanup_uint256",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -2237,7 +2304,7 @@ Module ERC20_493.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2245,23 +2312,24 @@ Module ERC20_493.
           "abi_encode_userDefinedValueType_UFixed18_to_uint256",
           ["value"; "pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "convert_uint256_to_uint256",
                     [
-                      M.get (| "value" |)
+                      M.get_var (| "value" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2269,13 +2337,14 @@ Module ERC20_493.
           "abi_encode_userDefinedValueType_UFixed18",
           ["headStart"; "value0"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -2286,11 +2355,11 @@ Module ERC20_493.
               M.call (|
                 "abi_encode_userDefinedValueType_UFixed18_to_uint256",
                 [
-                  M.get (| "value0" |);
+                  M.get_var (| "value0" |);
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -2298,7 +2367,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2306,12 +2375,14 @@ Module ERC20_493.
           "external_fun_totalSupply",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2320,7 +2391,7 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -2338,7 +2409,7 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_totalSupply",
@@ -2347,7 +2418,7 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2356,13 +2427,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2372,19 +2443,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2394,6 +2465,7 @@ Module ERC20_493.
           ["value0";
       "value1";
       "value2"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -2402,13 +2474,14 @@ Module ERC20_493.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 96]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2417,11 +2490,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some ([Literal.number 0])
             |)
@@ -2435,17 +2508,17 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_1"],
               Some ([Literal.number 32])
             |)
@@ -2459,17 +2532,17 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_1" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_1" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_2"],
               Some ([Literal.number 64])
             |)
@@ -2483,16 +2556,16 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_2" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_2" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2500,12 +2573,14 @@ Module ERC20_493.
           "external_fun_transferFrom",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2514,11 +2589,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"; "param_2"],
               Some (M.call (|
                 "abi_decode_addresst_addresst_userDefinedValueType_UFixed18",
@@ -2533,20 +2608,20 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_transferFrom",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2555,13 +2630,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bool",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2571,19 +2646,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2591,12 +2666,14 @@ Module ERC20_493.
           "external_fun_increaseAllowance",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2605,11 +2682,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_addresst_userDefinedValueType_UFixed18",
@@ -2624,19 +2701,19 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_increaseAllowance",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2645,13 +2722,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bool",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2661,19 +2738,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2681,6 +2758,7 @@ Module ERC20_493.
           "abi_decode_tuple_address",
           ["headStart"; "dataEnd"],
           ["value0"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -2689,13 +2767,14 @@ Module ERC20_493.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 32]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2704,11 +2783,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some ([Literal.number 0])
             |)
@@ -2722,16 +2801,16 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2739,12 +2818,14 @@ Module ERC20_493.
           "external_fun_balanceOf",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2753,11 +2834,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"],
               Some (M.call (|
                 "abi_decode_tuple_address",
@@ -2772,18 +2853,18 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_balanceOf",
                 [
-                  M.get (| "param" |)
+                  M.get_var (| "param" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2792,13 +2873,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2808,19 +2889,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2828,12 +2909,14 @@ Module ERC20_493.
           "external_fun_decreaseAllowance",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2842,11 +2925,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_addresst_userDefinedValueType_UFixed18",
@@ -2861,19 +2944,19 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_decreaseAllowance",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2882,13 +2965,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bool",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2898,19 +2981,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2918,12 +3001,14 @@ Module ERC20_493.
           "external_fun_transfer",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2932,11 +3017,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_addresst_userDefinedValueType_UFixed18",
@@ -2951,19 +3036,19 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_transfer",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2972,13 +3057,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bool",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2988,19 +3073,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3009,6 +3094,7 @@ Module ERC20_493.
           ["headStart"; "dataEnd"],
           ["value0";
       "value1"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -3017,13 +3103,14 @@ Module ERC20_493.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 64]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3032,11 +3119,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some ([Literal.number 0])
             |)
@@ -3050,17 +3137,17 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_1"],
               Some ([Literal.number 32])
             |)
@@ -3074,16 +3161,16 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_1" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_1" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3091,12 +3178,14 @@ Module ERC20_493.
           "external_fun_allowance",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3105,11 +3194,11 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_addresst_address",
@@ -3124,19 +3213,19 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_allowance",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -3145,13 +3234,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -3161,19 +3250,19 @@ Module ERC20_493.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3181,6 +3270,7 @@ Module ERC20_493.
           "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -3192,7 +3282,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3200,13 +3290,14 @@ Module ERC20_493.
           "zero_value_for_split_bool",
           [],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
               Some ([Literal.number 0])
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3214,8 +3305,9 @@ Module ERC20_493.
           "fun_approve",
           ["var_spender"; "var_value"],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bool"],
               Some (M.call (|
                 "zero_value_for_split_bool",
@@ -3226,11 +3318,11 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_bool" |))
+              Some (M.get_var (| "zero_bool" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "caller",
@@ -3239,27 +3331,27 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3267,15 +3359,15 @@ Module ERC20_493.
               M.call (|
                 "fun__approve",
                 [
-                  M.get (| "expr" |);
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr" |);
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_2" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some ([Literal.number 0x01])
             |)
@@ -3283,13 +3375,13 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr_3" |))
+              Some (M.get_var (| "expr_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3297,13 +3389,14 @@ Module ERC20_493.
           "zero_value_for_split_userDefinedValueType_UFixed18",
           [],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
               Some ([Literal.number 0])
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3311,6 +3404,7 @@ Module ERC20_493.
           "shift_right_0_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -3318,12 +3412,12 @@ Module ERC20_493.
                 "shr",
                 [
                   [Literal.number 0];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3331,13 +3425,14 @@ Module ERC20_493.
           "cleanup_from_storage_userDefinedValueType_UFixed18",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3345,6 +3440,7 @@ Module ERC20_493.
           "extract_from_storage_value_offsett_userDefinedValueType_UFixed18",
           ["slot_value"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
@@ -3354,14 +3450,14 @@ Module ERC20_493.
                   M.call (|
                     "shift_right_0_unsigned",
                     [
-                      M.get (| "slot_value" |)
+                      M.get_var (| "slot_value" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3369,6 +3465,7 @@ Module ERC20_493.
           "read_from_storage_split_offset_userDefinedValueType_UFixed18",
           ["slot"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
@@ -3378,14 +3475,14 @@ Module ERC20_493.
                   M.call (|
                     "sload",
                     [
-                      M.get (| "slot" |)
+                      M.get_var (| "slot" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3393,8 +3490,9 @@ Module ERC20_493.
           "fun_totalSupply",
           [],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_userDefinedValueType_UFixed18"],
               Some (M.call (|
                 "zero_value_for_split_userDefinedValueType_UFixed18",
@@ -3405,11 +3503,11 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_userDefinedValueType_UFixed18" |))
+              Some (M.get_var (| "zero_userDefinedValueType_UFixed18" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
@@ -3420,21 +3518,21 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr" |))
+              Some (M.get_var (| "expr" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3442,6 +3540,7 @@ Module ERC20_493.
           "convert_uint160_to_uint160",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
@@ -3454,7 +3553,7 @@ Module ERC20_493.
                       M.call (|
                         "cleanup_uint160",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -3463,7 +3562,7 @@ Module ERC20_493.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3471,18 +3570,19 @@ Module ERC20_493.
           "convert_uint160_to_address",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
               Some (M.call (|
                 "convert_uint160_to_uint160",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3490,18 +3590,19 @@ Module ERC20_493.
           "convert_address_to_address",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
               Some (M.call (|
                 "convert_uint160_to_address",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3509,6 +3610,7 @@ Module ERC20_493.
           "mapping_index_access_mapping_address_mapping_address_userDefinedValueType_UFixed18_of_address",
           ["slot"; "key"],
           ["dataSlot"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -3518,7 +3620,7 @@ Module ERC20_493.
                   M.call (|
                     "convert_address_to_address",
                     [
-                      M.get (| "key" |)
+                      M.get_var (| "key" |)
                     ]
                   |)
                 ]
@@ -3531,7 +3633,7 @@ Module ERC20_493.
                 "mstore",
                 [
                   [Literal.number 0x20];
-                  M.get (| "slot" |)
+                  M.get_var (| "slot" |)
                 ]
               |)
             |)
@@ -3548,7 +3650,7 @@ Module ERC20_493.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3556,6 +3658,7 @@ Module ERC20_493.
           "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
           ["slot"; "key"],
           ["dataSlot"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -3565,7 +3668,7 @@ Module ERC20_493.
                   M.call (|
                     "convert_address_to_address",
                     [
-                      M.get (| "key" |)
+                      M.get_var (| "key" |)
                     ]
                   |)
                 ]
@@ -3578,7 +3681,7 @@ Module ERC20_493.
                 "mstore",
                 [
                   [Literal.number 0x20];
-                  M.get (| "slot" |)
+                  M.get_var (| "slot" |)
                 ]
               |)
             |)
@@ -3595,7 +3698,7 @@ Module ERC20_493.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3603,8 +3706,9 @@ Module ERC20_493.
           "fun_transferFrom",
           ["var_from"; "var_to"; "var_value"],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bool"],
               Some (M.call (|
                 "zero_value_for_split_bool",
@@ -3615,43 +3719,43 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_bool" |))
+              Some (M.get_var (| "zero_bool" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_from" |))
+              Some (M.get_var (| "var_from" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_to" |))
+              Some (M.get_var (| "var_to" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3659,27 +3763,27 @@ Module ERC20_493.
               M.call (|
                 "fun__transfer",
                 [
-                  M.get (| "expr" |);
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr" |);
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_2" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
-              Some (M.get (| "var_from" |))
+              Some (M.get_var (| "var_from" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "_4" |))
+              Some (M.get_var (| "_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
               Some (M.call (|
                 "caller",
@@ -3688,55 +3792,55 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_11_slot"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_207_slot"],
-              Some (M.get (| "_11_slot" |))
+              Some (M.get_var (| "_11_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
-              Some (M.get (| "var_from" |))
+              Some (M.get_var (| "var_from" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_6"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_207_slot" |);
-                  M.get (| "expr_5" |)
+                  M.get_var (| "expr_207_slot" |);
+                  M.get_var (| "expr_5" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_slot"],
-              Some (M.get (| "_6" |))
+              Some (M.get_var (| "_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_209_slot"],
-              Some (M.get (| "_slot" |))
+              Some (M.get_var (| "_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
               Some (M.call (|
                 "caller",
@@ -3745,60 +3849,60 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_7"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_209_slot" |);
-                  M.get (| "expr_6" |)
+                  M.get_var (| "expr_209_slot" |);
+                  M.get_var (| "expr_6" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_8"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_7" |)
+                  M.get_var (| "_7" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
-              Some (M.get (| "_8" |))
+              Some (M.get_var (| "_8" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_213_self"],
-              Some (M.get (| "expr_7" |))
+              Some (M.get_var (| "expr_7" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_9"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_8"],
-              Some (M.get (| "_9" |))
+              Some (M.get_var (| "_9" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_9"],
               Some (M.call (|
                 "fun_sub",
                 [
-                  M.get (| "expr_213_self" |);
-                  M.get (| "expr_8" |)
+                  M.get_var (| "expr_213_self" |);
+                  M.get_var (| "expr_8" |)
                 ]
               |))
             |)
@@ -3808,15 +3912,15 @@ Module ERC20_493.
               M.call (|
                 "fun__approve",
                 [
-                  M.get (| "expr_3" |);
-                  M.get (| "expr_4" |);
-                  M.get (| "expr_9" |)
+                  M.get_var (| "expr_3" |);
+                  M.get_var (| "expr_4" |);
+                  M.get_var (| "expr_9" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_10"],
               Some ([Literal.number 0x01])
             |)
@@ -3824,13 +3928,13 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr_10" |))
+              Some (M.get_var (| "expr_10" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3838,8 +3942,9 @@ Module ERC20_493.
           "fun_increaseAllowance",
           ["var_spender"; "var_addedValue"],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_t_bool"],
               Some (M.call (|
                 "zero_value_for_split_bool",
@@ -3850,11 +3955,11 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_t_bool" |))
+              Some (M.get_var (| "zero_t_bool" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "caller",
@@ -3863,31 +3968,31 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_20_slot"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_235_slot"],
-              Some (M.get (| "_20_slot" |))
+              Some (M.get_var (| "_20_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
               Some (M.call (|
                 "caller",
@@ -3896,96 +4001,96 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_235_slot" |);
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_235_slot" |);
+                  M.get_var (| "expr_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_22_slot"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_238_slot"],
-              Some (M.get (| "_22_slot" |))
+              Some (M.get_var (| "_22_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_238_slot" |);
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_238_slot" |);
+                  M.get_var (| "expr_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_4" |)
+                  M.get_var (| "_4" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_241_self"],
-              Some (M.get (| "expr_4" |))
+              Some (M.get_var (| "expr_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_6"],
-              Some (M.get (| "var_addedValue" |))
+              Some (M.get_var (| "var_addedValue" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "_6" |))
+              Some (M.get_var (| "_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
               Some (M.call (|
                 "fun_add",
                 [
-                  M.get (| "expr_241_self" |);
-                  M.get (| "expr_5" |)
+                  M.get_var (| "expr_241_self" |);
+                  M.get_var (| "expr_5" |)
                 ]
               |))
             |)
@@ -3995,15 +4100,15 @@ Module ERC20_493.
               M.call (|
                 "fun__approve",
                 [
-                  M.get (| "expr" |);
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_6" |)
+                  M.get_var (| "expr" |);
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_6" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
               Some ([Literal.number 0x01])
             |)
@@ -4011,13 +4116,13 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr_7" |))
+              Some (M.get_var (| "expr_7" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4025,8 +4130,9 @@ Module ERC20_493.
           "fun_balanceOf",
           ["var_owner"],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_t_userDefinedValueType_UFixed18"],
               Some (M.call (|
                 "zero_value_for_split_userDefinedValueType_UFixed18",
@@ -4037,72 +4143,72 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_t_userDefinedValueType_UFixed18" |))
+              Some (M.get_var (| "zero_t_userDefinedValueType_UFixed18" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_28_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_123_slot"],
-              Some (M.get (| "_28_slot" |))
+              Some (M.get_var (| "_28_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_owner" |))
+              Some (M.get_var (| "var_owner" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_123_slot" |);
-                  M.get (| "expr" |)
+                  M.get_var (| "expr_123_slot" |);
+                  M.get_var (| "expr" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_2" |)
+                  M.get_var (| "_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr_1" |))
+              Some (M.get_var (| "expr_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4110,8 +4216,9 @@ Module ERC20_493.
           "fun_decreaseAllowance",
           ["var_spender"; "var_subtractedValue"],
           ["var_"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bool"],
               Some (M.call (|
                 "zero_value_for_split_bool",
@@ -4122,11 +4229,11 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_"],
-              Some (M.get (| "zero_bool" |))
+              Some (M.get_var (| "zero_bool" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "caller",
@@ -4135,31 +4242,31 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_34_slot"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_263_slot"],
-              Some (M.get (| "_34_slot" |))
+              Some (M.get_var (| "_34_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
               Some (M.call (|
                 "caller",
@@ -4168,96 +4275,96 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_263_slot" |);
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_263_slot" |);
+                  M.get_var (| "expr_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_36_slot"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_266_slot"],
-              Some (M.get (| "_36_slot" |))
+              Some (M.get_var (| "_36_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_266_slot" |);
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_266_slot" |);
+                  M.get_var (| "expr_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_4" |)
+                  M.get_var (| "_4" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_self"],
-              Some (M.get (| "expr_4" |))
+              Some (M.get_var (| "expr_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_6"],
-              Some (M.get (| "var_subtractedValue" |))
+              Some (M.get_var (| "var_subtractedValue" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "_6" |))
+              Some (M.get_var (| "_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
               Some (M.call (|
                 "fun_sub",
                 [
-                  M.get (| "expr_self" |);
-                  M.get (| "expr_5" |)
+                  M.get_var (| "expr_self" |);
+                  M.get_var (| "expr_5" |)
                 ]
               |))
             |)
@@ -4267,15 +4374,15 @@ Module ERC20_493.
               M.call (|
                 "fun__approve",
                 [
-                  M.get (| "expr" |);
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_6" |)
+                  M.get_var (| "expr" |);
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_6" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
               Some ([Literal.number 0x01])
             |)
@@ -4283,13 +4390,13 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_"],
-              Some (M.get (| "expr_7" |))
+              Some (M.get_var (| "expr_7" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4297,8 +4404,9 @@ Module ERC20_493.
           "fun_transfer",
           ["var_to"; "var_value"],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bool"],
               Some (M.call (|
                 "zero_value_for_split_bool",
@@ -4309,11 +4417,11 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_bool" |))
+              Some (M.get_var (| "zero_bool" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "caller",
@@ -4322,27 +4430,27 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_to" |))
+              Some (M.get_var (| "var_to" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -4350,15 +4458,15 @@ Module ERC20_493.
               M.call (|
                 "fun__transfer",
                 [
-                  M.get (| "expr" |);
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr" |);
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_2" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some ([Literal.number 0x01])
             |)
@@ -4366,13 +4474,13 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr_3" |))
+              Some (M.get_var (| "expr_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4380,8 +4488,9 @@ Module ERC20_493.
           "fun_allowance",
           ["var_owner"; "var_spender"],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_userDefinedValueType_UFixed18"],
               Some (M.call (|
                 "zero_value_for_split_userDefinedValueType_UFixed18",
@@ -4392,108 +4501,108 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_userDefinedValueType_UFixed18" |))
+              Some (M.get_var (| "zero_userDefinedValueType_UFixed18" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_45_slot"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_138_slot"],
-              Some (M.get (| "_45_slot" |))
+              Some (M.get_var (| "_45_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_owner" |))
+              Some (M.get_var (| "var_owner" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_138_slot" |);
-                  M.get (| "expr" |)
+                  M.get_var (| "expr_138_slot" |);
+                  M.get_var (| "expr" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_48_slot"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_140_slot"],
-              Some (M.get (| "_48_slot" |))
+              Some (M.get_var (| "_48_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_140_slot" |);
-                  M.get (| "expr_1" |)
+                  M.get_var (| "expr_140_slot" |);
+                  M.get_var (| "expr_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_4" |)
+                  M.get_var (| "_4" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr_2" |))
+              Some (M.get_var (| "expr_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4501,13 +4610,14 @@ Module ERC20_493.
           "cleanup_rational_by",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4515,6 +4625,7 @@ Module ERC20_493.
           "convert_rational_by_to_uint160",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
@@ -4527,7 +4638,7 @@ Module ERC20_493.
                       M.call (|
                         "cleanup_rational_by",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -4536,7 +4647,7 @@ Module ERC20_493.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4544,18 +4655,19 @@ Module ERC20_493.
           "convert_rational_by_to_address",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
               Some (M.call (|
                 "convert_rational_by_to_uint160",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4563,13 +4675,14 @@ Module ERC20_493.
           "array_storeLengthForEncoding_string",
           ["pos"; "length"],
           ["updated_pos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -4580,13 +4693,13 @@ Module ERC20_493.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4594,6 +4707,7 @@ Module ERC20_493.
           "store_literal_in_memory_c953f4879035ed60e766b34720f656aab5c697b141d924c283124ecedb91c208",
           ["memPtr"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -4602,7 +4716,7 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 0]
                     ]
                   |);
@@ -4619,7 +4733,7 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 32]
                     ]
                   |);
@@ -4628,7 +4742,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4636,13 +4750,14 @@ Module ERC20_493.
           "abi_encode_stringliteral_c953f4879035ed60e766b34720f656aab5c697b141d924c283124ecedb91c208",
           ["pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "array_storeLengthForEncoding_string",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 36]
                 ]
               |))
@@ -4653,7 +4768,7 @@ Module ERC20_493.
               M.call (|
                 "store_literal_in_memory_c953f4879035ed60e766b34720f656aab5c697b141d924c283124ecedb91c208",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4664,13 +4779,13 @@ Module ERC20_493.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 64]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4678,13 +4793,14 @@ Module ERC20_493.
           "abi_encode_stringliteral_c953",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -4698,15 +4814,15 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -4719,12 +4835,12 @@ Module ERC20_493.
               Some (M.call (|
                 "abi_encode_stringliteral_c953f4879035ed60e766b34720f656aab5c697b141d924c283124ecedb91c208",
                 [
-                  M.get (| "tail" |)
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4732,16 +4848,18 @@ Module ERC20_493.
           "require_helper_stringliteral_c953",
           ["condition"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "iszero",
                 [
-                  M.get (| "condition" |)
+                  M.get_var (| "condition" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["memPtr"],
                   Some (M.call (|
                     "allocate_unbounded",
@@ -4754,7 +4872,7 @@ Module ERC20_493.
                   M.call (|
                     "mstore",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "shl",
                         [
@@ -4767,7 +4885,7 @@ Module ERC20_493.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["end"],
                   Some (M.call (|
                     "abi_encode_stringliteral_c953",
@@ -4775,7 +4893,7 @@ Module ERC20_493.
                       M.call (|
                         "add",
                         [
-                          M.get (| "memPtr" |);
+                          M.get_var (| "memPtr" |);
                           [Literal.number 4]
                         ]
                       |)
@@ -4788,22 +4906,22 @@ Module ERC20_493.
                   M.call (|
                     "revert",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "sub",
                         [
-                          M.get (| "end" |);
-                          M.get (| "memPtr" |)
+                          M.get_var (| "end" |);
+                          M.get_var (| "memPtr" |)
                         ]
                       |)
                     ]
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4811,6 +4929,7 @@ Module ERC20_493.
           "store_literal_in_memory_24883cc5fe64ace9d0df1893501ecb93c77180f0ff69cca79affb3c316dc8029",
           ["memPtr"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -4819,7 +4938,7 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 0]
                     ]
                   |);
@@ -4836,7 +4955,7 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 32]
                     ]
                   |);
@@ -4845,7 +4964,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4853,13 +4972,14 @@ Module ERC20_493.
           "abi_encode_stringliteral_24883cc5fe64ace9d0df1893501ecb93c77180f0ff69cca79affb3c316dc8029",
           ["pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "array_storeLengthForEncoding_string",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 34]
                 ]
               |))
@@ -4870,7 +4990,7 @@ Module ERC20_493.
               M.call (|
                 "store_literal_in_memory_24883cc5fe64ace9d0df1893501ecb93c77180f0ff69cca79affb3c316dc8029",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4881,13 +5001,13 @@ Module ERC20_493.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 64]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4895,13 +5015,14 @@ Module ERC20_493.
           "abi_encode_stringliteral",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -4915,15 +5036,15 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -4936,12 +5057,12 @@ Module ERC20_493.
               Some (M.call (|
                 "abi_encode_stringliteral_24883cc5fe64ace9d0df1893501ecb93c77180f0ff69cca79affb3c316dc8029",
                 [
-                  M.get (| "tail" |)
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4949,16 +5070,18 @@ Module ERC20_493.
           "require_helper_stringliteral_2488",
           ["condition"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "iszero",
                 [
-                  M.get (| "condition" |)
+                  M.get_var (| "condition" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["memPtr"],
                   Some (M.call (|
                     "allocate_unbounded",
@@ -4971,7 +5094,7 @@ Module ERC20_493.
                   M.call (|
                     "mstore",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "shl",
                         [
@@ -4984,7 +5107,7 @@ Module ERC20_493.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["end"],
                   Some (M.call (|
                     "abi_encode_stringliteral",
@@ -4992,7 +5115,7 @@ Module ERC20_493.
                       M.call (|
                         "add",
                         [
-                          M.get (| "memPtr" |);
+                          M.get_var (| "memPtr" |);
                           [Literal.number 4]
                         ]
                       |)
@@ -5005,22 +5128,22 @@ Module ERC20_493.
                   M.call (|
                     "revert",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "sub",
                         [
-                          M.get (| "end" |);
-                          M.get (| "memPtr" |)
+                          M.get_var (| "end" |);
+                          M.get_var (| "memPtr" |)
                         ]
                       |)
                     ]
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5028,6 +5151,7 @@ Module ERC20_493.
           "shift_left",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -5035,12 +5159,12 @@ Module ERC20_493.
                 "shl",
                 [
                   [Literal.number 0];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5048,8 +5172,9 @@ Module ERC20_493.
           "update_byte_slice_shift",
           ["value"; "toInsert"],
           ["result"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["mask"],
               Some (M.call (|
                 "not",
@@ -5065,7 +5190,7 @@ Module ERC20_493.
               Some (M.call (|
                 "shift_left",
                 [
-                  M.get (| "toInsert" |)
+                  M.get_var (| "toInsert" |)
                 ]
               |))
             |)
@@ -5076,11 +5201,11 @@ Module ERC20_493.
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "not",
                     [
-                      M.get (| "mask" |)
+                      M.get_var (| "mask" |)
                     ]
                   |)
                 ]
@@ -5093,19 +5218,19 @@ Module ERC20_493.
               Some (M.call (|
                 "or",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "and",
                     [
-                      M.get (| "toInsert" |);
-                      M.get (| "mask" |)
+                      M.get_var (| "toInsert" |);
+                      M.get_var (| "mask" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5113,13 +5238,14 @@ Module ERC20_493.
           "prepare_store_userDefinedValueType_UFixed18",
           ["value"],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5127,13 +5253,14 @@ Module ERC20_493.
           "update_storage_value_offsett_userDefinedValueType_UFixed18_to_userDefinedValueType_UFixed18",
           ["slot"; "value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["convertedValue"],
               Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
@@ -5143,20 +5270,20 @@ Module ERC20_493.
               M.call (|
                 "sstore",
                 [
-                  M.get (| "slot" |);
+                  M.get_var (| "slot" |);
                   M.call (|
                     "update_byte_slice_shift",
                     [
                       M.call (|
                         "sload",
                         [
-                          M.get (| "slot" |)
+                          M.get_var (| "slot" |)
                         ]
                       |);
                       M.call (|
                         "prepare_store_userDefinedValueType_UFixed18",
                         [
-                          M.get (| "convertedValue" |)
+                          M.get_var (| "convertedValue" |)
                         ]
                       |)
                     ]
@@ -5165,7 +5292,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5173,37 +5300,38 @@ Module ERC20_493.
           "fun__approve",
           ["var_owner"; "var_spender"; "var_value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_owner" |))
+              Some (M.get_var (| "var_owner" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
               Some (M.call (|
                 "convert_rational_by_to_address",
                 [
-                  M.get (| "expr_1" |)
+                  M.get_var (| "expr_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some (M.call (|
                 "iszero",
@@ -5214,13 +5342,13 @@ Module ERC20_493.
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "expr" |)
+                          M.get_var (| "expr" |)
                         ]
                       |);
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "expr_2" |)
+                          M.get_var (| "expr_2" |)
                         ]
                       |)
                     ]
@@ -5234,42 +5362,42 @@ Module ERC20_493.
               M.call (|
                 "require_helper_stringliteral_c953",
                 [
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_3" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
               Some (M.call (|
                 "convert_rational_by_to_address",
                 [
-                  M.get (| "expr_5" |)
+                  M.get_var (| "expr_5" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
               Some (M.call (|
                 "iszero",
@@ -5280,13 +5408,13 @@ Module ERC20_493.
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "expr_4" |)
+                          M.get_var (| "expr_4" |)
                         ]
                       |);
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "expr_6" |)
+                          M.get_var (| "expr_6" |)
                         ]
                       |)
                     ]
@@ -5300,91 +5428,91 @@ Module ERC20_493.
               M.call (|
                 "require_helper_stringliteral_2488",
                 [
-                  M.get (| "expr_7" |)
+                  M.get_var (| "expr_7" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_8"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_55_slot"],
               Some ([Literal.number 0x01])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_448_slot"],
-              Some (M.get (| "_55_slot" |))
+              Some (M.get_var (| "_55_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
-              Some (M.get (| "var_owner" |))
+              Some (M.get_var (| "var_owner" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_9"],
-              Some (M.get (| "_4" |))
+              Some (M.get_var (| "_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_448_slot" |);
-                  M.get (| "expr_9" |)
+                  M.get_var (| "expr_448_slot" |);
+                  M.get_var (| "expr_9" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_58_slot"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_451_slot"],
-              Some (M.get (| "_58_slot" |))
+              Some (M.get_var (| "_58_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_6"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_10"],
-              Some (M.get (| "_6" |))
+              Some (M.get_var (| "_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_7"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_451_slot" |);
-                  M.get (| "expr_10" |)
+                  M.get_var (| "expr_451_slot" |);
+                  M.get_var (| "expr_10" |)
                 ]
               |))
             |)
@@ -5394,78 +5522,78 @@ Module ERC20_493.
               M.call (|
                 "update_storage_value_offsett_userDefinedValueType_UFixed18_to_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_7" |);
-                  M.get (| "expr_8" |)
+                  M.get_var (| "_7" |);
+                  M.get_var (| "expr_8" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_8"],
-              Some (M.get (| "var_owner" |))
+              Some (M.get_var (| "var_owner" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_11"],
-              Some (M.get (| "_8" |))
+              Some (M.get_var (| "_8" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_9"],
-              Some (M.get (| "var_spender" |))
+              Some (M.get_var (| "var_spender" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_12"],
-              Some (M.get (| "_9" |))
+              Some (M.get_var (| "_9" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_10"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_13"],
-              Some (M.get (| "_10" |))
+              Some (M.get_var (| "_10" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_11"],
               Some ([Literal.number 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_12"],
               Some (M.call (|
                 "convert_address_to_address",
                 [
-                  M.get (| "expr_11" |)
+                  M.get_var (| "expr_11" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_13"],
               Some (M.call (|
                 "convert_address_to_address",
                 [
-                  M.get (| "expr_12" |)
+                  M.get_var (| "expr_12" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_14"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -5474,13 +5602,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_15"],
               Some (M.call (|
                 "abi_encode_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_14" |);
-                  M.get (| "expr_13" |)
+                  M.get_var (| "_14" |);
+                  M.get_var (| "expr_13" |)
                 ]
               |))
             |)
@@ -5490,22 +5618,22 @@ Module ERC20_493.
               M.call (|
                 "log3",
                 [
-                  M.get (| "_14" |);
+                  M.get_var (| "_14" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "_15" |);
-                      M.get (| "_14" |)
+                      M.get_var (| "_15" |);
+                      M.get_var (| "_14" |)
                     ]
                   |);
-                  M.get (| "_11" |);
-                  M.get (| "_12" |);
-                  M.get (| "_13" |)
+                  M.get_var (| "_11" |);
+                  M.get_var (| "_12" |);
+                  M.get_var (| "_13" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5513,6 +5641,7 @@ Module ERC20_493.
           "store_literal_in_memory_0557e210f7a69a685100a7e4e3d0a7024c546085cee28910fd17d0b081d9516f",
           ["memPtr"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -5521,7 +5650,7 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 0]
                     ]
                   |);
@@ -5538,7 +5667,7 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 32]
                     ]
                   |);
@@ -5547,7 +5676,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5555,13 +5684,14 @@ Module ERC20_493.
           "abi_encode_stringliteral_0557",
           ["pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "array_storeLengthForEncoding_string",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 35]
                 ]
               |))
@@ -5572,7 +5702,7 @@ Module ERC20_493.
               M.call (|
                 "store_literal_in_memory_0557e210f7a69a685100a7e4e3d0a7024c546085cee28910fd17d0b081d9516f",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -5583,13 +5713,13 @@ Module ERC20_493.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 64]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5597,13 +5727,14 @@ Module ERC20_493.
           "abi_encode_tuple_stringliteral",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -5617,15 +5748,15 @@ Module ERC20_493.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -5638,12 +5769,12 @@ Module ERC20_493.
               Some (M.call (|
                 "abi_encode_stringliteral_0557",
                 [
-                  M.get (| "tail" |)
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5651,16 +5782,18 @@ Module ERC20_493.
           "require_helper_stringliteral",
           ["condition"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "iszero",
                 [
-                  M.get (| "condition" |)
+                  M.get_var (| "condition" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["memPtr"],
                   Some (M.call (|
                     "allocate_unbounded",
@@ -5673,7 +5806,7 @@ Module ERC20_493.
                   M.call (|
                     "mstore",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "shl",
                         [
@@ -5686,7 +5819,7 @@ Module ERC20_493.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["end"],
                   Some (M.call (|
                     "abi_encode_tuple_stringliteral",
@@ -5694,7 +5827,7 @@ Module ERC20_493.
                       M.call (|
                         "add",
                         [
-                          M.get (| "memPtr" |);
+                          M.get_var (| "memPtr" |);
                           [Literal.number 4]
                         ]
                       |)
@@ -5707,22 +5840,22 @@ Module ERC20_493.
                   M.call (|
                     "revert",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "sub",
                         [
-                          M.get (| "end" |);
-                          M.get (| "memPtr" |)
+                          M.get_var (| "end" |);
+                          M.get_var (| "memPtr" |)
                         ]
                       |)
                     ]
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5730,37 +5863,38 @@ Module ERC20_493.
           "fun__transfer",
           ["var_from"; "var_to"; "var_value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_to" |))
+              Some (M.get_var (| "var_to" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
               Some (M.call (|
                 "convert_rational_by_to_address",
                 [
-                  M.get (| "expr_1" |)
+                  M.get_var (| "expr_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some (M.call (|
                 "iszero",
@@ -5771,13 +5905,13 @@ Module ERC20_493.
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "expr" |)
+                          M.get_var (| "expr" |)
                         ]
                       |);
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "expr_2" |)
+                          M.get_var (| "expr_2" |)
                         ]
                       |)
                     ]
@@ -5791,126 +5925,126 @@ Module ERC20_493.
               M.call (|
                 "require_helper_stringliteral",
                 [
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_3" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_70_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_300_slot"],
-              Some (M.get (| "_70_slot" |))
+              Some (M.get_var (| "_70_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_from" |))
+              Some (M.get_var (| "var_from" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_300_slot" |);
-                  M.get (| "expr_4" |)
+                  M.get_var (| "expr_300_slot" |);
+                  M.get_var (| "expr_4" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_3" |)
+                  M.get_var (| "_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "_4" |))
+              Some (M.get_var (| "_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_303_self"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_6"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
               Some (M.call (|
                 "fun_sub",
                 [
-                  M.get (| "expr_303_self" |);
-                  M.get (| "expr_6" |)
+                  M.get_var (| "expr_303_self" |);
+                  M.get_var (| "expr_6" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_75_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_slot"],
-              Some (M.get (| "_75_slot" |))
+              Some (M.get_var (| "_75_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_6"],
-              Some (M.get (| "var_from" |))
+              Some (M.get_var (| "var_from" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_8"],
-              Some (M.get (| "_6" |))
+              Some (M.get_var (| "_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_7"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_slot" |);
-                  M.get (| "expr_8" |)
+                  M.get_var (| "expr_slot" |);
+                  M.get_var (| "expr_8" |)
                 ]
               |))
             |)
@@ -5920,127 +6054,127 @@ Module ERC20_493.
               M.call (|
                 "update_storage_value_offsett_userDefinedValueType_UFixed18_to_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_7" |);
-                  M.get (| "expr_7" |)
+                  M.get_var (| "_7" |);
+                  M.get_var (| "expr_7" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_78_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_311_slot"],
-              Some (M.get (| "_78_slot" |))
+              Some (M.get_var (| "_78_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_8"],
-              Some (M.get (| "var_to" |))
+              Some (M.get_var (| "var_to" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_9"],
-              Some (M.get (| "_8" |))
+              Some (M.get_var (| "_8" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_9"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_311_slot" |);
-                  M.get (| "expr_9" |)
+                  M.get_var (| "expr_311_slot" |);
+                  M.get_var (| "expr_9" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_10"],
               Some (M.call (|
                 "read_from_storage_split_offset_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_9" |)
+                  M.get_var (| "_9" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_10"],
-              Some (M.get (| "_10" |))
+              Some (M.get_var (| "_10" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_314_self"],
-              Some (M.get (| "expr_10" |))
+              Some (M.get_var (| "expr_10" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_11"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_11"],
-              Some (M.get (| "_11" |))
+              Some (M.get_var (| "_11" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_12"],
               Some (M.call (|
                 "fun_add",
                 [
-                  M.get (| "expr_314_self" |);
-                  M.get (| "expr_11" |)
+                  M.get_var (| "expr_314_self" |);
+                  M.get_var (| "expr_11" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_83_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_308_slot"],
-              Some (M.get (| "_83_slot" |))
+              Some (M.get_var (| "_83_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_12"],
-              Some (M.get (| "var_to" |))
+              Some (M.get_var (| "var_to" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_13"],
-              Some (M.get (| "_12" |))
+              Some (M.get_var (| "_12" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_13"],
               Some (M.call (|
                 "mapping_index_access_mapping_address_userDefinedValueType_UFixed18_of_address",
                 [
-                  M.get (| "expr_308_slot" |);
-                  M.get (| "expr_13" |)
+                  M.get_var (| "expr_308_slot" |);
+                  M.get_var (| "expr_13" |)
                 ]
               |))
             |)
@@ -6050,78 +6184,78 @@ Module ERC20_493.
               M.call (|
                 "update_storage_value_offsett_userDefinedValueType_UFixed18_to_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_13" |);
-                  M.get (| "expr_12" |)
+                  M.get_var (| "_13" |);
+                  M.get_var (| "expr_12" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_14"],
-              Some (M.get (| "var_from" |))
+              Some (M.get_var (| "var_from" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_14"],
-              Some (M.get (| "_14" |))
+              Some (M.get_var (| "_14" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_15"],
-              Some (M.get (| "var_to" |))
+              Some (M.get_var (| "var_to" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_15"],
-              Some (M.get (| "_15" |))
+              Some (M.get_var (| "_15" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_16"],
-              Some (M.get (| "var_value" |))
+              Some (M.get_var (| "var_value" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_16"],
-              Some (M.get (| "_16" |))
+              Some (M.get_var (| "_16" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_17"],
               Some ([Literal.number 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_18"],
               Some (M.call (|
                 "convert_address_to_address",
                 [
-                  M.get (| "expr_14" |)
+                  M.get_var (| "expr_14" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_19"],
               Some (M.call (|
                 "convert_address_to_address",
                 [
-                  M.get (| "expr_15" |)
+                  M.get_var (| "expr_15" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_20"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -6130,13 +6264,13 @@ Module ERC20_493.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_21"],
               Some (M.call (|
                 "abi_encode_userDefinedValueType_UFixed18",
                 [
-                  M.get (| "_20" |);
-                  M.get (| "expr_16" |)
+                  M.get_var (| "_20" |);
+                  M.get_var (| "expr_16" |)
                 ]
               |))
             |)
@@ -6146,22 +6280,22 @@ Module ERC20_493.
               M.call (|
                 "log3",
                 [
-                  M.get (| "_20" |);
+                  M.get_var (| "_20" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "_21" |);
-                      M.get (| "_20" |)
+                      M.get_var (| "_21" |);
+                      M.get_var (| "_20" |)
                     ]
                   |);
-                  M.get (| "_17" |);
-                  M.get (| "_18" |);
-                  M.get (| "_19" |)
+                  M.get_var (| "_17" |);
+                  M.get_var (| "_18" |);
+                  M.get_var (| "_19" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6169,6 +6303,7 @@ Module ERC20_493.
           "panic_error_0x11",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -6208,7 +6343,7 @@ Module ERC20_493.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6216,13 +6351,14 @@ Module ERC20_493.
           "checked_sub_uint256",
           ["x"; "y"],
           ["diff"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["x"],
               Some (M.call (|
                 "cleanup_uint256",
                 [
-                  M.get (| "x" |)
+                  M.get_var (| "x" |)
                 ]
               |))
             |)
@@ -6233,7 +6369,7 @@ Module ERC20_493.
               Some (M.call (|
                 "cleanup_uint256",
                 [
-                  M.get (| "y" |)
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -6244,8 +6380,8 @@ Module ERC20_493.
               Some (M.call (|
                 "sub",
                 [
-                  M.get (| "x" |);
-                  M.get (| "y" |)
+                  M.get_var (| "x" |);
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -6255,10 +6391,11 @@ Module ERC20_493.
               M.call (|
                 "gt",
                 [
-                  M.get (| "diff" |);
-                  M.get (| "x" |)
+                  M.get_var (| "diff" |);
+                  M.get_var (| "x" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -6267,10 +6404,10 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6278,8 +6415,9 @@ Module ERC20_493.
           "fun_sub",
           ["var_a"; "var_b"],
           ["var_c"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_userDefinedValueType_UFixed18"],
               Some (M.call (|
                 "zero_value_for_split_userDefinedValueType_UFixed18",
@@ -6290,74 +6428,74 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_c"],
-              Some (M.get (| "zero_userDefinedValueType_UFixed18" |))
+              Some (M.get_var (| "zero_userDefinedValueType_UFixed18" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_a" |))
+              Some (M.get_var (| "var_a" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
               Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
-                  M.get (| "expr" |)
+                  M.get_var (| "expr" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_b" |))
+              Some (M.get_var (| "var_b" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
               Some (M.call (|
                 "checked_sub_uint256",
                 [
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
               Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
-                  M.get (| "expr_4" |)
+                  M.get_var (| "expr_4" |)
                 ]
               |))
             |)
@@ -6365,13 +6503,13 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_c"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6379,13 +6517,14 @@ Module ERC20_493.
           "checked_add_uint256",
           ["x"; "y"],
           ["sum"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["x"],
               Some (M.call (|
                 "cleanup_uint256",
                 [
-                  M.get (| "x" |)
+                  M.get_var (| "x" |)
                 ]
               |))
             |)
@@ -6396,7 +6535,7 @@ Module ERC20_493.
               Some (M.call (|
                 "cleanup_uint256",
                 [
-                  M.get (| "y" |)
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -6407,8 +6546,8 @@ Module ERC20_493.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "x" |);
-                  M.get (| "y" |)
+                  M.get_var (| "x" |);
+                  M.get_var (| "y" |)
                 ]
               |))
             |)
@@ -6418,10 +6557,11 @@ Module ERC20_493.
               M.call (|
                 "gt",
                 [
-                  M.get (| "x" |);
-                  M.get (| "sum" |)
+                  M.get_var (| "x" |);
+                  M.get_var (| "sum" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -6430,10 +6570,10 @@ Module ERC20_493.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6441,8 +6581,9 @@ Module ERC20_493.
           "fun_add",
           ["var_a"; "var_b"],
           ["var_c"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_userDefinedValueType_UFixed18"],
               Some (M.call (|
                 "zero_value_for_split_userDefinedValueType_UFixed18",
@@ -6453,74 +6594,74 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_c"],
-              Some (M.get (| "zero_userDefinedValueType_UFixed18" |))
+              Some (M.get_var (| "zero_userDefinedValueType_UFixed18" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_a" |))
+              Some (M.get_var (| "var_a" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
               Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
-                  M.get (| "expr" |)
+                  M.get_var (| "expr" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_b" |))
+              Some (M.get_var (| "var_b" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
               Some (M.call (|
                 "checked_add_uint256",
                 [
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
               Some (M.call (|
                 "convert_uint256_to_uint256",
                 [
-                  M.get (| "expr_4" |)
+                  M.get_var (| "expr_4" |)
                 ]
               |))
             |)
@@ -6528,16 +6669,17 @@ Module ERC20_493.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_c"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -6571,8 +6713,9 @@ Module ERC20_493.
                 |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["selector"],
                 Some (M.call (|
                   "shift_right_unsigned",
@@ -6589,10 +6732,11 @@ Module ERC20_493.
             )) in
             do* ltac:(M.monadic (
               M.switch (|
-                M.get (| "selector" |),
+                M.get_var (| "selector" |),
                 [
                   (
                     Some (Literal.number 0x095ea7b3),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6601,10 +6745,11 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x18160ddd),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6613,10 +6758,11 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x23b872dd),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6625,10 +6771,11 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x39509351),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6637,10 +6784,11 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x70a08231),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6649,10 +6797,11 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xa457c2d7),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6661,10 +6810,11 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xa9059cbb),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6673,10 +6823,11 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xdd62ed3e),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -6685,15 +6836,16 @@ Module ERC20_493.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     None,
-                    M.od
+                    do* M.open_scope in
+                    M.close_scope
                   )          ]
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
         do* ltac:(M.monadic (
@@ -6704,11 +6856,11 @@ Module ERC20_493.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       )) in
-      M.od.
+      M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220262248aa3f33d23b96aa695db785a67f72ebb7682e777326bc22408698cc463364736f6c634300081b0033".
+      "a26469706673582212208b6c33b8fe6c0002287d34ed162779d2668744ec2c4e75dbedd10f580a364a8264736f6c634300081b0033".
   End ERC20_493_deployed.
 End ERC20_493.

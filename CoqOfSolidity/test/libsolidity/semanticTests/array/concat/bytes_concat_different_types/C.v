@@ -3,11 +3,13 @@ Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C_208.
   Definition code : M.t BlockUnit.t :=
+    do* M.open_scope in
     do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["memPtr"],
@@ -19,7 +21,7 @@ Module C_208.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -27,6 +29,7 @@ Module C_208.
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -38,7 +41,7 @@ Module C_208.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -46,6 +49,7 @@ Module C_208.
         "panic_error_0x22",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -85,7 +89,7 @@ Module C_208.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -93,25 +97,26 @@ Module C_208.
         "extract_byte_array_length",
         ["data"],
         ["length"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["length"],
             Some (M.call (|
               "div",
               [
-                M.get (| "data" |);
+                M.get_var (| "data" |);
                 [Literal.number 2]
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["outOfPlaceEncoding"],
             Some (M.call (|
               "and",
               [
-                M.get (| "data" |);
+                M.get_var (| "data" |);
                 [Literal.number 1]
               ]
             |))
@@ -122,22 +127,23 @@ Module C_208.
             M.call (|
               "iszero",
               [
-                M.get (| "outOfPlaceEncoding" |)
+                M.get_var (| "outOfPlaceEncoding" |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
               M.assign (|
                 ["length"],
                 Some (M.call (|
                   "and",
                   [
-                    M.get (| "length" |);
+                    M.get_var (| "length" |);
                     [Literal.number 0x7f]
                   ]
                 |))
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
         do* ltac:(M.monadic (
@@ -145,16 +151,17 @@ Module C_208.
             M.call (|
               "eq",
               [
-                M.get (| "outOfPlaceEncoding" |);
+                M.get_var (| "outOfPlaceEncoding" |);
                 M.call (|
                   "lt",
                   [
-                    M.get (| "length" |);
+                    M.get_var (| "length" |);
                     [Literal.number 32]
                   ]
                 |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
               M.expr_stmt (|
                 M.call (|
@@ -163,10 +170,10 @@ Module C_208.
                 |)
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -174,10 +181,11 @@ Module C_208.
         "array_dataslot_bytes_storage_ptr",
         ["ptr"],
         ["data"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["data"],
-            Some (M.get (| "ptr" |))
+            Some (M.get_var (| "ptr" |))
           |)
         )) in
         do* ltac:(M.monadic (
@@ -186,7 +194,7 @@ Module C_208.
               "mstore",
               [
                 [Literal.number 0];
-                M.get (| "ptr" |)
+                M.get_var (| "ptr" |)
               ]
             |)
           |)
@@ -203,7 +211,7 @@ Module C_208.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -211,6 +219,7 @@ Module C_208.
         "divide_by_ceil",
         ["value"],
         ["result"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["result"],
@@ -220,7 +229,7 @@ Module C_208.
                 M.call (|
                   "add",
                   [
-                    M.get (| "value" |);
+                    M.get_var (| "value" |);
                     [Literal.number 31]
                   ]
                 |);
@@ -229,7 +238,7 @@ Module C_208.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -237,19 +246,20 @@ Module C_208.
         "shift_left_dynamic",
         ["bits"; "value"],
         ["newValue"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["newValue"],
             Some (M.call (|
               "shl",
               [
-                M.get (| "bits" |);
-                M.get (| "value" |)
+                M.get_var (| "bits" |);
+                M.get_var (| "value" |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -257,25 +267,26 @@ Module C_208.
         "update_byte_slice_dynamic32",
         ["value"; "shiftBytes"; "toInsert"],
         ["result"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["shiftBits"],
             Some (M.call (|
               "mul",
               [
-                M.get (| "shiftBytes" |);
+                M.get_var (| "shiftBytes" |);
                 [Literal.number 8]
               ]
             |))
           |)
         )) in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["mask"],
             Some (M.call (|
               "shift_left_dynamic",
               [
-                M.get (| "shiftBits" |);
+                M.get_var (| "shiftBits" |);
                 M.call (|
                   "not",
                   [
@@ -292,8 +303,8 @@ Module C_208.
             Some (M.call (|
               "shift_left_dynamic",
               [
-                M.get (| "shiftBits" |);
-                M.get (| "toInsert" |)
+                M.get_var (| "shiftBits" |);
+                M.get_var (| "toInsert" |)
               ]
             |))
           |)
@@ -304,11 +315,11 @@ Module C_208.
             Some (M.call (|
               "and",
               [
-                M.get (| "value" |);
+                M.get_var (| "value" |);
                 M.call (|
                   "not",
                   [
-                    M.get (| "mask" |)
+                    M.get_var (| "mask" |)
                   ]
                 |)
               ]
@@ -321,19 +332,19 @@ Module C_208.
             Some (M.call (|
               "or",
               [
-                M.get (| "value" |);
+                M.get_var (| "value" |);
                 M.call (|
                   "and",
                   [
-                    M.get (| "toInsert" |);
-                    M.get (| "mask" |)
+                    M.get_var (| "toInsert" |);
+                    M.get_var (| "mask" |)
                   ]
                 |)
               ]
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -341,13 +352,14 @@ Module C_208.
         "cleanup_uint256",
         ["value"],
         ["cleaned"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["cleaned"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -355,13 +367,14 @@ Module C_208.
         "identity",
         ["value"],
         ["ret"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["ret"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -369,6 +382,7 @@ Module C_208.
         "convert_uint256_to_uint256",
         ["value"],
         ["converted"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["converted"],
@@ -381,7 +395,7 @@ Module C_208.
                     M.call (|
                       "cleanup_uint256",
                       [
-                        M.get (| "value" |)
+                        M.get_var (| "value" |)
                       ]
                     |)
                   ]
@@ -390,7 +404,7 @@ Module C_208.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -398,13 +412,14 @@ Module C_208.
         "prepare_store_uint256",
         ["value"],
         ["ret"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["ret"],
-            Some (M.get (| "value" |))
+            Some (M.get_var (| "value" |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -412,13 +427,14 @@ Module C_208.
         "update_storage_value_uint256_to_uint256",
         ["slot"; "offset"; "value"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["convertedValue"],
             Some (M.call (|
               "convert_uint256_to_uint256",
               [
-                M.get (| "value" |)
+                M.get_var (| "value" |)
               ]
             |))
           |)
@@ -428,21 +444,21 @@ Module C_208.
             M.call (|
               "sstore",
               [
-                M.get (| "slot" |);
+                M.get_var (| "slot" |);
                 M.call (|
                   "update_byte_slice_dynamic32",
                   [
                     M.call (|
                       "sload",
                       [
-                        M.get (| "slot" |)
+                        M.get_var (| "slot" |)
                       ]
                     |);
-                    M.get (| "offset" |);
+                    M.get_var (| "offset" |);
                     M.call (|
                       "prepare_store_uint256",
                       [
-                        M.get (| "convertedValue" |)
+                        M.get_var (| "convertedValue" |)
                       ]
                     |)
                   ]
@@ -451,7 +467,7 @@ Module C_208.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -459,13 +475,14 @@ Module C_208.
         "zero_value_for_split_uint256",
         [],
         ["ret"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["ret"],
             Some ([Literal.number 0])
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -473,8 +490,9 @@ Module C_208.
         "storage_set_to_zero_uint256",
         ["slot"; "offset"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["zero"],
             Some (M.call (|
               "zero_value_for_split_uint256",
@@ -487,14 +505,14 @@ Module C_208.
             M.call (|
               "update_storage_value_uint256_to_uint256",
               [
-                M.get (| "slot" |);
-                M.get (| "offset" |);
-                M.get (| "zero" |)
+                M.get_var (| "slot" |);
+                M.get_var (| "offset" |);
+                M.get_var (| "zero" |)
               ]
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -502,47 +520,51 @@ Module C_208.
         "clear_storage_range_bytes1",
         ["start"; "end"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           do*
-            M.od in
+            do* M.open_scope in
+            M.close_scope in
     ltac:(M.monadic (
             M.for_ (|
               M.call (|
                 "lt",
                 [
-                  M.get (| "start" |);
-                  M.get (| "end" |)
+                  M.get_var (| "start" |);
+                  M.get_var (| "end" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.assign (|
                   ["start"],
                   Some (M.call (|
                     "add",
                     [
-                      M.get (| "start" |);
+                      M.get_var (| "start" |);
                       [Literal.number 1]
                     ]
                   |))
                 |)
               )) in
-              M.od,
+              M.close_scope,
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
                     "storage_set_to_zero_uint256",
                     [
-                      M.get (| "start" |);
+                      M.get_var (| "start" |);
                       [Literal.number 0]
                     ]
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           ))
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -550,37 +572,39 @@ Module C_208.
         "clean_up_bytearray_end_slots_bytes_storage_ptr",
         ["array"; "len"; "startIndex"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.if_ (|
             M.call (|
               "gt",
               [
-                M.get (| "len" |);
+                M.get_var (| "len" |);
                 [Literal.number 31]
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["dataArea"],
                 Some (M.call (|
                   "array_dataslot_bytes_storage_ptr",
                   [
-                    M.get (| "array" |)
+                    M.get_var (| "array" |)
                   ]
                 |))
               |)
             )) in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["deleteStart"],
                 Some (M.call (|
                   "add",
                   [
-                    M.get (| "dataArea" |);
+                    M.get_var (| "dataArea" |);
                     M.call (|
                       "divide_by_ceil",
                       [
-                        M.get (| "startIndex" |)
+                        M.get_var (| "startIndex" |)
                       ]
                     |)
                   ]
@@ -592,17 +616,18 @@ Module C_208.
                 M.call (|
                   "lt",
                   [
-                    M.get (| "startIndex" |);
+                    M.get_var (| "startIndex" |);
                     [Literal.number 32]
                   ]
                 |),
+                do* M.open_scope in
                 do* ltac:(M.monadic (
                   M.assign (|
                     ["deleteStart"],
-                    Some (M.get (| "dataArea" |))
+                    Some (M.get_var (| "dataArea" |))
                   |)
                 )) in
-                M.od
+                M.close_scope
               |)
             )) in
             do* ltac:(M.monadic (
@@ -610,15 +635,15 @@ Module C_208.
                 M.call (|
                   "clear_storage_range_bytes1",
                   [
-                    M.get (| "deleteStart" |);
+                    M.get_var (| "deleteStart" |);
                     M.call (|
                       "add",
                       [
-                        M.get (| "dataArea" |);
+                        M.get_var (| "dataArea" |);
                         M.call (|
                           "divide_by_ceil",
                           [
-                            M.get (| "len" |)
+                            M.get_var (| "len" |)
                           ]
                         |)
                       ]
@@ -627,10 +652,10 @@ Module C_208.
                 |)
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -638,8 +663,9 @@ Module C_208.
         "copy_literal_to_storage_c9646d20f40e1e65cf3cf3776594c4bb90f3b073d37ad193dd178744f9c641c1",
         ["slot"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
-          M.assign (|
+          M.declare (|
             ["oldLen"],
             Some (M.call (|
               "extract_byte_array_length",
@@ -647,7 +673,7 @@ Module C_208.
                 M.call (|
                   "sload",
                   [
-                    M.get (| "slot" |)
+                    M.get_var (| "slot" |)
                   ]
                 |)
               ]
@@ -659,8 +685,8 @@ Module C_208.
             M.call (|
               "clean_up_bytearray_end_slots_bytes_storage_ptr",
               [
-                M.get (| "slot" |);
-                M.get (| "oldLen" |);
+                M.get_var (| "slot" |);
+                M.get_var (| "oldLen" |);
                 [Literal.number 5]
               ]
             |)
@@ -671,7 +697,7 @@ Module C_208.
             M.call (|
               "sstore",
               [
-                M.get (| "slot" |);
+                M.get_var (| "slot" |);
                 M.call (|
                   "add",
                   [
@@ -683,7 +709,7 @@ Module C_208.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -691,17 +717,18 @@ Module C_208.
         "update_storage_value_offsett_stringliteral_c964_to_bytes",
         ["slot"],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
               "copy_literal_to_storage_c9646d20f40e1e65cf3cf3776594c4bb90f3b073d37ad193dd178744f9c641c1",
               [
-                M.get (| "slot" |)
+                M.get_var (| "slot" |)
               ]
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -709,6 +736,7 @@ Module C_208.
         "constructor_C",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -719,10 +747,11 @@ Module C_208.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.expr_stmt (|
           M.call (|
@@ -745,6 +774,7 @@ Module C_208.
             "callvalue",
             []
           |),
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -753,7 +783,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -765,7 +795,7 @@ Module C_208.
         |)
       )) in
       do* ltac:(M.monadic (
-        M.assign (|
+        M.declare (|
           ["_1"],
           Some (M.call (|
             "allocate_unbounded",
@@ -778,7 +808,7 @@ Module C_208.
           M.call (|
             "codecopy",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "dataoffset",
                 [
@@ -800,7 +830,7 @@ Module C_208.
           M.call (|
             "return",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "datasize",
                 [
@@ -811,17 +841,19 @@ Module C_208.
           |)
         |)
       )) in
-      M.od
+      M.close_scope
     )) in
-    M.od.
+    M.close_scope.
 
   Module C_208_deployed.
     Definition code : M.t BlockUnit.t :=
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.function (|
           "shift_right_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -829,12 +861,12 @@ Module C_208.
                 "shr",
                 [
                   [Literal.number 224];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -842,6 +874,7 @@ Module C_208.
           "allocate_unbounded",
           [],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -853,7 +886,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -861,6 +894,7 @@ Module C_208.
           "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -872,7 +906,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -880,6 +914,7 @@ Module C_208.
           "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -891,7 +926,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -899,6 +934,7 @@ Module C_208.
           "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -910,7 +946,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -918,13 +954,14 @@ Module C_208.
           "cleanup_bytes16",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "not",
                     [
@@ -935,7 +972,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -943,6 +980,7 @@ Module C_208.
           "validator_revert_bytes16",
           ["value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -951,17 +989,18 @@ Module C_208.
                   M.call (|
                     "eq",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       M.call (|
                         "cleanup_bytes16",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -973,10 +1012,10 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -984,13 +1023,14 @@ Module C_208.
           "abi_decode_bytes16",
           ["offset"; "end"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -1000,12 +1040,12 @@ Module C_208.
               M.call (|
                 "validator_revert_bytes16",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1013,13 +1053,14 @@ Module C_208.
           "cleanup_bytes15",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "not",
                     [
@@ -1030,7 +1071,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1038,6 +1079,7 @@ Module C_208.
           "validator_revert_bytes15",
           ["value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1046,17 +1088,18 @@ Module C_208.
                   M.call (|
                     "eq",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       M.call (|
                         "cleanup_bytes15",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1068,10 +1111,10 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1079,13 +1122,14 @@ Module C_208.
           "abi_decode_bytes15",
           ["offset"; "end"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -1095,12 +1139,12 @@ Module C_208.
               M.call (|
                 "validator_revert_bytes15",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1108,13 +1152,14 @@ Module C_208.
           "cleanup_bytes31",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "not",
                     [
@@ -1125,7 +1170,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1133,6 +1178,7 @@ Module C_208.
           "validator_revert_bytes31",
           ["value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1141,17 +1187,18 @@ Module C_208.
                   M.call (|
                     "eq",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       M.call (|
                         "cleanup_bytes31",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1163,10 +1210,10 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1174,13 +1221,14 @@ Module C_208.
           "abi_decode_bytes31",
           ["offset"; "end"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -1190,12 +1238,12 @@ Module C_208.
               M.call (|
                 "validator_revert_bytes31",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1205,6 +1253,7 @@ Module C_208.
           ["value0";
       "value1";
       "value2"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1213,13 +1262,14 @@ Module C_208.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 96]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1228,11 +1278,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some ([Literal.number 0])
             |)
@@ -1246,17 +1296,17 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_1"],
               Some ([Literal.number 32])
             |)
@@ -1270,17 +1320,17 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_1" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_1" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_2"],
               Some ([Literal.number 64])
             |)
@@ -1294,16 +1344,16 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_2" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_2" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1311,18 +1361,19 @@ Module C_208.
           "array_length_bytes",
           ["value"],
           ["length"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["length"],
               Some (M.call (|
                 "mload",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1330,13 +1381,14 @@ Module C_208.
           "array_storeLengthForEncoding_bytes",
           ["pos"; "length"],
           ["updated_pos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -1347,13 +1399,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1361,14 +1413,15 @@ Module C_208.
           "copy_memory_to_memory_with_cleanup",
           ["src"; "dst"; "length"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mcopy",
                 [
-                  M.get (| "dst" |);
-                  M.get (| "src" |);
-                  M.get (| "length" |)
+                  M.get_var (| "dst" |);
+                  M.get_var (| "src" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -1381,8 +1434,8 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "dst" |);
-                      M.get (| "length" |)
+                      M.get_var (| "dst" |);
+                      M.get_var (| "length" |)
                     ]
                   |);
                   [Literal.number 0]
@@ -1390,7 +1443,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1398,6 +1451,7 @@ Module C_208.
           "round_up_to_mul_of",
           ["value"],
           ["result"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["result"],
@@ -1407,7 +1461,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       [Literal.number 31]
                     ]
                   |);
@@ -1421,7 +1475,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1429,13 +1483,14 @@ Module C_208.
           "abi_encode_bytes_to_bytes",
           ["value"; "pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["length"],
               Some (M.call (|
                 "array_length_bytes",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
@@ -1446,8 +1501,8 @@ Module C_208.
               Some (M.call (|
                 "array_storeLengthForEncoding_bytes",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -1460,12 +1515,12 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       [Literal.number 0x20]
                     ]
                   |);
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -1476,18 +1531,18 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "round_up_to_mul_of",
                     [
-                      M.get (| "length" |)
+                      M.get_var (| "length" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1495,13 +1550,14 @@ Module C_208.
           "abi_encode_bytes_bytes_bytes_bytes",
           ["headStart"; "value0"; "value1"; "value2"; "value3"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 128]
                 ]
               |))
@@ -1515,15 +1571,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -1536,8 +1592,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_to_bytes",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
@@ -1550,15 +1606,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 32]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -1571,8 +1627,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_to_bytes",
                 [
-                  M.get (| "value1" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value1" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
@@ -1585,15 +1641,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 64]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -1606,8 +1662,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_to_bytes",
                 [
-                  M.get (| "value2" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value2" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
@@ -1620,15 +1676,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 96]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -1641,13 +1697,13 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_to_bytes",
                 [
-                  M.get (| "value3" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value3" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1655,12 +1711,14 @@ Module C_208.
           "external_fun_fixedBytesParam",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1669,11 +1727,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"; "param_2"],
               Some (M.call (|
                 "abi_decode_bytes16t_bytes15t_bytes31",
@@ -1688,20 +1746,20 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"; "ret_1"; "ret_2"; "ret_3"],
               Some (M.call (|
                 "fun_fixedBytesParam",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -1710,16 +1768,16 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes_bytes_bytes_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |);
-                  M.get (| "ret_1" |);
-                  M.get (| "ret_2" |);
-                  M.get (| "ret_3" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |);
+                  M.get_var (| "ret_1" |);
+                  M.get_var (| "ret_2" |);
+                  M.get_var (| "ret_3" |)
                 ]
               |))
             |)
@@ -1729,19 +1787,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1749,6 +1807,7 @@ Module C_208.
           "revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1760,7 +1819,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1768,6 +1827,7 @@ Module C_208.
           "revert_error_15abf5612cd996bc235ba1e55a4a30ac60e6bb601ff7ba4ad3f179b6be8d0490",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1779,7 +1839,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1787,6 +1847,7 @@ Module C_208.
           "revert_error_81385d8c0b31fffe14be1da910c8bd3a80be4cfa248e04f42ec0faea3132a8ef",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1798,7 +1859,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1807,6 +1868,7 @@ Module C_208.
           ["offset"; "end"],
           ["arrayPos";
       "length"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1818,15 +1880,16 @@ Module C_208.
                       M.call (|
                         "add",
                         [
-                          M.get (| "offset" |);
+                          M.get_var (| "offset" |);
                           [Literal.number 0x1f]
                         ]
                       |);
-                      M.get (| "end" |)
+                      M.get_var (| "end" |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1835,7 +1898,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -1844,7 +1907,7 @@ Module C_208.
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -1854,10 +1917,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "length" |);
+                  M.get_var (| "length" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1866,7 +1930,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -1875,7 +1939,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   [Literal.number 0x20]
                 ]
               |))
@@ -1889,19 +1953,20 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "arrayPos" |);
+                      M.get_var (| "arrayPos" |);
                       M.call (|
                         "mul",
                         [
-                          M.get (| "length" |);
+                          M.get_var (| "length" |);
                           [Literal.number 0x01]
                         ]
                       |)
                     ]
                   |);
-                  M.get (| "end" |)
+                  M.get_var (| "end" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1910,10 +1975,10 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1922,6 +1987,7 @@ Module C_208.
           ["headStart"; "dataEnd"],
           ["value0";
       "value1"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -1930,13 +1996,14 @@ Module C_208.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 32]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1945,11 +2012,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some (M.call (|
                 "calldataload",
@@ -1957,7 +2024,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -1970,10 +2037,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1982,7 +2050,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -1994,16 +2062,16 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2011,13 +2079,14 @@ Module C_208.
           "abi_encode_bytes",
           ["headStart"; "value0"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -2031,15 +2100,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -2052,13 +2121,13 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_to_bytes",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2066,12 +2135,14 @@ Module C_208.
           "external_fun_strParam",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2080,11 +2151,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_string_calldata",
@@ -2099,19 +2170,19 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_strParam",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2120,13 +2191,13 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2136,19 +2207,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2157,6 +2228,7 @@ Module C_208.
           ["offset"; "end"],
           ["arrayPos";
       "length"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -2168,15 +2240,16 @@ Module C_208.
                       M.call (|
                         "add",
                         [
-                          M.get (| "offset" |);
+                          M.get_var (| "offset" |);
                           [Literal.number 0x1f]
                         ]
                       |);
-                      M.get (| "end" |)
+                      M.get_var (| "end" |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2185,7 +2258,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -2194,7 +2267,7 @@ Module C_208.
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -2204,10 +2277,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "length" |);
+                  M.get_var (| "length" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2216,7 +2290,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -2225,7 +2299,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   [Literal.number 0x20]
                 ]
               |))
@@ -2239,19 +2313,20 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "arrayPos" |);
+                      M.get_var (| "arrayPos" |);
                       M.call (|
                         "mul",
                         [
-                          M.get (| "length" |);
+                          M.get_var (| "length" |);
                           [Literal.number 0x01]
                         ]
                       |)
                     ]
                   |);
-                  M.get (| "end" |)
+                  M.get_var (| "end" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2260,10 +2335,10 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2271,13 +2346,14 @@ Module C_208.
           "cleanup_bytes6",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "shl",
                     [
@@ -2289,7 +2365,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2297,6 +2373,7 @@ Module C_208.
           "validator_revert_bytes6",
           ["value"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -2305,17 +2382,18 @@ Module C_208.
                   M.call (|
                     "eq",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       M.call (|
                         "cleanup_bytes6",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2327,10 +2405,10 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2338,13 +2416,14 @@ Module C_208.
           "abi_decode_bytes6",
           ["offset"; "end"],
           ["value"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["value"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -2354,12 +2433,12 @@ Module C_208.
               M.call (|
                 "validator_revert_bytes6",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2370,6 +2449,7 @@ Module C_208.
       "value1";
       "value2";
       "value3"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -2378,13 +2458,14 @@ Module C_208.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 96]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2393,11 +2474,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some (M.call (|
                 "calldataload",
@@ -2405,7 +2486,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -2418,10 +2499,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2430,7 +2512,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -2442,17 +2524,17 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_1"],
               Some ([Literal.number 32])
             |)
@@ -2466,17 +2548,17 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_1" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_1" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_2"],
               Some ([Literal.number 64])
             |)
@@ -2490,16 +2572,16 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_2" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_2" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2507,13 +2589,14 @@ Module C_208.
           "abi_encode_bytes_bytes",
           ["headStart"; "value0"; "value1"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 64]
                 ]
               |))
@@ -2527,15 +2610,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -2548,8 +2631,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_to_bytes",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
@@ -2562,15 +2645,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 32]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -2583,13 +2666,13 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_to_bytes",
                 [
-                  M.get (| "value1" |);
-                  M.get (| "tail" |)
+                  M.get_var (| "value1" |);
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2597,12 +2680,14 @@ Module C_208.
           "external_fun_fixedBytesParam2",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2611,11 +2696,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"; "param_2"; "param_3"],
               Some (M.call (|
                 "abi_decode_bytes_calldatat_bytes6t_bytes6",
@@ -2630,21 +2715,21 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"; "ret_1"],
               Some (M.call (|
                 "fun_fixedBytesParam2",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |);
-                  M.get (| "param_3" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |);
+                  M.get_var (| "param_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2653,14 +2738,14 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |);
-                  M.get (| "ret_1" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |);
+                  M.get_var (| "ret_1" |)
                 ]
               |))
             |)
@@ -2670,19 +2755,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2691,6 +2776,7 @@ Module C_208.
           ["headStart"; "dataEnd"],
           ["value0";
       "value1"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -2699,13 +2785,14 @@ Module C_208.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 32]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2714,11 +2801,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some (M.call (|
                 "calldataload",
@@ -2726,7 +2813,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -2739,10 +2826,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2751,7 +2839,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -2763,16 +2851,16 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2780,12 +2868,14 @@ Module C_208.
           "external_fun_slice",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2794,11 +2884,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_bytes_calldata",
@@ -2813,19 +2903,19 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_slice",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2834,13 +2924,13 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2850,19 +2940,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2870,12 +2960,14 @@ Module C_208.
           "external_fun_h",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -2884,11 +2976,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_bytes_calldata",
@@ -2903,19 +2995,19 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_h",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -2924,13 +3016,13 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -2940,19 +3032,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2960,6 +3052,7 @@ Module C_208.
           "revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -2971,7 +3064,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -2979,6 +3072,7 @@ Module C_208.
           "panic_error_0x41",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -3018,7 +3112,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3026,17 +3120,18 @@ Module C_208.
           "finalize_allocation",
           ["memPtr"; "size"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["newFreePtr"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "memPtr" |);
+                  M.get_var (| "memPtr" |);
                   M.call (|
                     "round_up_to_mul_of",
                     [
-                      M.get (| "size" |)
+                      M.get_var (| "size" |)
                     ]
                   |)
                 ]
@@ -3051,19 +3146,20 @@ Module C_208.
                   M.call (|
                     "gt",
                     [
-                      M.get (| "newFreePtr" |);
+                      M.get_var (| "newFreePtr" |);
                       [Literal.number 0xffffffffffffffff]
                     ]
                   |);
                   M.call (|
                     "lt",
                     [
-                      M.get (| "newFreePtr" |);
-                      M.get (| "memPtr" |)
+                      M.get_var (| "newFreePtr" |);
+                      M.get_var (| "memPtr" |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3072,7 +3168,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3081,12 +3177,12 @@ Module C_208.
                 "mstore",
                 [
                   [Literal.number 64];
-                  M.get (| "newFreePtr" |)
+                  M.get_var (| "newFreePtr" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3094,6 +3190,7 @@ Module C_208.
           "allocate_memory",
           ["size"],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -3108,13 +3205,13 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "memPtr" |);
-                  M.get (| "size" |)
+                  M.get_var (| "memPtr" |);
+                  M.get_var (| "size" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3122,15 +3219,17 @@ Module C_208.
           "array_allocation_size_string",
           ["length"],
           ["size"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "gt",
                 [
-                  M.get (| "length" |);
+                  M.get_var (| "length" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3139,7 +3238,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3148,7 +3247,7 @@ Module C_208.
               Some (M.call (|
                 "round_up_to_mul_of",
                 [
-                  M.get (| "length" |)
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -3159,13 +3258,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "size" |);
+                  M.get_var (| "size" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3173,14 +3272,15 @@ Module C_208.
           "copy_calldata_to_memory_with_cleanup",
           ["src"; "dst"; "length"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "calldatacopy",
                 [
-                  M.get (| "dst" |);
-                  M.get (| "src" |);
-                  M.get (| "length" |)
+                  M.get_var (| "dst" |);
+                  M.get_var (| "src" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -3193,8 +3293,8 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "dst" |);
-                      M.get (| "length" |)
+                      M.get_var (| "dst" |);
+                      M.get_var (| "length" |)
                     ]
                   |);
                   [Literal.number 0]
@@ -3202,7 +3302,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3210,6 +3310,7 @@ Module C_208.
           "abi_decode_available_length_string",
           ["src"; "length"; "end"],
           ["array"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["array"],
@@ -3219,7 +3320,7 @@ Module C_208.
                   M.call (|
                     "array_allocation_size_string",
                     [
-                      M.get (| "length" |)
+                      M.get_var (| "length" |)
                     ]
                   |)
                 ]
@@ -3231,19 +3332,19 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "array" |);
-                  M.get (| "length" |)
+                  M.get_var (| "array" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dst"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "array" |);
+                  M.get_var (| "array" |);
                   [Literal.number 0x20]
                 ]
               |))
@@ -3257,13 +3358,14 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "src" |);
-                      M.get (| "length" |)
+                      M.get_var (| "src" |);
+                      M.get_var (| "length" |)
                     ]
                   |);
-                  M.get (| "end" |)
+                  M.get_var (| "end" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3272,7 +3374,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3280,14 +3382,14 @@ Module C_208.
               M.call (|
                 "copy_calldata_to_memory_with_cleanup",
                 [
-                  M.get (| "src" |);
-                  M.get (| "dst" |);
-                  M.get (| "length" |)
+                  M.get_var (| "src" |);
+                  M.get_var (| "dst" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3295,6 +3397,7 @@ Module C_208.
           "abi_decode_string",
           ["offset"; "end"],
           ["array"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -3306,15 +3409,16 @@ Module C_208.
                       M.call (|
                         "add",
                         [
-                          M.get (| "offset" |);
+                          M.get_var (| "offset" |);
                           [Literal.number 0x1f]
                         ]
                       |);
-                      M.get (| "end" |)
+                      M.get_var (| "end" |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3323,16 +3427,16 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["length"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -3346,17 +3450,17 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "offset" |);
+                      M.get_var (| "offset" |);
                       [Literal.number 0x20]
                     ]
                   |);
-                  M.get (| "length" |);
-                  M.get (| "end" |)
+                  M.get_var (| "length" |);
+                  M.get_var (| "end" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3366,6 +3470,7 @@ Module C_208.
           ["value0";
       "value1";
       "value2"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -3374,13 +3479,14 @@ Module C_208.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 64]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3389,11 +3495,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some (M.call (|
                 "calldataload",
@@ -3401,7 +3507,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -3414,10 +3520,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3426,7 +3533,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3438,17 +3545,17 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset_1"],
               Some (M.call (|
                 "calldataload",
@@ -3456,7 +3563,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 32]
                     ]
                   |)
@@ -3469,10 +3576,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "offset_1" |);
+                  M.get_var (| "offset_1" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3481,7 +3589,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3493,16 +3601,16 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset_1" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset_1" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3510,12 +3618,14 @@ Module C_208.
           "external_fun_k",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3524,11 +3634,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"; "param_2"],
               Some (M.call (|
                 "abi_decode_bytes_calldatat_string",
@@ -3543,20 +3653,20 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_k",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -3565,13 +3675,13 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -3581,19 +3691,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3601,12 +3711,14 @@ Module C_208.
           "external_fun_j",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3615,11 +3727,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_bytes_calldata",
@@ -3634,19 +3746,19 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_j",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -3655,13 +3767,13 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -3671,19 +3783,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3691,12 +3803,14 @@ Module C_208.
           "external_fun_g",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3705,11 +3819,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"; "param_1"],
               Some (M.call (|
                 "abi_decode_bytes_calldata",
@@ -3724,19 +3838,19 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_g",
                 [
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -3745,13 +3859,13 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -3761,19 +3875,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3781,15 +3895,17 @@ Module C_208.
           "array_allocation_size_bytes",
           ["length"],
           ["size"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "gt",
                 [
-                  M.get (| "length" |);
+                  M.get_var (| "length" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3798,7 +3914,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3807,7 +3923,7 @@ Module C_208.
               Some (M.call (|
                 "round_up_to_mul_of",
                 [
-                  M.get (| "length" |)
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -3818,13 +3934,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "size" |);
+                  M.get_var (| "size" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3832,6 +3948,7 @@ Module C_208.
           "abi_decode_available_length_bytes",
           ["src"; "length"; "end"],
           ["array"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["array"],
@@ -3841,7 +3958,7 @@ Module C_208.
                   M.call (|
                     "array_allocation_size_bytes",
                     [
-                      M.get (| "length" |)
+                      M.get_var (| "length" |)
                     ]
                   |)
                 ]
@@ -3853,19 +3970,19 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "array" |);
-                  M.get (| "length" |)
+                  M.get_var (| "array" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dst"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "array" |);
+                  M.get_var (| "array" |);
                   [Literal.number 0x20]
                 ]
               |))
@@ -3879,13 +3996,14 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "src" |);
-                      M.get (| "length" |)
+                      M.get_var (| "src" |);
+                      M.get_var (| "length" |)
                     ]
                   |);
-                  M.get (| "end" |)
+                  M.get_var (| "end" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3894,7 +4012,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3902,14 +4020,14 @@ Module C_208.
               M.call (|
                 "copy_calldata_to_memory_with_cleanup",
                 [
-                  M.get (| "src" |);
-                  M.get (| "dst" |);
-                  M.get (| "length" |)
+                  M.get_var (| "src" |);
+                  M.get_var (| "dst" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3917,6 +4035,7 @@ Module C_208.
           "abi_decode_bytes_memory_ptr",
           ["offset"; "end"],
           ["array"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -3928,15 +4047,16 @@ Module C_208.
                       M.call (|
                         "add",
                         [
-                          M.get (| "offset" |);
+                          M.get_var (| "offset" |);
                           [Literal.number 0x1f]
                         ]
                       |);
-                      M.get (| "end" |)
+                      M.get_var (| "end" |)
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -3945,16 +4065,16 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["length"],
               Some (M.call (|
                 "calldataload",
                 [
-                  M.get (| "offset" |)
+                  M.get_var (| "offset" |)
                 ]
               |))
             |)
@@ -3968,17 +4088,17 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "offset" |);
+                      M.get_var (| "offset" |);
                       [Literal.number 0x20]
                     ]
                   |);
-                  M.get (| "length" |);
-                  M.get (| "end" |)
+                  M.get_var (| "length" |);
+                  M.get_var (| "end" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3986,6 +4106,7 @@ Module C_208.
           "abi_decode_bytes",
           ["headStart"; "dataEnd"],
           ["value0"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -3994,13 +4115,14 @@ Module C_208.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 32]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -4009,11 +4131,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["offset"],
               Some (M.call (|
                 "calldataload",
@@ -4021,7 +4143,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -4034,10 +4156,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   [Literal.number 0xffffffffffffffff]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -4046,7 +4169,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -4058,16 +4181,16 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
-                      M.get (| "offset" |)
+                      M.get_var (| "headStart" |);
+                      M.get_var (| "offset" |)
                     ]
                   |);
-                  M.get (| "dataEnd" |)
+                  M.get_var (| "dataEnd" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4075,12 +4198,14 @@ Module C_208.
           "external_fun_f",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -4089,11 +4214,11 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["param"],
               Some (M.call (|
                 "abi_decode_bytes",
@@ -4108,18 +4233,18 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_f",
                 [
-                  M.get (| "param" |)
+                  M.get_var (| "param" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -4128,13 +4253,13 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bytes",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -4144,19 +4269,19 @@ Module C_208.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4164,6 +4289,7 @@ Module C_208.
           "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -4175,7 +4301,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4183,13 +4309,14 @@ Module C_208.
           "zero_value_for_split_bytes",
           [],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
               Some ([Literal.number 96])
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4197,13 +4324,14 @@ Module C_208.
           "leftAlign_bytes16",
           ["value"],
           ["aligned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["aligned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4211,19 +4339,20 @@ Module C_208.
           "abi_encode_bytes16",
           ["value"; "pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "leftAlign_bytes16",
                     [
                       M.call (|
                         "cleanup_bytes16",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -4232,7 +4361,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4240,13 +4369,14 @@ Module C_208.
           "leftAlign_bytes15",
           ["value"],
           ["aligned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["aligned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4254,19 +4384,20 @@ Module C_208.
           "abi_encode_bytes15",
           ["value"; "pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "leftAlign_bytes15",
                     [
                       M.call (|
                         "cleanup_bytes15",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -4275,7 +4406,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4283,13 +4414,14 @@ Module C_208.
           "abi_encode_packed_bytes16_bytes15",
           ["pos"; "value0"; "value1"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "abi_encode_bytes16",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4300,7 +4432,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 16]
                 ]
               |))
@@ -4311,8 +4443,8 @@ Module C_208.
               M.call (|
                 "abi_encode_bytes15",
                 [
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4323,7 +4455,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 15]
                 ]
               |))
@@ -4332,10 +4464,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4343,6 +4475,7 @@ Module C_208.
           "bytes_concat_bytes16_bytes15",
           ["param"; "param_1"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -4353,26 +4486,26 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes16_bytes15",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
@@ -4382,12 +4515,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -4399,19 +4532,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4419,13 +4552,14 @@ Module C_208.
           "leftAlign_bytes31",
           ["value"],
           ["aligned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["aligned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4433,19 +4567,20 @@ Module C_208.
           "abi_encode_bytes31",
           ["value"; "pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "leftAlign_bytes31",
                     [
                       M.call (|
                         "cleanup_bytes31",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -4454,7 +4589,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4462,13 +4597,14 @@ Module C_208.
           "abi_encode_packed_bytes16_bytes31",
           ["pos"; "value0"; "value1"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "abi_encode_bytes16",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4479,7 +4615,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 16]
                 ]
               |))
@@ -4490,8 +4626,8 @@ Module C_208.
               M.call (|
                 "abi_encode_bytes31",
                 [
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4502,7 +4638,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 31]
                 ]
               |))
@@ -4511,10 +4647,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4522,6 +4658,7 @@ Module C_208.
           "bytes_concat_bytes16_bytes31",
           ["param"; "param_1"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -4532,26 +4669,26 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes16_bytes31",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
@@ -4561,12 +4698,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -4578,19 +4715,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4598,18 +4735,19 @@ Module C_208.
           "abi_encode_stringliteral_c964",
           ["pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.string "6263646566"]
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4617,13 +4755,14 @@ Module C_208.
           "abi_encode_packed_bytes16_stringliteral_c964",
           ["pos"; "value0"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "abi_encode_bytes16",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4634,7 +4773,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 16]
                 ]
               |))
@@ -4645,7 +4784,7 @@ Module C_208.
               M.call (|
                 "abi_encode_stringliteral_c964",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -4656,7 +4795,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 5]
                 ]
               |))
@@ -4665,10 +4804,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4676,6 +4815,7 @@ Module C_208.
           "bytes_concat_bytes16_stringliteral_c964",
           ["param"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -4686,25 +4826,25 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes16_stringliteral_c964",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |)
                 ]
               |))
             |)
@@ -4714,12 +4854,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -4731,19 +4871,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4751,6 +4891,7 @@ Module C_208.
           "panic_error_0x22",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -4790,7 +4931,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4798,25 +4939,26 @@ Module C_208.
           "extract_byte_array_length",
           ["data"],
           ["length"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["length"],
               Some (M.call (|
                 "div",
                 [
-                  M.get (| "data" |);
+                  M.get_var (| "data" |);
                   [Literal.number 2]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["outOfPlaceEncoding"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "data" |);
+                  M.get_var (| "data" |);
                   [Literal.number 1]
                 ]
               |))
@@ -4827,22 +4969,23 @@ Module C_208.
               M.call (|
                 "iszero",
                 [
-                  M.get (| "outOfPlaceEncoding" |)
+                  M.get_var (| "outOfPlaceEncoding" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.assign (|
                   ["length"],
                   Some (M.call (|
                     "and",
                     [
-                      M.get (| "length" |);
+                      M.get_var (| "length" |);
                       [Literal.number 0x7f]
                     ]
                   |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -4850,16 +4993,17 @@ Module C_208.
               M.call (|
                 "eq",
                 [
-                  M.get (| "outOfPlaceEncoding" |);
+                  M.get_var (| "outOfPlaceEncoding" |);
                   M.call (|
                     "lt",
                     [
-                      M.get (| "length" |);
+                      M.get_var (| "length" |);
                       [Literal.number 32]
                     ]
                   |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -4868,10 +5012,10 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4879,13 +5023,14 @@ Module C_208.
           "array_storeLengthForEncoding_bytes_nonPadded_inplace",
           ["pos"; "length"],
           ["updated_pos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["updated_pos"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4893,10 +5038,11 @@ Module C_208.
           "array_dataslot_bytes_storage",
           ["ptr"],
           ["data"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["data"],
-              Some (M.get (| "ptr" |))
+              Some (M.get_var (| "ptr" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -4905,7 +5051,7 @@ Module C_208.
                 "mstore",
                 [
                   [Literal.number 0];
-                  M.get (| "ptr" |)
+                  M.get_var (| "ptr" |)
                 ]
               |)
             |)
@@ -4922,7 +5068,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -4930,24 +5076,25 @@ Module C_208.
           "abi_encode_bytes_storage",
           ["value"; "pos"],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["slotValue"],
               Some (M.call (|
                 "sload",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["length"],
               Some (M.call (|
                 "extract_byte_array_length",
                 [
-                  M.get (| "slotValue" |)
+                  M.get_var (| "slotValue" |)
                 ]
               |))
             |)
@@ -4958,8 +5105,8 @@ Module C_208.
               Some (M.call (|
                 "array_storeLengthForEncoding_bytes_nonPadded_inplace",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -4969,23 +5116,24 @@ Module C_208.
               M.call (|
                 "and",
                 [
-                  M.get (| "slotValue" |);
+                  M.get_var (| "slotValue" |);
                   [Literal.number 1]
                 ]
               |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
                     M.expr_stmt (|
                       M.call (|
                         "mstore",
                         [
-                          M.get (| "pos" |);
+                          M.get_var (| "pos" |);
                           M.call (|
                             "and",
                             [
-                              M.get (| "slotValue" |);
+                              M.get_var (| "slotValue" |);
                               M.call (|
                                 "not",
                                 [
@@ -5004,18 +5152,18 @@ Module C_208.
                       Some (M.call (|
                         "add",
                         [
-                          M.get (| "pos" |);
+                          M.get_var (| "pos" |);
                           M.call (|
                             "mul",
                             [
-                              M.get (| "length" |);
+                              M.get_var (| "length" |);
                               M.call (|
                                 "iszero",
                                 [
                                   M.call (|
                                     "iszero",
                                     [
-                                      M.get (| "length" |)
+                                      M.get_var (| "length" |)
                                     ]
                                   |)
                                 ]
@@ -5026,52 +5174,56 @@ Module C_208.
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   Some (Literal.number 1),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["dataPos"],
                       Some (M.call (|
                         "array_dataslot_bytes_storage",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["i"],
                       Some ([Literal.number 0])
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     do*
-                      M.od in
+                      do* M.open_scope in
+                      M.close_scope in
       ltac:(M.monadic (
                       M.for_ (|
                         M.call (|
                           "lt",
                           [
-                            M.get (| "i" |);
-                            M.get (| "length" |)
+                            M.get_var (| "i" |);
+                            M.get_var (| "length" |)
                           ]
                         |),
+                        do* M.open_scope in
                         do* ltac:(M.monadic (
                           M.assign (|
                             ["i"],
                             Some (M.call (|
                               "add",
                               [
-                                M.get (| "i" |);
+                                M.get_var (| "i" |);
                                 [Literal.number 0x20]
                               ]
                             |))
                           |)
                         )) in
-                        M.od,
+                        M.close_scope,
+                        do* M.open_scope in
                         do* ltac:(M.monadic (
                           M.expr_stmt (|
                             M.call (|
@@ -5080,14 +5232,14 @@ Module C_208.
                                 M.call (|
                                   "add",
                                   [
-                                    M.get (| "pos" |);
-                                    M.get (| "i" |)
+                                    M.get_var (| "pos" |);
+                                    M.get_var (| "i" |)
                                   ]
                                 |);
                                 M.call (|
                                   "sload",
                                   [
-                                    M.get (| "dataPos" |)
+                                    M.get_var (| "dataPos" |)
                                   ]
                                 |)
                               ]
@@ -5100,13 +5252,13 @@ Module C_208.
                             Some (M.call (|
                               "add",
                               [
-                                M.get (| "dataPos" |);
+                                M.get_var (| "dataPos" |);
                                 [Literal.number 1]
                               ]
                             |))
                           |)
                         )) in
-                        M.od
+                        M.close_scope
                       |)
                     ))
                   )) in
@@ -5116,17 +5268,17 @@ Module C_208.
                       Some (M.call (|
                         "add",
                         [
-                          M.get (| "pos" |);
-                          M.get (| "length" |)
+                          M.get_var (| "pos" |);
+                          M.get_var (| "length" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5134,13 +5286,14 @@ Module C_208.
           "abi_encode_packed_bytes16_bytes_storage",
           ["pos"; "value0"; "value1"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "abi_encode_bytes16",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -5151,7 +5304,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 16]
                 ]
               |))
@@ -5163,8 +5316,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_storage",
                 [
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -5172,10 +5325,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5183,6 +5336,7 @@ Module C_208.
           "bytes_concat_bytes16_bytes_storage",
           ["param"; "param_1"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -5193,26 +5347,26 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes16_bytes_storage",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
@@ -5222,12 +5376,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -5239,19 +5393,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5262,8 +5416,9 @@ Module C_208.
       "var_144_mpos";
       "var_146_mpos";
       "var_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_t_bytes_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -5274,11 +5429,11 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_142_mpos"],
-              Some (M.get (| "zero_t_bytes_mpos" |))
+              Some (M.get_var (| "zero_t_bytes_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_2_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -5289,11 +5444,11 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_144_mpos"],
-              Some (M.get (| "zero_bytes_2_mpos" |))
+              Some (M.get_var (| "zero_bytes_2_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_t_bytes_memory_ptr_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -5304,11 +5459,11 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_146_mpos"],
-              Some (M.get (| "zero_t_bytes_memory_ptr_mpos" |))
+              Some (M.get_var (| "zero_t_bytes_memory_ptr_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -5319,192 +5474,192 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_mpos"],
-              Some (M.get (| "zero_bytes_mpos" |))
+              Some (M.get_var (| "zero_bytes_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_b1" |))
+              Some (M.get_var (| "var_b1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_b2" |))
+              Some (M.get_var (| "var_b2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_155_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes16_bytes15",
                 [
-                  M.get (| "expr" |);
-                  M.get (| "expr_1" |)
+                  M.get_var (| "expr" |);
+                  M.get_var (| "expr_1" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_component_mpos"],
-              Some (M.get (| "expr_155_mpos" |))
+              Some (M.get_var (| "expr_155_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_b1" |))
+              Some (M.get_var (| "var_b1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
-              Some (M.get (| "var_b3" |))
+              Some (M.get_var (| "var_b3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "_4" |))
+              Some (M.get_var (| "_4" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_161_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes16_bytes31",
                 [
-                  M.get (| "expr_2" |);
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_2" |);
+                  M.get_var (| "expr_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_174_component_2_mpos"],
-              Some (M.get (| "expr_161_mpos" |))
+              Some (M.get_var (| "expr_161_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_5"],
-              Some (M.get (| "var_b1" |))
+              Some (M.get_var (| "var_b1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
-              Some (M.get (| "_5" |))
+              Some (M.get_var (| "_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_167_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes16_stringliteral_c964",
                 [
-                  M.get (| "expr_4" |)
+                  M.get_var (| "expr_4" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_174_component_3_mpos"],
-              Some (M.get (| "expr_167_mpos" |))
+              Some (M.get_var (| "expr_167_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_6"],
-              Some (M.get (| "var_b1" |))
+              Some (M.get_var (| "var_b1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "_6" |))
+              Some (M.get_var (| "_6" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_172_slot"],
-              Some (M.get (| "_slot" |))
+              Some (M.get_var (| "_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_173_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes16_bytes_storage",
                 [
-                  M.get (| "expr_5" |);
-                  M.get (| "expr_172_slot" |)
+                  M.get_var (| "expr_5" |);
+                  M.get_var (| "expr_172_slot" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_174_component_4_mpos"],
-              Some (M.get (| "expr_173_mpos" |))
+              Some (M.get_var (| "expr_173_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var_142_mpos"],
-              Some (M.get (| "expr_component_mpos" |))
+              Some (M.get_var (| "expr_component_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var_144_mpos"],
-              Some (M.get (| "expr_174_component_2_mpos" |))
+              Some (M.get_var (| "expr_174_component_2_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var_146_mpos"],
-              Some (M.get (| "expr_174_component_3_mpos" |))
+              Some (M.get_var (| "expr_174_component_3_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var_mpos"],
-              Some (M.get (| "expr_174_component_4_mpos" |))
+              Some (M.get_var (| "expr_174_component_4_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5513,19 +5668,20 @@ Module C_208.
           ["value"; "length"],
           ["converted";
       "outLength"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["outLength"],
-              Some (M.get (| "length" |))
+              Some (M.get_var (| "length" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5533,14 +5689,15 @@ Module C_208.
           "abi_encode_bytes_calldata",
           ["start"; "length"; "pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "array_storeLengthForEncoding_bytes_nonPadded_inplace",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -5550,9 +5707,9 @@ Module C_208.
               M.call (|
                 "copy_calldata_to_memory_with_cleanup",
                 [
-                  M.get (| "start" |);
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "start" |);
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -5563,13 +5720,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5577,15 +5734,16 @@ Module C_208.
           "abi_encode_packed_bytes_calldata_stringliteral_c964",
           ["pos"; "value0"; "value1"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -5595,7 +5753,7 @@ Module C_208.
               M.call (|
                 "abi_encode_stringliteral_c964",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -5606,7 +5764,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 5]
                 ]
               |))
@@ -5615,10 +5773,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5626,6 +5784,7 @@ Module C_208.
           "bytes_concat_bytes_calldata_stringliteral_c964",
           ["param"; "param_1"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -5636,26 +5795,26 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_calldata_stringliteral_c964",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
@@ -5665,12 +5824,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -5682,19 +5841,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5702,8 +5861,9 @@ Module C_208.
           "fun_strParam",
           ["var_a_117_offset"; "var_a_117_length"],
           ["var_120_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_12_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -5714,53 +5874,53 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_120_mpos"],
-              Some (M.get (| "zero_bytes_12_mpos" |))
+              Some (M.get_var (| "zero_bytes_12_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_13_offset"],
-              Some (M.get (| "var_a_117_offset" |))
+              Some (M.get_var (| "var_a_117_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_13_length"],
-              Some (M.get (| "var_a_117_length" |))
+              Some (M.get_var (| "var_a_117_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_127_offset"],
-              Some (M.get (| "_13_offset" |))
+              Some (M.get_var (| "_13_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_length"],
-              Some (M.get (| "_13_length" |))
+              Some (M.get_var (| "_13_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_128_offset"; "expr_128_length"],
               Some (M.call (|
                 "convert_array_string_calldata_to_bytes_calldata",
                 [
-                  M.get (| "expr_127_offset" |);
-                  M.get (| "expr_length" |)
+                  M.get_var (| "expr_127_offset" |);
+                  M.get_var (| "expr_length" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_130_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_calldata_stringliteral_c964",
                 [
-                  M.get (| "expr_128_offset" |);
-                  M.get (| "expr_128_length" |)
+                  M.get_var (| "expr_128_offset" |);
+                  M.get_var (| "expr_128_length" |)
                 ]
               |))
             |)
@@ -5768,13 +5928,13 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_120_mpos"],
-              Some (M.get (| "expr_130_mpos" |))
+              Some (M.get_var (| "expr_130_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5782,13 +5942,14 @@ Module C_208.
           "leftAlign_bytes6",
           ["value"],
           ["aligned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["aligned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5796,19 +5957,20 @@ Module C_208.
           "abi_encode_bytes6",
           ["value"; "pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "leftAlign_bytes6",
                     [
                       M.call (|
                         "cleanup_bytes6",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -5817,7 +5979,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5825,14 +5987,15 @@ Module C_208.
           "abi_encode_packed_bytes_storage_bytes6_bytes_calldata",
           ["pos"; "value0"; "value1"; "value2"; "value3"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_storage",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -5842,8 +6005,8 @@ Module C_208.
               M.call (|
                 "abi_encode_bytes6",
                 [
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -5854,7 +6017,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 6]
                 ]
               |))
@@ -5866,9 +6029,9 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value2" |);
-                  M.get (| "value3" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value2" |);
+                  M.get_var (| "value3" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -5876,10 +6039,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5887,6 +6050,7 @@ Module C_208.
           "bytes_concat_bytes_storage_bytes6_bytes_calldata",
           ["param"; "param_1"; "param_2"; "param_3"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -5897,28 +6061,28 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_storage_bytes6_bytes_calldata",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |);
-                  M.get (| "param_3" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |);
+                  M.get_var (| "param_3" |)
                 ]
               |))
             |)
@@ -5928,12 +6092,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -5945,19 +6109,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -5965,13 +6129,14 @@ Module C_208.
           "abi_encode_packed_bytes6_bytes_calldata_bytes6",
           ["pos"; "value0"; "value1"; "value2"; "value3"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "abi_encode_bytes6",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -5982,7 +6147,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 6]
                 ]
               |))
@@ -5994,9 +6159,9 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value1" |);
-                  M.get (| "value2" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value1" |);
+                  M.get_var (| "value2" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -6006,8 +6171,8 @@ Module C_208.
               M.call (|
                 "abi_encode_bytes6",
                 [
-                  M.get (| "value3" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value3" |);
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -6018,7 +6183,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 6]
                 ]
               |))
@@ -6027,10 +6192,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6038,6 +6203,7 @@ Module C_208.
           "bytes_concat_bytes6_bytes_calldata_bytes6",
           ["param"; "param_1"; "param_2"; "param_3"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -6048,28 +6214,28 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes6_bytes_calldata_bytes6",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |);
-                  M.get (| "param_3" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |);
+                  M.get_var (| "param_3" |)
                 ]
               |))
             |)
@@ -6079,12 +6245,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -6096,19 +6262,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6117,8 +6283,9 @@ Module C_208.
           ["var_c_offset"; "var_c_length"; "var_b1"; "var_b2"],
           ["var_186_mpos";
       "var_188_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_14_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -6129,11 +6296,11 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_186_mpos"],
-              Some (M.get (| "zero_bytes_14_mpos" |))
+              Some (M.get_var (| "zero_bytes_14_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_15_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -6144,161 +6311,161 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_188_mpos"],
-              Some (M.get (| "zero_bytes_15_mpos" |))
+              Some (M.get_var (| "zero_bytes_15_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_16_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_193_slot"],
-              Some (M.get (| "_16_slot" |))
+              Some (M.get_var (| "_16_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
-              Some (M.get (| "var_b1" |))
+              Some (M.get_var (| "var_b1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
-              Some (M.get (| "_1" |))
+              Some (M.get_var (| "_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_18_offset"],
-              Some (M.get (| "var_c_offset" |))
+              Some (M.get_var (| "var_c_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_18_length"],
-              Some (M.get (| "var_c_length" |))
+              Some (M.get_var (| "var_c_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_195_offset"],
-              Some (M.get (| "_18_offset" |))
+              Some (M.get_var (| "_18_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_195_length"],
-              Some (M.get (| "_18_length" |))
+              Some (M.get_var (| "_18_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_196_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_storage_bytes6_bytes_calldata",
                 [
-                  M.get (| "expr_193_slot" |);
-                  M.get (| "expr" |);
-                  M.get (| "expr_195_offset" |);
-                  M.get (| "expr_195_length" |)
+                  M.get_var (| "expr_193_slot" |);
+                  M.get_var (| "expr" |);
+                  M.get_var (| "expr_195_offset" |);
+                  M.get_var (| "expr_195_length" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_204_component_1_mpos"],
-              Some (M.get (| "expr_196_mpos" |))
+              Some (M.get_var (| "expr_196_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
-              Some (M.get (| "var_b1" |))
+              Some (M.get_var (| "var_b1" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "_2" |))
+              Some (M.get_var (| "_2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_20_offset"],
-              Some (M.get (| "var_c_offset" |))
+              Some (M.get_var (| "var_c_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_20_length"],
-              Some (M.get (| "var_c_length" |))
+              Some (M.get_var (| "var_c_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_201_offset"],
-              Some (M.get (| "_20_offset" |))
+              Some (M.get_var (| "_20_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_201_length"],
-              Some (M.get (| "_20_length" |))
+              Some (M.get_var (| "_20_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
-              Some (M.get (| "var_b2" |))
+              Some (M.get_var (| "var_b2" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
-              Some (M.get (| "_3" |))
+              Some (M.get_var (| "_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_203_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes6_bytes_calldata_bytes6",
                 [
-                  M.get (| "expr_1" |);
-                  M.get (| "expr_201_offset" |);
-                  M.get (| "expr_201_length" |);
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_1" |);
+                  M.get_var (| "expr_201_offset" |);
+                  M.get_var (| "expr_201_length" |);
+                  M.get_var (| "expr_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_204_component_2_mpos"],
-              Some (M.get (| "expr_203_mpos" |))
+              Some (M.get_var (| "expr_203_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var_186_mpos"],
-              Some (M.get (| "expr_204_component_1_mpos" |))
+              Some (M.get_var (| "expr_204_component_1_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.assign (|
               ["var_188_mpos"],
-              Some (M.get (| "expr_204_component_2_mpos" |))
+              Some (M.get_var (| "expr_204_component_2_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6306,13 +6473,14 @@ Module C_208.
           "array_length_bytes_calldata",
           ["value"; "len"],
           ["length"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["length"],
-              Some (M.get (| "len" |))
+              Some (M.get_var (| "len" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6320,13 +6488,14 @@ Module C_208.
           "cleanup_uint256",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6334,13 +6503,14 @@ Module C_208.
           "cleanup_rational_by",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6348,13 +6518,14 @@ Module C_208.
           "identity",
           ["value"],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6362,6 +6533,7 @@ Module C_208.
           "convert_rational_by_to_uint256",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
@@ -6374,7 +6546,7 @@ Module C_208.
                       M.call (|
                         "cleanup_rational_by",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -6383,7 +6555,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6391,13 +6563,14 @@ Module C_208.
           "array_storeLengthForEncoding_string",
           ["pos"; "length"],
           ["updated_pos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -6408,13 +6581,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6422,13 +6595,14 @@ Module C_208.
           "abi_encode_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
           ["pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "array_storeLengthForEncoding_string",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 0]
                 ]
               |))
@@ -6440,13 +6614,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 0]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6454,13 +6628,14 @@ Module C_208.
           "abi_encode_stringliteral_c5d2",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -6474,15 +6649,15 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "tail" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "tail" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |)
                 ]
@@ -6495,12 +6670,12 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
                 [
-                  M.get (| "tail" |)
+                  M.get_var (| "tail" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6508,16 +6683,18 @@ Module C_208.
           "require_helper_stringliteral_c5d2",
           ["condition"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "iszero",
                 [
-                  M.get (| "condition" |)
+                  M.get_var (| "condition" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["memPtr"],
                   Some (M.call (|
                     "allocate_unbounded",
@@ -6530,7 +6707,7 @@ Module C_208.
                   M.call (|
                     "mstore",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "shl",
                         [
@@ -6543,7 +6720,7 @@ Module C_208.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["end"],
                   Some (M.call (|
                     "abi_encode_stringliteral_c5d2",
@@ -6551,7 +6728,7 @@ Module C_208.
                       M.call (|
                         "add",
                         [
-                          M.get (| "memPtr" |);
+                          M.get_var (| "memPtr" |);
                           [Literal.number 4]
                         ]
                       |)
@@ -6564,22 +6741,22 @@ Module C_208.
                   M.call (|
                     "revert",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       M.call (|
                         "sub",
                         [
-                          M.get (| "end" |);
-                          M.get (| "memPtr" |)
+                          M.get_var (| "end" |);
+                          M.get_var (| "memPtr" |)
                         ]
                       |)
                     ]
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6587,6 +6764,7 @@ Module C_208.
           "revert_error_7678404c0552a58cf14944d1a786cf4c81aab3563e2735cb332aee47bbb57c4a",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -6598,7 +6776,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6606,6 +6784,7 @@ Module C_208.
           "revert_error_46e3e63c93837e9efa638abb3b4e76ced8c11259a873f1381a0abdf6ae6a823c",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -6617,7 +6796,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6626,15 +6805,17 @@ Module C_208.
           ["offset"; "length"; "startIndex"; "endIndex"],
           ["offsetOut";
       "lengthOut"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "gt",
                 [
-                  M.get (| "startIndex" |);
-                  M.get (| "endIndex" |)
+                  M.get_var (| "startIndex" |);
+                  M.get_var (| "endIndex" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -6643,7 +6824,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -6651,10 +6832,11 @@ Module C_208.
               M.call (|
                 "gt",
                 [
-                  M.get (| "endIndex" |);
-                  M.get (| "length" |)
+                  M.get_var (| "endIndex" |);
+                  M.get_var (| "length" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -6663,7 +6845,7 @@ Module C_208.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -6672,11 +6854,11 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "offset" |);
+                  M.get_var (| "offset" |);
                   M.call (|
                     "mul",
                     [
-                      M.get (| "startIndex" |);
+                      M.get_var (| "startIndex" |);
                       [Literal.number 1]
                     ]
                   |)
@@ -6690,13 +6872,13 @@ Module C_208.
               Some (M.call (|
                 "sub",
                 [
-                  M.get (| "endIndex" |);
-                  M.get (| "startIndex" |)
+                  M.get_var (| "endIndex" |);
+                  M.get_var (| "startIndex" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6704,15 +6886,16 @@ Module C_208.
           "abi_encode_packed_bytes_calldata_slice_bytes_calldata_slice",
           ["pos"; "value0"; "value1"; "value2"; "value3"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -6723,9 +6906,9 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value2" |);
-                  M.get (| "value3" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value2" |);
+                  M.get_var (| "value3" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -6733,10 +6916,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6744,6 +6927,7 @@ Module C_208.
           "bytes_concat_bytes_calldata_slice_bytes_calldata_slice",
           ["param"; "param_1"; "param_2"; "param_3"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -6754,28 +6938,28 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_calldata_slice_bytes_calldata_slice",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |);
-                  M.get (| "param_3" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |);
+                  M.get_var (| "param_3" |)
                 ]
               |))
             |)
@@ -6785,12 +6969,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -6802,19 +6986,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -6822,8 +7006,9 @@ Module C_208.
           "fun_slice",
           ["var_a_90_offset"; "var_a_90_length"],
           ["var__mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_22_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -6834,53 +7019,53 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var__mpos"],
-              Some (M.get (| "zero_bytes_22_mpos" |))
+              Some (M.get_var (| "zero_bytes_22_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_23_offset"],
-              Some (M.get (| "var_a_90_offset" |))
+              Some (M.get_var (| "var_a_90_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_23_length"],
-              Some (M.get (| "var_a_90_length" |))
+              Some (M.get_var (| "var_a_90_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_96_offset"],
-              Some (M.get (| "_23_offset" |))
+              Some (M.get_var (| "_23_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_96_length"],
-              Some (M.get (| "_23_length" |))
+              Some (M.get_var (| "_23_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "array_length_bytes_calldata",
                 [
-                  M.get (| "expr_96_offset" |);
-                  M.get (| "expr_96_length" |)
+                  M.get_var (| "expr_96_offset" |);
+                  M.get_var (| "expr_96_length" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
               Some ([Literal.number 0x02])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_2"],
               Some (M.call (|
                 "gt",
@@ -6888,13 +7073,13 @@ Module C_208.
                   M.call (|
                     "cleanup_uint256",
                     [
-                      M.get (| "expr" |)
+                      M.get_var (| "expr" |)
                     ]
                   |);
                   M.call (|
                     "convert_rational_by_to_uint256",
                     [
-                      M.get (| "expr_1" |)
+                      M.get_var (| "expr_1" |)
                     ]
                   |)
                 ]
@@ -6906,143 +7091,143 @@ Module C_208.
               M.call (|
                 "require_helper_stringliteral_c5d2",
                 [
-                  M.get (| "expr_2" |)
+                  M.get_var (| "expr_2" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_offset"],
-              Some (M.get (| "var_a_90_offset" |))
+              Some (M.get_var (| "var_a_90_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_24_length"],
-              Some (M.get (| "var_a_90_length" |))
+              Some (M.get_var (| "var_a_90_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_106_offset"],
-              Some (M.get (| "_offset" |))
+              Some (M.get_var (| "_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_106_length"],
-              Some (M.get (| "_24_length" |))
+              Some (M.get_var (| "_24_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
               Some ([Literal.number 0x02])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_1"],
               Some ([Literal.number 0])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2"],
               Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
-                  M.get (| "expr_3" |)
+                  M.get_var (| "expr_3" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_108_offset"; "expr_108_length"],
               Some (M.call (|
                 "calldata_array_index_range_access_bytes_calldata",
                 [
-                  M.get (| "expr_106_offset" |);
-                  M.get (| "expr_106_length" |);
-                  M.get (| "_1" |);
-                  M.get (| "_2" |)
+                  M.get_var (| "expr_106_offset" |);
+                  M.get_var (| "expr_106_length" |);
+                  M.get_var (| "_1" |);
+                  M.get_var (| "_2" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_27_offset"],
-              Some (M.get (| "var_a_90_offset" |))
+              Some (M.get_var (| "var_a_90_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_27_length"],
-              Some (M.get (| "var_a_90_length" |))
+              Some (M.get_var (| "var_a_90_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_offset"],
-              Some (M.get (| "_27_offset" |))
+              Some (M.get_var (| "_27_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_109_length"],
-              Some (M.get (| "_27_length" |))
+              Some (M.get_var (| "_27_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_4"],
               Some ([Literal.number 0x02])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_3"],
               Some (M.call (|
                 "convert_rational_by_to_uint256",
                 [
-                  M.get (| "expr_4" |)
+                  M.get_var (| "expr_4" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_4"],
-              Some (M.get (| "expr_109_length" |))
+              Some (M.get_var (| "expr_109_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_111_offset"; "expr_111_length"],
               Some (M.call (|
                 "calldata_array_index_range_access_bytes_calldata",
                 [
-                  M.get (| "expr_offset" |);
-                  M.get (| "expr_109_length" |);
-                  M.get (| "_3" |);
-                  M.get (| "_4" |)
+                  M.get_var (| "expr_offset" |);
+                  M.get_var (| "expr_109_length" |);
+                  M.get_var (| "_3" |);
+                  M.get_var (| "_4" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_112_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_calldata_slice_bytes_calldata_slice",
                 [
-                  M.get (| "expr_108_offset" |);
-                  M.get (| "expr_108_length" |);
-                  M.get (| "expr_111_offset" |);
-                  M.get (| "expr_111_length" |)
+                  M.get_var (| "expr_108_offset" |);
+                  M.get_var (| "expr_108_length" |);
+                  M.get_var (| "expr_111_offset" |);
+                  M.get_var (| "expr_111_length" |)
                 ]
               |))
             |)
@@ -7050,13 +7235,13 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var__mpos"],
-              Some (M.get (| "expr_112_mpos" |))
+              Some (M.get_var (| "expr_112_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7064,15 +7249,16 @@ Module C_208.
           "abi_encode_packed_bytes_calldata_bytes_storage",
           ["pos"; "value0"; "value1"; "value2"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -7083,8 +7269,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_storage",
                 [
-                  M.get (| "value2" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value2" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -7092,10 +7278,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7103,6 +7289,7 @@ Module C_208.
           "bytes_concat_bytes_calldata_bytes_storage",
           ["param"; "param_1"; "param_2"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -7113,27 +7300,27 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_calldata_bytes_storage",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |)
                 ]
               |))
             |)
@@ -7143,12 +7330,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -7160,19 +7347,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7180,8 +7367,9 @@ Module C_208.
           "fun_h",
           ["var_a_offset"; "var_a_35_length"],
           ["var_38_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_30_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -7192,54 +7380,54 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_38_mpos"],
-              Some (M.get (| "zero_bytes_30_mpos" |))
+              Some (M.get_var (| "zero_bytes_30_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_31_offset"],
-              Some (M.get (| "var_a_offset" |))
+              Some (M.get_var (| "var_a_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_31_length"],
-              Some (M.get (| "var_a_35_length" |))
+              Some (M.get_var (| "var_a_35_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_43_offset"],
-              Some (M.get (| "_31_offset" |))
+              Some (M.get_var (| "_31_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_43_length"],
-              Some (M.get (| "_31_length" |))
+              Some (M.get_var (| "_31_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_32_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_44_slot"],
-              Some (M.get (| "_32_slot" |))
+              Some (M.get_var (| "_32_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_45_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_calldata_bytes_storage",
                 [
-                  M.get (| "expr_43_offset" |);
-                  M.get (| "expr_43_length" |);
-                  M.get (| "expr_44_slot" |)
+                  M.get_var (| "expr_43_offset" |);
+                  M.get_var (| "expr_43_length" |);
+                  M.get_var (| "expr_44_slot" |)
                 ]
               |))
             |)
@@ -7247,13 +7435,13 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_38_mpos"],
-              Some (M.get (| "expr_45_mpos" |))
+              Some (M.get_var (| "expr_45_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7261,13 +7449,14 @@ Module C_208.
           "convert_array_string_to_bytes",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7275,13 +7464,14 @@ Module C_208.
           "abi_encode_bytes_memory_ptr",
           ["value"; "pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["length"],
               Some (M.call (|
                 "array_length_bytes",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
@@ -7292,8 +7482,8 @@ Module C_208.
               Some (M.call (|
                 "array_storeLengthForEncoding_bytes_nonPadded_inplace",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -7306,12 +7496,12 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "value" |);
+                      M.get_var (| "value" |);
                       [Literal.number 0x20]
                     ]
                   |);
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |)
             |)
@@ -7322,13 +7512,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7336,15 +7526,16 @@ Module C_208.
           "abi_encode_packed_bytes_calldata_bytes",
           ["pos"; "value0"; "value1"; "value2"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -7355,8 +7546,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_memory_ptr",
                 [
-                  M.get (| "value2" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value2" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -7364,10 +7555,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7375,6 +7566,7 @@ Module C_208.
           "bytes_concat_bytes_calldata_bytes",
           ["param"; "param_1"; "param_2"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -7385,27 +7577,27 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_calldata_bytes",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |)
                 ]
               |))
             |)
@@ -7415,12 +7607,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -7432,19 +7624,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7452,8 +7644,9 @@ Module C_208.
           "fun_k",
           ["var_a_70_offset"; "var_a_70_length"; "var_b_mpos"],
           ["var_75_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_33_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -7464,65 +7657,65 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_75_mpos"],
-              Some (M.get (| "zero_bytes_33_mpos" |))
+              Some (M.get_var (| "zero_bytes_33_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_34_offset"],
-              Some (M.get (| "var_a_70_offset" |))
+              Some (M.get_var (| "var_a_70_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_34_length"],
-              Some (M.get (| "var_a_70_length" |))
+              Some (M.get_var (| "var_a_70_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_80_offset"],
-              Some (M.get (| "_34_offset" |))
+              Some (M.get_var (| "_34_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_80_length"],
-              Some (M.get (| "_34_length" |))
+              Some (M.get_var (| "_34_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_mpos"],
-              Some (M.get (| "var_b_mpos" |))
+              Some (M.get_var (| "var_b_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_83_mpos"],
-              Some (M.get (| "_mpos" |))
+              Some (M.get_var (| "_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_84_mpos"],
               Some (M.call (|
                 "convert_array_string_to_bytes",
                 [
-                  M.get (| "expr_83_mpos" |)
+                  M.get_var (| "expr_83_mpos" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_85_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_calldata_bytes",
                 [
-                  M.get (| "expr_80_offset" |);
-                  M.get (| "expr_80_length" |);
-                  M.get (| "expr_84_mpos" |)
+                  M.get_var (| "expr_80_offset" |);
+                  M.get_var (| "expr_80_length" |);
+                  M.get_var (| "expr_84_mpos" |)
                 ]
               |))
             |)
@@ -7530,13 +7723,13 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_75_mpos"],
-              Some (M.get (| "expr_85_mpos" |))
+              Some (M.get_var (| "expr_85_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7544,13 +7737,14 @@ Module C_208.
           "convert_array_bytes_storage_to_bytes_ptr",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7558,10 +7752,11 @@ Module C_208.
           "array_dataslot_bytes_storage_ptr",
           ["ptr"],
           ["data"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["data"],
-              Some (M.get (| "ptr" |))
+              Some (M.get_var (| "ptr" |))
             |)
           )) in
           do* ltac:(M.monadic (
@@ -7570,7 +7765,7 @@ Module C_208.
                 "mstore",
                 [
                   [Literal.number 0];
-                  M.get (| "ptr" |)
+                  M.get_var (| "ptr" |)
                 ]
               |)
             |)
@@ -7587,7 +7782,7 @@ Module C_208.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7595,24 +7790,25 @@ Module C_208.
           "abi_encode_bytes_storage_ptr",
           ["value"; "pos"],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["slotValue"],
               Some (M.call (|
                 "sload",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["length"],
               Some (M.call (|
                 "extract_byte_array_length",
                 [
-                  M.get (| "slotValue" |)
+                  M.get_var (| "slotValue" |)
                 ]
               |))
             |)
@@ -7623,8 +7819,8 @@ Module C_208.
               Some (M.call (|
                 "array_storeLengthForEncoding_bytes_nonPadded_inplace",
                 [
-                  M.get (| "pos" |);
-                  M.get (| "length" |)
+                  M.get_var (| "pos" |);
+                  M.get_var (| "length" |)
                 ]
               |))
             |)
@@ -7634,23 +7830,24 @@ Module C_208.
               M.call (|
                 "and",
                 [
-                  M.get (| "slotValue" |);
+                  M.get_var (| "slotValue" |);
                   [Literal.number 1]
                 ]
               |),
               [
                 (
                   Some (Literal.number 0),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
                     M.expr_stmt (|
                       M.call (|
                         "mstore",
                         [
-                          M.get (| "pos" |);
+                          M.get_var (| "pos" |);
                           M.call (|
                             "and",
                             [
-                              M.get (| "slotValue" |);
+                              M.get_var (| "slotValue" |);
                               M.call (|
                                 "not",
                                 [
@@ -7669,18 +7866,18 @@ Module C_208.
                       Some (M.call (|
                         "add",
                         [
-                          M.get (| "pos" |);
+                          M.get_var (| "pos" |);
                           M.call (|
                             "mul",
                             [
-                              M.get (| "length" |);
+                              M.get_var (| "length" |);
                               M.call (|
                                 "iszero",
                                 [
                                   M.call (|
                                     "iszero",
                                     [
-                                      M.get (| "length" |)
+                                      M.get_var (| "length" |)
                                     ]
                                   |)
                                 ]
@@ -7691,52 +7888,56 @@ Module C_208.
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 );
                 (
                   Some (Literal.number 1),
+                  do* M.open_scope in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["dataPos"],
                       Some (M.call (|
                         "array_dataslot_bytes_storage_ptr",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |))
                     |)
                   )) in
                   do* ltac:(M.monadic (
-                    M.assign (|
+                    M.declare (|
                       ["i"],
                       Some ([Literal.number 0])
                     |)
                   )) in
                   do* ltac:(M.monadic (
                     do*
-                      M.od in
+                      do* M.open_scope in
+                      M.close_scope in
       ltac:(M.monadic (
                       M.for_ (|
                         M.call (|
                           "lt",
                           [
-                            M.get (| "i" |);
-                            M.get (| "length" |)
+                            M.get_var (| "i" |);
+                            M.get_var (| "length" |)
                           ]
                         |),
+                        do* M.open_scope in
                         do* ltac:(M.monadic (
                           M.assign (|
                             ["i"],
                             Some (M.call (|
                               "add",
                               [
-                                M.get (| "i" |);
+                                M.get_var (| "i" |);
                                 [Literal.number 0x20]
                               ]
                             |))
                           |)
                         )) in
-                        M.od,
+                        M.close_scope,
+                        do* M.open_scope in
                         do* ltac:(M.monadic (
                           M.expr_stmt (|
                             M.call (|
@@ -7745,14 +7946,14 @@ Module C_208.
                                 M.call (|
                                   "add",
                                   [
-                                    M.get (| "pos" |);
-                                    M.get (| "i" |)
+                                    M.get_var (| "pos" |);
+                                    M.get_var (| "i" |)
                                   ]
                                 |);
                                 M.call (|
                                   "sload",
                                   [
-                                    M.get (| "dataPos" |)
+                                    M.get_var (| "dataPos" |)
                                   ]
                                 |)
                               ]
@@ -7765,13 +7966,13 @@ Module C_208.
                             Some (M.call (|
                               "add",
                               [
-                                M.get (| "dataPos" |);
+                                M.get_var (| "dataPos" |);
                                 [Literal.number 1]
                               ]
                             |))
                           |)
                         )) in
-                        M.od
+                        M.close_scope
                       |)
                     ))
                   )) in
@@ -7781,17 +7982,17 @@ Module C_208.
                       Some (M.call (|
                         "add",
                         [
-                          M.get (| "pos" |);
-                          M.get (| "length" |)
+                          M.get_var (| "pos" |);
+                          M.get_var (| "length" |)
                         ]
                       |))
                     |)
                   )) in
-                  M.od
+                  M.close_scope
                 )        ]
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7799,15 +8000,16 @@ Module C_208.
           "abi_encode_packed_bytes_calldata_bytes_storage_ptr_bytes",
           ["pos"; "value0"; "value1"; "value2"; "value3"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -7818,8 +8020,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_storage_ptr",
                 [
-                  M.get (| "value2" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value2" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -7830,8 +8032,8 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_bytes_storage",
                 [
-                  M.get (| "value3" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value3" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -7839,10 +8041,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7850,6 +8052,7 @@ Module C_208.
           "bytes_concat_bytes_calldata_bytes_storage_ptr_bytes",
           ["param"; "param_1"; "param_2"; "param_3"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -7860,28 +8063,28 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_calldata_bytes_storage_ptr_bytes",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |);
-                  M.get (| "param_2" |);
-                  M.get (| "param_3" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |);
+                  M.get_var (| "param_2" |);
+                  M.get_var (| "param_3" |)
                 ]
               |))
             |)
@@ -7891,12 +8094,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -7908,19 +8111,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -7928,8 +8131,9 @@ Module C_208.
           "fun_j",
           ["var_a_50_offset"; "var_a_length"],
           ["var_53_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_memory_ptr_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -7940,90 +8144,90 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_53_mpos"],
-              Some (M.get (| "zero_bytes_memory_ptr_mpos" |))
+              Some (M.get_var (| "zero_bytes_memory_ptr_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_37_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_57_slot"],
-              Some (M.get (| "_37_slot" |))
+              Some (M.get_var (| "_37_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_ref_slot"],
               Some (M.call (|
                 "convert_array_bytes_storage_to_bytes_ptr",
                 [
-                  M.get (| "expr_57_slot" |)
+                  M.get_var (| "expr_57_slot" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_38_offset"],
-              Some (M.get (| "var_a_50_offset" |))
+              Some (M.get_var (| "var_a_50_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_length"],
-              Some (M.get (| "var_a_length" |))
+              Some (M.get_var (| "var_a_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_62_offset"],
-              Some (M.get (| "_38_offset" |))
+              Some (M.get_var (| "_38_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_62_length"],
-              Some (M.get (| "_length" |))
+              Some (M.get_var (| "_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_39_slot"],
-              Some (M.get (| "var_ref_slot" |))
+              Some (M.get_var (| "var_ref_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_63_slot"],
-              Some (M.get (| "_39_slot" |))
+              Some (M.get_var (| "_39_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_40_slot"],
               Some ([Literal.number 0x00])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_slot"],
-              Some (M.get (| "_40_slot" |))
+              Some (M.get_var (| "_40_slot" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_65_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_calldata_bytes_storage_ptr_bytes",
                 [
-                  M.get (| "expr_62_offset" |);
-                  M.get (| "expr_62_length" |);
-                  M.get (| "expr_63_slot" |);
-                  M.get (| "expr_slot" |)
+                  M.get_var (| "expr_62_offset" |);
+                  M.get_var (| "expr_62_length" |);
+                  M.get_var (| "expr_63_slot" |);
+                  M.get_var (| "expr_slot" |)
                 ]
               |))
             |)
@@ -8031,13 +8235,13 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_53_mpos"],
-              Some (M.get (| "expr_65_mpos" |))
+              Some (M.get_var (| "expr_65_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8045,6 +8249,7 @@ Module C_208.
           "store_literal_in_memory_be1cd0192ccca4162c6e6fb9d20bfe3178d425310f6249a0b9791fcc670026f0",
           ["memPtr"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -8053,7 +8258,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 0]
                     ]
                   |);
@@ -8070,7 +8275,7 @@ Module C_208.
                   M.call (|
                     "add",
                     [
-                      M.get (| "memPtr" |);
+                      M.get_var (| "memPtr" |);
                       [Literal.number 32]
                     ]
                   |);
@@ -8079,7 +8284,7 @@ Module C_208.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8087,13 +8292,14 @@ Module C_208.
           "abi_encode_stringliteral_be1c",
           ["pos"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "array_storeLengthForEncoding_bytes_nonPadded_inplace",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 34]
                 ]
               |))
@@ -8104,7 +8310,7 @@ Module C_208.
               M.call (|
                 "store_literal_in_memory_be1cd0192ccca4162c6e6fb9d20bfe3178d425310f6249a0b9791fcc670026f0",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -8115,13 +8321,13 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 34]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8129,15 +8335,16 @@ Module C_208.
           "abi_encode_packed_bytes_calldata_stringliteral_be1c",
           ["pos"; "value0"; "value1"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_calldata",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "value1" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "value1" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -8148,7 +8355,7 @@ Module C_208.
               Some (M.call (|
                 "abi_encode_stringliteral_be1c",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -8156,10 +8363,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8167,6 +8374,7 @@ Module C_208.
           "bytes_concat_bytes_calldata_stringliteral_be1c",
           ["param"; "param_1"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -8177,26 +8385,26 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_calldata_stringliteral_be1c",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |);
-                  M.get (| "param_1" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |);
+                  M.get_var (| "param_1" |)
                 ]
               |))
             |)
@@ -8206,12 +8414,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -8223,19 +8431,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8243,8 +8451,9 @@ Module C_208.
           "fun_g",
           ["var_a_20_offset"; "var_a_20_length"],
           ["var_23_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_41_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -8255,41 +8464,41 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_23_mpos"],
-              Some (M.get (| "zero_bytes_41_mpos" |))
+              Some (M.get_var (| "zero_bytes_41_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_42_offset"],
-              Some (M.get (| "var_a_20_offset" |))
+              Some (M.get_var (| "var_a_20_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_42_length"],
-              Some (M.get (| "var_a_20_length" |))
+              Some (M.get_var (| "var_a_20_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_28_offset"],
-              Some (M.get (| "_42_offset" |))
+              Some (M.get_var (| "_42_offset" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_28_length"],
-              Some (M.get (| "_42_length" |))
+              Some (M.get_var (| "_42_length" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_30_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_calldata_stringliteral_be1c",
                 [
-                  M.get (| "expr_28_offset" |);
-                  M.get (| "expr_28_length" |)
+                  M.get_var (| "expr_28_offset" |);
+                  M.get_var (| "expr_28_length" |)
                 ]
               |))
             |)
@@ -8297,13 +8506,13 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_23_mpos"],
-              Some (M.get (| "expr_30_mpos" |))
+              Some (M.get_var (| "expr_30_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8311,14 +8520,15 @@ Module C_208.
           "abi_encode_packed_bytes_stringliteral_c964",
           ["pos"; "value0"],
           ["end"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["pos"],
               Some (M.call (|
                 "abi_encode_bytes_memory_ptr",
                 [
-                  M.get (| "value0" |);
-                  M.get (| "pos" |)
+                  M.get_var (| "value0" |);
+                  M.get_var (| "pos" |)
                 ]
               |))
             |)
@@ -8328,7 +8538,7 @@ Module C_208.
               M.call (|
                 "abi_encode_stringliteral_c964",
                 [
-                  M.get (| "pos" |)
+                  M.get_var (| "pos" |)
                 ]
               |)
             |)
@@ -8339,7 +8549,7 @@ Module C_208.
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   [Literal.number 5]
                 ]
               |))
@@ -8348,10 +8558,10 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["end"],
-              Some (M.get (| "pos" |))
+              Some (M.get_var (| "pos" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8359,6 +8569,7 @@ Module C_208.
           "bytes_concat_bytes_stringliteral_c964",
           ["param"],
           ["outPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["outPtr"],
@@ -8369,25 +8580,25 @@ Module C_208.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataStart"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   [Literal.number 0x20]
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["dataEnd"],
               Some (M.call (|
                 "abi_encode_packed_bytes_stringliteral_c964",
                 [
-                  M.get (| "dataStart" |);
-                  M.get (| "param" |)
+                  M.get_var (| "dataStart" |);
+                  M.get_var (| "param" |)
                 ]
               |))
             |)
@@ -8397,12 +8608,12 @@ Module C_208.
               M.call (|
                 "mstore",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "dataStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "dataStart" |)
                     ]
                   |)
                 ]
@@ -8414,19 +8625,19 @@ Module C_208.
               M.call (|
                 "finalize_allocation",
                 [
-                  M.get (| "outPtr" |);
+                  M.get_var (| "outPtr" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "outPtr" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "outPtr" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -8434,8 +8645,9 @@ Module C_208.
           "fun_f",
           ["var_a_mpos"],
           ["var_8_mpos"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bytes_43_mpos"],
               Some (M.call (|
                 "zero_value_for_split_bytes",
@@ -8446,28 +8658,28 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_8_mpos"],
-              Some (M.get (| "zero_bytes_43_mpos" |))
+              Some (M.get_var (| "zero_bytes_43_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_44_mpos"],
-              Some (M.get (| "var_a_mpos" |))
+              Some (M.get_var (| "var_a_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_mpos"],
-              Some (M.get (| "_44_mpos" |))
+              Some (M.get_var (| "_44_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_15_mpos"],
               Some (M.call (|
                 "bytes_concat_bytes_stringliteral_c964",
                 [
-                  M.get (| "expr_mpos" |)
+                  M.get_var (| "expr_mpos" |)
                 ]
               |))
             |)
@@ -8475,16 +8687,17 @@ Module C_208.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_8_mpos"],
-              Some (M.get (| "expr_15_mpos" |))
+              Some (M.get_var (| "expr_15_mpos" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -8518,8 +8731,9 @@ Module C_208.
                 |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["selector"],
                 Some (M.call (|
                   "shift_right_unsigned",
@@ -8536,10 +8750,11 @@ Module C_208.
             )) in
             do* ltac:(M.monadic (
               M.switch (|
-                M.get (| "selector" |),
+                M.get_var (| "selector" |),
                 [
                   (
                     Some (Literal.number 0x16b4da06),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8548,10 +8763,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x1f8f4700),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8560,10 +8776,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x204a39cc),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8572,10 +8789,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x56e4024a),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8584,10 +8802,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xb2e4ec10),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8596,10 +8815,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xb677bd85),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8608,10 +8828,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xb6f14865),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8620,10 +8841,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xc0b88415),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8632,10 +8854,11 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xd45754f8),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -8644,15 +8867,16 @@ Module C_208.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     None,
-                    M.od
+                    do* M.open_scope in
+                    M.close_scope
                   )          ]
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
         do* ltac:(M.monadic (
@@ -8663,11 +8887,11 @@ Module C_208.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       )) in
-      M.od.
+      M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122095bb3ac3ef3b5e984994f28b5a6b05eaacb431e4f7d4f53fcafcf08c117f688864736f6c634300081b0033".
+      "a264697066735822122070b8fb89719cea448b50a8a4ee6fcfb6bba7a24f3d75e32f48ca78384a81533464736f6c634300081b0033".
   End C_208_deployed.
 End C_208.

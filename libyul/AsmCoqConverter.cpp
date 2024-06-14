@@ -31,7 +31,8 @@ namespace solidity::yul
 
 std::string AsmCoqConverter::operator()(Block const& _node)
 {
-	std::string ret;
+	std::string ret = "do* M.open_scope in\n";
+	ret += indent();
 
 	for (auto const& statement: _node.statements)
 	{
@@ -60,7 +61,7 @@ std::string AsmCoqConverter::operator()(Block const& _node)
 		}
 	}
 
-	ret += "M.od";
+	ret += "M.close_scope";
 
 	return ret;
 }
@@ -68,7 +69,7 @@ std::string AsmCoqConverter::operator()(Block const& _node)
 std::string AsmCoqConverter::operator()(TypedName const& _node)
 {
 	yulAssert(!_node.name.empty(), "Invalid variable name.");
-	std::string ret = "M.get (| \"" + _node.name.str() + "\" |)";
+	std::string ret = "M.get_var (| \"" + _node.name.str() + "\" |)";
 
 	return ret;
 }
@@ -81,7 +82,7 @@ std::string AsmCoqConverter::operator()(Literal const& _node)
 std::string AsmCoqConverter::operator()(Identifier const& _node)
 {
 	yulAssert(!_node.name.empty(), "Invalid identifier");
-	std::string ret = "M.get (| \"" + _node.name.str() + "\" |)";
+	std::string ret = "M.get_var (| \"" + _node.name.str() + "\" |)";
 
 	return ret;
 }
@@ -90,12 +91,12 @@ std::string AsmCoqConverter::operator()(Assignment const& _node)
 {
 	yulAssert(_node.variableNames.size() >= 1, "Invalid assignment syntax");
 
-	return rawAssign(_node.variableNames, _node.value);
+	return rawAssign(false, _node.variableNames, _node.value);
 }
 
 std::string AsmCoqConverter::operator()(VariableDeclaration const& _node)
 {
-	return rawAssign(_node.variables, _node.value);
+	return rawAssign(true, _node.variables, _node.value);
 }
 
 std::string AsmCoqConverter::operator()(FunctionCall const& _node)
@@ -287,11 +288,12 @@ std::string AsmCoqConverter::rawLiteral(Literal const& _node) const
 
 template <class T>
 std::string AsmCoqConverter::rawAssign(
+	bool isDeclaration,
 	std::vector<T> const& variables,
 	std::unique_ptr<Expression> const& value
 )
 {
-	std::string ret = "M.assign (|\n";
+	std::string ret = isDeclaration ? "M.declare (|\n" : "M.assign (|\n";
 	m_indent++;
 	ret += indent() + "[";
 	bool isFirst = true;

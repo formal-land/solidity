@@ -3,11 +3,13 @@ Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C_251.
   Definition code : M.t BlockUnit.t :=
+    do* M.open_scope in
     do* ltac:(M.monadic (
       M.function (|
         "allocate_unbounded",
         [],
         ["memPtr"],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.assign (|
             ["memPtr"],
@@ -19,7 +21,7 @@ Module C_251.
             |))
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
@@ -27,6 +29,7 @@ Module C_251.
         "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
         [],
         [],
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -38,10 +41,11 @@ Module C_251.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       |)
     )) in
     do* ltac:(M.monadic (
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.expr_stmt (|
           M.call (|
@@ -64,6 +68,7 @@ Module C_251.
             "callvalue",
             []
           |),
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -72,11 +77,11 @@ Module C_251.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
-        M.assign (|
+        M.declare (|
           ["_1"],
           Some (M.call (|
             "allocate_unbounded",
@@ -89,7 +94,7 @@ Module C_251.
           M.call (|
             "codecopy",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "dataoffset",
                 [
@@ -111,7 +116,7 @@ Module C_251.
           M.call (|
             "return",
             [
-              M.get (| "_1" |);
+              M.get_var (| "_1" |);
               M.call (|
                 "datasize",
                 [
@@ -122,17 +127,19 @@ Module C_251.
           |)
         |)
       )) in
-      M.od
+      M.close_scope
     )) in
-    M.od.
+    M.close_scope.
 
   Module C_251_deployed.
     Definition code : M.t BlockUnit.t :=
+      do* M.open_scope in
       do* ltac:(M.monadic (
         M.function (|
           "shift_right_unsigned",
           ["value"],
           ["newValue"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["newValue"],
@@ -140,12 +147,12 @@ Module C_251.
                 "shr",
                 [
                   [Literal.number 224];
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -153,6 +160,7 @@ Module C_251.
           "allocate_unbounded",
           [],
           ["memPtr"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["memPtr"],
@@ -164,7 +172,7 @@ Module C_251.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -172,6 +180,7 @@ Module C_251.
           "revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -183,7 +192,7 @@ Module C_251.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -191,6 +200,7 @@ Module C_251.
           "revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -202,7 +212,7 @@ Module C_251.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -210,6 +220,7 @@ Module C_251.
           "abi_decode",
           ["headStart"; "dataEnd"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
@@ -218,13 +229,14 @@ Module C_251.
                   M.call (|
                     "sub",
                     [
-                      M.get (| "dataEnd" |);
-                      M.get (| "headStart" |)
+                      M.get_var (| "dataEnd" |);
+                      M.get_var (| "headStart" |)
                     ]
                   |);
                   [Literal.number 0]
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -233,10 +245,10 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -244,19 +256,20 @@ Module C_251.
           "abi_encode_tuple",
           ["headStart"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 0]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -264,12 +277,14 @@ Module C_251.
           "external_fun_f",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -278,7 +293,7 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -296,7 +311,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -305,12 +320,12 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_tuple",
                 [
-                  M.get (| "memPos" |)
+                  M.get_var (| "memPos" |)
                 ]
               |))
             |)
@@ -320,19 +335,19 @@ Module C_251.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -340,6 +355,7 @@ Module C_251.
           "cleanup_bool",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
@@ -349,14 +365,14 @@ Module C_251.
                   M.call (|
                     "iszero",
                     [
-                      M.get (| "value" |)
+                      M.get_var (| "value" |)
                     ]
                   |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -364,23 +380,24 @@ Module C_251.
           "abi_encode_bool_to_bool",
           ["value"; "pos"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
                 "mstore",
                 [
-                  M.get (| "pos" |);
+                  M.get_var (| "pos" |);
                   M.call (|
                     "cleanup_bool",
                     [
-                      M.get (| "value" |)
+                      M.get_var (| "value" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -388,13 +405,14 @@ Module C_251.
           "abi_encode_bool",
           ["headStart"; "value0"],
           ["tail"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["tail"],
               Some (M.call (|
                 "add",
                 [
-                  M.get (| "headStart" |);
+                  M.get_var (| "headStart" |);
                   [Literal.number 32]
                 ]
               |))
@@ -405,11 +423,11 @@ Module C_251.
               M.call (|
                 "abi_encode_bool_to_bool",
                 [
-                  M.get (| "value0" |);
+                  M.get_var (| "value0" |);
                   M.call (|
                     "add",
                     [
-                      M.get (| "headStart" |);
+                      M.get_var (| "headStart" |);
                       [Literal.number 0]
                     ]
                   |)
@@ -417,7 +435,7 @@ Module C_251.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -425,12 +443,14 @@ Module C_251.
           "external_fun_comparison_operators_for_local_external_function_pointers",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -439,7 +459,7 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -457,7 +477,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_comparison_operators_for_local_external_function_pointers",
@@ -466,7 +486,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -475,13 +495,13 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bool",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -491,19 +511,19 @@ Module C_251.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -511,12 +531,14 @@ Module C_251.
           "external_fun_h",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -525,7 +547,7 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -543,7 +565,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -552,12 +574,12 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_tuple",
                 [
-                  M.get (| "memPos" |)
+                  M.get_var (| "memPos" |)
                 ]
               |))
             |)
@@ -567,19 +589,19 @@ Module C_251.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -587,12 +609,14 @@ Module C_251.
           "external_fun_comparison_operators_for_external_functions",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -601,7 +625,7 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -619,7 +643,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["ret"],
               Some (M.call (|
                 "fun_comparison_operators_for_external_functions",
@@ -628,7 +652,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -637,13 +661,13 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_bool",
                 [
-                  M.get (| "memPos" |);
-                  M.get (| "ret" |)
+                  M.get_var (| "memPos" |);
+                  M.get_var (| "ret" |)
                 ]
               |))
             |)
@@ -653,19 +677,19 @@ Module C_251.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -673,12 +697,14 @@ Module C_251.
           "external_fun_g",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -687,7 +713,7 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -705,7 +731,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -714,12 +740,12 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_tuple",
                 [
-                  M.get (| "memPos" |)
+                  M.get_var (| "memPos" |)
                 ]
               |))
             |)
@@ -729,19 +755,19 @@ Module C_251.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -749,12 +775,14 @@ Module C_251.
           "external_fun_i",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "callvalue",
                 []
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -763,7 +791,7 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -781,7 +809,7 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memPos"],
               Some (M.call (|
                 "allocate_unbounded",
@@ -790,12 +818,12 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["memEnd"],
               Some (M.call (|
                 "abi_encode_tuple",
                 [
-                  M.get (| "memPos" |)
+                  M.get_var (| "memPos" |)
                 ]
               |))
             |)
@@ -805,19 +833,19 @@ Module C_251.
               M.call (|
                 "return",
                 [
-                  M.get (| "memPos" |);
+                  M.get_var (| "memPos" |);
                   M.call (|
                     "sub",
                     [
-                      M.get (| "memEnd" |);
-                      M.get (| "memPos" |)
+                      M.get_var (| "memEnd" |);
+                      M.get_var (| "memPos" |)
                     ]
                   |)
                 ]
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -825,6 +853,7 @@ Module C_251.
           "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -836,7 +865,7 @@ Module C_251.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -844,13 +873,14 @@ Module C_251.
           "zero_value_for_split_bool",
           [],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
               Some ([Literal.number 0])
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -858,13 +888,14 @@ Module C_251.
           "cleanup_uint160",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   M.call (|
                     "sub",
                     [
@@ -882,7 +913,7 @@ Module C_251.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -890,13 +921,14 @@ Module C_251.
           "identity",
           ["value"],
           ["ret"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["ret"],
-              Some (M.get (| "value" |))
+              Some (M.get_var (| "value" |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -904,6 +936,7 @@ Module C_251.
           "convert_uint160_to_uint160",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
@@ -916,7 +949,7 @@ Module C_251.
                       M.call (|
                         "cleanup_uint160",
                         [
-                          M.get (| "value" |)
+                          M.get_var (| "value" |)
                         ]
                       |)
                     ]
@@ -925,7 +958,7 @@ Module C_251.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -933,18 +966,19 @@ Module C_251.
           "convert_uint160_to_address",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
               Some (M.call (|
                 "convert_uint160_to_uint160",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -952,18 +986,19 @@ Module C_251.
           "convert_contract_C_to_address",
           ["value"],
           ["converted"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["converted"],
               Some (M.call (|
                 "convert_uint160_to_address",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -971,18 +1006,19 @@ Module C_251.
           "cleanup_address",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "cleanup_uint160",
                 [
-                  M.get (| "value" |)
+                  M.get_var (| "value" |)
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -990,19 +1026,20 @@ Module C_251.
           "cleanup_uint32",
           ["value"],
           ["cleaned"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["cleaned"],
               Some (M.call (|
                 "and",
                 [
-                  M.get (| "value" |);
+                  M.get_var (| "value" |);
                   [Literal.number 0xffffffff]
                 ]
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1010,6 +1047,7 @@ Module C_251.
           "externalFunctionPointersEqualFunction",
           ["leftAddress"; "leftSelector"; "rightAddress"; "rightSelector"],
           ["result"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.assign (|
               ["result"],
@@ -1022,13 +1060,13 @@ Module C_251.
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "leftAddress" |)
+                          M.get_var (| "leftAddress" |)
                         ]
                       |);
                       M.call (|
                         "cleanup_address",
                         [
-                          M.get (| "rightAddress" |)
+                          M.get_var (| "rightAddress" |)
                         ]
                       |)
                     ]
@@ -1039,13 +1077,13 @@ Module C_251.
                       M.call (|
                         "cleanup_uint32",
                         [
-                          M.get (| "leftSelector" |)
+                          M.get_var (| "leftSelector" |)
                         ]
                       |);
                       M.call (|
                         "cleanup_uint32",
                         [
-                          M.get (| "rightSelector" |)
+                          M.get_var (| "rightSelector" |)
                         ]
                       |)
                     ]
@@ -1054,7 +1092,7 @@ Module C_251.
               |))
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1062,6 +1100,7 @@ Module C_251.
           "panic_error_0x01",
           [],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.expr_stmt (|
               M.call (|
@@ -1101,7 +1140,7 @@ Module C_251.
               |)
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1109,14 +1148,16 @@ Module C_251.
           "assert_helper",
           ["condition"],
           [],
+          do* M.open_scope in
           do* ltac:(M.monadic (
             M.if_ (|
               M.call (|
                 "iszero",
                 [
-                  M.get (| "condition" |)
+                  M.get_var (| "condition" |)
                 ]
               |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
                 M.expr_stmt (|
                   M.call (|
@@ -1125,10 +1166,10 @@ Module C_251.
                   |)
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -1136,8 +1177,9 @@ Module C_251.
           "fun_comparison_operators_for_local_external_function_pointers",
           [],
           ["var"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_t_bool"],
               Some (M.call (|
                 "zero_value_for_split_bool",
@@ -1148,11 +1190,11 @@ Module C_251.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "zero_t_bool" |))
+              Some (M.get_var (| "zero_t_bool" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_95_address"],
               Some (M.call (|
                 "address",
@@ -1161,36 +1203,36 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_96_address"],
               Some (M.call (|
                 "convert_contract_C_to_address",
                 [
-                  M.get (| "expr_95_address" |)
+                  M.get_var (| "expr_95_address" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_96_functionSelector"],
               Some ([Literal.number 0x26121ff0])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_f_local_address"],
-              Some (M.get (| "expr_96_address" |))
+              Some (M.get_var (| "expr_96_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_f_local_functionSelector"],
-              Some (M.get (| "expr_96_functionSelector" |))
+              Some (M.get_var (| "expr_96_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_102_address"],
               Some (M.call (|
                 "address",
@@ -1199,36 +1241,36 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_103_address"],
               Some (M.call (|
                 "convert_contract_C_to_address",
                 [
-                  M.get (| "expr_102_address" |)
+                  M.get_var (| "expr_102_address" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_103_functionSelector"],
               Some ([Literal.number 0xe2179b8e])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_g_local_address"],
-              Some (M.get (| "expr_103_address" |))
+              Some (M.get_var (| "expr_103_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_g_local_functionSelector"],
-              Some (M.get (| "expr_103_functionSelector" |))
+              Some (M.get_var (| "expr_103_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_109_address"],
               Some (M.call (|
                 "address",
@@ -1237,36 +1279,36 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_110_address"],
               Some (M.call (|
                 "convert_contract_C_to_address",
                 [
-                  M.get (| "expr_109_address" |)
+                  M.get_var (| "expr_109_address" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_110_functionSelector"],
               Some ([Literal.number 0xb8c9d365])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_h_local_address"],
-              Some (M.get (| "expr_110_address" |))
+              Some (M.get_var (| "expr_110_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_h_local_functionSelector"],
-              Some (M.get (| "expr_110_functionSelector" |))
+              Some (M.get_var (| "expr_110_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_116_address"],
               Some (M.call (|
                 "address",
@@ -1275,60 +1317,60 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_117_address"],
               Some (M.call (|
                 "convert_contract_C_to_address",
                 [
-                  M.get (| "expr_116_address" |)
+                  M.get_var (| "expr_116_address" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_117_functionSelector"],
               Some ([Literal.number 0xe5aa3d58])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_i_local_address"],
-              Some (M.get (| "expr_117_address" |))
+              Some (M.get_var (| "expr_117_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["var_i_local_functionSelector"],
-              Some (M.get (| "expr_117_functionSelector" |))
+              Some (M.get_var (| "expr_117_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2_address"],
-              Some (M.get (| "var_f_local_address" |))
+              Some (M.get_var (| "var_f_local_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_2_functionSelector"],
-              Some (M.get (| "var_f_local_functionSelector" |))
+              Some (M.get_var (| "var_f_local_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_120_address"],
-              Some (M.get (| "_2_address" |))
+              Some (M.get_var (| "_2_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_120_functionSelector"],
-              Some (M.get (| "_2_functionSelector" |))
+              Some (M.get_var (| "_2_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_121_address"],
               Some (M.call (|
                 "address",
@@ -1337,71 +1379,72 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_122_address"],
               Some (M.call (|
                 "convert_contract_C_to_address",
                 [
-                  M.get (| "expr_121_address" |)
+                  M.get_var (| "expr_121_address" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_122_functionSelector"],
               Some ([Literal.number 0x26121ff0])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "externalFunctionPointersEqualFunction",
                 [
-                  M.get (| "expr_120_address" |);
-                  M.get (| "expr_120_functionSelector" |);
-                  M.get (| "expr_122_address" |);
-                  M.get (| "expr_122_functionSelector" |)
+                  M.get_var (| "expr_120_address" |);
+                  M.get_var (| "expr_120_functionSelector" |);
+                  M.get_var (| "expr_122_address" |);
+                  M.get_var (| "expr_122_functionSelector" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "expr" |))
+              Some (M.get_var (| "expr" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_1" |),
+              M.get_var (| "expr_1" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_3_address"],
-                  Some (M.get (| "var_g_local_address" |))
+                  Some (M.get_var (| "var_g_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_3_functionSelector"],
-                  Some (M.get (| "var_g_local_functionSelector" |))
+                  Some (M.get_var (| "var_g_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_124_address"],
-                  Some (M.get (| "_3_address" |))
+                  Some (M.get_var (| "_3_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_124_functionSelector"],
-                  Some (M.get (| "_3_functionSelector" |))
+                  Some (M.get_var (| "_3_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_125_address"],
                   Some (M.call (|
                     "address",
@@ -1410,32 +1453,32 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_126_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_125_address" |)
+                      M.get_var (| "expr_125_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_126_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_2"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_124_address" |);
-                      M.get (| "expr_124_functionSelector" |);
-                      M.get (| "expr_126_address" |);
-                      M.get (| "expr_126_functionSelector" |)
+                      M.get_var (| "expr_124_address" |);
+                      M.get_var (| "expr_124_functionSelector" |);
+                      M.get_var (| "expr_126_address" |);
+                      M.get_var (| "expr_126_functionSelector" |)
                     ]
                   |))
                 |)
@@ -1443,47 +1486,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_1"],
-                  Some (M.get (| "expr_2" |))
+                  Some (M.get_var (| "expr_2" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "expr_1" |))
+              Some (M.get_var (| "expr_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_3" |),
+              M.get_var (| "expr_3" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_4_address"],
-                  Some (M.get (| "var_h_local_address" |))
+                  Some (M.get_var (| "var_h_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_4_functionSelector"],
-                  Some (M.get (| "var_h_local_functionSelector" |))
+                  Some (M.get_var (| "var_h_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_129_address"],
-                  Some (M.get (| "_4_address" |))
+                  Some (M.get_var (| "_4_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_129_functionSelector"],
-                  Some (M.get (| "_4_functionSelector" |))
+                  Some (M.get_var (| "_4_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_130_address"],
                   Some (M.call (|
                     "address",
@@ -1492,32 +1536,32 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_131_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_130_address" |)
+                      M.get_var (| "expr_130_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_131_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_4"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_129_address" |);
-                      M.get (| "expr_129_functionSelector" |);
-                      M.get (| "expr_131_address" |);
-                      M.get (| "expr_131_functionSelector" |)
+                      M.get_var (| "expr_129_address" |);
+                      M.get_var (| "expr_129_functionSelector" |);
+                      M.get_var (| "expr_131_address" |);
+                      M.get_var (| "expr_131_functionSelector" |)
                     ]
                   |))
                 |)
@@ -1525,47 +1569,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_3"],
-                  Some (M.get (| "expr_4" |))
+                  Some (M.get_var (| "expr_4" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "expr_3" |))
+              Some (M.get_var (| "expr_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_5" |),
+              M.get_var (| "expr_5" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_5_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_5_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_134_address"],
-                  Some (M.get (| "_5_address" |))
+                  Some (M.get_var (| "_5_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_134_functionSelector"],
-                  Some (M.get (| "_5_functionSelector" |))
+                  Some (M.get_var (| "_5_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_135_address"],
                   Some (M.call (|
                     "address",
@@ -1574,32 +1619,32 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_136_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_135_address" |)
+                      M.get_var (| "expr_135_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_136_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_6"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_134_address" |);
-                      M.get (| "expr_134_functionSelector" |);
-                      M.get (| "expr_136_address" |);
-                      M.get (| "expr_136_functionSelector" |)
+                      M.get_var (| "expr_134_address" |);
+                      M.get_var (| "expr_134_functionSelector" |);
+                      M.get_var (| "expr_136_address" |);
+                      M.get_var (| "expr_136_functionSelector" |)
                     ]
                   |))
                 |)
@@ -1607,47 +1652,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_5"],
-                  Some (M.get (| "expr_6" |))
+                  Some (M.get_var (| "expr_6" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_7" |),
+              M.get_var (| "expr_7" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_6_address"],
-                  Some (M.get (| "var_f_local_address" |))
+                  Some (M.get_var (| "var_f_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_6_functionSelector"],
-                  Some (M.get (| "var_f_local_functionSelector" |))
+                  Some (M.get_var (| "var_f_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_139_address"],
-                  Some (M.get (| "_6_address" |))
+                  Some (M.get_var (| "_6_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_139_functionSelector"],
-                  Some (M.get (| "_6_functionSelector" |))
+                  Some (M.get_var (| "_6_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_140_address"],
                   Some (M.call (|
                     "address",
@@ -1656,24 +1702,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_141_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_140_address" |)
+                      M.get_var (| "expr_140_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_141_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_8"],
                   Some (M.call (|
                     "iszero",
@@ -1681,10 +1727,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_139_address" |);
-                          M.get (| "expr_139_functionSelector" |);
-                          M.get (| "expr_141_address" |);
-                          M.get (| "expr_141_functionSelector" |)
+                          M.get_var (| "expr_139_address" |);
+                          M.get_var (| "expr_139_functionSelector" |);
+                          M.get_var (| "expr_141_address" |);
+                          M.get_var (| "expr_141_functionSelector" |)
                         ]
                       |)
                     ]
@@ -1694,47 +1740,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_7"],
-                  Some (M.get (| "expr_8" |))
+                  Some (M.get_var (| "expr_8" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_9"],
-              Some (M.get (| "expr_7" |))
+              Some (M.get_var (| "expr_7" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_9" |),
+              M.get_var (| "expr_9" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_7_address"],
-                  Some (M.get (| "var_f_local_address" |))
+                  Some (M.get_var (| "var_f_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_7_functionSelector"],
-                  Some (M.get (| "var_f_local_functionSelector" |))
+                  Some (M.get_var (| "var_f_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_144_address"],
-                  Some (M.get (| "_7_address" |))
+                  Some (M.get_var (| "_7_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_144_functionSelector"],
-                  Some (M.get (| "_7_functionSelector" |))
+                  Some (M.get_var (| "_7_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_145_address"],
                   Some (M.call (|
                     "address",
@@ -1743,24 +1790,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_146_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_145_address" |)
+                      M.get_var (| "expr_145_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_146_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_10"],
                   Some (M.call (|
                     "iszero",
@@ -1768,10 +1815,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_144_address" |);
-                          M.get (| "expr_144_functionSelector" |);
-                          M.get (| "expr_146_address" |);
-                          M.get (| "expr_146_functionSelector" |)
+                          M.get_var (| "expr_144_address" |);
+                          M.get_var (| "expr_144_functionSelector" |);
+                          M.get_var (| "expr_146_address" |);
+                          M.get_var (| "expr_146_functionSelector" |)
                         ]
                       |)
                     ]
@@ -1781,47 +1828,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_9"],
-                  Some (M.get (| "expr_10" |))
+                  Some (M.get_var (| "expr_10" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_11"],
-              Some (M.get (| "expr_9" |))
+              Some (M.get_var (| "expr_9" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_11" |),
+              M.get_var (| "expr_11" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_8_address"],
-                  Some (M.get (| "var_f_local_address" |))
+                  Some (M.get_var (| "var_f_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_8_functionSelector"],
-                  Some (M.get (| "var_f_local_functionSelector" |))
+                  Some (M.get_var (| "var_f_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_149_address"],
-                  Some (M.get (| "_8_address" |))
+                  Some (M.get_var (| "_8_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_149_functionSelector"],
-                  Some (M.get (| "_8_functionSelector" |))
+                  Some (M.get_var (| "_8_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_150_address"],
                   Some (M.call (|
                     "address",
@@ -1830,24 +1878,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_151_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_150_address" |)
+                      M.get_var (| "expr_150_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_151_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_12"],
                   Some (M.call (|
                     "iszero",
@@ -1855,10 +1903,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_149_address" |);
-                          M.get (| "expr_149_functionSelector" |);
-                          M.get (| "expr_151_address" |);
-                          M.get (| "expr_151_functionSelector" |)
+                          M.get_var (| "expr_149_address" |);
+                          M.get_var (| "expr_149_functionSelector" |);
+                          M.get_var (| "expr_151_address" |);
+                          M.get_var (| "expr_151_functionSelector" |)
                         ]
                       |)
                     ]
@@ -1868,47 +1916,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_11"],
-                  Some (M.get (| "expr_12" |))
+                  Some (M.get_var (| "expr_12" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_13"],
-              Some (M.get (| "expr_11" |))
+              Some (M.get_var (| "expr_11" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_13" |),
+              M.get_var (| "expr_13" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_9_address"],
-                  Some (M.get (| "var_g_local_address" |))
+                  Some (M.get_var (| "var_g_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_9_functionSelector"],
-                  Some (M.get (| "var_g_local_functionSelector" |))
+                  Some (M.get_var (| "var_g_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_154_address"],
-                  Some (M.get (| "_9_address" |))
+                  Some (M.get_var (| "_9_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_154_functionSelector"],
-                  Some (M.get (| "_9_functionSelector" |))
+                  Some (M.get_var (| "_9_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_155_address"],
                   Some (M.call (|
                     "address",
@@ -1917,24 +1966,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_156_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_155_address" |)
+                      M.get_var (| "expr_155_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_156_functionSelector"],
                   Some ([Literal.number 0x26121ff0])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_14"],
                   Some (M.call (|
                     "iszero",
@@ -1942,10 +1991,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_154_address" |);
-                          M.get (| "expr_154_functionSelector" |);
-                          M.get (| "expr_156_address" |);
-                          M.get (| "expr_156_functionSelector" |)
+                          M.get_var (| "expr_154_address" |);
+                          M.get_var (| "expr_154_functionSelector" |);
+                          M.get_var (| "expr_156_address" |);
+                          M.get_var (| "expr_156_functionSelector" |)
                         ]
                       |)
                     ]
@@ -1955,47 +2004,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_13"],
-                  Some (M.get (| "expr_14" |))
+                  Some (M.get_var (| "expr_14" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_15"],
-              Some (M.get (| "expr_13" |))
+              Some (M.get_var (| "expr_13" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_15" |),
+              M.get_var (| "expr_15" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_10_address"],
-                  Some (M.get (| "var_g_local_address" |))
+                  Some (M.get_var (| "var_g_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_10_functionSelector"],
-                  Some (M.get (| "var_g_local_functionSelector" |))
+                  Some (M.get_var (| "var_g_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_159_address"],
-                  Some (M.get (| "_10_address" |))
+                  Some (M.get_var (| "_10_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_functionSelector"],
-                  Some (M.get (| "_10_functionSelector" |))
+                  Some (M.get_var (| "_10_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_160_address"],
                   Some (M.call (|
                     "address",
@@ -2004,24 +2054,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_161_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_160_address" |)
+                      M.get_var (| "expr_160_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_161_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_16"],
                   Some (M.call (|
                     "iszero",
@@ -2029,10 +2079,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_159_address" |);
-                          M.get (| "expr_functionSelector" |);
-                          M.get (| "expr_161_address" |);
-                          M.get (| "expr_161_functionSelector" |)
+                          M.get_var (| "expr_159_address" |);
+                          M.get_var (| "expr_functionSelector" |);
+                          M.get_var (| "expr_161_address" |);
+                          M.get_var (| "expr_161_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2042,47 +2092,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_15"],
-                  Some (M.get (| "expr_16" |))
+                  Some (M.get_var (| "expr_16" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_17"],
-              Some (M.get (| "expr_15" |))
+              Some (M.get_var (| "expr_15" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_17" |),
+              M.get_var (| "expr_17" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_11_address"],
-                  Some (M.get (| "var_g_local_address" |))
+                  Some (M.get_var (| "var_g_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_functionSelector"],
-                  Some (M.get (| "var_g_local_functionSelector" |))
+                  Some (M.get_var (| "var_g_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_164_address"],
-                  Some (M.get (| "_11_address" |))
+                  Some (M.get_var (| "_11_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_164_functionSelector"],
-                  Some (M.get (| "_functionSelector" |))
+                  Some (M.get_var (| "_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_165_address"],
                   Some (M.call (|
                     "address",
@@ -2091,24 +2142,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_166_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_165_address" |)
+                      M.get_var (| "expr_165_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_166_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_18"],
                   Some (M.call (|
                     "iszero",
@@ -2116,10 +2167,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_164_address" |);
-                          M.get (| "expr_164_functionSelector" |);
-                          M.get (| "expr_166_address" |);
-                          M.get (| "expr_166_functionSelector" |)
+                          M.get_var (| "expr_164_address" |);
+                          M.get_var (| "expr_164_functionSelector" |);
+                          M.get_var (| "expr_166_address" |);
+                          M.get_var (| "expr_166_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2129,47 +2180,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_17"],
-                  Some (M.get (| "expr_18" |))
+                  Some (M.get_var (| "expr_18" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_19"],
-              Some (M.get (| "expr_17" |))
+              Some (M.get_var (| "expr_17" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_19" |),
+              M.get_var (| "expr_19" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_12_address"],
-                  Some (M.get (| "var_h_local_address" |))
+                  Some (M.get_var (| "var_h_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_12_functionSelector"],
-                  Some (M.get (| "var_h_local_functionSelector" |))
+                  Some (M.get_var (| "var_h_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_169_address"],
-                  Some (M.get (| "_12_address" |))
+                  Some (M.get_var (| "_12_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_169_functionSelector"],
-                  Some (M.get (| "_12_functionSelector" |))
+                  Some (M.get_var (| "_12_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_170_address"],
                   Some (M.call (|
                     "address",
@@ -2178,24 +2230,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_171_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_170_address" |)
+                      M.get_var (| "expr_170_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_171_functionSelector"],
                   Some ([Literal.number 0x26121ff0])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_20"],
                   Some (M.call (|
                     "iszero",
@@ -2203,10 +2255,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_169_address" |);
-                          M.get (| "expr_169_functionSelector" |);
-                          M.get (| "expr_171_address" |);
-                          M.get (| "expr_171_functionSelector" |)
+                          M.get_var (| "expr_169_address" |);
+                          M.get_var (| "expr_169_functionSelector" |);
+                          M.get_var (| "expr_171_address" |);
+                          M.get_var (| "expr_171_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2216,47 +2268,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_19"],
-                  Some (M.get (| "expr_20" |))
+                  Some (M.get_var (| "expr_20" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_21"],
-              Some (M.get (| "expr_19" |))
+              Some (M.get_var (| "expr_19" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_21" |),
+              M.get_var (| "expr_21" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_13_address"],
-                  Some (M.get (| "var_h_local_address" |))
+                  Some (M.get_var (| "var_h_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_13_functionSelector"],
-                  Some (M.get (| "var_h_local_functionSelector" |))
+                  Some (M.get_var (| "var_h_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_174_address"],
-                  Some (M.get (| "_13_address" |))
+                  Some (M.get_var (| "_13_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_174_functionSelector"],
-                  Some (M.get (| "_13_functionSelector" |))
+                  Some (M.get_var (| "_13_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_175_address"],
                   Some (M.call (|
                     "address",
@@ -2265,24 +2318,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_176_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_175_address" |)
+                      M.get_var (| "expr_175_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_176_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_22"],
                   Some (M.call (|
                     "iszero",
@@ -2290,10 +2343,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_174_address" |);
-                          M.get (| "expr_174_functionSelector" |);
-                          M.get (| "expr_176_address" |);
-                          M.get (| "expr_176_functionSelector" |)
+                          M.get_var (| "expr_174_address" |);
+                          M.get_var (| "expr_174_functionSelector" |);
+                          M.get_var (| "expr_176_address" |);
+                          M.get_var (| "expr_176_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2303,47 +2356,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_21"],
-                  Some (M.get (| "expr_22" |))
+                  Some (M.get_var (| "expr_22" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_23"],
-              Some (M.get (| "expr_21" |))
+              Some (M.get_var (| "expr_21" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_23" |),
+              M.get_var (| "expr_23" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_14_address"],
-                  Some (M.get (| "var_h_local_address" |))
+                  Some (M.get_var (| "var_h_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_14_functionSelector"],
-                  Some (M.get (| "var_h_local_functionSelector" |))
+                  Some (M.get_var (| "var_h_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_179_address"],
-                  Some (M.get (| "_14_address" |))
+                  Some (M.get_var (| "_14_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_179_functionSelector"],
-                  Some (M.get (| "_14_functionSelector" |))
+                  Some (M.get_var (| "_14_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_180_address"],
                   Some (M.call (|
                     "address",
@@ -2352,24 +2406,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_181_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_180_address" |)
+                      M.get_var (| "expr_180_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_181_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_24"],
                   Some (M.call (|
                     "iszero",
@@ -2377,10 +2431,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_179_address" |);
-                          M.get (| "expr_179_functionSelector" |);
-                          M.get (| "expr_181_address" |);
-                          M.get (| "expr_181_functionSelector" |)
+                          M.get_var (| "expr_179_address" |);
+                          M.get_var (| "expr_179_functionSelector" |);
+                          M.get_var (| "expr_181_address" |);
+                          M.get_var (| "expr_181_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2390,47 +2444,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_23"],
-                  Some (M.get (| "expr_24" |))
+                  Some (M.get_var (| "expr_24" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_25"],
-              Some (M.get (| "expr_23" |))
+              Some (M.get_var (| "expr_23" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_25" |),
+              M.get_var (| "expr_25" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_15_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_15_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_184_address"],
-                  Some (M.get (| "_15_address" |))
+                  Some (M.get_var (| "_15_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_184_functionSelector"],
-                  Some (M.get (| "_15_functionSelector" |))
+                  Some (M.get_var (| "_15_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_185_address"],
                   Some (M.call (|
                     "address",
@@ -2439,24 +2494,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_186_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_185_address" |)
+                      M.get_var (| "expr_185_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_186_functionSelector"],
                   Some ([Literal.number 0x26121ff0])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_26"],
                   Some (M.call (|
                     "iszero",
@@ -2464,10 +2519,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_184_address" |);
-                          M.get (| "expr_184_functionSelector" |);
-                          M.get (| "expr_186_address" |);
-                          M.get (| "expr_186_functionSelector" |)
+                          M.get_var (| "expr_184_address" |);
+                          M.get_var (| "expr_184_functionSelector" |);
+                          M.get_var (| "expr_186_address" |);
+                          M.get_var (| "expr_186_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2477,47 +2532,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_25"],
-                  Some (M.get (| "expr_26" |))
+                  Some (M.get_var (| "expr_26" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_27"],
-              Some (M.get (| "expr_25" |))
+              Some (M.get_var (| "expr_25" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_27" |),
+              M.get_var (| "expr_27" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_16_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_16_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_189_address"],
-                  Some (M.get (| "_16_address" |))
+                  Some (M.get_var (| "_16_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_189_functionSelector"],
-                  Some (M.get (| "_16_functionSelector" |))
+                  Some (M.get_var (| "_16_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_190_address"],
                   Some (M.call (|
                     "address",
@@ -2526,24 +2582,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_191_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_190_address" |)
+                      M.get_var (| "expr_190_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_191_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_28"],
                   Some (M.call (|
                     "iszero",
@@ -2551,10 +2607,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_189_address" |);
-                          M.get (| "expr_189_functionSelector" |);
-                          M.get (| "expr_191_address" |);
-                          M.get (| "expr_191_functionSelector" |)
+                          M.get_var (| "expr_189_address" |);
+                          M.get_var (| "expr_189_functionSelector" |);
+                          M.get_var (| "expr_191_address" |);
+                          M.get_var (| "expr_191_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2564,47 +2620,48 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_27"],
-                  Some (M.get (| "expr_28" |))
+                  Some (M.get_var (| "expr_28" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_29"],
-              Some (M.get (| "expr_27" |))
+              Some (M.get_var (| "expr_27" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_29" |),
+              M.get_var (| "expr_29" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_17_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_17_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_194_address"],
-                  Some (M.get (| "_17_address" |))
+                  Some (M.get_var (| "_17_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_194_functionSelector"],
-                  Some (M.get (| "_17_functionSelector" |))
+                  Some (M.get_var (| "_17_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_195_address"],
                   Some (M.call (|
                     "address",
@@ -2613,24 +2670,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_196_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_195_address" |)
+                      M.get_var (| "expr_195_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_196_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_30"],
                   Some (M.call (|
                     "iszero",
@@ -2638,10 +2695,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_194_address" |);
-                          M.get (| "expr_194_functionSelector" |);
-                          M.get (| "expr_196_address" |);
-                          M.get (| "expr_196_functionSelector" |)
+                          M.get_var (| "expr_194_address" |);
+                          M.get_var (| "expr_194_functionSelector" |);
+                          M.get_var (| "expr_196_address" |);
+                          M.get_var (| "expr_196_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2651,10 +2708,10 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_29"],
-                  Some (M.get (| "expr_30" |))
+                  Some (M.get_var (| "expr_30" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -2662,132 +2719,133 @@ Module C_251.
               M.call (|
                 "assert_helper",
                 [
-                  M.get (| "expr_29" |)
+                  M.get_var (| "expr_29" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_18_address"],
-              Some (M.get (| "var_f_local_address" |))
+              Some (M.get_var (| "var_f_local_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_18_functionSelector"],
-              Some (M.get (| "var_f_local_functionSelector" |))
+              Some (M.get_var (| "var_f_local_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_202_address"],
-              Some (M.get (| "_18_address" |))
+              Some (M.get_var (| "_18_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_202_functionSelector"],
-              Some (M.get (| "_18_functionSelector" |))
+              Some (M.get_var (| "_18_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_19_address"],
-              Some (M.get (| "var_f_local_address" |))
+              Some (M.get_var (| "var_f_local_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_19_functionSelector"],
-              Some (M.get (| "var_f_local_functionSelector" |))
+              Some (M.get_var (| "var_f_local_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_203_address"],
-              Some (M.get (| "_19_address" |))
+              Some (M.get_var (| "_19_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_203_functionSelector"],
-              Some (M.get (| "_19_functionSelector" |))
+              Some (M.get_var (| "_19_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_31"],
               Some (M.call (|
                 "externalFunctionPointersEqualFunction",
                 [
-                  M.get (| "expr_202_address" |);
-                  M.get (| "expr_202_functionSelector" |);
-                  M.get (| "expr_203_address" |);
-                  M.get (| "expr_203_functionSelector" |)
+                  M.get_var (| "expr_202_address" |);
+                  M.get_var (| "expr_202_functionSelector" |);
+                  M.get_var (| "expr_203_address" |);
+                  M.get_var (| "expr_203_functionSelector" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_32"],
-              Some (M.get (| "expr_31" |))
+              Some (M.get_var (| "expr_31" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_32" |),
+              M.get_var (| "expr_32" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_20_address"],
-                  Some (M.get (| "var_f_local_address" |))
+                  Some (M.get_var (| "var_f_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_20_functionSelector"],
-                  Some (M.get (| "var_f_local_functionSelector" |))
+                  Some (M.get_var (| "var_f_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_205_address"],
-                  Some (M.get (| "_20_address" |))
+                  Some (M.get_var (| "_20_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_205_functionSelector"],
-                  Some (M.get (| "_20_functionSelector" |))
+                  Some (M.get_var (| "_20_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_21_address"],
-                  Some (M.get (| "var_g_local_address" |))
+                  Some (M.get_var (| "var_g_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_21_functionSelector"],
-                  Some (M.get (| "var_g_local_functionSelector" |))
+                  Some (M.get_var (| "var_g_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_206_address"],
-                  Some (M.get (| "_21_address" |))
+                  Some (M.get_var (| "_21_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_206_functionSelector"],
-                  Some (M.get (| "_21_functionSelector" |))
+                  Some (M.get_var (| "_21_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_33"],
                   Some (M.call (|
                     "iszero",
@@ -2795,10 +2853,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_205_address" |);
-                          M.get (| "expr_205_functionSelector" |);
-                          M.get (| "expr_206_address" |);
-                          M.get (| "expr_206_functionSelector" |)
+                          M.get_var (| "expr_205_address" |);
+                          M.get_var (| "expr_205_functionSelector" |);
+                          M.get_var (| "expr_206_address" |);
+                          M.get_var (| "expr_206_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2808,71 +2866,72 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_32"],
-                  Some (M.get (| "expr_33" |))
+                  Some (M.get_var (| "expr_33" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_34"],
-              Some (M.get (| "expr_32" |))
+              Some (M.get_var (| "expr_32" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_34" |),
+              M.get_var (| "expr_34" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_address"],
-                  Some (M.get (| "var_f_local_address" |))
+                  Some (M.get_var (| "var_f_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_22_functionSelector"],
-                  Some (M.get (| "var_f_local_functionSelector" |))
+                  Some (M.get_var (| "var_f_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_209_address"],
-                  Some (M.get (| "_address" |))
+                  Some (M.get_var (| "_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_209_functionSelector"],
-                  Some (M.get (| "_22_functionSelector" |))
+                  Some (M.get_var (| "_22_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_23_address"],
-                  Some (M.get (| "var_h_local_address" |))
+                  Some (M.get_var (| "var_h_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_23_functionSelector"],
-                  Some (M.get (| "var_h_local_functionSelector" |))
+                  Some (M.get_var (| "var_h_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_210_address"],
-                  Some (M.get (| "_23_address" |))
+                  Some (M.get_var (| "_23_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_210_functionSelector"],
-                  Some (M.get (| "_23_functionSelector" |))
+                  Some (M.get_var (| "_23_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_35"],
                   Some (M.call (|
                     "iszero",
@@ -2880,10 +2939,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_209_address" |);
-                          M.get (| "expr_209_functionSelector" |);
-                          M.get (| "expr_210_address" |);
-                          M.get (| "expr_210_functionSelector" |)
+                          M.get_var (| "expr_209_address" |);
+                          M.get_var (| "expr_209_functionSelector" |);
+                          M.get_var (| "expr_210_address" |);
+                          M.get_var (| "expr_210_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2893,71 +2952,72 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_34"],
-                  Some (M.get (| "expr_35" |))
+                  Some (M.get_var (| "expr_35" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_36"],
-              Some (M.get (| "expr_34" |))
+              Some (M.get_var (| "expr_34" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_36" |),
+              M.get_var (| "expr_36" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_24_address"],
-                  Some (M.get (| "var_f_local_address" |))
+                  Some (M.get_var (| "var_f_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_24_functionSelector"],
-                  Some (M.get (| "var_f_local_functionSelector" |))
+                  Some (M.get_var (| "var_f_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_213_address"],
-                  Some (M.get (| "_24_address" |))
+                  Some (M.get_var (| "_24_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_213_functionSelector"],
-                  Some (M.get (| "_24_functionSelector" |))
+                  Some (M.get_var (| "_24_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_25_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_25_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_214_address"],
-                  Some (M.get (| "_25_address" |))
+                  Some (M.get_var (| "_25_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_214_functionSelector"],
-                  Some (M.get (| "_25_functionSelector" |))
+                  Some (M.get_var (| "_25_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_37"],
                   Some (M.call (|
                     "iszero",
@@ -2965,10 +3025,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_213_address" |);
-                          M.get (| "expr_213_functionSelector" |);
-                          M.get (| "expr_214_address" |);
-                          M.get (| "expr_214_functionSelector" |)
+                          M.get_var (| "expr_213_address" |);
+                          M.get_var (| "expr_213_functionSelector" |);
+                          M.get_var (| "expr_214_address" |);
+                          M.get_var (| "expr_214_functionSelector" |)
                         ]
                       |)
                     ]
@@ -2978,10 +3038,10 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_36"],
-                  Some (M.get (| "expr_37" |))
+                  Some (M.get_var (| "expr_37" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -2989,132 +3049,133 @@ Module C_251.
               M.call (|
                 "assert_helper",
                 [
-                  M.get (| "expr_36" |)
+                  M.get_var (| "expr_36" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_26_address"],
-              Some (M.get (| "var_g_local_address" |))
+              Some (M.get_var (| "var_g_local_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_26_functionSelector"],
-              Some (M.get (| "var_g_local_functionSelector" |))
+              Some (M.get_var (| "var_g_local_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_220_address"],
-              Some (M.get (| "_26_address" |))
+              Some (M.get_var (| "_26_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_220_functionSelector"],
-              Some (M.get (| "_26_functionSelector" |))
+              Some (M.get_var (| "_26_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_27_address"],
-              Some (M.get (| "var_g_local_address" |))
+              Some (M.get_var (| "var_g_local_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_27_functionSelector"],
-              Some (M.get (| "var_g_local_functionSelector" |))
+              Some (M.get_var (| "var_g_local_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_221_address"],
-              Some (M.get (| "_27_address" |))
+              Some (M.get_var (| "_27_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_221_functionSelector"],
-              Some (M.get (| "_27_functionSelector" |))
+              Some (M.get_var (| "_27_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_38"],
               Some (M.call (|
                 "externalFunctionPointersEqualFunction",
                 [
-                  M.get (| "expr_220_address" |);
-                  M.get (| "expr_220_functionSelector" |);
-                  M.get (| "expr_221_address" |);
-                  M.get (| "expr_221_functionSelector" |)
+                  M.get_var (| "expr_220_address" |);
+                  M.get_var (| "expr_220_functionSelector" |);
+                  M.get_var (| "expr_221_address" |);
+                  M.get_var (| "expr_221_functionSelector" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_39"],
-              Some (M.get (| "expr_38" |))
+              Some (M.get_var (| "expr_38" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_39" |),
+              M.get_var (| "expr_39" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_28_address"],
-                  Some (M.get (| "var_g_local_address" |))
+                  Some (M.get_var (| "var_g_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_28_functionSelector"],
-                  Some (M.get (| "var_g_local_functionSelector" |))
+                  Some (M.get_var (| "var_g_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_223_address"],
-                  Some (M.get (| "_28_address" |))
+                  Some (M.get_var (| "_28_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_223_functionSelector"],
-                  Some (M.get (| "_28_functionSelector" |))
+                  Some (M.get_var (| "_28_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_29_address"],
-                  Some (M.get (| "var_h_local_address" |))
+                  Some (M.get_var (| "var_h_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_29_functionSelector"],
-                  Some (M.get (| "var_h_local_functionSelector" |))
+                  Some (M.get_var (| "var_h_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_224_address"],
-                  Some (M.get (| "_29_address" |))
+                  Some (M.get_var (| "_29_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_224_functionSelector"],
-                  Some (M.get (| "_29_functionSelector" |))
+                  Some (M.get_var (| "_29_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_40"],
                   Some (M.call (|
                     "iszero",
@@ -3122,10 +3183,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_223_address" |);
-                          M.get (| "expr_223_functionSelector" |);
-                          M.get (| "expr_224_address" |);
-                          M.get (| "expr_224_functionSelector" |)
+                          M.get_var (| "expr_223_address" |);
+                          M.get_var (| "expr_223_functionSelector" |);
+                          M.get_var (| "expr_224_address" |);
+                          M.get_var (| "expr_224_functionSelector" |)
                         ]
                       |)
                     ]
@@ -3135,71 +3196,72 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_39"],
-                  Some (M.get (| "expr_40" |))
+                  Some (M.get_var (| "expr_40" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_41"],
-              Some (M.get (| "expr_39" |))
+              Some (M.get_var (| "expr_39" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_41" |),
+              M.get_var (| "expr_41" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_30_address"],
-                  Some (M.get (| "var_g_local_address" |))
+                  Some (M.get_var (| "var_g_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_30_functionSelector"],
-                  Some (M.get (| "var_g_local_functionSelector" |))
+                  Some (M.get_var (| "var_g_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_227_address"],
-                  Some (M.get (| "_30_address" |))
+                  Some (M.get_var (| "_30_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_227_functionSelector"],
-                  Some (M.get (| "_30_functionSelector" |))
+                  Some (M.get_var (| "_30_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_31_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_31_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_228_address"],
-                  Some (M.get (| "_31_address" |))
+                  Some (M.get_var (| "_31_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_228_functionSelector"],
-                  Some (M.get (| "_31_functionSelector" |))
+                  Some (M.get_var (| "_31_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_42"],
                   Some (M.call (|
                     "iszero",
@@ -3207,10 +3269,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_227_address" |);
-                          M.get (| "expr_227_functionSelector" |);
-                          M.get (| "expr_228_address" |);
-                          M.get (| "expr_228_functionSelector" |)
+                          M.get_var (| "expr_227_address" |);
+                          M.get_var (| "expr_227_functionSelector" |);
+                          M.get_var (| "expr_228_address" |);
+                          M.get_var (| "expr_228_functionSelector" |)
                         ]
                       |)
                     ]
@@ -3220,10 +3282,10 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_41"],
-                  Some (M.get (| "expr_42" |))
+                  Some (M.get_var (| "expr_42" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3231,140 +3293,141 @@ Module C_251.
               M.call (|
                 "assert_helper",
                 [
-                  M.get (| "expr_41" |)
+                  M.get_var (| "expr_41" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_32_address"],
-              Some (M.get (| "var_h_local_address" |))
+              Some (M.get_var (| "var_h_local_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_32_functionSelector"],
-              Some (M.get (| "var_h_local_functionSelector" |))
+              Some (M.get_var (| "var_h_local_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_234_address"],
-              Some (M.get (| "_32_address" |))
+              Some (M.get_var (| "_32_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_234_functionSelector"],
-              Some (M.get (| "_32_functionSelector" |))
+              Some (M.get_var (| "_32_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_33_address"],
-              Some (M.get (| "var_h_local_address" |))
+              Some (M.get_var (| "var_h_local_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["_33_functionSelector"],
-              Some (M.get (| "var_h_local_functionSelector" |))
+              Some (M.get_var (| "var_h_local_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_235_address"],
-              Some (M.get (| "_33_address" |))
+              Some (M.get_var (| "_33_address" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_235_functionSelector"],
-              Some (M.get (| "_33_functionSelector" |))
+              Some (M.get_var (| "_33_functionSelector" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_43"],
               Some (M.call (|
                 "externalFunctionPointersEqualFunction",
                 [
-                  M.get (| "expr_234_address" |);
-                  M.get (| "expr_234_functionSelector" |);
-                  M.get (| "expr_235_address" |);
-                  M.get (| "expr_235_functionSelector" |)
+                  M.get_var (| "expr_234_address" |);
+                  M.get_var (| "expr_234_functionSelector" |);
+                  M.get_var (| "expr_235_address" |);
+                  M.get_var (| "expr_235_functionSelector" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_44"],
-              Some (M.get (| "expr_43" |))
+              Some (M.get_var (| "expr_43" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_44" |),
+              M.get_var (| "expr_44" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_34_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_34_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_237_address"],
-                  Some (M.get (| "_34_address" |))
+                  Some (M.get_var (| "_34_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_237_functionSelector"],
-                  Some (M.get (| "_34_functionSelector" |))
+                  Some (M.get_var (| "_34_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_35_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_35_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_238_address"],
-                  Some (M.get (| "_35_address" |))
+                  Some (M.get_var (| "_35_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_238_functionSelector"],
-                  Some (M.get (| "_35_functionSelector" |))
+                  Some (M.get_var (| "_35_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_45"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_237_address" |);
-                      M.get (| "expr_237_functionSelector" |);
-                      M.get (| "expr_238_address" |);
-                      M.get (| "expr_238_functionSelector" |)
+                      M.get_var (| "expr_237_address" |);
+                      M.get_var (| "expr_237_functionSelector" |);
+                      M.get_var (| "expr_238_address" |);
+                      M.get_var (| "expr_238_functionSelector" |)
                     ]
                   |))
                 |)
@@ -3372,71 +3435,72 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_44"],
-                  Some (M.get (| "expr_45" |))
+                  Some (M.get_var (| "expr_45" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_46"],
-              Some (M.get (| "expr_44" |))
+              Some (M.get_var (| "expr_44" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_46" |),
+              M.get_var (| "expr_46" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_36_address"],
-                  Some (M.get (| "var_h_local_address" |))
+                  Some (M.get_var (| "var_h_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_36_functionSelector"],
-                  Some (M.get (| "var_h_local_functionSelector" |))
+                  Some (M.get_var (| "var_h_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_241_address"],
-                  Some (M.get (| "_36_address" |))
+                  Some (M.get_var (| "_36_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_241_functionSelector"],
-                  Some (M.get (| "_36_functionSelector" |))
+                  Some (M.get_var (| "_36_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_37_address"],
-                  Some (M.get (| "var_i_local_address" |))
+                  Some (M.get_var (| "var_i_local_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["_37_functionSelector"],
-                  Some (M.get (| "var_i_local_functionSelector" |))
+                  Some (M.get_var (| "var_i_local_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_242_address"],
-                  Some (M.get (| "_37_address" |))
+                  Some (M.get_var (| "_37_address" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_242_functionSelector"],
-                  Some (M.get (| "_37_functionSelector" |))
+                  Some (M.get_var (| "_37_functionSelector" |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_47"],
                   Some (M.call (|
                     "iszero",
@@ -3444,10 +3508,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_241_address" |);
-                          M.get (| "expr_241_functionSelector" |);
-                          M.get (| "expr_242_address" |);
-                          M.get (| "expr_242_functionSelector" |)
+                          M.get_var (| "expr_241_address" |);
+                          M.get_var (| "expr_241_functionSelector" |);
+                          M.get_var (| "expr_242_address" |);
+                          M.get_var (| "expr_242_functionSelector" |)
                         ]
                       |)
                     ]
@@ -3457,10 +3521,10 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_46"],
-                  Some (M.get (| "expr_47" |))
+                  Some (M.get_var (| "expr_47" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -3468,13 +3532,13 @@ Module C_251.
               M.call (|
                 "assert_helper",
                 [
-                  M.get (| "expr_46" |)
+                  M.get_var (| "expr_46" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_48"],
               Some ([Literal.number 0x01])
             |)
@@ -3482,13 +3546,13 @@ Module C_251.
           do* ltac:(M.monadic (
             M.assign (|
               ["var"],
-              Some (M.get (| "expr_48" |))
+              Some (M.get_var (| "expr_48" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
@@ -3496,8 +3560,9 @@ Module C_251.
           "fun_comparison_operators_for_external_functions",
           [],
           ["var_"],
+          do* M.open_scope in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["zero_bool"],
               Some (M.call (|
                 "zero_value_for_split_bool",
@@ -3508,11 +3573,11 @@ Module C_251.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_"],
-              Some (M.get (| "zero_bool" |))
+              Some (M.get_var (| "zero_bool" |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_22_address"],
               Some (M.call (|
                 "address",
@@ -3521,24 +3586,24 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_23_address"],
               Some (M.call (|
                 "convert_contract_C_to_address",
                 [
-                  M.get (| "expr_22_address" |)
+                  M.get_var (| "expr_22_address" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_23_functionSelector"],
               Some ([Literal.number 0x26121ff0])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_24_address"],
               Some (M.call (|
                 "address",
@@ -3547,24 +3612,24 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_25_address"],
               Some (M.call (|
                 "convert_contract_C_to_address",
                 [
-                  M.get (| "expr_24_address" |)
+                  M.get_var (| "expr_24_address" |)
                 ]
               |))
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_25_functionSelector"],
               Some ([Literal.number 0xe2179b8e])
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr"],
               Some (M.call (|
                 "iszero",
@@ -3572,10 +3637,10 @@ Module C_251.
                   M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_23_address" |);
-                      M.get (| "expr_23_functionSelector" |);
-                      M.get (| "expr_25_address" |);
-                      M.get (| "expr_25_functionSelector" |)
+                      M.get_var (| "expr_23_address" |);
+                      M.get_var (| "expr_23_functionSelector" |);
+                      M.get_var (| "expr_25_address" |);
+                      M.get_var (| "expr_25_functionSelector" |)
                     ]
                   |)
                 ]
@@ -3583,16 +3648,17 @@ Module C_251.
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_1"],
-              Some (M.get (| "expr" |))
+              Some (M.get_var (| "expr" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_1" |),
+              M.get_var (| "expr_1" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_27_address"],
                   Some (M.call (|
                     "address",
@@ -3601,24 +3667,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_28_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_27_address" |)
+                      M.get_var (| "expr_27_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_28_functionSelector"],
                   Some ([Literal.number 0x26121ff0])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_29_address"],
                   Some (M.call (|
                     "address",
@@ -3627,24 +3693,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_30_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_29_address" |)
+                      M.get_var (| "expr_29_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_30_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_2"],
                   Some (M.call (|
                     "iszero",
@@ -3652,10 +3718,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_28_address" |);
-                          M.get (| "expr_28_functionSelector" |);
-                          M.get (| "expr_30_address" |);
-                          M.get (| "expr_30_functionSelector" |)
+                          M.get_var (| "expr_28_address" |);
+                          M.get_var (| "expr_28_functionSelector" |);
+                          M.get_var (| "expr_30_address" |);
+                          M.get_var (| "expr_30_functionSelector" |)
                         ]
                       |)
                     ]
@@ -3665,23 +3731,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_1"],
-                  Some (M.get (| "expr_2" |))
+                  Some (M.get_var (| "expr_2" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_3"],
-              Some (M.get (| "expr_1" |))
+              Some (M.get_var (| "expr_1" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_3" |),
+              M.get_var (| "expr_3" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_33_address"],
                   Some (M.call (|
                     "address",
@@ -3690,24 +3757,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_34_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_33_address" |)
+                      M.get_var (| "expr_33_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_34_functionSelector"],
                   Some ([Literal.number 0x26121ff0])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_35_address"],
                   Some (M.call (|
                     "address",
@@ -3716,24 +3783,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_36_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_35_address" |)
+                      M.get_var (| "expr_35_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_36_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_4"],
                   Some (M.call (|
                     "iszero",
@@ -3741,10 +3808,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_34_address" |);
-                          M.get (| "expr_34_functionSelector" |);
-                          M.get (| "expr_36_address" |);
-                          M.get (| "expr_36_functionSelector" |)
+                          M.get_var (| "expr_34_address" |);
+                          M.get_var (| "expr_34_functionSelector" |);
+                          M.get_var (| "expr_36_address" |);
+                          M.get_var (| "expr_36_functionSelector" |)
                         ]
                       |)
                     ]
@@ -3754,23 +3821,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_3"],
-                  Some (M.get (| "expr_4" |))
+                  Some (M.get_var (| "expr_4" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_5"],
-              Some (M.get (| "expr_3" |))
+              Some (M.get_var (| "expr_3" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_5" |),
+              M.get_var (| "expr_5" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_39_address"],
                   Some (M.call (|
                     "address",
@@ -3779,24 +3847,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_40_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_39_address" |)
+                      M.get_var (| "expr_39_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_40_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_41_address"],
                   Some (M.call (|
                     "address",
@@ -3805,24 +3873,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_42_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_41_address" |)
+                      M.get_var (| "expr_41_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_42_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_6"],
                   Some (M.call (|
                     "iszero",
@@ -3830,10 +3898,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_40_address" |);
-                          M.get (| "expr_40_functionSelector" |);
-                          M.get (| "expr_42_address" |);
-                          M.get (| "expr_42_functionSelector" |)
+                          M.get_var (| "expr_40_address" |);
+                          M.get_var (| "expr_40_functionSelector" |);
+                          M.get_var (| "expr_42_address" |);
+                          M.get_var (| "expr_42_functionSelector" |)
                         ]
                       |)
                     ]
@@ -3843,23 +3911,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_5"],
-                  Some (M.get (| "expr_6" |))
+                  Some (M.get_var (| "expr_6" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_7"],
-              Some (M.get (| "expr_5" |))
+              Some (M.get_var (| "expr_5" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_7" |),
+              M.get_var (| "expr_7" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_45_address"],
                   Some (M.call (|
                     "address",
@@ -3868,24 +3937,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_46_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_45_address" |)
+                      M.get_var (| "expr_45_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_46_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_address"],
                   Some (M.call (|
                     "address",
@@ -3894,24 +3963,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_48_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_address" |)
+                      M.get_var (| "expr_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_48_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_8"],
                   Some (M.call (|
                     "iszero",
@@ -3919,10 +3988,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_46_address" |);
-                          M.get (| "expr_46_functionSelector" |);
-                          M.get (| "expr_48_address" |);
-                          M.get (| "expr_48_functionSelector" |)
+                          M.get_var (| "expr_46_address" |);
+                          M.get_var (| "expr_46_functionSelector" |);
+                          M.get_var (| "expr_48_address" |);
+                          M.get_var (| "expr_48_functionSelector" |)
                         ]
                       |)
                     ]
@@ -3932,23 +4001,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_7"],
-                  Some (M.get (| "expr_8" |))
+                  Some (M.get_var (| "expr_8" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_9"],
-              Some (M.get (| "expr_7" |))
+              Some (M.get_var (| "expr_7" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_9" |),
+              M.get_var (| "expr_9" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_51_address"],
                   Some (M.call (|
                     "address",
@@ -3957,24 +4027,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_52_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_51_address" |)
+                      M.get_var (| "expr_51_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_52_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_53_address"],
                   Some (M.call (|
                     "address",
@@ -3983,24 +4053,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_54_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_53_address" |)
+                      M.get_var (| "expr_53_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_54_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_10"],
                   Some (M.call (|
                     "iszero",
@@ -4008,10 +4078,10 @@ Module C_251.
                       M.call (|
                         "externalFunctionPointersEqualFunction",
                         [
-                          M.get (| "expr_52_address" |);
-                          M.get (| "expr_52_functionSelector" |);
-                          M.get (| "expr_54_address" |);
-                          M.get (| "expr_54_functionSelector" |)
+                          M.get_var (| "expr_52_address" |);
+                          M.get_var (| "expr_52_functionSelector" |);
+                          M.get_var (| "expr_54_address" |);
+                          M.get_var (| "expr_54_functionSelector" |)
                         ]
                       |)
                     ]
@@ -4021,23 +4091,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_9"],
-                  Some (M.get (| "expr_10" |))
+                  Some (M.get_var (| "expr_10" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_11"],
-              Some (M.get (| "expr_9" |))
+              Some (M.get_var (| "expr_9" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_11" |),
+              M.get_var (| "expr_11" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_57_address"],
                   Some (M.call (|
                     "address",
@@ -4046,24 +4117,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_58_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_57_address" |)
+                      M.get_var (| "expr_57_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_58_functionSelector"],
                   Some ([Literal.number 0x26121ff0])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_59_address"],
                   Some (M.call (|
                     "address",
@@ -4072,32 +4143,32 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_60_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_59_address" |)
+                      M.get_var (| "expr_59_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_60_functionSelector"],
                   Some ([Literal.number 0x26121ff0])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_12"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_58_address" |);
-                      M.get (| "expr_58_functionSelector" |);
-                      M.get (| "expr_60_address" |);
-                      M.get (| "expr_60_functionSelector" |)
+                      M.get_var (| "expr_58_address" |);
+                      M.get_var (| "expr_58_functionSelector" |);
+                      M.get_var (| "expr_60_address" |);
+                      M.get_var (| "expr_60_functionSelector" |)
                     ]
                   |))
                 |)
@@ -4105,23 +4176,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_11"],
-                  Some (M.get (| "expr_12" |))
+                  Some (M.get_var (| "expr_12" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_13"],
-              Some (M.get (| "expr_11" |))
+              Some (M.get_var (| "expr_11" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_13" |),
+              M.get_var (| "expr_13" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_63_address"],
                   Some (M.call (|
                     "address",
@@ -4130,24 +4202,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_64_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_63_address" |)
+                      M.get_var (| "expr_63_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_64_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_65_address"],
                   Some (M.call (|
                     "address",
@@ -4156,32 +4228,32 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_66_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_65_address" |)
+                      M.get_var (| "expr_65_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_66_functionSelector"],
                   Some ([Literal.number 0xe2179b8e])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_14"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_64_address" |);
-                      M.get (| "expr_64_functionSelector" |);
-                      M.get (| "expr_66_address" |);
-                      M.get (| "expr_66_functionSelector" |)
+                      M.get_var (| "expr_64_address" |);
+                      M.get_var (| "expr_64_functionSelector" |);
+                      M.get_var (| "expr_66_address" |);
+                      M.get_var (| "expr_66_functionSelector" |)
                     ]
                   |))
                 |)
@@ -4189,23 +4261,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_13"],
-                  Some (M.get (| "expr_14" |))
+                  Some (M.get_var (| "expr_14" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_15"],
-              Some (M.get (| "expr_13" |))
+              Some (M.get_var (| "expr_13" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_15" |),
+              M.get_var (| "expr_15" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_69_address"],
                   Some (M.call (|
                     "address",
@@ -4214,24 +4287,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_70_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_69_address" |)
+                      M.get_var (| "expr_69_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_70_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_71_address"],
                   Some (M.call (|
                     "address",
@@ -4240,32 +4313,32 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_72_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_71_address" |)
+                      M.get_var (| "expr_71_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_72_functionSelector"],
                   Some ([Literal.number 0xb8c9d365])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_16"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_70_address" |);
-                      M.get (| "expr_70_functionSelector" |);
-                      M.get (| "expr_72_address" |);
-                      M.get (| "expr_72_functionSelector" |)
+                      M.get_var (| "expr_70_address" |);
+                      M.get_var (| "expr_70_functionSelector" |);
+                      M.get_var (| "expr_72_address" |);
+                      M.get_var (| "expr_72_functionSelector" |)
                     ]
                   |))
                 |)
@@ -4273,23 +4346,24 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_15"],
-                  Some (M.get (| "expr_16" |))
+                  Some (M.get_var (| "expr_16" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_17"],
-              Some (M.get (| "expr_15" |))
+              Some (M.get_var (| "expr_15" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.if_ (|
-              M.get (| "expr_17" |),
+              M.get_var (| "expr_17" |),
+              do* M.open_scope in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_75_address"],
                   Some (M.call (|
                     "address",
@@ -4298,24 +4372,24 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_76_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_75_address" |)
+                      M.get_var (| "expr_75_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_76_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_77_address"],
                   Some (M.call (|
                     "address",
@@ -4324,32 +4398,32 @@ Module C_251.
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_78_address"],
                   Some (M.call (|
                     "convert_contract_C_to_address",
                     [
-                      M.get (| "expr_77_address" |)
+                      M.get_var (| "expr_77_address" |)
                     ]
                   |))
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_78_functionSelector"],
                   Some ([Literal.number 0xe5aa3d58])
                 |)
               )) in
               do* ltac:(M.monadic (
-                M.assign (|
+                M.declare (|
                   ["expr_18"],
                   Some (M.call (|
                     "externalFunctionPointersEqualFunction",
                     [
-                      M.get (| "expr_76_address" |);
-                      M.get (| "expr_76_functionSelector" |);
-                      M.get (| "expr_78_address" |);
-                      M.get (| "expr_78_functionSelector" |)
+                      M.get_var (| "expr_76_address" |);
+                      M.get_var (| "expr_76_functionSelector" |);
+                      M.get_var (| "expr_78_address" |);
+                      M.get_var (| "expr_78_functionSelector" |)
                     ]
                   |))
                 |)
@@ -4357,10 +4431,10 @@ Module C_251.
               do* ltac:(M.monadic (
                 M.assign (|
                   ["expr_17"],
-                  Some (M.get (| "expr_18" |))
+                  Some (M.get_var (| "expr_18" |))
                 |)
               )) in
-              M.od
+              M.close_scope
             |)
           )) in
           do* ltac:(M.monadic (
@@ -4368,13 +4442,13 @@ Module C_251.
               M.call (|
                 "assert_helper",
                 [
-                  M.get (| "expr_17" |)
+                  M.get_var (| "expr_17" |)
                 ]
               |)
             |)
           )) in
           do* ltac:(M.monadic (
-            M.assign (|
+            M.declare (|
               ["expr_19"],
               Some ([Literal.number 0x01])
             |)
@@ -4382,16 +4456,17 @@ Module C_251.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_"],
-              Some (M.get (| "expr_19" |))
+              Some (M.get_var (| "expr_19" |))
             |)
           )) in
           do* ltac:(M.monadic (
             M.leave (||)
           )) in
-          M.od
+          M.close_scope
         |)
       )) in
       do* ltac:(M.monadic (
+        do* M.open_scope in
         do* ltac:(M.monadic (
           M.expr_stmt (|
             M.call (|
@@ -4425,8 +4500,9 @@ Module C_251.
                 |)
               ]
             |),
+            do* M.open_scope in
             do* ltac:(M.monadic (
-              M.assign (|
+              M.declare (|
                 ["selector"],
                 Some (M.call (|
                   "shift_right_unsigned",
@@ -4443,10 +4519,11 @@ Module C_251.
             )) in
             do* ltac:(M.monadic (
               M.switch (|
-                M.get (| "selector" |),
+                M.get_var (| "selector" |),
                 [
                   (
                     Some (Literal.number 0x26121ff0),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -4455,10 +4532,11 @@ Module C_251.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0x58f8445b),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -4467,10 +4545,11 @@ Module C_251.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xb8c9d365),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -4479,10 +4558,11 @@ Module C_251.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xd354211a),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -4491,10 +4571,11 @@ Module C_251.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xe2179b8e),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -4503,10 +4584,11 @@ Module C_251.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     Some (Literal.number 0xe5aa3d58),
+                    do* M.open_scope in
                     do* ltac:(M.monadic (
                       M.expr_stmt (|
                         M.call (|
@@ -4515,15 +4597,16 @@ Module C_251.
                         |)
                       |)
                     )) in
-                    M.od
+                    M.close_scope
                   );
                   (
                     None,
-                    M.od
+                    do* M.open_scope in
+                    M.close_scope
                   )          ]
               |)
             )) in
-            M.od
+            M.close_scope
           |)
         )) in
         do* ltac:(M.monadic (
@@ -4534,11 +4617,11 @@ Module C_251.
             |)
           |)
         )) in
-        M.od
+        M.close_scope
       )) in
-      M.od.
+      M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220270ecfe9e0c7f7daf2469f08207d2314d9807bf95a79e89be97889328abaff8e64736f6c634300081b0033".
+      "a2646970667358221220de380b739c533d9905e0f1dce30efda7f32af2fef59fc153ee9abc144e24460664736f6c634300081b0033".
   End C_251_deployed.
 End C_251.

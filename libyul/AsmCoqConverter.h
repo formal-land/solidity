@@ -65,7 +65,11 @@ private:
 	std::string indent() const;
 	std::string rawLiteral(Literal const& _node) const;
 	template <class T>
-	std::string rawAssign(std::vector<T> const& variables, std::unique_ptr<Expression> const& value);
+	std::string rawAssign(
+		bool isDeclaration,
+		std::vector<T> const& variables,
+		std::unique_ptr<Expression> const& value
+	);
 
 	std::optional<size_t> const m_sourceIndex;
 	uint64_t m_indent = 0;
