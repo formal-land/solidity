@@ -43,6 +43,277 @@ Module Locals.
   |}.
 End Locals.
 
+Module Stack.
+  Definition t : Set :=
+    list Locals.t.
+
+  Definition open_scope (stack : t) : t :=
+    Locals.empty :: stack.
+
+  Definition close_scope (stack : t) : t :=
+    match stack with
+    | [] => stack
+    | _ :: stack => stack
+    end.
+
+  Fixpoint get_var (stack : t) (name : string) : U256.t :=
+    match stack with
+    | [] => 0
+    | locals :: stack =>
+      match Dict.get locals.(Locals.variables) name with
+      | None => get_var stack name
+      | Some value => value
+      end
+    end.
+
+  Definition declare_var (stack : t) (name : string) (value : U256.t) : t :=
+    match stack with
+    | [] => []
+    | locals :: stack =>
+      locals <| Locals.variables := Dict.declare locals.(Locals.variables) name value |> :: stack
+    end.
+
+  Fixpoint declare_vars (stack : t) (names : list string) (values : list U256.t) : t :=
+    match names, values with
+    | name :: names, value :: values =>
+      declare_vars (declare_var stack name value) names values
+    | _, _ => stack
+    end.
+
+  Fixpoint assign_var (stack : t) (name : string) (value : U256.t) : t :=
+    match stack with
+    | [] => []
+    | locals :: stack =>
+      match Dict.assign locals.(Locals.variables) name value with
+      | None => locals :: assign_var stack name value
+      | Some variables => locals <| Locals.variables := variables |> :: stack
+      end
+    end.
+
+  Fixpoint assign_vars (stack : t) (names : list string) (values : list U256.t) : t :=
+    match names, values with
+    | name :: names, value :: values =>
+      assign_vars (assign_var stack name value) names values
+    | _, _ => stack
+    end.
+
+  Fixpoint get_function (stack : t) (name : string) : list U256.t -> M.t (list U256.t) :=
+    match stack with
+    | [] => fun _ => LowM.Impossible ("function '" ++ name ++ "' not found")
+    | locals :: stack =>
+      match Dict.get locals.(Locals.functions) name with
+      | None => get_function stack name
+      | Some function => function
+      end
+    end.
+
+  Definition declare_function
+      (stack : t)
+      (name : string)
+      (body : list U256.t -> M.t (list U256.t)) :
+      t :=
+    match stack with
+    | [] => []
+    | locals :: stack =>
+      locals <| Locals.functions := Dict.declare locals.(Locals.functions) name body |> :: stack
+    end.
+End Stack.
+
+Module Memory.
+  (** We define the memory as a function instead of an explicit list as there can be holes in it. *)
+  Definition t : Set :=
+    U256.t -> U256.t.
+
+  Definition init : t :=
+    fun _ => 0.
+
+  Definition update (memory : t) (address : U256.t) (value : U256.t) : t :=
+    fun current_address =>
+      if address =? current_address then
+        value
+      else
+        memory current_address.
+End Memory.
+
+Module State.
+  (** The state contains the various kinds of memory that we use in a smart contract. *)
+  Record t : Set := {
+    stack : Stack.t;
+    mem : Memory.t;
+    storage : Memory.t;
+    transientStorage : Memory.t;
+  }.
+End State.
+
+(** We consider that all the primitives can be defined as a function over the state. *)
+Definition eval_primitive {A : Set} (state : State.t) (primitive : Primitive.t A) : A * State.t :=
+  match primitive with
+  | Primitive.OpenScope =>
+    (
+      tt,
+      state <| State.stack := Stack.open_scope state.(State.stack) |>
+    )
+  | Primitive.CloseScope =>
+    (
+      tt,
+      state <| State.stack := Stack.close_scope state.(State.stack) |>
+    )
+  | Primitive.GetVar name =>
+    (
+      Stack.get_var state.(State.stack) name,
+      state
+    )
+  | Primitive.DeclareVars names values =>
+    (
+      tt,
+      state <| State.stack := Stack.declare_vars state.(State.stack) names values |>
+    )
+  | Primitive.AssignVars names values =>
+    (
+      tt,
+      state <| State.stack := Stack.assign_vars state.(State.stack) names values |>
+    )
+  | Primitive.MLoad address =>
+    (
+      state.(State.mem) address,
+      state
+    )
+  | Primitive.MStore address value =>
+    (
+      tt,
+      state <| State.mem := Memory.update state.(State.mem) address value |>
+    )
+  | Primitive.SLoad address =>
+    (
+      state.(State.storage) address,
+      state
+    )
+  | Primitive.SStore address value =>
+    (
+      tt,
+      state <| State.storage := Memory.update state.(State.storage) address value |>
+    )
+  | Primitive.TLoad address =>
+    (
+      state.(State.transientStorage) address,
+      state
+    )
+  | Primitive.TStore address value =>
+    (
+      tt,
+      state <| State.transientStorage := Memory.update state.(State.transientStorage) address value |>
+    )
+  end.
+
+(** A function to evaluate an expression assuming that we have enough [fuel]. *)
+Fixpoint eval {A : Set} (fuel : nat) (state : State.t) (e : LowM.t A) : (A + string) * State.t :=
+  match fuel with
+  | O => (inr "out of fuel", state)
+  | S fuel =>
+    match e with
+    | LowM.Pure output => (inl output, state)
+    | LowM.Primitive primitive k =>
+      let '(value, state_inter) := eval_primitive state primitive in
+      eval fuel state_inter (k value)
+    | LowM.DeclareFunction name body k =>
+      let state_inter :=
+        state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
+      eval fuel state_inter k
+    | LowM.CallFunction name arguments k =>
+      let function := Stack.get_function state.(State.stack) name in
+      let (results, stack_inter) := eval fuel state (function arguments) in
+      match results with
+      | inl results => eval fuel stack_inter (k results)
+      | inr message => (inr message, state)
+      end
+    | LowM.Let e1 k =>
+      let (output_inter, stack_inter) := eval fuel state e1 in
+      match output_inter with
+      | inl output_inter => eval fuel stack_inter (k output_inter)
+      | inr message => (inr message, state)
+      end
+    | LowM.Impossible message => (inr ("Impossible: " ++ message)%string, state)
+    end
+  end.
+
+Module Run.
+  Reserved Notation "{{ state | e ⇓ output | state' }}" (at level 70, no associativity).
+
+  Inductive t {A : Set} (state : State.t) (output : A) : LowM.t A -> State.t -> Prop :=
+  | Pure : {{ state | LowM.Pure output ⇓ output | state }}
+  | Primitive {B : Set} (primitive : Primitive.t B) (k : B -> LowM.t A) state' :
+    let value_inter_state := eval_primitive state primitive in
+    (* Because we are not allowed to destructure a value in an inductive definition, so we use
+       the [fst] and [snd] functions instead of a pattern. *)
+    let value := fst value_inter_state in
+    let state_inter := snd value_inter_state in
+    {{ state_inter | k value ⇓ output | state' }} ->
+    {{ state | LowM.Primitive primitive k ⇓ output | state' }}
+  | DeclareFunction name body k state' :
+    let state_inter :=
+      state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
+    {{ state_inter | k ⇓ output | state' }} ->
+    {{ state | LowM.DeclareFunction name body k ⇓ output | state' }}
+  | CallFunction name arguments k results stack_inter state' :
+    let function := Stack.get_function state.(State.stack) name in
+    {{ state | function arguments ⇓ results | stack_inter }} ->
+    {{ stack_inter | k results ⇓ output | state' }} ->
+    {{ state | LowM.CallFunction name arguments k ⇓ output | state' }}
+  | Let {B : Set} (e1 : LowM.t B) k stack_inter output_inter state' :
+    {{ state | e1 ⇓ output_inter | stack_inter }} ->
+    {{ stack_inter | k output_inter ⇓ output | state' }} ->
+    {{ state | LowM.Let e1 k ⇓ output | state' }}
+
+  where "{{ state | e ⇓ output | state' }}" :=
+    (t state output e state').
+End Run.
+
+Import Run.
+
+(** The [eval] function follows the semantics given by [Run.t]. *)
+Fixpoint eval_is_run {A : Set}
+    (fuel : nat) (state : State.t) (e : LowM.t A) (output : A) (state' : State.t) :
+  eval fuel state e = (inl output, state') ->
+  {{ state | e ⇓ output | state' }}.
+Proof.
+  destruct fuel as [|fuel]; [discriminate|].
+  destruct e; cbn; intros H_eval.
+  { (* Pure *)
+    inversion H_eval; constructor.
+  }
+  { (* Primitive *)
+    destruct primitive;
+      cbn in H_eval;
+      constructor;
+      eapply eval_is_run;
+      eassumption.
+  }
+  { (* DeclareFunction *)
+    constructor.
+    eapply eval_is_run.
+    eassumption.
+  }
+  { (* CallFunction *)
+    destruct eval as [[results | message] locals_inter] eqn:H_eval_inter in H_eval.
+    { econstructor;
+        eapply eval_is_run;
+        eassumption.
+    }
+    { discriminate. }
+  }
+  { (* Let *)
+    destruct eval as [[results | message] locals_inter] eqn:H_eval_inter in H_eval.
+    { econstructor;
+        eapply eval_is_run;
+        eassumption.
+    }
+    { discriminate. }
+  }
+  { (* Impossible *)
+    discriminate.
+  }
+Qed.
+
 Module Stdlib.
   Parameter axiom : string -> U256.t.
 
@@ -135,19 +406,25 @@ Module Stdlib.
 
   Parameter pop : U256.t -> M.t unit.
 
-  Parameter mload : U256.t -> M.t U256.t.
+  Definition mload (address : U256.t) : M.t U256.t :=
+    LowM.Primitive (Primitive.MLoad address) M.pure.
 
-  Parameter mstore : U256.t -> U256.t -> M.t unit.
+  Definition mstore (address value : U256.t) : M.t unit :=
+    LowM.Primitive (Primitive.MStore address value) M.pure.
 
   Parameter mstore8 : U256.t -> U256.t -> M.t unit.
 
-  Parameter sload : U256.t -> M.t U256.t.
+  Definition sload (address : U256.t) : M.t U256.t :=
+    LowM.Primitive (Primitive.SLoad address) M.pure.
 
-  Parameter sstore : U256.t -> U256.t -> M.t unit.
+  Definition sstore (address value : U256.t) : M.t unit :=
+    LowM.Primitive (Primitive.SStore address value) M.pure.
 
-  Parameter tload : U256.t -> M.t U256.t.
+  Definition tload (address : U256.t) : M.t U256.t :=
+    LowM.Primitive (Primitive.TLoad address) M.pure.
 
-  Parameter tstore : U256.t -> U256.t -> M.t unit.
+  Definition tstore (address value : U256.t) : M.t unit :=
+    LowM.Primitive (Primitive.TStore address value) M.pure.
 
   Parameter msize : M.t U256.t.
 
@@ -345,13 +622,8 @@ Module Stdlib.
     ("gaslimit", fn [] => return_u256 gaslimit);
     ("memoryguard", fn [p] => return_u256 (Object.memoryguard p))
   ].
-End Stdlib.
 
-Module Stack.
-  Definition t : Set :=
-    list Locals.t.
-
-  Definition init : t :=
+  Definition init_stack : Stack.t :=
     [
       {|
         Locals.functions := Stdlib.functions;
@@ -359,222 +631,17 @@ Module Stack.
       |}
     ].
 
-  Definition open_scope (stack : t) : t :=
-    Locals.empty :: stack.
-
-  Definition close_scope (stack : t) : t :=
-    match stack with
-    | [] => stack
-    | _ :: stack => stack
-    end.
-
-  Fixpoint get_var (stack : t) (name : string) : U256.t :=
-    match stack with
-    | [] => 0
-    | locals :: stack =>
-      match Dict.get locals.(Locals.variables) name with
-      | None => get_var stack name
-      | Some value => value
-      end
-    end.
-
-  Definition declare_var (stack : t) (name : string) (value : U256.t) : t :=
-    match stack with
-    | [] => []
-    | locals :: stack =>
-      locals <| Locals.variables := Dict.declare locals.(Locals.variables) name value |> :: stack
-    end.
-
-  Fixpoint declare_vars (stack : t) (names : list string) (values : list U256.t) : t :=
-    match names, values with
-    | name :: names, value :: values =>
-      declare_vars (declare_var stack name value) names values
-    | _, _ => stack
-    end.
-
-  Fixpoint assign_var (stack : t) (name : string) (value : U256.t) : t :=
-    match stack with
-    | [] => []
-    | locals :: stack =>
-      match Dict.assign locals.(Locals.variables) name value with
-      | None => locals :: assign_var stack name value
-      | Some variables => locals <| Locals.variables := variables |> :: stack
-      end
-    end.
-
-  Fixpoint assign_vars (stack : t) (names : list string) (values : list U256.t) : t :=
-    match names, values with
-    | name :: names, value :: values =>
-      assign_vars (assign_var stack name value) names values
-    | _, _ => stack
-    end.
-
-  Fixpoint get_function (stack : t) (name : string) : list U256.t -> M.t (list U256.t) :=
-    match stack with
-    | [] => fun _ => LowM.Impossible ("function '" ++ name ++ "' not found")
-    | locals :: stack =>
-      match Dict.get locals.(Locals.functions) name with
-      | None => get_function stack name
-      | Some function => function
-      end
-    end.
-
-  Definition declare_function
-      (stack : t)
-      (name : string)
-      (body : list U256.t -> M.t (list U256.t)) :
-      t :=
-    match stack with
-    | [] => []
-    | locals :: stack =>
-      locals <| Locals.functions := Dict.declare locals.(Locals.functions) name body |> :: stack
-    end.
-End Stack.
-
-Module Run.
-  Reserved Notation "{{ stack | e ⇓ output | stack' }}" (at level 70, no associativity).
-
-  Inductive t {A : Set} (stack : Stack.t) (output : A) : LowM.t A -> Stack.t -> Prop :=
-  | Pure : {{ stack | LowM.Pure output ⇓ output | stack }}
-  | OpenScope k stack' :
-    {{ Stack.open_scope stack | k tt ⇓ output | stack' }} ->
-    {{ stack | LowM.Primitive Primitive.OpenScope k ⇓ output | stack' }}
-  | CloseScope k stack' :
-    {{ Stack.close_scope stack | k tt ⇓ output | stack' }} ->
-    {{ stack | LowM.Primitive Primitive.CloseScope k ⇓ output | stack' }}
-  | GetVar name k stack' :
-    let value := Stack.get_var stack name in
-    {{ stack | k value ⇓ output | stack' }} ->
-    {{ stack | LowM.Primitive (Primitive.GetVar name) k ⇓ output | stack' }}
-  | DeclareVars names values k stack' :
-    {{ Stack.declare_vars stack names values | k tt ⇓ output | stack' }} ->
-    {{ stack | LowM.Primitive (Primitive.DeclareVars names values) k ⇓ output | stack' }}
-  | AssignVars names values k stack' :
-    {{ Stack.assign_vars stack names values | k tt ⇓ output | stack' }} ->
-    {{ stack | LowM.Primitive (Primitive.AssignVars names values) k ⇓ output | stack' }}
-  | CallFunction name arguments k results stack_inter stack' :
-    let function := Stack.get_function stack name in
-    {{ stack | function arguments ⇓ results | stack_inter }} ->
-    {{ stack_inter | k results ⇓ output | stack' }} ->
-    {{ stack | LowM.Primitive (Primitive.CallFunction name arguments) k ⇓ output | stack' }}
-  | DeclareFunction name body k stack' :
-    {{ Stack.declare_function stack name body | k ⇓ output | stack' }} ->
-    {{ stack | LowM.DeclareFunction name body k ⇓ output | stack' }}
-  | Let {B : Set} (e1 : LowM.t B) k stack_inter output_inter stack' :
-    {{ stack | e1 ⇓ output_inter | stack_inter }} ->
-    {{ stack_inter | k output_inter ⇓ output | stack' }} ->
-    {{ stack | LowM.Let e1 k ⇓ output | stack' }}
-
-  where "{{ stack | e ⇓ output | stack' }}" :=
-    (t stack output e stack').
-End Run.
-
-Import Run.
-
-(** A function to evaluate an expression assuming enough [fuel]. *)
-Fixpoint eval {A : Set} (fuel : nat) (stack : Stack.t) (e : LowM.t A) : (A + string) * Stack.t :=
-  match fuel with
-  | O => (inr "out of fuel", stack)
-  | S fuel =>
-    match e with
-    | LowM.Pure output => (inl output, stack)
-    | LowM.Primitive Primitive.OpenScope k =>
-      eval fuel (Stack.open_scope stack) (k tt)
-    | LowM.Primitive Primitive.CloseScope k =>
-      eval fuel (Stack.close_scope stack) (k tt)
-    | LowM.Primitive (Primitive.GetVar name) k =>
-      let value := Stack.get_var stack name in
-      eval fuel stack (k value)
-    | LowM.Primitive (Primitive.DeclareVars names values) k =>
-      eval fuel (Stack.declare_vars stack names values) (k tt)
-    | LowM.Primitive (Primitive.AssignVars names values) k =>
-      eval fuel (Stack.assign_vars stack names values) (k tt)
-    | LowM.Primitive (Primitive.CallFunction name arguments) k =>
-      let function := Stack.get_function stack name in
-      let (results, stack_inter) := eval fuel stack (function arguments) in
-      match results with
-      | inl results => eval fuel stack_inter (k results)
-      | inr message => (inr message, stack)
-      end
-    | LowM.DeclareFunction name body k =>
-      eval fuel (Stack.declare_function stack name body) k
-    | LowM.Let e1 k =>
-      let (output_inter, stack_inter) := eval fuel stack e1 in
-      match output_inter with
-      | inl output_inter => eval fuel stack_inter (k output_inter)
-      | inr message => (inr message, stack)
-      end
-    | LowM.Impossible message => (inr ("Impossible: " ++ message)%string, stack)
-    end
-  end.
-
-(** The [eval] function follows the semantics given by [Run.t]. *)
-Fixpoint eval_is_run {A : Set}
-    (fuel : nat) (stack : Stack.t) (e : LowM.t A) (output : A) (stack' : Stack.t) :
-  eval fuel stack e = (inl output, stack') ->
-  {{ stack | e ⇓ output | stack' }}.
-Proof.
-  destruct fuel as [|fuel]; [discriminate|].
-  destruct e; cbn; intros H_eval.
-  { (* Pure *)
-    inversion H_eval; constructor.
-  }
-  { (* Primitive *)
-    destruct primitive.
-    { (* OpenScope *)
-      constructor.
-      eapply eval_is_run.
-      eassumption.
-    }
-    { (* CloseScope *)
-      constructor.
-      eapply eval_is_run.
-      eassumption.
-    }
-    { (* GetVar *)
-      constructor.
-      eapply eval_is_run.
-      eassumption.
-    }
-    { (* DeclareVars *)
-      constructor.
-      eapply eval_is_run.
-      eassumption.
-    }
-    { (* AssignVars *)
-      constructor.
-      eapply eval_is_run.
-      eassumption.
-    }
-    { (* CallFunction *)
-      destruct eval as [[results | message] locals_inter] eqn:H_eval_inter in H_eval.
-      { econstructor;
-          eapply eval_is_run;
-          eassumption.
-      }
-      { discriminate. }
-    }
-  }
-  { (* DeclareFunction *)
-    constructor.
-    eapply eval_is_run.
-    eassumption.
-  }
-  { (* Let *)
-    destruct eval as [[results | message] locals_inter] eqn:H_eval_inter in H_eval.
-    { econstructor;
-        eapply eval_is_run;
-        eassumption.
-    }
-    { discriminate. }
-  }
-  { (* Impossible *)
-    discriminate.
-  }
-Qed.
+  Definition init_state : State.t :=
+    {|
+      State.stack := init_stack;
+      State.mem := Memory.init;
+      State.storage := Memory.init;
+      State.transientStorage := Memory.init;
+    |}.
+End Stdlib.
 
 Require test.libsolidity.semanticTests.various.erc20.ERC20.
 
-Definition foo : _ * Stack.t := eval 41 Stack.init ERC20.ERC20_403.code.
+Definition foo : _ * State.t := eval 50 Stdlib.init_state ERC20.ERC20_403.code.
 
-Eval cbn in (fst foo).
+Compute fst foo.

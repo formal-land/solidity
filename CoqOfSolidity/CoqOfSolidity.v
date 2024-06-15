@@ -57,7 +57,12 @@ Module Primitive.
   | GetVar (name : string) : t U256.t
   | DeclareVars (names : list string) (values : list U256.t) : t unit
   | AssignVars (names : list string) (values : list U256.t) : t unit
-  | CallFunction (name : string) (arguments : list U256.t) : t (Result.t (list U256.t)).
+  | MLoad (address : U256.t) : t U256.t
+  | MStore (address value : U256.t) : t unit
+  | SLoad (address : U256.t) : t U256.t
+  | SStore (address value : U256.t) : t unit
+  | TLoad (address : U256.t) : t U256.t
+  | TStore (address value : U256.t) : t unit.
 End Primitive.
 
 Module LowM.
@@ -70,12 +75,17 @@ Module LowM.
       (name : string)
       (body : list U256.t -> t (Result.t (list U256.t)))
       (k : t A)
+  | CallFunction
+      (name : string)
+      (arguments : list U256.t)
+      (k : Result.t (list U256.t) -> t A)
   (** Explicit cut in the monadic expressions, to provide better composition for the proofs. *)
   | Let {B : Set} (e1 : t B) (k : B -> t A)
   | Impossible (message : string).
   Arguments Pure {_}.
   Arguments Primitive {_ _}.
   Arguments DeclareFunction {_}.
+  Arguments CallFunction {_}.
   Arguments Let {_ _}.
   Arguments Impossible {_}.
 
@@ -87,6 +97,8 @@ Module LowM.
       Primitive primitive (fun result => let_ (k result) e2)
     | DeclareFunction name body k =>
       DeclareFunction name body (let_ k e2)
+    | CallFunction name arguments k =>
+      CallFunction name arguments (fun result => let_ (k result) e2)
     | Let e1 k =>
       Let e1 (fun result => let_ (k result) e2)
     | Impossible message => Impossible message
@@ -135,7 +147,7 @@ Module M.
 
   Definition call (name : string) (arguments : list (list U256.t)) : t (list U256.t) :=
     let arguments := List.map (fun argument => List.hd 0 argument) arguments in
-    LowM.Primitive (Primitive.CallFunction name arguments) LowM.Pure.
+    LowM.CallFunction name arguments LowM.Pure.
 
   Definition if_ (condition : list U256.t) (success : t BlockUnit.t) : t BlockUnit.t :=
     match condition with
