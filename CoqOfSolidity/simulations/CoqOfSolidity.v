@@ -146,7 +146,11 @@ Module State.
 End State.
 
 (** We consider that all the primitives can be defined as a function over the state. *)
-Definition eval_primitive {A : Set} (state : State.t) (primitive : Primitive.t A) : A * State.t :=
+Definition eval_primitive {A : Set}
+    (environment : Environment.t)
+    (state : State.t)
+    (primitive : Primitive.t A) :
+    A * State.t :=
   match primitive with
   | Primitive.OpenScope =>
     (
@@ -203,33 +207,43 @@ Definition eval_primitive {A : Set} (state : State.t) (primitive : Primitive.t A
       tt,
       state <| State.transientStorage := Memory.update state.(State.transientStorage) address value |>
     )
+  | Primitive.GetEnvironment =>
+    (
+      environment,
+      state
+    )
   end.
 
 (** A function to evaluate an expression assuming that we have enough [fuel]. *)
-Fixpoint eval {A : Set} (fuel : nat) (state : State.t) (e : LowM.t A) : (A + string) * State.t :=
+Fixpoint eval {A : Set}
+    (fuel : nat)
+    (environment : Environment.t)
+    (state : State.t)
+    (e : LowM.t A) :
+    (A + string) * State.t :=
   match fuel with
   | O => (inr "out of fuel", state)
   | S fuel =>
     match e with
     | LowM.Pure output => (inl output, state)
     | LowM.Primitive primitive k =>
-      let '(value, state_inter) := eval_primitive state primitive in
-      eval fuel state_inter (k value)
+      let '(value, state_inter) := eval_primitive environment state primitive in
+      eval fuel environment state_inter (k value)
     | LowM.DeclareFunction name body k =>
       let state_inter :=
         state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
-      eval fuel state_inter k
+      eval fuel environment state_inter k
     | LowM.CallFunction name arguments k =>
       let function := Stack.get_function state.(State.stack) name in
-      let (results, stack_inter) := eval fuel state (function arguments) in
+      let (results, stack_inter) := eval fuel environment state (function arguments) in
       match results with
-      | inl results => eval fuel stack_inter (k results)
+      | inl results => eval fuel environment stack_inter (k results)
       | inr message => (inr message, state)
       end
     | LowM.Let e1 k =>
-      let (output_inter, stack_inter) := eval fuel state e1 in
+      let (output_inter, stack_inter) := eval fuel environment state e1 in
       match output_inter with
-      | inl output_inter => eval fuel stack_inter (k output_inter)
+      | inl output_inter => eval fuel environment stack_inter (k output_inter)
       | inr message => (inr message, state)
       end
     | LowM.Impossible message => (inr ("Impossible: " ++ message)%string, state)
@@ -237,44 +251,51 @@ Fixpoint eval {A : Set} (fuel : nat) (state : State.t) (e : LowM.t A) : (A + str
   end.
 
 Module Run.
-  Reserved Notation "{{ state | e ⇓ output | state' }}" (at level 70, no associativity).
+  Reserved Notation "{{ environment , state | e ⇓ output | state' }}"
+    (at level 70, no associativity).
 
-  Inductive t {A : Set} (state : State.t) (output : A) : LowM.t A -> State.t -> Prop :=
-  | Pure : {{ state | LowM.Pure output ⇓ output | state }}
+  Inductive t {A : Set} (environment : Environment.t) (state : State.t) (output : A) :
+      LowM.t A -> State.t -> Prop :=
+  | Pure : {{ environment, state | LowM.Pure output ⇓ output | state }}
   | Primitive {B : Set} (primitive : Primitive.t B) (k : B -> LowM.t A) state' :
-    let value_inter_state := eval_primitive state primitive in
+    let value_inter_state := eval_primitive environment state primitive in
     (* Because we are not allowed to destructure a value in an inductive definition, so we use
        the [fst] and [snd] functions instead of a pattern. *)
     let value := fst value_inter_state in
     let state_inter := snd value_inter_state in
-    {{ state_inter | k value ⇓ output | state' }} ->
-    {{ state | LowM.Primitive primitive k ⇓ output | state' }}
+    {{ environment, state_inter | k value ⇓ output | state' }} ->
+    {{ environment, state | LowM.Primitive primitive k ⇓ output | state' }}
   | DeclareFunction name body k state' :
     let state_inter :=
       state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
-    {{ state_inter | k ⇓ output | state' }} ->
-    {{ state | LowM.DeclareFunction name body k ⇓ output | state' }}
+    {{ environment, state_inter | k ⇓ output | state' }} ->
+    {{ environment, state | LowM.DeclareFunction name body k ⇓ output | state' }}
   | CallFunction name arguments k results stack_inter state' :
     let function := Stack.get_function state.(State.stack) name in
-    {{ state | function arguments ⇓ results | stack_inter }} ->
-    {{ stack_inter | k results ⇓ output | state' }} ->
-    {{ state | LowM.CallFunction name arguments k ⇓ output | state' }}
+    {{ environment, state | function arguments ⇓ results | stack_inter }} ->
+    {{ environment, stack_inter | k results ⇓ output | state' }} ->
+    {{ environment, state | LowM.CallFunction name arguments k ⇓ output | state' }}
   | Let {B : Set} (e1 : LowM.t B) k stack_inter output_inter state' :
-    {{ state | e1 ⇓ output_inter | stack_inter }} ->
-    {{ stack_inter | k output_inter ⇓ output | state' }} ->
-    {{ state | LowM.Let e1 k ⇓ output | state' }}
+    {{ environment, state | e1 ⇓ output_inter | stack_inter }} ->
+    {{ environment, stack_inter | k output_inter ⇓ output | state' }} ->
+    {{ environment, state | LowM.Let e1 k ⇓ output | state' }}
 
-  where "{{ state | e ⇓ output | state' }}" :=
-    (t state output e state').
+  where "{{ environment , state | e ⇓ output | state' }}" :=
+    (t environment state output e state').
 End Run.
 
 Import Run.
 
 (** The [eval] function follows the semantics given by [Run.t]. *)
 Fixpoint eval_is_run {A : Set}
-    (fuel : nat) (state : State.t) (e : LowM.t A) (output : A) (state' : State.t) :
-  eval fuel state e = (inl output, state') ->
-  {{ state | e ⇓ output | state' }}.
+    (fuel : nat)
+    (environment : Environment.t)
+    (state : State.t)
+    (e : LowM.t A)
+    (output : A)
+    (state' : State.t) :
+  eval fuel environment state e = (inl output, state') ->
+  {{ environment, state | e ⇓ output | state' }}.
 Proof.
   destruct fuel as [|fuel]; [discriminate|].
   destruct e; cbn; intros H_eval.
@@ -315,10 +336,8 @@ Proof.
 Qed.
 
 Module Stdlib.
-  Parameter axiom : string -> U256.t.
-
   Definition return_ (p s : U256.t) : M.t unit :=
-    LowM.Pure (Result.Return p s).
+    LowM.Pure (Result.Return p s Revert.Without).
 
   Definition stop : M.t unit :=
     return_ 0 0.
@@ -335,14 +354,14 @@ Module Stdlib.
   Definition div (x y : U256.t) : U256.t :=
     if y =? 0 then 0 else x / y.
 
-  Definition sdiv (x y : U256.t) : U256.t :=
-    axiom "sdiv".
+  Definition sdiv (x y : U256.t) : M.t U256.t :=
+    LowM.Impossible "sdiv".
 
   Definition mod_ (x y : U256.t) : U256.t :=
     if y =? 0 then 0 else x mod y.
 
-  Definition smod (x y : U256.t) : U256.t :=
-    axiom "smod".
+  Definition smod (x y : U256.t) : M.t U256.t :=
+    LowM.Impossible "smod".
 
   Definition exp (x y : U256.t) : U256.t :=
     x ^ y.
@@ -357,11 +376,11 @@ Module Stdlib.
     if x >? y then 1 else 0.
 
   (* Signed version of [lt] *)
-  Definition slt (x y : U256.t) : U256.t :=
-    axiom "slt".
+  Definition slt (x y : U256.t) : M.t U256.t :=
+    LowM.Impossible "slt".
 
-  Definition sgt (x y : U256.t) : U256.t :=
-    axiom "sgt".
+  Definition sgt (x y : U256.t) : M.t U256.t :=
+    LowM.Impossible "sgt".
 
   Definition eq (x y : U256.t) : U256.t :=
     if x =? y then 1 else 0.
@@ -378,17 +397,17 @@ Module Stdlib.
   Definition xor (x y : U256.t) : U256.t :=
     Z.lxor x y.
 
-  Definition byte (n x : U256.t) : U256.t :=
-    axiom "byte".
+  Definition byte (n x : U256.t) : M.t U256.t :=
+    LowM.Impossible "byte".
 
-  Definition shl (x y : U256.t) : U256.t :=
-    axiom "shl".
+  Definition shl (x y : U256.t) : M.t U256.t :=
+    LowM.Impossible "shl".
 
-  Definition shr (x y : U256.t) : U256.t :=
-    axiom "shr".
+  Definition shr (x y : U256.t) : M.t U256.t :=
+    LowM.Impossible "shr".
 
-  Definition sar (x y : U256.t) : U256.t :=
-    axiom "sar".
+  Definition sar (x y : U256.t) : M.t U256.t :=
+    LowM.Impossible "sar".
 
   Definition addmod (x y m : U256.t) : U256.t :=
     (x + y) mod m.
@@ -396,15 +415,17 @@ Module Stdlib.
   Definition mulmod (x y m : U256.t) : U256.t :=
     (x * y) mod m.
 
-  Definition signextend (i x : U256.t) : U256.t :=
-    axiom "signextend".
+  Definition signextend (i x : U256.t) : M.t U256.t :=
+    LowM.Impossible "signextend".
 
-  Definition keccak256 (p n : U256.t) : U256.t :=
-    axiom "keccak256".
+  Definition keccak256 (p n : U256.t) : M.t U256.t :=
+    LowM.Impossible "keccak256".
 
-  Parameter pc : M.t U256.t.
+  Definition pc : M.t U256.t :=
+    LowM.Impossible "pc".
 
-  Parameter pop : U256.t -> M.t unit.
+  Definition pop (x : U256.t) : M.t unit :=
+    LowM.Impossible "pop".
 
   Definition mload (address : U256.t) : M.t U256.t :=
     LowM.Primitive (Primitive.MLoad address) M.pure.
@@ -412,7 +433,8 @@ Module Stdlib.
   Definition mstore (address value : U256.t) : M.t unit :=
     LowM.Primitive (Primitive.MStore address value) M.pure.
 
-  Parameter mstore8 : U256.t -> U256.t -> M.t unit.
+  Definition mstore8 (address value : U256.t) : M.t unit :=
+    LowM.Impossible "mstore8".
 
   Definition sload (address : U256.t) : M.t U256.t :=
     LowM.Primitive (Primitive.SLoad address) M.pure.
@@ -426,96 +448,140 @@ Module Stdlib.
   Definition tstore (address value : U256.t) : M.t unit :=
     LowM.Primitive (Primitive.TStore address value) M.pure.
 
-  Parameter msize : M.t U256.t.
+  Definition msize : M.t U256.t :=
+    LowM.Impossible "msize".
 
-  Parameter gas : M.t U256.t.
+  Definition gas : M.t U256.t :=
+    LowM.Impossible "gas".
 
-  Parameter address : M.t U256.t.
+  Definition address : M.t U256.t :=
+    LowM.Impossible "address".
 
-  Parameter balance : U256.t -> M.t U256.t.
+  Definition balance (a : U256.t) : M.t U256.t :=
+    LowM.Impossible "balance".
 
-  Parameter selfbalance : M.t U256.t.
+  Definition selfbalance : M.t U256.t :=
+    LowM.Impossible "selfbalance".
 
-  Parameter caller : M.t U256.t.
+  Definition caller : M.t U256.t :=
+    LowM.Primitive Primitive.GetEnvironment (fun env => M.pure env.(Environment.caller)).
 
-  Parameter callvalue : M.t U256.t.
+  Definition callvalue : M.t U256.t :=
+    LowM.Primitive Primitive.GetEnvironment (fun env => M.pure env.(Environment.callvalue)).
 
-  Parameter calldataload : U256.t -> M.t U256.t.
+  Definition calldataload (p : U256.t) : M.t U256.t :=
+    LowM.Impossible "calldataload".
 
-  Parameter calldatasize : M.t U256.t.
+  Definition calldatasize : M.t U256.t :=
+    LowM.Impossible "calldatasize".
 
-  Parameter calldatacopy : U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition calldatacopy (t f s : U256.t) : M.t unit :=
+    LowM.Impossible "calldatacopy".
 
-  Parameter codesize : M.t U256.t.
+  Definition codesize : M.t U256.t :=
+    LowM.Impossible "codesize".
 
-  Parameter codecopy : U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition codecopy (t f s : U256.t) : M.t unit :=
+    LowM.Impossible "codecopy".
 
-  Parameter extcodesize : U256.t -> M.t U256.t.
+  Definition extcodesize (a : U256.t) : M.t U256.t :=
+    LowM.Impossible "extcodesize".
 
-  Parameter extcodecopy : U256.t -> U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition extcodecopy (a t f s : U256.t) : M.t unit :=
+    LowM.Impossible "extcodecopy".
 
-  Parameter returndatasize : M.t U256.t.
+  Definition returndatasize : M.t U256.t :=
+    LowM.Impossible "returndatasize".
 
-  Parameter returndatacopy : U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition returndatacopy (t f s : U256.t) : M.t unit :=
+    LowM.Impossible "returndatacopy".
 
-  Parameter mcopy : U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition mcopy (t f s : U256.t) : M.t unit :=
+    LowM.Impossible "mcopy".
 
-  Parameter extcodehash : U256.t -> M.t U256.t.
+  Definition extcodehash (a : U256.t) : M.t U256.t :=
+    LowM.Impossible "extcodehash".
 
-  Parameter create : U256.t -> U256.t -> U256.t -> M.t U256.t.
+  Definition create (v p n : U256.t) : M.t U256.t :=
+    LowM.Impossible "create".
 
-  Parameter create2 : U256.t -> U256.t -> U256.t -> U256.t -> M.t U256.t.
+  Definition create2 (v p n s : U256.t) : M.t U256.t :=
+    LowM.Impossible "create2".
 
-  Parameter call : U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> M.t U256.t.
+  Definition call (g a v in_ insize out outsize : U256.t) : M.t U256.t :=
+    LowM.Impossible "call".
 
-  Parameter callcode :
-    U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> M.t U256.t.
+  Definition callcode (g a v in_ insize out outsize : U256.t) : M.t U256.t :=
+    LowM.Impossible "callcode".
 
-  Parameter delegatecall : U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> M.t U256.t.
+  Definition delegatecall (g a in_ insize out outsize : U256.t) : M.t U256.t :=
+    LowM.Impossible "delegatecall".
 
-  Parameter staticcall : U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> M.t U256.t.
+  Definition staticcall (g a in_ insize out outsize : U256.t) : M.t U256.t :=
+    LowM.Impossible "staticcall".
 
-  Parameter revert : U256.t -> U256.t -> M.t unit.
+  Definition revert (p s : U256.t) : M.t unit :=
+    LowM.Pure (Result.Return p s Revert.With).
 
-  Parameter selfdestruct : U256.t -> M.t unit.
+  Definition selfdestruct (a : U256.t) : M.t unit :=
+    LowM.Impossible "selfdestruct".
 
-  Parameter invalid : M.t unit.
+  Definition invalid : M.t unit :=
+    LowM.Impossible "invalid".
 
-  Parameter log0 : U256.t -> U256.t -> M.t unit.
+  Definition log0 (p s : U256.t) : M.t unit :=
+    LowM.Impossible "log0".
 
-  Parameter log1 : U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition log1 (p s t1 : U256.t) : M.t unit :=
+    LowM.Impossible "log1".
 
-  Parameter log2 : U256.t -> U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition log2 (p s t1 t2 : U256.t) : M.t unit :=
+    LowM.Impossible "log2".
 
-  Parameter log3 : U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition log3 (p s t1 t2 t3 : U256.t) : M.t unit :=
+    LowM.Impossible "log3".
 
-  Parameter log4 : U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> U256.t -> M.t unit.
+  Definition log4 (p s t1 t2 t3 t4 : U256.t) : M.t unit :=
+    LowM.Impossible "log4".
 
-  Parameter chainid : M.t U256.t.
+  Definition chainid : M.t U256.t :=
+    LowM.Impossible "chainid".
 
-  Parameter basefee : M.t U256.t.
+  Definition basefee : M.t U256.t :=
+    LowM.Impossible "basefee".
 
-  Parameter blobbasefee : M.t U256.t.
+  Definition blobbasefee : M.t U256.t :=
+    LowM.Impossible "blobbasefee".
 
-  Parameter origin : M.t U256.t.
+  Definition origin : M.t U256.t :=
+    LowM.Impossible "origin".
 
-  Parameter gasprice : M.t U256.t.
+  Definition gasprice : M.t U256.t :=
+    LowM.Impossible "gasprice".
 
-  Parameter blockhash : U256.t -> M.t U256.t.
+  Definition blockhash (b : U256.t) : M.t U256.t :=
+    LowM.Impossible "blockhash".
 
-  Parameter blobhash : U256.t -> M.t U256.t.
+  Definition blobhash (i : U256.t) : M.t U256.t :=
+    LowM.Impossible "blobhash".
 
-  Parameter coinbase : M.t U256.t.
+  Definition coinbase : M.t U256.t :=
+    LowM.Impossible "coinbase".
 
-  Parameter timestamp : M.t U256.t.
+  Definition timestamp : M.t U256.t :=
+    LowM.Impossible "timestamp".
 
-  Parameter number : M.t U256.t.
+  Definition number : M.t U256.t :=
+    LowM.Impossible "number".
 
-  Parameter difficulty : M.t U256.t.
+  Definition difficulty : M.t U256.t :=
+    LowM.Impossible "difficulty".
 
-  Parameter prevrandao : M.t U256.t.
+  Definition prevrandao : M.t U256.t :=
+    LowM.Impossible "prevrandao".
 
-  Parameter gaslimit : M.t U256.t.
+  Definition gaslimit : M.t U256.t :=
+    LowM.Impossible "gaslimit".
 
   (** Additional functions for the object mode of Yul. *)
   Module Object.
@@ -544,28 +610,28 @@ Module Stdlib.
     ("sub", fn [x; y] => return_u256 (pure (sub x y)));
     ("mul", fn [x; y] => return_u256 (pure (mul x y)));
     ("div", fn [x; y] => return_u256 (pure (div x y)));
-    ("sdiv", fn [x; y] => return_u256 (pure (sdiv x y)));
+    ("sdiv", fn [x; y] => return_u256 (sdiv x y));
     ("mod", fn [x; y] => return_u256 (pure (mod_ x y)));
-    ("smod", fn [x; y] => return_u256 (pure (smod x y)));
+    ("smod", fn [x; y] => return_u256 (smod x y));
     ("exp", fn [x; y] => return_u256 (pure (exp x y)));
     ("not", fn [x] => return_u256 (pure (not x)));
     ("lt", fn [x; y] => return_u256 (pure (lt x y)));
     ("gt", fn [x; y] => return_u256 (pure (gt x y)));
-    ("slt", fn [x; y] => return_u256 (pure (slt x y)));
-    ("sgt", fn [x; y] => return_u256 (pure (sgt x y)));
+    ("slt", fn [x; y] => return_u256 (slt x y));
+    ("sgt", fn [x; y] => return_u256 (sgt x y));
     ("eq", fn [x; y] => return_u256 (pure (eq x y)));
     ("iszero", fn [x] => return_u256 (pure (iszero x)));
     ("and", fn [x; y] => return_u256 (pure (and x y)));
     ("or", fn [x; y] => return_u256 (pure (or x y)));
     ("xor", fn [x; y] => return_u256 (pure (xor x y)));
-    ("byte", fn [n; x] => return_u256 (pure (byte n x)));
-    ("shl", fn [x; y] => return_u256 (pure (shl x y)));
-    ("shr", fn [x; y] => return_u256 (pure (shr x y)));
-    ("sar", fn [x; y] => return_u256 (pure (sar x y)));
+    ("byte", fn [n; x] => return_u256 (byte n x));
+    ("shl", fn [x; y] => return_u256 (shl x y));
+    ("shr", fn [x; y] => return_u256 (shr x y));
+    ("sar", fn [x; y] => return_u256 (sar x y));
     ("addmod", fn [x; y; m] => return_u256 (pure (addmod x y m)));
     ("mulmod", fn [x; y; m] => return_u256 (pure (mulmod x y m)));
-    ("signextend", fn [i; x] => return_u256 (pure (signextend i x)));
-    ("keccak256", fn [p; n] => return_u256 (pure (keccak256 p n)));
+    ("signextend", fn [i; x] => return_u256 (signextend i x));
+    ("keccak256", fn [p; n] => return_u256 (keccak256 p n));
     ("pc", fn [] => return_u256 pc);
     ("pop", fn [x] => return_unit (pop x));
     ("mload", fn [p] => return_u256 (mload p));
@@ -595,25 +661,29 @@ Module Stdlib.
     ("extcodehash", fn [a] => return_u256 (extcodehash a));
     ("create", fn [v; p; n] => return_u256 (create v p n));
     ("create2", fn [v; p; n; s] => return_u256 (create2 v p n s));
-    ("call", fn [g; a; v; p; s; v0; v1] => return_u256 (call g a v p s v0 v1));
-    ("callcode", fn [g; a; v; p; s; v0; v1] => return_u256 (callcode g a v p s v0 v1));
-    ("delegatecall", fn [g; a; p; s; v0; v1] => return_u256 (delegatecall g a p s v0 v1));
-    ("staticcall", fn [g; a; p; s; v0; v1] => return_u256 (staticcall g a p s v0 v1));
+    ("call", fn [g; a; v; in_; insize; out; outsize] =>
+      return_u256 (call g a v in_ insize out outsize));
+    ("callcode", fn [g; a; v; in_; insize; out; outsize] =>
+      return_u256 (callcode g a v in_ insize out outsize));
+    ("delegatecall", fn [g; a; in_; insize; out; outsize] =>
+      return_u256 (delegatecall g a in_ insize out outsize));
+    ("staticcall", fn [g; a; in_; insize; out; outsize] =>
+      return_u256 (staticcall g a in_ insize out outsize));
     ("revert", fn [p; s] => return_unit (revert p s));
     ("selfdestruct", fn [a] => return_unit (selfdestruct a));
     ("invalid", fn [] => return_unit invalid);
     ("log0", fn [p; s] => return_unit (log0 p s));
-    ("log1", fn [p; s; t] => return_unit (log1 p s t));
-    ("log2", fn [p; s; t; u] => return_unit (log2 p s t u));
-    ("log3", fn [p; s; t; u; v] => return_unit (log3 p s t u v));
-    ("log4", fn [p; s; t; u; v; w] => return_unit (log4 p s t u v w));
+    ("log1", fn [p; s; t1] => return_unit (log1 p s t1));
+    ("log2", fn [p; s; t1; t2] => return_unit (log2 p s t1 t2));
+    ("log3", fn [p; s; t1; t2; t3] => return_unit (log3 p s t1 t2 t3));
+    ("log4", fn [p; s; t1; t2; t3; t4] => return_unit (log4 p s t1 t2 t3 t4));
     ("chainid", fn [] => return_u256 chainid);
     ("basefee", fn [] => return_u256 basefee);
     ("blobbasefee", fn [] => return_u256 blobbasefee);
     ("origin", fn [] => return_u256 origin);
     ("gasprice", fn [] => return_u256 gasprice);
-    ("blockhash", fn [n] => return_u256 (blockhash n));
-    ("blobhash", fn [n] => return_u256 (blobhash n));
+    ("blockhash", fn [b] => return_u256 (blockhash b));
+    ("blobhash", fn [i] => return_u256 (blobhash i));
     ("coinbase", fn [] => return_u256 coinbase);
     ("timestamp", fn [] => return_u256 timestamp);
     ("number", fn [] => return_u256 number);
@@ -642,6 +712,11 @@ End Stdlib.
 
 Require test.libsolidity.semanticTests.various.erc20.ERC20.
 
-Definition foo : _ * State.t := eval 50 Stdlib.init_state ERC20.ERC20_403.code.
+Definition foo_env : Environment.t := {|
+  Environment.caller := 123;
+  Environment.callvalue := 0;
+|}.
+
+Definition foo : _ * State.t := eval 100 foo_env Stdlib.init_state ERC20.ERC20_403.code.
 
 Compute fst foo.

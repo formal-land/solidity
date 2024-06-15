@@ -34,23 +34,45 @@ Module U256.
   Definition t := Z.
 End U256.
 
+Module Environment.
+  Record t : Set := {
+    caller : U256.t;
+    (** Amount of wei sent to the current contract *)
+    callvalue : U256.t;
+  }.
+End Environment.
+
 Module BlockUnit.
+  (** The return value of a code block. *)
   Inductive t : Set :=
+  (** The default value in case of success *)
   | Tt
+  (** The instruction `break` was called *)
   | Break
+  (** The instruction `continue` was called *)
   | Continue
+  (** The instruction `leave` was called *)
   | Leave.
 End BlockUnit.
 
+Module Revert.
+  Inductive t : Set :=
+  | With
+  | Without.
+End Revert.
+
 Module Result.
+  (** A wrapper for the result of an expression or a code block. We can either return a normal value
+      with [Ok], or a special instruction [Return] that will stop the execution of the contract. *)
   Inductive t (A : Set) : Set :=
   | Ok (output : A)
-  | Return (p s : U256.t).
+  | Return (p s : U256.t) (with_revert : Revert.t).
   Arguments Ok {_}.
   Arguments Return {_}.
 End Result.
 
 Module Primitive.
+  (** We group together primitives that share being impure functions operating over the state. *)
   Inductive t : Set -> Set :=
   | OpenScope : t unit
   | CloseScope : t unit
@@ -62,7 +84,8 @@ Module Primitive.
   | SLoad (address : U256.t) : t U256.t
   | SStore (address value : U256.t) : t unit
   | TLoad (address : U256.t) : t U256.t
-  | TStore (address value : U256.t) : t unit.
+  | TStore (address value : U256.t) : t unit
+  | GetEnvironment : t Environment.t.
 End Primitive.
 
 Module LowM.
@@ -122,7 +145,7 @@ Module M.
     let_ e1 (fun result =>
     match result with
     | Result.Ok value => e2 value
-    | Result.Return p s => LowM.Pure (Result.Return p s)
+    | Result.Return p s with_revert => LowM.Pure (Result.Return p s with_revert)
     end).
   Arguments generic_let /.
 
@@ -152,8 +175,8 @@ Module M.
   Definition if_ (condition : list U256.t) (success : t BlockUnit.t) : t BlockUnit.t :=
     match condition with
     | [0] => pure BlockUnit.Tt
-    | [1] => success
-    | _ => LowM.Impossible "if_ condition must be a single boolean"
+    | [_] => success
+    | _ => LowM.Impossible "if: expected a single value as condition"
     end.
 
   Definition declare (names : list string) (values : option (list U256.t)) : t BlockUnit.t :=
