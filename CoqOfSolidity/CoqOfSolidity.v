@@ -211,9 +211,13 @@ Module M.
       t BlockUnit.t :=
     let body : list U256.t -> t (list U256.t) :=
       fun argument_values =>
-        let_ (assign arguments (Some argument_values)) (fun _ =>
+        let_ open_scope (fun _ =>
+        let_ (declare arguments (Some argument_values)) (fun _ =>
+        let_ (declare results None) (fun _ =>
         let_ body (fun _ =>
-        get_vars results)) in
+        let_ (get_vars results) (fun result_values =>
+        let_ close_scope (fun _ =>
+        pure result_values)))))) in
     LowM.DeclareFunction name body (pure BlockUnit.Tt).
 
   Fixpoint switch_aux (value : U256.t) (cases : list (option U256.t * t BlockUnit.t)) :

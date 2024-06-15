@@ -58,7 +58,10 @@ Module Stack.
 
   Fixpoint get_var (stack : t) (name : string) : U256.t :=
     match stack with
-    | [] => 0
+    | [] =>
+      (* this case is not supposed to happen; we use a special value in order to see it in the logs
+         if we need to debug *)
+      42
     | locals :: stack =>
       match Dict.get locals.(Locals.variables) name with
       | None => get_var stack name
@@ -400,11 +403,11 @@ Module Stdlib.
   Definition byte (n x : U256.t) : M.t U256.t :=
     LowM.Impossible "byte".
 
-  Definition shl (x y : U256.t) : M.t U256.t :=
-    LowM.Impossible "shl".
+  Definition shl (x y : U256.t) : U256.t :=
+    (y * (2 ^ x)) mod (2 ^ 256).
 
-  Definition shr (x y : U256.t) : M.t U256.t :=
-    LowM.Impossible "shr".
+  Definition shr (x y : U256.t) : U256.t :=
+    y / (2 ^ x).
 
   Definition sar (x y : U256.t) : M.t U256.t :=
     LowM.Impossible "sar".
@@ -587,7 +590,7 @@ Module Stdlib.
   Module Object.
     (** We assume that the optimizer does not use any additional memory. *)
     Definition memoryguard (size : U256.t) : M.t U256.t :=
-      pure size.
+      M.pure size.
   End Object.
 
   Notation "'fn' p '=>' body" :=
@@ -599,37 +602,37 @@ Module Stdlib.
     (at level 200, p pattern).
 
   Definition return_unit (body : M.t unit) : M.t (list U256.t) :=
-    M.let_ body (fun _ => pure []).
+    M.let_ body (fun _ => M.pure []).
 
   Definition return_u256 (body : M.t U256.t) : M.t (list U256.t) :=
-    M.let_ body (fun result => pure [result]).
+    M.let_ body (fun result => M.pure [result]).
 
   Definition functions : list (string * (list U256.t -> M.t (list U256.t))) := [
     ("stop", fn [] => return_unit stop);
-    ("add", fn [x; y] => return_u256 (pure (add x y)));
-    ("sub", fn [x; y] => return_u256 (pure (sub x y)));
-    ("mul", fn [x; y] => return_u256 (pure (mul x y)));
-    ("div", fn [x; y] => return_u256 (pure (div x y)));
+    ("add", fn [x; y] => return_u256 (M.pure (add x y)));
+    ("sub", fn [x; y] => return_u256 (M.pure (sub x y)));
+    ("mul", fn [x; y] => return_u256 (M.pure (mul x y)));
+    ("div", fn [x; y] => return_u256 (M.pure (div x y)));
     ("sdiv", fn [x; y] => return_u256 (sdiv x y));
-    ("mod", fn [x; y] => return_u256 (pure (mod_ x y)));
+    ("mod", fn [x; y] => return_u256 (M.pure (mod_ x y)));
     ("smod", fn [x; y] => return_u256 (smod x y));
-    ("exp", fn [x; y] => return_u256 (pure (exp x y)));
-    ("not", fn [x] => return_u256 (pure (not x)));
-    ("lt", fn [x; y] => return_u256 (pure (lt x y)));
-    ("gt", fn [x; y] => return_u256 (pure (gt x y)));
+    ("exp", fn [x; y] => return_u256 (M.pure (exp x y)));
+    ("not", fn [x] => return_u256 (M.pure (not x)));
+    ("lt", fn [x; y] => return_u256 (M.pure (lt x y)));
+    ("gt", fn [x; y] => return_u256 (M.pure (gt x y)));
     ("slt", fn [x; y] => return_u256 (slt x y));
     ("sgt", fn [x; y] => return_u256 (sgt x y));
-    ("eq", fn [x; y] => return_u256 (pure (eq x y)));
-    ("iszero", fn [x] => return_u256 (pure (iszero x)));
-    ("and", fn [x; y] => return_u256 (pure (and x y)));
-    ("or", fn [x; y] => return_u256 (pure (or x y)));
-    ("xor", fn [x; y] => return_u256 (pure (xor x y)));
+    ("eq", fn [x; y] => return_u256 (M.pure (eq x y)));
+    ("iszero", fn [x] => return_u256 (M.pure (iszero x)));
+    ("and", fn [x; y] => return_u256 (M.pure (and x y)));
+    ("or", fn [x; y] => return_u256 (M.pure (or x y)));
+    ("xor", fn [x; y] => return_u256 (M.pure (xor x y)));
     ("byte", fn [n; x] => return_u256 (byte n x));
-    ("shl", fn [x; y] => return_u256 (shl x y));
-    ("shr", fn [x; y] => return_u256 (shr x y));
+    ("shl", fn [x; y] => return_u256 (M.pure (shl x y)));
+    ("shr", fn [x; y] => return_u256 (M.pure (shr x y)));
     ("sar", fn [x; y] => return_u256 (sar x y));
-    ("addmod", fn [x; y; m] => return_u256 (pure (addmod x y m)));
-    ("mulmod", fn [x; y; m] => return_u256 (pure (mulmod x y m)));
+    ("addmod", fn [x; y; m] => return_u256 (M.pure (addmod x y m)));
+    ("mulmod", fn [x; y; m] => return_u256 (M.pure (mulmod x y m)));
     ("signextend", fn [i; x] => return_u256 (signextend i x));
     ("keccak256", fn [p; n] => return_u256 (keccak256 p n));
     ("pc", fn [] => return_u256 pc);
@@ -717,6 +720,12 @@ Definition foo_env : Environment.t := {|
   Environment.callvalue := 0;
 |}.
 
-Definition foo : _ * State.t := eval 100 foo_env Stdlib.init_state ERC20.ERC20_403.code.
+Definition foo : _ * State.t := eval 200 foo_env Stdlib.init_state ERC20.ERC20_403.code.
 
 Compute fst foo.
+Compute List.length (snd foo).(State.stack).
+
+Definition declared_vars (state : State.t) : list (list (string * U256.t)) :=
+  List.map (fun locals => locals.(Locals.variables)) state.(State.stack).
+
+Compute declared_vars (snd foo).
