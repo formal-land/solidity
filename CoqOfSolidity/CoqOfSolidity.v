@@ -79,13 +79,16 @@ Module Primitive.
   | GetVar (name : string) : t U256.t
   | DeclareVars (names : list string) (values : list U256.t) : t unit
   | AssignVars (names : list string) (values : list U256.t) : t unit
-  | MLoad (address : U256.t) : t U256.t
-  | MStore (address value : U256.t) : t unit
-  | SLoad (address : U256.t) : t U256.t
-  | SStore (address value : U256.t) : t unit
-  | TLoad (address : U256.t) : t U256.t
-  | TStore (address value : U256.t) : t unit
-  | GetEnvironment : t Environment.t.
+  | MLoad (address length : U256.t) : t (list Z)
+  | MStore (address : U256.t) (bytes : list Z) : t unit
+  | SLoad (address length : U256.t) : t (list Z)
+  | SStore (address : U256.t) (bytes : list Z) : t unit
+  | TLoad (address length : U256.t) : t (list Z)
+  | TStore (address : U256.t) (bytes : list Z) : t unit
+  | GetEnvironment : t Environment.t
+  (** The call stack is there to debug the semantics of Yul. *)
+  | CallStackPush (name : string) (arguments : list (string * U256.t)) : t unit
+  | CallStackPop : t unit.
 End Primitive.
 
 Module LowM.
@@ -211,13 +214,17 @@ Module M.
       t BlockUnit.t :=
     let body : list U256.t -> t (list U256.t) :=
       fun argument_values =>
+        let_ (LowM.Primitive (
+          Primitive.CallStackPush name (List.combine arguments argument_values)
+        ) pure) (fun _ =>
         let_ open_scope (fun _ =>
         let_ (declare arguments (Some argument_values)) (fun _ =>
         let_ (declare results None) (fun _ =>
         let_ body (fun _ =>
         let_ (get_vars results) (fun result_values =>
         let_ close_scope (fun _ =>
-        pure result_values)))))) in
+        let_ (LowM.Primitive Primitive.CallStackPop pure) (fun _ =>
+        pure result_values)))))))) in
     LowM.DeclareFunction name body (pure BlockUnit.Tt).
 
   Fixpoint switch_aux (value : U256.t) (cases : list (option U256.t * t BlockUnit.t)) :
@@ -298,6 +305,10 @@ Module M.
 End M.
 
 Module Notations.
+  Notation "'let*' x ':=' e 'in' k" :=
+    (M.let_ e (fun x => k))
+    (at level 200, x ident, e at level 200, k at level 200).
+
   Notation "'do*' a 'in' b" :=
     (M.do a b)
     (at level 200).

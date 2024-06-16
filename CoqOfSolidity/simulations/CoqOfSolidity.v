@@ -1,4 +1,5 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
+Require EVM.Crypto.Keccak.
 
 Module Dict.
   Definition t (A : Set) : Set :=
@@ -123,20 +124,56 @@ Module Stack.
 End Stack.
 
 Module Memory.
-  (** We define the memory as a function instead of an explicit list as there can be holes in it. *)
+  (** We define the memory as a function instead of an explicit list as there can be holes in it. It
+      goes from addresses in [U256.t] to bytes represented as [Z]. *)
   Definition t : Set :=
-    U256.t -> U256.t.
+    U256.t -> Z.
 
   Definition init : t :=
     fun _ => 0.
 
-  Definition update (memory : t) (address : U256.t) (value : U256.t) : t :=
-    fun current_address =>
-      if address =? current_address then
-        value
+  (** Get the bytes from some memory from a start adress and for a certain length. *)
+  Definition get_bytes (memory : Memory.t) (start length : U256.t) : list Z :=
+    List.map
+      (fun (i : nat) =>
+        let address : U256.t := start + Z.of_nat i in
+        memory address
+      )
+      (List.seq 0 (Z.to_nat length)).
+
+  Definition update_bytes (memory : Memory.t) (start : U256.t) (bytes : list Z) : Memory.t :=
+    fun address =>
+      let i : Z := address - start in
+      if andb (0 <=? i) (i <? Z.of_nat (List.length bytes)) then
+        List.nth_default 0 bytes (Z.to_nat i)
       else
-        memory current_address.
+        memory address.
+
+  Definition u256_as_bytes (value : U256.t) : list Z :=
+    List.map
+      (fun (i : nat) => Z.shiftr value (8 * (31 - Z.of_nat i)) mod 256)
+      (List.seq 0 32).
+
+  Definition bytes_as_u256 (bytes : list Z) : U256.t :=
+    List.fold_left
+      (fun (acc : U256.t) (byte : Z) =>
+        (acc * 256) + byte
+      )
+      bytes
+      0.
+
+  Definition bytes_as_bytes (bytes : list Z) : list Nibble.byte :=
+    List.map
+      (fun (byte : Z) => Nibble.byte_of_N (Z.to_N byte))
+      bytes.
 End Memory.
+
+Module CallStack.
+  (** The list of functions that were called with their corresponding parameters. This is for
+      debugging purpose only, and does not exist in the semantics of Yul. *)
+  Definition t : Set :=
+    list (string * list (string * U256.t)).
+End CallStack.
 
 Module State.
   (** The state contains the various kinds of memory that we use in a smart contract. *)
@@ -145,6 +182,8 @@ Module State.
     mem : Memory.t;
     storage : Memory.t;
     transientStorage : Memory.t;
+    (** This is only for debugging *)
+    call_stack : CallStack.t;
   }.
 End State.
 
@@ -180,40 +219,52 @@ Definition eval_primitive {A : Set}
       tt,
       state <| State.stack := Stack.assign_vars state.(State.stack) names values |>
     )
-  | Primitive.MLoad address =>
+  | Primitive.MLoad address length =>
     (
-      state.(State.mem) address,
+      Memory.get_bytes state.(State.mem) address length,
       state
     )
-  | Primitive.MStore address value =>
+  | Primitive.MStore address bytes =>
     (
       tt,
-      state <| State.mem := Memory.update state.(State.mem) address value |>
+      state <| State.mem := Memory.update_bytes state.(State.mem) address bytes |>
     )
-  | Primitive.SLoad address =>
+  | Primitive.SLoad address length =>
     (
-      state.(State.storage) address,
+      Memory.get_bytes state.(State.storage) address length,
       state
     )
-  | Primitive.SStore address value =>
+  | Primitive.SStore address bytes =>
     (
       tt,
-      state <| State.storage := Memory.update state.(State.storage) address value |>
+      state <| State.storage := Memory.update_bytes state.(State.storage) address bytes |>
     )
-  | Primitive.TLoad address =>
+  | Primitive.TLoad address length =>
     (
-      state.(State.transientStorage) address,
+      Memory.get_bytes state.(State.transientStorage) address length,
       state
     )
-  | Primitive.TStore address value =>
+  | Primitive.TStore address bytes =>
     (
       tt,
-      state <| State.transientStorage := Memory.update state.(State.transientStorage) address value |>
+      state <| State.transientStorage :=
+        Memory.update_bytes state.(State.transientStorage) address bytes
+      |>
     )
   | Primitive.GetEnvironment =>
     (
       environment,
       state
+    )
+  | Primitive.CallStackPush name arguments =>
+    (
+      tt,
+      state <| State.call_stack := (name, arguments) :: state.(State.call_stack) |>
+    )
+  | Primitive.CallStackPop =>
+    (
+      tt,
+      state <| State.call_stack := List.tl state.(State.call_stack) |>
     )
   end.
 
@@ -238,16 +289,16 @@ Fixpoint eval {A : Set}
       eval fuel environment state_inter k
     | LowM.CallFunction name arguments k =>
       let function := Stack.get_function state.(State.stack) name in
-      let (results, stack_inter) := eval fuel environment state (function arguments) in
+      let (results, state_inter) := eval fuel environment state (function arguments) in
       match results with
-      | inl results => eval fuel environment stack_inter (k results)
-      | inr message => (inr message, state)
+      | inl results => eval fuel environment state_inter (k results)
+      | inr message => (inr message, state_inter)
       end
     | LowM.Let e1 k =>
-      let (output_inter, stack_inter) := eval fuel environment state e1 in
+      let (output_inter, state_inter) := eval fuel environment state e1 in
       match output_inter with
-      | inl output_inter => eval fuel environment stack_inter (k output_inter)
-      | inr message => (inr message, state)
+      | inl output_inter => eval fuel environment state_inter (k output_inter)
+      | inr message => (inr message, state_inter)
       end
     | LowM.Impossible message => (inr ("Impossible: " ++ message)%string, state)
     end
@@ -261,11 +312,11 @@ Module Run.
       LowM.t A -> State.t -> Prop :=
   | Pure : {{ environment, state | LowM.Pure output ⇓ output | state }}
   | Primitive {B : Set} (primitive : Primitive.t B) (k : B -> LowM.t A) state' :
-    let value_inter_state := eval_primitive environment state primitive in
+    let value_state_inter := eval_primitive environment state primitive in
     (* Because we are not allowed to destructure a value in an inductive definition, so we use
        the [fst] and [snd] functions instead of a pattern. *)
-    let value := fst value_inter_state in
-    let state_inter := snd value_inter_state in
+    let value := fst value_state_inter in
+    let state_inter := snd value_state_inter in
     {{ environment, state_inter | k value ⇓ output | state' }} ->
     {{ environment, state | LowM.Primitive primitive k ⇓ output | state' }}
   | DeclareFunction name body k state' :
@@ -273,14 +324,14 @@ Module Run.
       state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
     {{ environment, state_inter | k ⇓ output | state' }} ->
     {{ environment, state | LowM.DeclareFunction name body k ⇓ output | state' }}
-  | CallFunction name arguments k results stack_inter state' :
+  | CallFunction name arguments k results state_inter state' :
     let function := Stack.get_function state.(State.stack) name in
-    {{ environment, state | function arguments ⇓ results | stack_inter }} ->
-    {{ environment, stack_inter | k results ⇓ output | state' }} ->
+    {{ environment, state | function arguments ⇓ results | state_inter }} ->
+    {{ environment, state_inter | k results ⇓ output | state' }} ->
     {{ environment, state | LowM.CallFunction name arguments k ⇓ output | state' }}
-  | Let {B : Set} (e1 : LowM.t B) k stack_inter output_inter state' :
-    {{ environment, state | e1 ⇓ output_inter | stack_inter }} ->
-    {{ environment, stack_inter | k output_inter ⇓ output | state' }} ->
+  | Let {B : Set} (e1 : LowM.t B) k state_inter output_inter state' :
+    {{ environment, state | e1 ⇓ output_inter | state_inter }} ->
+    {{ environment, state_inter | k output_inter ⇓ output | state' }} ->
     {{ environment, state | LowM.Let e1 k ⇓ output | state' }}
 
   where "{{ environment , state | e ⇓ output | state' }}" :=
@@ -422,7 +473,16 @@ Module Stdlib.
     LowM.Impossible "signextend".
 
   Definition keccak256 (p n : U256.t) : M.t U256.t :=
-    LowM.Impossible "keccak256".
+    let* bytes := LowM.Primitive (Primitive.MLoad p n) M.pure in
+    let bytes := Memory.bytes_as_bytes bytes in
+    let hash : list Nibble.byte := EVM.Crypto.Keccak.keccak_256 bytes in
+    M.pure (List.fold_left
+      (fun (acc : U256.t) (byte : Nibble.byte) =>
+        (acc * 256) + Z.of_N (Nibble.N_of_byte byte)
+      )
+      hash
+      0
+    ).
 
   Definition pc : M.t U256.t :=
     LowM.Impossible "pc".
@@ -431,25 +491,32 @@ Module Stdlib.
     LowM.Impossible "pop".
 
   Definition mload (address : U256.t) : M.t U256.t :=
-    LowM.Primitive (Primitive.MLoad address) M.pure.
+    let* bytes := LowM.Primitive (Primitive.MLoad address 32) M.pure in
+    M.pure (Memory.bytes_as_u256 bytes).
 
   Definition mstore (address value : U256.t) : M.t unit :=
-    LowM.Primitive (Primitive.MStore address value) M.pure.
+    let bytes := Memory.u256_as_bytes value in
+    LowM.Primitive (Primitive.MStore address bytes) M.pure.
 
   Definition mstore8 (address value : U256.t) : M.t unit :=
-    LowM.Impossible "mstore8".
+    let bytes := [value mod 256] in
+    LowM.Primitive (Primitive.MStore address bytes) M.pure.
 
   Definition sload (address : U256.t) : M.t U256.t :=
-    LowM.Primitive (Primitive.SLoad address) M.pure.
+    let* bytes := LowM.Primitive (Primitive.SLoad address 32) M.pure in
+    M.pure (Memory.bytes_as_u256 bytes).
 
   Definition sstore (address value : U256.t) : M.t unit :=
-    LowM.Primitive (Primitive.SStore address value) M.pure.
+    let bytes := Memory.u256_as_bytes value in
+    LowM.Primitive (Primitive.SStore address bytes) M.pure.
 
   Definition tload (address : U256.t) : M.t U256.t :=
-    LowM.Primitive (Primitive.TLoad address) M.pure.
+    let* bytes := LowM.Primitive (Primitive.TLoad address 32) M.pure in
+    M.pure (Memory.bytes_as_u256 bytes).
 
   Definition tstore (address value : U256.t) : M.t unit :=
-    LowM.Primitive (Primitive.TStore address value) M.pure.
+    let bytes := Memory.u256_as_bytes value in
+    LowM.Primitive (Primitive.TStore address bytes) M.pure.
 
   Definition msize : M.t U256.t :=
     LowM.Impossible "msize".
@@ -710,6 +777,7 @@ Module Stdlib.
       State.mem := Memory.init;
       State.storage := Memory.init;
       State.transientStorage := Memory.init;
+      State.call_stack := [];
     |}.
 End Stdlib.
 
@@ -729,3 +797,4 @@ Definition declared_vars (state : State.t) : list (list (string * U256.t)) :=
   List.map (fun locals => locals.(Locals.variables)) state.(State.stack).
 
 Compute declared_vars (snd foo).
+Compute (snd foo).(State.call_stack).
