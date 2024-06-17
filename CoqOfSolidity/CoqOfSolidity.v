@@ -81,10 +81,11 @@ Module Primitive.
   | AssignVars (names : list string) (values : list U256.t) : t unit
   | MLoad (address length : U256.t) : t (list Z)
   | MStore (address : U256.t) (bytes : list Z) : t unit
-  | SLoad (address length : U256.t) : t (list Z)
-  | SStore (address : U256.t) (bytes : list Z) : t unit
-  | TLoad (address length : U256.t) : t (list Z)
-  | TStore (address : U256.t) (bytes : list Z) : t unit
+  | SLoad (address : U256.t) : t U256.t
+  | SStore (address value : U256.t) : t unit
+  | TLoad (address : U256.t) : t U256.t
+  | TStore (address value : U256.t) : t unit
+  | Log (topics : list U256.t) (payload : list Z) : t unit
   | GetEnvironment : t Environment.t
   (** The call stack is there to debug the semantics of Yul. *)
   | CallStackPush (name : string) (arguments : list (string * U256.t)) : t unit

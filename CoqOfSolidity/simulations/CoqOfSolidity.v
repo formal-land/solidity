@@ -168,6 +168,20 @@ Module Memory.
       bytes.
 End Memory.
 
+Module Storage.
+  (** Each slot in the storage is a word. This is different from [Memory.t] where it is only
+      bytes. *)
+  Definition t : Set :=
+    U256.t -> U256.t.
+
+  Definition update (storage : Storage.t) (address value : U256.t) : Storage.t :=
+    fun current_address =>
+      if address =? current_address then
+        value
+      else
+        storage current_address.
+End Storage.
+
 Module CallStack.
   (** The list of functions that were called with their corresponding parameters. This is for
       debugging purpose only, and does not exist in the semantics of Yul. *)
@@ -180,8 +194,9 @@ Module State.
   Record t : Set := {
     stack : Stack.t;
     mem : Memory.t;
-    storage : Memory.t;
-    transientStorage : Memory.t;
+    storage : Storage.t;
+    transientStorage : Storage.t;
+    logs : list (list U256.t * list Z);
     (** This is only for debugging *)
     call_stack : CallStack.t;
   }.
@@ -229,27 +244,32 @@ Definition eval_primitive {A : Set}
       tt,
       state <| State.mem := Memory.update_bytes state.(State.mem) address bytes |>
     )
-  | Primitive.SLoad address length =>
+  | Primitive.SLoad address =>
     (
-      Memory.get_bytes state.(State.storage) address length,
+      state.(State.storage) address,
       state
     )
-  | Primitive.SStore address bytes =>
+  | Primitive.SStore address value =>
     (
       tt,
-      state <| State.storage := Memory.update_bytes state.(State.storage) address bytes |>
+      state <| State.storage := Storage.update state.(State.storage) address value |>
     )
-  | Primitive.TLoad address length =>
+  | Primitive.TLoad address =>
     (
-      Memory.get_bytes state.(State.transientStorage) address length,
+      state.(State.transientStorage) address,
       state
     )
-  | Primitive.TStore address bytes =>
+  | Primitive.TStore address value =>
     (
       tt,
       state <| State.transientStorage :=
-        Memory.update_bytes state.(State.transientStorage) address bytes
+        Storage.update state.(State.transientStorage) address value
       |>
+    )
+  | Primitive.Log topics payload =>
+    (
+      tt,
+      state <| State.logs := (topics, payload) :: state.(State.logs) |>
     )
   | Primitive.GetEnvironment =>
     (
@@ -476,13 +496,8 @@ Module Stdlib.
     let* bytes := LowM.Primitive (Primitive.MLoad p n) M.pure in
     let bytes := Memory.bytes_as_bytes bytes in
     let hash : list Nibble.byte := EVM.Crypto.Keccak.keccak_256 bytes in
-    M.pure (List.fold_left
-      (fun (acc : U256.t) (byte : Nibble.byte) =>
-        (acc * 256) + Z.of_N (Nibble.N_of_byte byte)
-      )
-      hash
-      0
-    ).
+    let hash : list Z := (List.map (fun byte => Z.of_N (Nibble.N_of_byte byte))) hash in
+    M.pure (Memory.bytes_as_u256 hash).
 
   Definition pc : M.t U256.t :=
     LowM.Impossible "pc".
@@ -503,20 +518,16 @@ Module Stdlib.
     LowM.Primitive (Primitive.MStore address bytes) M.pure.
 
   Definition sload (address : U256.t) : M.t U256.t :=
-    let* bytes := LowM.Primitive (Primitive.SLoad address 32) M.pure in
-    M.pure (Memory.bytes_as_u256 bytes).
+    LowM.Primitive (Primitive.SLoad address) M.pure.
 
   Definition sstore (address value : U256.t) : M.t unit :=
-    let bytes := Memory.u256_as_bytes value in
-    LowM.Primitive (Primitive.SStore address bytes) M.pure.
+    LowM.Primitive (Primitive.SStore address value) M.pure.
 
   Definition tload (address : U256.t) : M.t U256.t :=
-    let* bytes := LowM.Primitive (Primitive.TLoad address 32) M.pure in
-    M.pure (Memory.bytes_as_u256 bytes).
+    LowM.Primitive (Primitive.TLoad address) M.pure.
 
   Definition tstore (address value : U256.t) : M.t unit :=
-    let bytes := Memory.u256_as_bytes value in
-    LowM.Primitive (Primitive.TStore address bytes) M.pure.
+    LowM.Primitive (Primitive.TStore address value) M.pure.
 
   Definition msize : M.t U256.t :=
     LowM.Impossible "msize".
@@ -551,8 +562,9 @@ Module Stdlib.
   Definition codesize : M.t U256.t :=
     LowM.Impossible "codesize".
 
+  (** TODO: register somewhere that we hzave copied the code *)
   Definition codecopy (t f s : U256.t) : M.t unit :=
-    LowM.Impossible "codecopy".
+    M.pure tt.
 
   Definition extcodesize (a : U256.t) : M.t U256.t :=
     LowM.Impossible "extcodesize".
@@ -600,19 +612,24 @@ Module Stdlib.
     LowM.Impossible "invalid".
 
   Definition log0 (p s : U256.t) : M.t unit :=
-    LowM.Impossible "log0".
+    let* payload := LowM.Primitive (Primitive.MLoad p s) M.pure in
+    LowM.Primitive (Primitive.Log [] payload) M.pure.
 
   Definition log1 (p s t1 : U256.t) : M.t unit :=
-    LowM.Impossible "log1".
+    let* payload := LowM.Primitive (Primitive.MLoad p s) M.pure in
+    LowM.Primitive (Primitive.Log [t1] payload) M.pure.
 
   Definition log2 (p s t1 t2 : U256.t) : M.t unit :=
-    LowM.Impossible "log2".
+    let* payload := LowM.Primitive (Primitive.MLoad p s) M.pure in
+    LowM.Primitive (Primitive.Log [t1; t2] payload) M.pure.
 
   Definition log3 (p s t1 t2 t3 : U256.t) : M.t unit :=
-    LowM.Impossible "log3".
+    let* payload := LowM.Primitive (Primitive.MLoad p s) M.pure in
+    LowM.Primitive (Primitive.Log [t1; t2; t3] payload) M.pure.
 
   Definition log4 (p s t1 t2 t3 t4 : U256.t) : M.t unit :=
-    LowM.Impossible "log4".
+    let* payload := LowM.Primitive (Primitive.MLoad p s) M.pure in
+    LowM.Primitive (Primitive.Log [t1; t2; t3; t4] payload) M.pure.
 
   Definition chainid : M.t U256.t :=
     LowM.Impossible "chainid".
@@ -658,6 +675,18 @@ Module Stdlib.
     (** We assume that the optimizer does not use any additional memory. *)
     Definition memoryguard (size : U256.t) : M.t U256.t :=
       M.pure size.
+
+    (** For the [dataoffset] function we use the Keccak256 of the [name] to have something unique,
+        but it could be any value in the implementation *)
+    Definition dataoffset (name : Z) : M.t U256.t :=
+      let name : string := HexString.of_Z name in
+      let hash : list Nibble.byte := EVM.Crypto.Keccak.keccak_256_of_string name in
+      let hash : list Z := (List.map (fun byte => Z.of_N (Nibble.N_of_byte byte))) hash in
+      M.pure (Memory.bytes_as_u256 hash).
+
+    (** Same as for [dataoffset], we could take any value so we take one that is unique. *)
+    Definition datasize (name : Z) : M.t U256.t :=
+      dataoffset name.
   End Object.
 
   Notation "'fn' p '=>' body" :=
@@ -739,6 +768,7 @@ Module Stdlib.
       return_u256 (delegatecall g a in_ insize out outsize));
     ("staticcall", fn [g; a; in_; insize; out; outsize] =>
       return_u256 (staticcall g a in_ insize out outsize));
+    ("return", fn [p; s] => return_unit (return_ p s));
     ("revert", fn [p; s] => return_unit (revert p s));
     ("selfdestruct", fn [a] => return_unit (selfdestruct a));
     ("invalid", fn [] => return_unit invalid);
@@ -760,7 +790,9 @@ Module Stdlib.
     ("difficulty", fn [] => return_u256 difficulty);
     ("prevrandao", fn [] => return_u256 prevrandao);
     ("gaslimit", fn [] => return_u256 gaslimit);
-    ("memoryguard", fn [p] => return_u256 (Object.memoryguard p))
+    ("memoryguard", fn [p] => return_u256 (Object.memoryguard p));
+    ("dataoffset", fn [name] => return_u256 (Object.dataoffset name));
+    ("datasize", fn [name] => return_u256 (Object.datasize name))
   ].
 
   Definition init_stack : Stack.t :=
@@ -777,6 +809,7 @@ Module Stdlib.
       State.mem := Memory.init;
       State.storage := Memory.init;
       State.transientStorage := Memory.init;
+      State.logs := [];
       State.call_stack := [];
     |}.
 End Stdlib.
@@ -790,11 +823,20 @@ Definition foo_env : Environment.t := {|
 
 Definition foo : _ * State.t := eval 200 foo_env Stdlib.init_state ERC20.ERC20_403.code.
 
+Compute "result".
 Compute fst foo.
+
+Compute "stack length".
 Compute List.length (snd foo).(State.stack).
 
 Definition declared_vars (state : State.t) : list (list (string * U256.t)) :=
   List.map (fun locals => locals.(Locals.variables)) state.(State.stack).
 
+Compute "declared_vars".
 Compute declared_vars (snd foo).
+
+Compute "logs".
+Compute (snd foo).(State.logs).
+
+Compute "call stack".
 Compute (snd foo).(State.call_stack).
