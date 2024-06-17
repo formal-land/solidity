@@ -701,7 +701,7 @@ Module C_202.
                 M.call (|
                   "add",
                   [
-                    [Literal.string ""];
+                    [Literal.string "0000000000000000000000000000000000000000000000000000000000000000"];
                     [Literal.number 0]
                   ]
                 |)
@@ -774,7 +774,7 @@ Module C_202.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "546869732069732061206e6f6e20656d70747920737472696e67"];
+                    [Literal.string "546869732069732061206e6f6e20656d70747920737472696e67000000000000"];
                     [Literal.number 52]
                   ]
                 |)
@@ -847,7 +847,7 @@ Module C_202.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "416e6f7468657220737472696e67"];
+                    [Literal.string "416e6f7468657220737472696e67000000000000000000000000000000000000"];
                     [Literal.number 28]
                   ]
                 |)
@@ -1007,13 +1007,13 @@ Module C_202.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3230325f6465706c6f796564"]
+                  [Literal.string "435f3230325f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3230325f6465706c6f796564"]
+                  [Literal.string "435f3230325f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1029,7 +1029,7 @@ Module C_202.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3230325f6465706c6f796564"]
+                  [Literal.string "435f3230325f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -7672,7 +7672,7 @@ Module C_202.
                   M.call (|
                     "add",
                     [
-                      [Literal.string ""];
+                      [Literal.string "0000000000000000000000000000000000000000000000000000000000000000"];
                       [Literal.number 0]
                     ]
                   |)
@@ -8402,6 +8402,6 @@ Module C_202.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d40ed4cad4149b6260f3e1ffc79333b051331ed018285d268240b69dcc9dc21a64736f6c634300081b0033".
+      "a26469706673582212202ed72844d44879277f12a21ec685e6adc627cd8f1fa986fe27aff3c22d05082364736f6c634300081b0033".
   End C_202_deployed.
 End C_202.

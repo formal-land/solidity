@@ -98,13 +98,13 @@ Module Test_49.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "546573745f34395f6465706c6f796564"]
+                  [Literal.string "546573745f34395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f34395f6465706c6f796564"]
+                  [Literal.string "546573745f34395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Test_49.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f34395f6465706c6f796564"]
+                  [Literal.string "546573745f34395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1154,7 +1154,7 @@ Module Test_49.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "41"]
+                  [Literal.string "4100000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1258,7 +1258,7 @@ Module Test_49.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "43"]
+                  [Literal.string "4300000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1362,7 +1362,7 @@ Module Test_49.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "49"]
+                  [Literal.string "4900000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1579,6 +1579,6 @@ Module Test_49.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212209362f7ac8829af6023010ac556019e545b810b6b766f0340bd4bed25c7639f3164736f6c634300081b0033".
+      "a2646970667358221220dbcfdf2de09558885c63586e4554da15bde9528a9626b675354030d0885d824d64736f6c634300081b0033".
   End Test_49_deployed.
 End Test_49.

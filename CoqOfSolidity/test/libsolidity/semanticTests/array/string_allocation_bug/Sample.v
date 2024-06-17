@@ -747,7 +747,7 @@ Module Sample_53.
                     [Literal.number 0]
                   ]
                 |);
-                [Literal.string "68656c6c6f"]
+                [Literal.string "68656c6c6f000000000000000000000000000000000000000000000000000000"]
               ]
             |)
           |)
@@ -809,7 +809,7 @@ Module Sample_53.
                     [Literal.number 0]
                   ]
                 |);
-                [Literal.string "776f726c64"]
+                [Literal.string "776f726c64000000000000000000000000000000000000000000000000000000"]
               ]
             |)
           |)
@@ -3064,13 +3064,13 @@ Module Sample_53.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "53616d706c655f35335f6465706c6f796564"]
+                  [Literal.string "53616d706c655f35335f6465706c6f7965640000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53616d706c655f35335f6465706c6f796564"]
+                  [Literal.string "53616d706c655f35335f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -3086,7 +3086,7 @@ Module Sample_53.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53616d706c655f35335f6465706c6f796564"]
+                  [Literal.string "53616d706c655f35335f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -4954,6 +4954,6 @@ Module Sample_53.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220cebb22ae0d6d8c6ee3e52a8b796ef0211daa3d80754f0db23b1f7b74f26da47f64736f6c634300081b0033".
+      "a2646970667358221220a37345b62f2287f2d4fc98c7cefe5d61cbf7541882197c3a8a008e86e1947e8164736f6c634300081b0033".
   End Sample_53_deployed.
 End Sample_53.

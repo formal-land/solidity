@@ -98,13 +98,13 @@ Module test_7.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "746573745f375f6465706c6f796564"]
+                  [Literal.string "746573745f375f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "746573745f375f6465706c6f796564"]
+                  [Literal.string "746573745f375f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module test_7.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module test_7.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "746573745f375f6465706c6f796564"]
+                  [Literal.string "746573745f375f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -946,7 +946,7 @@ Module test_7.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -1053,6 +1053,6 @@ Module test_7.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122058bf8a5cb1d80e7e3d79bffa826df93b039dcfd7ab6fd94015b2fec09f792e1a64736f6c634300081b0033".
+      "a2646970667358221220df58518694517750d8a0ba67d110a2ca64759a8b1f0430c268df1c6f78f8ab8864736f6c634300081b0033".
   End test_7_deployed.
 End test_7.

@@ -3993,13 +3993,13 @@ Module CopyTest_278.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "436f7079546573745f3237385f6465706c6f796564"]
+                  [Literal.string "436f7079546573745f3237385f6465706c6f7965640000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "436f7079546573745f3237385f6465706c6f796564"]
+                  [Literal.string "436f7079546573745f3237385f6465706c6f7965640000000000000000000000"]
                 ]
               |)
             ]
@@ -4015,7 +4015,7 @@ Module CopyTest_278.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "436f7079546573745f3237385f6465706c6f796564"]
+                  [Literal.string "436f7079546573745f3237385f6465706c6f7965640000000000000000000000"]
                 ]
               |)
             ]
@@ -7269,6 +7269,6 @@ Module CopyTest_278.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122038936ef7e3e6306f12951a50bdcfbb78768e27d8f19c135d5b1df202339ad35964736f6c634300081b0033".
+      "a2646970667358221220c51c9dfc4a834c98465df2edc8a75d3c4fb2de7ec6c6ef90c8f01b29fba9dfea64736f6c634300081b0033".
   End CopyTest_278_deployed.
 End CopyTest_278.

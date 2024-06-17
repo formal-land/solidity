@@ -98,13 +98,13 @@ Module L_44.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c5f34345f6465706c6f796564"]
+                  [Literal.string "4c5f34345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f34345f6465706c6f796564"]
+                  [Literal.string "4c5f34345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module L_44.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module L_44.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f34345f6465706c6f796564"]
+                  [Literal.string "4c5f34345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1055,7 +1055,7 @@ Module L_44.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -1162,6 +1162,6 @@ Module L_44.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220348cfa61df9614af913da6bd5b9722bfcefebb88caffab8f592bae8a58f4dcf864736f6c634300081b0033".
+      "a26469706673582212202bf673a4b29767ce9e2be61af9ed37914ef8fd6bf0cb20f0414b9e5a745f1b2e64736f6c634300081b0033".
   End L_44_deployed.
 End L_44.

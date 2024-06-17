@@ -98,13 +98,13 @@ Module TestTernary_49.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "546573745465726e6172795f34395f6465706c6f796564"]
+                  [Literal.string "546573745465726e6172795f34395f6465706c6f796564000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745465726e6172795f34395f6465706c6f796564"]
+                  [Literal.string "546573745465726e6172795f34395f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module TestTernary_49.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745465726e6172795f34395f6465706c6f796564"]
+                  [Literal.string "546573745465726e6172795f34395f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -1333,6 +1333,6 @@ Module TestTernary_49.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122016e18b11e76201c0fd89fb51811e241f27401a447241a097e9401cab4cb197ef64736f6c634300081b0033".
+      "a264697066735822122097fe2803e3a8e5355ce1b4fdf85b902b8410002aa45684778f0005b18feb27c864736f6c634300081b0033".
   End TestTernary_49_deployed.
 End TestTernary_49.

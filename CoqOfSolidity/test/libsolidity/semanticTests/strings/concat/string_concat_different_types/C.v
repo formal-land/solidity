@@ -701,7 +701,7 @@ Module C_137.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "6263646566"];
+                    [Literal.string "6263646566000000000000000000000000000000000000000000000000000000"];
                     [Literal.number 10]
                   ]
                 |)
@@ -812,13 +812,13 @@ Module C_137.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3133375f6465706c6f796564"]
+                  [Literal.string "435f3133375f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3133375f6465706c6f796564"]
+                  [Literal.string "435f3133375f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -834,7 +834,7 @@ Module C_137.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3133375f6465706c6f796564"]
+                  [Literal.string "435f3133375f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -3320,7 +3320,7 @@ Module C_137.
                 "mstore",
                 [
                   M.get_var (| "pos" |);
-                  [Literal.string "6263646566"]
+                  [Literal.string "6263646566000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -5910,7 +5910,7 @@ Module C_137.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "6162"]
+                  [Literal.string "6162000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -6316,6 +6316,6 @@ Module C_137.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212204a993f687c47b1e3dab82442921fb638420a6bcc1b4ac3096e817471b283a26c64736f6c634300081b0033".
+      "a2646970667358221220a9e493f653cbc840cf4cbea3baad797a3bce0935c4d27128822b166c008fec0364736f6c634300081b0033".
   End C_137_deployed.
 End C_137.

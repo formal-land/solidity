@@ -98,13 +98,13 @@ Module C_33.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f33335f6465706c6f796564"]
+                  [Literal.string "435f33335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33335f6465706c6f796564"]
+                  [Literal.string "435f33335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_33.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33335f6465706c6f796564"]
+                  [Literal.string "435f33335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -783,7 +783,7 @@ Module C_33.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_x"],
-              Some ([Literal.string "31323334353637383930313233343536373839306162636465"])
+              Some ([Literal.string "3132333435363738393031323334353637383930616263646500000000000000"])
             |)
           )) in
           do* ltac:(M.monadic (
@@ -942,7 +942,7 @@ Module C_33.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_x"],
-              Some ([Literal.string "31323334353637383930313233343536373839306162636465"])
+              Some ([Literal.string "3132333435363738393031323334353637383930616263646500000000000000"])
             |)
           )) in
           do* ltac:(M.monadic (
@@ -1098,6 +1098,6 @@ Module C_33.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e87c91be0c1fb0df8a7be34c9a88335abdd5e6077248f0d9b54f95d43d5c78d064736f6c634300081b0033".
+      "a2646970667358221220b1ab9da54cc01184e689fd3608533497a4501a460890f128ac1d3b6178d1655f64736f6c634300081b0033".
   End C_33_deployed.
 End C_33.

@@ -98,13 +98,13 @@ Module collatz_61.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "636f6c6c61747a5f36315f6465706c6f796564"]
+                  [Literal.string "636f6c6c61747a5f36315f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "636f6c6c61747a5f36315f6465706c6f796564"]
+                  [Literal.string "636f6c6c61747a5f36315f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module collatz_61.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "636f6c6c61747a5f36315f6465706c6f796564"]
+                  [Literal.string "636f6c6c61747a5f36315f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -1837,6 +1837,6 @@ Module collatz_61.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212200a892887f24ac2f55043fa998c6e67a509ca82f87e6d1114170452b6e93f27ad64736f6c634300081b0033".
+      "a2646970667358221220c43dfcfa5734c931d6606e37635be8805b23c2d26d318d82990fd2210241d3f764736f6c634300081b0033".
   End collatz_61_deployed.
 End collatz_61.

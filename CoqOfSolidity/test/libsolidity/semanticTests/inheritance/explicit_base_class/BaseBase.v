@@ -98,13 +98,13 @@ Module BaseBase_9.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "42617365426173655f395f6465706c6f796564"]
+                  [Literal.string "42617365426173655f395f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42617365426173655f395f6465706c6f796564"]
+                  [Literal.string "42617365426173655f395f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module BaseBase_9.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42617365426173655f395f6465706c6f796564"]
+                  [Literal.string "42617365426173655f395f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -648,6 +648,6 @@ Module BaseBase_9.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220366cb4b3cdb41394b3eb36f83907931b93227dec46855d9cc4ae5451415d9c2964736f6c634300081b0033".
+      "a2646970667358221220200f6c6a3afcc58b2f98da2d952b6fb96446da858cdcf2d3939af105d39c464364736f6c634300081b0033".
   End BaseBase_9_deployed.
 End BaseBase_9.

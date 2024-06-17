@@ -98,13 +98,13 @@ Module PRBMathUD60x18_502.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "5052424d617468554436307831385f3530325f6465706c6f796564"]
+                  [Literal.string "5052424d617468554436307831385f3530325f6465706c6f7965640000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5052424d617468554436307831385f3530325f6465706c6f796564"]
+                  [Literal.string "5052424d617468554436307831385f3530325f6465706c6f7965640000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module PRBMathUD60x18_502.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module PRBMathUD60x18_502.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5052424d617468554436307831385f3530325f6465706c6f796564"]
+                  [Literal.string "5052424d617468554436307831385f3530325f6465706c6f7965640000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module PRBMathUD60x18_502.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212207782744a2c447f876f8674e2b393c8f49a9bbea674bf71bc090599d28daf5c5564736f6c634300081b0033".
+      "a2646970667358221220805e103189d835f9302304bf16d028241725c5f68761de02eeb54170032cfeaa64736f6c634300081b0033".
   End PRBMathUD60x18_502_deployed.
 End PRBMathUD60x18_502.

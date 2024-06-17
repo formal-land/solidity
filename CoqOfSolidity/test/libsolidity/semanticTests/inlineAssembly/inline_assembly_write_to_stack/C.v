@@ -98,13 +98,13 @@ Module C_10.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f31305f6465706c6f796564"]
+                  [Literal.string "435f31305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f31305f6465706c6f796564"]
+                  [Literal.string "435f31305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_10.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f31305f6465706c6f796564"]
+                  [Literal.string "435f31305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -571,7 +571,7 @@ Module C_10.
           do* ltac:(M.monadic (
             M.assign (|
               ["var_r2"],
-              Some ([Literal.string "616263646566"])
+              Some ([Literal.string "6162636465660000000000000000000000000000000000000000000000000000"])
             |)
           )) in
           M.close_scope
@@ -669,6 +669,6 @@ Module C_10.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e9f94f0dac2e252fa83d6a453ae9b2b27c8f517656779304422f33f086280e5264736f6c634300081b0033".
+      "a26469706673582212209a7ab4e6ef11a4fd3c807649a11ae490e5f82758d15686afa33a2e402231d42e64736f6c634300081b0033".
   End C_10_deployed.
 End C_10.

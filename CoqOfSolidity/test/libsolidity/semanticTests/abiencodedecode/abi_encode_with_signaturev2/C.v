@@ -98,13 +98,13 @@ Module C_184.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3138345f6465706c6f796564"]
+                  [Literal.string "435f3138345f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3138345f6465706c6f796564"]
+                  [Literal.string "435f3138345f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_184.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3138345f6465706c6f796564"]
+                  [Literal.string "435f3138345f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2004,7 +2004,7 @@ Module C_184.
                   M.call (|
                     "add",
                     [
-                      [Literal.string "662875696e7432353629"];
+                      [Literal.string "662875696e743235362900000000000000000000000000000000000000000000"];
                       [Literal.number 20]
                     ]
                   |)
@@ -2644,7 +2644,7 @@ Module C_184.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "616263"]
+                  [Literal.string "6162630000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -3172,7 +3172,7 @@ Module C_184.
                       [Literal.number 96]
                     ]
                   |);
-                  [Literal.string "6f726520657420646f6c6f7265206d61676e6120616c697175612e"]
+                  [Literal.string "6f726520657420646f6c6f7265206d61676e6120616c697175612e0000000000"]
                 ]
               |)
             |)
@@ -4760,7 +4760,7 @@ Module C_184.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "662875696e7432353629"]
+                  [Literal.string "662875696e743235362900000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -5300,7 +5300,7 @@ Module C_184.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "2e2e2e2e2e2e"]
+                  [Literal.string "2e2e2e2e2e2e0000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -6436,6 +6436,6 @@ Module C_184.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122028214450ce251732e324318ae6ad1b2f7844f4a2af5528b9fbe9c73a2609725764736f6c634300081b0033".
+      "a2646970667358221220be79dd0a4e9d86c49fc142adc2270f32aea7a834be2032f34076aa7b5c1e7d7a64736f6c634300081b0033".
   End C_184_deployed.
 End C_184.

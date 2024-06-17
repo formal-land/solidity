@@ -241,13 +241,13 @@ Module D_18.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "445f31385f6465706c6f796564"]
+                  [Literal.string "445f31385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f31385f6465706c6f796564"]
+                  [Literal.string "445f31385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -260,7 +260,7 @@ Module D_18.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "32"];
+              [Literal.string "3200000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -280,7 +280,7 @@ Module D_18.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f31385f6465706c6f796564"]
+                  [Literal.string "445f31385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -345,6 +345,6 @@ Module D_18.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220266384a19e347151cb177bc545cedb9b2fc10713f1361aa44be0d22c6976d22a64736f6c634300081b0033".
+      "a2646970667358221220dd8fe59e08acc0b4851fd873f051f6d4f8a9d3c4022dda31d3b12f9b2ae2517264736f6c634300081b0033".
   End D_18_deployed.
 End D_18.

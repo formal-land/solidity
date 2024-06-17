@@ -98,13 +98,13 @@ Module VoteTiming_34.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "566f746554696d696e675f33345f6465706c6f796564"]
+                  [Literal.string "566f746554696d696e675f33345f6465706c6f79656400000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "566f746554696d696e675f33345f6465706c6f796564"]
+                  [Literal.string "566f746554696d696e675f33345f6465706c6f79656400000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module VoteTiming_34.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module VoteTiming_34.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "566f746554696d696e675f33345f6465706c6f796564"]
+                  [Literal.string "566f746554696d696e675f33345f6465706c6f79656400000000000000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module VoteTiming_34.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e0fa0567fbeca34c441dab53d20df5caf8cd535ce8a5d334b1174e1f0f3ee4eb64736f6c634300081b0033".
+      "a264697066735822122029c05f8db98ef14f1d8ad122a24834d3001a69deabb30c44392f4dbab65cb8c164736f6c634300081b0033".
   End VoteTiming_34_deployed.
 End VoteTiming_34.

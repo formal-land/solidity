@@ -98,13 +98,13 @@ Module TransferTest_15.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "5472616e73666572546573745f31355f6465706c6f796564"]
+                  [Literal.string "5472616e73666572546573745f31355f6465706c6f7965640000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5472616e73666572546573745f31355f6465706c6f796564"]
+                  [Literal.string "5472616e73666572546573745f31355f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module TransferTest_15.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5472616e73666572546573745f31355f6465706c6f796564"]
+                  [Literal.string "5472616e73666572546573745f31355f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -442,6 +442,6 @@ Module TransferTest_15.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220530c295d3e375c51bde992fa18ab2c8b249b8197473a5ecbeaeb15bf7fa8149264736f6c634300081b0033".
+      "a264697066735822122055a49a422da70a15273e424f3caf239f11599a2e495d1dd8923f7ed3306a4dac64736f6c634300081b0033".
   End TransferTest_15_deployed.
 End TransferTest_15.

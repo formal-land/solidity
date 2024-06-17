@@ -98,13 +98,13 @@ Module Test_15.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "546573745f31355f6465706c6f796564"]
+                  [Literal.string "546573745f31355f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f31355f6465706c6f796564"]
+                  [Literal.string "546573745f31355f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module Test_15.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module Test_15.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f31355f6465706c6f796564"]
+                  [Literal.string "546573745f31355f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -514,7 +514,7 @@ Module Test_15.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -621,6 +621,6 @@ Module Test_15.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220aa6acd8bea4e654fc1647cb6b878513dd8dc36b68bbe34622289ca29f5a1d68864736f6c634300081b0033".
+      "a2646970667358221220831b9c5882e5c5d0a07a415047f9adbf7e3b653d9f168c7b8fc3a7a4ef6b334064736f6c634300081b0033".
   End Test_15_deployed.
 End Test_15.

@@ -98,13 +98,13 @@ Module C_199.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3139395f6465706c6f796564"]
+                  [Literal.string "435f3139395f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3139395f6465706c6f796564"]
+                  [Literal.string "435f3139395f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_199.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3139395f6465706c6f796564"]
+                  [Literal.string "435f3139395f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2765,7 +2765,7 @@ Module C_199.
                   M.call (|
                     "add",
                     [
-                      [Literal.string ""];
+                      [Literal.string "0000000000000000000000000000000000000000000000000000000000000000"];
                       [Literal.number 0]
                     ]
                   |)
@@ -5022,7 +5022,7 @@ Module C_199.
                 "mstore",
                 [
                   M.get_var (| "pos" |);
-                  [Literal.string "5b612063616c6c65645d"]
+                  [Literal.string "5b612063616c6c65645d00000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -6178,7 +6178,7 @@ Module C_199.
                 "mstore",
                 [
                   M.get_var (| "pos" |);
-                  [Literal.string "5b622063616c6c65645d"]
+                  [Literal.string "5b622063616c6c65645d00000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -9316,6 +9316,6 @@ Module C_199.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e0d5ca7fb3b3e3b0c17c984fcc59378bce47c59b1562735f095e94642ca4157d64736f6c634300081b0033".
+      "a26469706673582212209c3af3a8b278c86e1c9d5e994c5a0dd1987e0eb8d15ac39024cfb08742af307664736f6c634300081b0033".
   End C_199_deployed.
 End C_199.

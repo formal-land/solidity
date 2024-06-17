@@ -551,7 +551,7 @@ Module Helper_37.
             Some (M.call (|
               "datasize",
               [
-                [Literal.string "48656c7065725f3337"]
+                [Literal.string "48656c7065725f33370000000000000000000000000000000000000000000000"]
               ]
             |))
           |)
@@ -1098,13 +1098,13 @@ Module Helper_37.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "48656c7065725f33375f6465706c6f796564"]
+                  [Literal.string "48656c7065725f33375f6465706c6f7965640000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "48656c7065725f33375f6465706c6f796564"]
+                  [Literal.string "48656c7065725f33375f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1120,7 +1120,7 @@ Module Helper_37.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "48656c7065725f33375f6465706c6f796564"]
+                  [Literal.string "48656c7065725f33375f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2064,6 +2064,6 @@ Module Helper_37.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122061604789a3a96992e29b4ba68f82e3e36741caa3904ccf003c8a92ea24e6fffc64736f6c634300081b0033".
+      "a2646970667358221220df1bc71418bba92e344a4018b621a4bd6a75b8d5027db9d168d1e705518049fb64736f6c634300081b0033".
   End Helper_37_deployed.
 End Helper_37.

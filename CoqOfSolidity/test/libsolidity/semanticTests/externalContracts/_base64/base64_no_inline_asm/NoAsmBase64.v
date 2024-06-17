@@ -98,13 +98,13 @@ Module NoAsmBase64_228.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4e6f41736d4261736536345f3232385f6465706c6f796564"]
+                  [Literal.string "4e6f41736d4261736536345f3232385f6465706c6f7965640000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4e6f41736d4261736536345f3232385f6465706c6f796564"]
+                  [Literal.string "4e6f41736d4261736536345f3232385f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module NoAsmBase64_228.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module NoAsmBase64_228.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4e6f41736d4261736536345f3232385f6465706c6f796564"]
+                  [Literal.string "4e6f41736d4261736536345f3232385f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module NoAsmBase64_228.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220bb6d5903b6f0d9f2e29ec03ca345c5bf236fb3cc1be0e130c94d421e1eaefa9664736f6c634300081b0033".
+      "a26469706673582212209ca40e93dd1cfc574f3381897cf18a163d11cf956f25e8f99c11fbbfadb92eb564736f6c634300081b0033".
   End NoAsmBase64_228_deployed.
 End NoAsmBase64_228.

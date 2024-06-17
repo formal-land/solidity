@@ -447,13 +447,13 @@ Module C_15.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f31355f6465706c6f796564"]
+                  [Literal.string "435f31355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f31355f6465706c6f796564"]
+                  [Literal.string "435f31355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -466,7 +466,7 @@ Module C_15.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "34"];
+              [Literal.string "3400000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -486,7 +486,7 @@ Module C_15.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f31355f6465706c6f796564"]
+                  [Literal.string "435f31355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1023,7 +1023,7 @@ Module C_15.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "34"]
+                  [Literal.string "3400000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1155,6 +1155,6 @@ Module C_15.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220b4f2c8633b4a7694ec4f95f4c7221e1ecfbae067fa5ec00439b7edb4c1858d2e64736f6c634300081b0033".
+      "a26469706673582212203086f30b086dfe8d06cee378f3c6e2b917ba42ef717e9ee301fbc758191151d364736f6c634300081b0033".
   End C_15_deployed.
 End C_15.

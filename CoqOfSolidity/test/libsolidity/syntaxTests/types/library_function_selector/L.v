@@ -98,13 +98,13 @@ Module L_21.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c5f32315f6465706c6f796564"]
+                  [Literal.string "4c5f32315f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f32315f6465706c6f796564"]
+                  [Literal.string "4c5f32315f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module L_21.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module L_21.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f32315f6465706c6f796564"]
+                  [Literal.string "4c5f32315f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1414,7 +1414,7 @@ Module L_21.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -1587,6 +1587,6 @@ Module L_21.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122084cc276d82bba2e9d36438703e738b6cb5e6786ca38f1d9c987f55dce9a8ec9964736f6c634300081b0033".
+      "a2646970667358221220b80e3da8817df529dfaafc8973a814f0ca5d97452e75a4932c0e36a4f227bb2464736f6c634300081b0033".
   End L_21_deployed.
 End L_21.

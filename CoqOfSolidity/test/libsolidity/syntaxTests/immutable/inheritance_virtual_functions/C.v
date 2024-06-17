@@ -269,13 +269,13 @@ Module C_32.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f33325f6465706c6f796564"]
+                  [Literal.string "435f33325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33325f6465706c6f796564"]
+                  [Literal.string "435f33325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -288,7 +288,7 @@ Module C_32.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "32"];
+              [Literal.string "3200000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -308,7 +308,7 @@ Module C_32.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33325f6465706c6f796564"]
+                  [Literal.string "435f33325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -373,6 +373,6 @@ Module C_32.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220bfdc01f19edb56dd7f13f9603c25d8c0a48c5a56d09403ede0bd48be6691645164736f6c634300081b0033".
+      "a2646970667358221220b7b9767e852f800b8336544329b517f3cead323cbdf641c25c61161dd5ea87b064736f6c634300081b0033".
   End C_32_deployed.
 End C_32.

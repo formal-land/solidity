@@ -1228,13 +1228,13 @@ Module C_74.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f37345f6465706c6f796564"]
+                  [Literal.string "435f37345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f37345f6465706c6f796564"]
+                  [Literal.string "435f37345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1247,7 +1247,7 @@ Module C_74.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "35"];
+              [Literal.string "3500000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -1264,7 +1264,7 @@ Module C_74.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3130"];
+              [Literal.string "3130000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -1284,7 +1284,7 @@ Module C_74.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f37345f6465706c6f796564"]
+                  [Literal.string "435f37345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1643,7 +1643,7 @@ Module C_74.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "35"]
+                  [Literal.string "3500000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1758,6 +1758,6 @@ Module C_74.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212201e409917dc4df77896ae1519fc5a3eec5ccd5b3a3375db5ed3cc6282c602d18064736f6c634300081b0033".
+      "a2646970667358221220c95d8a8c899693e912bcd71711b65818a5d8379afca1627acfc8388522e3671264736f6c634300081b0033".
   End C_74_deployed.
 End C_74.

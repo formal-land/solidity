@@ -39,6 +39,7 @@ Module Environment.
     caller : U256.t;
     (** Amount of wei sent to the current contract *)
     callvalue : U256.t;
+    calldata : list Z;
   }.
 End Environment.
 

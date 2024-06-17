@@ -416,13 +416,13 @@ Module C_14.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f31345f6465706c6f796564"]
+                  [Literal.string "435f31345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f31345f6465706c6f796564"]
+                  [Literal.string "435f31345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -435,7 +435,7 @@ Module C_14.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "33"];
+              [Literal.string "3300000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -452,7 +452,7 @@ Module C_14.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3130"];
+              [Literal.string "3130000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -469,7 +469,7 @@ Module C_14.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3133"];
+              [Literal.string "3133000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -489,7 +489,7 @@ Module C_14.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f31345f6465706c6f796564"]
+                  [Literal.string "435f31345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -554,6 +554,6 @@ Module C_14.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220262f018b6e86133aba247a256517bbfd14d9556a43066717ad2f9d347d951d7964736f6c634300081b0033".
+      "a2646970667358221220b9da8f85c592f3acdf76f42387bad892932dc88ebcf9b47d120905bb631c11c464736f6c634300081b0033".
   End C_14_deployed.
 End C_14.

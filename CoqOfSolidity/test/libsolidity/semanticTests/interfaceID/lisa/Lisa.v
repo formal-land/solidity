@@ -650,13 +650,13 @@ Module Lisa_92.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c6973615f39325f6465706c6f796564"]
+                  [Literal.string "4c6973615f39325f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c6973615f39325f6465706c6f796564"]
+                  [Literal.string "4c6973615f39325f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -672,7 +672,7 @@ Module Lisa_92.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c6973615f39325f6465706c6f796564"]
+                  [Literal.string "4c6973615f39325f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2119,7 +2119,7 @@ Module Lisa_92.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "79656c6c6f77"]
+                  [Literal.string "79656c6c6f770000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -2374,6 +2374,6 @@ Module Lisa_92.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220acbb037f45ca949b2a661eec458d6f471db1a296164fbb8e32b5d3ef1060aacc64736f6c634300081b0033".
+      "a2646970667358221220bb1c0353930fe51e756f97589a2c31eec2517e3dd2f981befcb2dcd655ae5ef464736f6c634300081b0033".
   End Lisa_92_deployed.
 End Lisa_92.

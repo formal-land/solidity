@@ -570,7 +570,7 @@ Module buggystruct_62.
                     [Literal.number 0]
                   ]
                 |);
-                [Literal.string "6173646667686a6b6c"]
+                [Literal.string "6173646667686a6b6c0000000000000000000000000000000000000000000000"]
               ]
             |)
           |)
@@ -2352,13 +2352,13 @@ Module buggystruct_62.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "62756767797374727563745f36325f6465706c6f796564"]
+                  [Literal.string "62756767797374727563745f36325f6465706c6f796564000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "62756767797374727563745f36325f6465706c6f796564"]
+                  [Literal.string "62756767797374727563745f36325f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -2374,7 +2374,7 @@ Module buggystruct_62.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "62756767797374727563745f36325f6465706c6f796564"]
+                  [Literal.string "62756767797374727563745f36325f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -4658,6 +4658,6 @@ Module buggystruct_62.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122025d3f2bdb7656aebfb00aca389335afe562f1fece2ca803baeef2bb434fbe56664736f6c634300081b0033".
+      "a2646970667358221220be0f7403b4b7a28e1c90d93fe48f564f822bf39377da41a95bf82312e1f2741e64736f6c634300081b0033".
   End buggystruct_62_deployed.
 End buggystruct_62.

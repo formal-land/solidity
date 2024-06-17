@@ -98,13 +98,13 @@ Module FixedMath_93.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "46697865644d6174685f39335f6465706c6f796564"]
+                  [Literal.string "46697865644d6174685f39335f6465706c6f7965640000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "46697865644d6174685f39335f6465706c6f796564"]
+                  [Literal.string "46697865644d6174685f39335f6465706c6f7965640000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module FixedMath_93.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module FixedMath_93.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "46697865644d6174685f39335f6465706c6f796564"]
+                  [Literal.string "46697865644d6174685f39335f6465706c6f7965640000000000000000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module FixedMath_93.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122027bd50e08331f1047d8d3ffe1b1ab7db7ee2a78f39cbc04947bc90d7361547df64736f6c634300081b0033".
+      "a2646970667358221220ce991e5f4e44b2ea7dfff0d8281a6810cf3831a96db6ebdcde18d510a31a98a264736f6c634300081b0033".
   End FixedMath_93_deployed.
 End FixedMath_93.

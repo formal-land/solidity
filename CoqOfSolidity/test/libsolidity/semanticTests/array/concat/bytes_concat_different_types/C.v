@@ -701,7 +701,7 @@ Module C_208.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "6263646566"];
+                    [Literal.string "6263646566000000000000000000000000000000000000000000000000000000"];
                     [Literal.number 10]
                   ]
                 |)
@@ -812,13 +812,13 @@ Module C_208.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3230385f6465706c6f796564"]
+                  [Literal.string "435f3230385f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3230385f6465706c6f796564"]
+                  [Literal.string "435f3230385f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -834,7 +834,7 @@ Module C_208.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3230385f6465706c6f796564"]
+                  [Literal.string "435f3230385f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -4742,7 +4742,7 @@ Module C_208.
                 "mstore",
                 [
                   M.get_var (| "pos" |);
-                  [Literal.string "6263646566"]
+                  [Literal.string "6263646566000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -8279,7 +8279,7 @@ Module C_208.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "6162"]
+                  [Literal.string "6162000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -8892,6 +8892,6 @@ Module C_208.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122070b8fb89719cea448b50a8a4ee6fcfb6bba7a24f3d75e32f48ca78384a81533464736f6c634300081b0033".
+      "a2646970667358221220b96c239f5b2ee2fa2bfa859e8c92e1068233bd6726c55b0e984d01fc5c82e2cc64736f6c634300081b0033".
   End C_208_deployed.
 End C_208.

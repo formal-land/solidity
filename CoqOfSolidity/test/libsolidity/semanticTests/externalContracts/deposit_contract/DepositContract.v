@@ -1966,13 +1966,13 @@ Module DepositContract_541.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4465706f736974436f6e74726163745f3534315f6465706c6f796564"]
+                  [Literal.string "4465706f736974436f6e74726163745f3534315f6465706c6f79656400000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4465706f736974436f6e74726163745f3534315f6465706c6f796564"]
+                  [Literal.string "4465706f736974436f6e74726163745f3534315f6465706c6f79656400000000"]
                 ]
               |)
             ]
@@ -1988,7 +1988,7 @@ Module DepositContract_541.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4465706f736974436f6e74726163745f3534315f6465706c6f796564"]
+                  [Literal.string "4465706f736974436f6e74726163745f3534315f6465706c6f79656400000000"]
                 ]
               |)
             ]
@@ -3902,7 +3902,7 @@ Module DepositContract_541.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "6c656e677468"]
+                  [Literal.string "6c656e6774680000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -4169,7 +4169,7 @@ Module DepositContract_541.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "77616c5f63726564656e7469616c73206c656e677468"]
+                  [Literal.string "77616c5f63726564656e7469616c73206c656e67746800000000000000000000"]
                 ]
               |)
             |)
@@ -4436,7 +4436,7 @@ Module DepositContract_541.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "7265206c656e677468"]
+                  [Literal.string "7265206c656e6774680000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -4703,7 +4703,7 @@ Module DepositContract_541.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "6f6f206c6f77"]
+                  [Literal.string "6f6f206c6f770000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -5126,7 +5126,7 @@ Module DepositContract_541.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "6f74206d756c7469706c65206f662067776569"]
+                  [Literal.string "6f74206d756c7469706c65206f66206777656900000000000000000000000000"]
                 ]
               |)
             |)
@@ -5510,7 +5510,7 @@ Module DepositContract_541.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "6f6f2068696768"]
+                  [Literal.string "6f6f206869676800000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -7288,7 +7288,7 @@ Module DepositContract_541.
                       [Literal.number 64]
                     ]
                   |);
-                  [Literal.string "6564206465706f7369745f646174615f726f6f74"]
+                  [Literal.string "6564206465706f7369745f646174615f726f6f74000000000000000000000000"]
                 ]
               |)
             |)
@@ -7813,7 +7813,7 @@ Module DepositContract_541.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "6c"]
+                  [Literal.string "6c00000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -14575,6 +14575,6 @@ Module DepositContract_541.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220f93166000f7d2fb30276bd08f7106507a3101ec1d6fef29dc2b4181969dd677964736f6c634300081b0033".
+      "a2646970667358221220f801f074d18c456344d2939e8088107f7f74d3710d15a9085c35983ef177f61864736f6c634300081b0033".
   End DepositContract_541_deployed.
 End DepositContract_541.

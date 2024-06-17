@@ -98,13 +98,13 @@ Module Ownable_22.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4f776e61626c655f32325f6465706c6f796564"]
+                  [Literal.string "4f776e61626c655f32325f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f776e61626c655f32325f6465706c6f796564"]
+                  [Literal.string "4f776e61626c655f32325f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Ownable_22.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f776e61626c655f32325f6465706c6f796564"]
+                  [Literal.string "4f776e61626c655f32325f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -948,6 +948,6 @@ Module Ownable_22.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d8f8b9d3871c985d87f4fad8e35c78ed059c4d933ecc466dd19968617919477664736f6c634300081b0033".
+      "a2646970667358221220b7642cd9feca1dbc926a41bd9463243381ffa3008337bca40ed3fc3f50e95a2964736f6c634300081b0033".
   End Ownable_22_deployed.
 End Ownable_22.

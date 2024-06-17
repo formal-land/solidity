@@ -689,13 +689,13 @@ Module C_38.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f33385f6465706c6f796564"]
+                  [Literal.string "435f33385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33385f6465706c6f796564"]
+                  [Literal.string "435f33385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -708,7 +708,7 @@ Module C_38.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "33"];
+              [Literal.string "3300000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -725,7 +725,7 @@ Module C_38.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "36"];
+              [Literal.string "3600000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -745,7 +745,7 @@ Module C_38.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33385f6465706c6f796564"]
+                  [Literal.string "435f33385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1138,7 +1138,7 @@ Module C_38.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "33"]
+                  [Literal.string "3300000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1161,7 +1161,7 @@ Module C_38.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "36"]
+                  [Literal.string "3600000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1288,6 +1288,6 @@ Module C_38.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220ad4126f147df72861c80351de0240255e8d0245a0f66d0ff3ee5a74261e55f9864736f6c634300081b0033".
+      "a26469706673582212209913e9cc9f407a3e24692ea7daafd2cfea8e3a4d814dc46f1177a703fe3831e264736f6c634300081b0033".
   End C_38_deployed.
 End C_38.

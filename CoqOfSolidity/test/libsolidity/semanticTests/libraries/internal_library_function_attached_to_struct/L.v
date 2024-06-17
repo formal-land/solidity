@@ -98,13 +98,13 @@ Module L_20.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c5f32305f6465706c6f796564"]
+                  [Literal.string "4c5f32305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f32305f6465706c6f796564"]
+                  [Literal.string "4c5f32305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module L_20.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module L_20.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f32305f6465706c6f796564"]
+                  [Literal.string "4c5f32305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module L_20.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220dd28796f207f573c530a791088c6d3e6532365df502fcd1ec259a170a5dc177164736f6c634300081b0033".
+      "a2646970667358221220676aa45a0868962b00740da749ff3cfc536421c028a06ad2ecec0cedf76d1abe64736f6c634300081b0033".
   End L_20_deployed.
 End L_20.

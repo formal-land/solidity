@@ -98,13 +98,13 @@ Module Arst_6.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "417273745f365f6465706c6f796564"]
+                  [Literal.string "417273745f365f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "417273745f365f6465706c6f796564"]
+                  [Literal.string "417273745f365f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module Arst_6.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module Arst_6.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "417273745f365f6465706c6f796564"]
+                  [Literal.string "417273745f365f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module Arst_6.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212209183dc4f91900b2a393e563c1506ee0f0b3080eeca1c827f5f102f4b3981f70964736f6c634300081b0033".
+      "a26469706673582212207212a79b86036868193d135f4fe7308f372a45a8d4699447ea7086932827df8664736f6c634300081b0033".
   End Arst_6_deployed.
 End Arst_6.

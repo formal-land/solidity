@@ -98,13 +98,13 @@ Module InlineAsmBase64_50.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "496e6c696e6541736d4261736536345f35305f6465706c6f796564"]
+                  [Literal.string "496e6c696e6541736d4261736536345f35305f6465706c6f7965640000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "496e6c696e6541736d4261736536345f35305f6465706c6f796564"]
+                  [Literal.string "496e6c696e6541736d4261736536345f35305f6465706c6f7965640000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module InlineAsmBase64_50.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module InlineAsmBase64_50.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "496e6c696e6541736d4261736536345f35305f6465706c6f796564"]
+                  [Literal.string "496e6c696e6541736d4261736536345f35305f6465706c6f7965640000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module InlineAsmBase64_50.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212204b673fed41f957dbbe81cf378e8c9f13265ed904a2286b57de5fc0b10373a5e464736f6c634300081b0033".
+      "a2646970667358221220776087af11a8d1bfb5032780cf54edbce79d86f1b62da6a51fe7e5f5975f76ad64736f6c634300081b0033".
   End InlineAsmBase64_50_deployed.
 End InlineAsmBase64_50.

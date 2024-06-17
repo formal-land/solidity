@@ -98,13 +98,13 @@ Module L_15.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c5f31355f6465706c6f796564"]
+                  [Literal.string "4c5f31355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f31355f6465706c6f796564"]
+                  [Literal.string "4c5f31355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module L_15.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module L_15.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f31355f6465706c6f796564"]
+                  [Literal.string "4c5f31355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -514,7 +514,7 @@ Module L_15.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -621,6 +621,6 @@ Module L_15.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220cd0d3f86d834d691ac9c79d54335b19fb6ca755528d1f571acad55f1d13416f064736f6c634300081b0033".
+      "a2646970667358221220256dde66006c35e98b65ffaa248f545c2625df820d3d307f10f729c10d417c0c64736f6c634300081b0033".
   End L_15_deployed.
 End L_15.

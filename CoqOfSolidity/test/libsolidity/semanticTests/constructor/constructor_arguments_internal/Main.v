@@ -104,7 +104,7 @@ Module Main_74.
               "mstore",
               [
                 M.get_var (| "pos" |);
-                [Literal.string "616263"]
+                [Literal.string "6162630000000000000000000000000000000000000000000000000000000000"]
               ]
             |)
           |)
@@ -568,7 +568,7 @@ Module Main_74.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "48656c7065725f3337"]
+                    [Literal.string "48656c7065725f33370000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -629,13 +629,13 @@ Module Main_74.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "48656c7065725f3337"]
+                    [Literal.string "48656c7065725f33370000000000000000000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "48656c7065725f3337"]
+                    [Literal.string "48656c7065725f33370000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -769,13 +769,13 @@ Module Main_74.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4d61696e5f37345f6465706c6f796564"]
+                  [Literal.string "4d61696e5f37345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4d61696e5f37345f6465706c6f796564"]
+                  [Literal.string "4d61696e5f37345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -791,7 +791,7 @@ Module Main_74.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4d61696e5f37345f6465706c6f796564"]
+                  [Literal.string "4d61696e5f37345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2614,7 +2614,7 @@ Module Main_74.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212202726ca53ced2cef80f3e4159c0fc8486315dd61a27b06fd0de79212c55220ebb64736f6c634300081b0033".
+      "a26469706673582212209688890636ef9f3fdf76fad8a0bd49e46de7002fae87c15d62293a370e8abbc964736f6c634300081b0033".
   End Main_74_deployed.
 
   Module Helper_37.
@@ -3167,7 +3167,7 @@ Module Main_74.
               Some (M.call (|
                 "datasize",
                 [
-                  [Literal.string "48656c7065725f3337"]
+                  [Literal.string "48656c7065725f33370000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -3714,13 +3714,13 @@ Module Main_74.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "48656c7065725f33375f6465706c6f796564"]
+                    [Literal.string "48656c7065725f33375f6465706c6f7965640000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "48656c7065725f33375f6465706c6f796564"]
+                    [Literal.string "48656c7065725f33375f6465706c6f7965640000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -3736,7 +3736,7 @@ Module Main_74.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "48656c7065725f33375f6465706c6f796564"]
+                    [Literal.string "48656c7065725f33375f6465706c6f7965640000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -4680,7 +4680,7 @@ Module Main_74.
         M.close_scope.
 
       Definition data : string :=
-        "a264697066735822122061604789a3a96992e29b4ba68f82e3e36741caa3904ccf003c8a92ea24e6fffc64736f6c634300081b0033".
+        "a2646970667358221220df1bc71418bba92e344a4018b621a4bd6a75b8d5027db9d168d1e705518049fb64736f6c634300081b0033".
     End Helper_37_deployed.
   End Helper_37.
 End Main_74.

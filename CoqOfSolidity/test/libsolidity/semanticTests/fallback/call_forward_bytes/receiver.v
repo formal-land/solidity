@@ -98,13 +98,13 @@ Module receiver_23.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "72656365697665725f32335f6465706c6f796564"]
+                  [Literal.string "72656365697665725f32335f6465706c6f796564000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "72656365697665725f32335f6465706c6f796564"]
+                  [Literal.string "72656365697665725f32335f6465706c6f796564000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module receiver_23.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "72656365697665725f32335f6465706c6f796564"]
+                  [Literal.string "72656365697665725f32335f6465706c6f796564000000000000000000000000"]
                 ]
               |)
             ]
@@ -1500,6 +1500,6 @@ Module receiver_23.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220fa92f3d9aafb527dff04e4dc8e9999589d3e126f93b916d525d0e6747a96223464736f6c634300081b0033".
+      "a26469706673582212204b9b772806d09366c81e162c260584b4422f100c1a08b0738ffc7f082c6b1a6464736f6c634300081b0033".
   End receiver_23_deployed.
 End receiver_23.

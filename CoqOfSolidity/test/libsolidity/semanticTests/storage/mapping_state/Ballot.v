@@ -98,13 +98,13 @@ Module Ballot_76.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "42616c6c6f745f37365f6465706c6f796564"]
+                  [Literal.string "42616c6c6f745f37365f6465706c6f7965640000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42616c6c6f745f37365f6465706c6f796564"]
+                  [Literal.string "42616c6c6f745f37365f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Ballot_76.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42616c6c6f745f37365f6465706c6f796564"]
+                  [Literal.string "42616c6c6f745f37365f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2461,6 +2461,6 @@ Module Ballot_76.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e9b150a9b44c077b9b9b79eee30380e5bd0b4ce70f742ce67a326ac8e261b66a64736f6c634300081b0033".
+      "a264697066735822122043445a54202d124fe4fa1b2cc60c375a22e74a25c33e4629e37f09f31812b9bd64736f6c634300081b0033".
   End Ballot_76_deployed.
 End Ballot_76.

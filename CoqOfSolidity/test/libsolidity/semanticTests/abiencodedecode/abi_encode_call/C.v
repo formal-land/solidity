@@ -98,13 +98,13 @@ Module C_241.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3234315f6465706c6f796564"]
+                  [Literal.string "435f3234315f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3234315f6465706c6f796564"]
+                  [Literal.string "435f3234315f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_241.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3234315f6465706c6f796564"]
+                  [Literal.string "435f3234315f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2856,7 +2856,7 @@ Module C_241.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "31323334"]
+                  [Literal.string "3132333400000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -4767,7 +4767,7 @@ Module C_241.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "5374727563744e616d65"]
+                  [Literal.string "5374727563744e616d6500000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -5954,7 +5954,7 @@ Module C_241.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "546573744e616d65"]
+                  [Literal.string "546573744e616d65000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -7158,6 +7158,6 @@ Module C_241.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220c8bea8a5be21820b0a0094ba897f2af1f91262a852018b8381711cad0e06cd9664736f6c634300081b0033".
+      "a2646970667358221220e9a2c2bb56f694bf4825026c021442685e426060da24ab18992e4b5abf9f383464736f6c634300081b0033".
   End C_241_deployed.
 End C_241.

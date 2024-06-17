@@ -313,13 +313,13 @@ Module C_40.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f34305f6465706c6f796564"]
+                  [Literal.string "435f34305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f34305f6465706c6f796564"]
+                  [Literal.string "435f34305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -332,7 +332,7 @@ Module C_40.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "34"];
+              [Literal.string "3400000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -349,7 +349,7 @@ Module C_40.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "37"];
+              [Literal.string "3700000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -366,7 +366,7 @@ Module C_40.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3134"];
+              [Literal.string "3134000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -386,7 +386,7 @@ Module C_40.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f34305f6465706c6f796564"]
+                  [Literal.string "435f34305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -779,7 +779,7 @@ Module C_40.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "34"]
+                  [Literal.string "3400000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -802,7 +802,7 @@ Module C_40.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "37"]
+                  [Literal.string "3700000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -926,6 +926,6 @@ Module C_40.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212206730d9b2d2430f3b96daa600d74fa0a96ecb320b7e2b82c651d557ce9a6d71b864736f6c634300081b0033".
+      "a26469706673582212207b9086f1a716eb3d3816e2852b46e21074d7559901ef9a1829366c1db8e8f06664736f6c634300081b0033".
   End C_40_deployed.
 End C_40.

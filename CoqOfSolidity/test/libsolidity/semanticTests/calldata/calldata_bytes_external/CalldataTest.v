@@ -98,13 +98,13 @@ Module CalldataTest_26.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "43616c6c64617461546573745f32365f6465706c6f796564"]
+                  [Literal.string "43616c6c64617461546573745f32365f6465706c6f7965640000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "43616c6c64617461546573745f32365f6465706c6f796564"]
+                  [Literal.string "43616c6c64617461546573745f32365f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module CalldataTest_26.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "43616c6c64617461546573745f32365f6465706c6f796564"]
+                  [Literal.string "43616c6c64617461546573745f32365f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -2425,6 +2425,6 @@ Module CalldataTest_26.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d4c96ae93e91a1f2b0e1b9a0bb4cda291f89073ec391f9c085d000e4aec37bdb64736f6c634300081b0033".
+      "a2646970667358221220e67db1d77c7721bfc79088af9da3a1e0198a813ab3a9b7c5bdf2df98530c48e664736f6c634300081b0033".
   End CalldataTest_26_deployed.
 End CalldataTest_26.

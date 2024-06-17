@@ -701,7 +701,7 @@ Module C_26.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "61626364"];
+                    [Literal.string "6162636400000000000000000000000000000000000000000000000000000000"];
                     [Literal.number 8]
                   ]
                 |)
@@ -774,7 +774,7 @@ Module C_26.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "68656c6c6f20776f726c64"];
+                    [Literal.string "68656c6c6f20776f726c64000000000000000000000000000000000000000000"];
                     [Literal.number 22]
                   ]
                 |)
@@ -847,7 +847,7 @@ Module C_26.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "41424344"];
+                    [Literal.string "4142434400000000000000000000000000000000000000000000000000000000"];
                     [Literal.number 8]
                   ]
                 |)
@@ -1067,13 +1067,13 @@ Module C_26.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f32365f6465706c6f796564"]
+                  [Literal.string "435f32365f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f32365f6465706c6f796564"]
+                  [Literal.string "435f32365f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1089,7 +1089,7 @@ Module C_26.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f32365f6465706c6f796564"]
+                  [Literal.string "435f32365f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -3351,6 +3351,6 @@ Module C_26.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220ad41e074c78966ea4f998c44abd4e0e929b5a77a006e0cd8665746f3bb39196e64736f6c634300081b0033".
+      "a264697066735822122006ac54848599bff7e0f3ccf4a03efa6f28428e3c9e2b753a26f2b67013fbfb7064736f6c634300081b0033".
   End C_26_deployed.
 End C_26.

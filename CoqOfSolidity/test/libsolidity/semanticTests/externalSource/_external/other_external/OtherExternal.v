@@ -98,13 +98,13 @@ Module OtherExternal_1.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4f7468657245787465726e616c5f315f6465706c6f796564"]
+                  [Literal.string "4f7468657245787465726e616c5f315f6465706c6f7965640000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f7468657245787465726e616c5f315f6465706c6f796564"]
+                  [Literal.string "4f7468657245787465726e616c5f315f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module OtherExternal_1.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f7468657245787465726e616c5f315f6465706c6f796564"]
+                  [Literal.string "4f7468657245787465726e616c5f315f6465706c6f7965640000000000000000"]
                 ]
               |)
             ]
@@ -185,6 +185,6 @@ Module OtherExternal_1.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220b90d80040289769b337e4d5e8d119ab2e9e73f6346e3b0d1a5edbfb77ad7752764736f6c634300081b0033".
+      "a2646970667358221220798727515386572c6c0508eb7e8fbdd82063a74053b6a76eff246b82f7ebd29f64736f6c634300081b0033".
   End OtherExternal_1_deployed.
 End OtherExternal_1.

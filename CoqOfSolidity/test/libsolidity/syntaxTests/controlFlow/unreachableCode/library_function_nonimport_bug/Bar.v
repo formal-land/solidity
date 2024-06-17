@@ -98,13 +98,13 @@ Module Bar_18.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4261725f31385f6465706c6f796564"]
+                  [Literal.string "4261725f31385f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4261725f31385f6465706c6f796564"]
+                  [Literal.string "4261725f31385f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Bar_18.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4261725f31385f6465706c6f796564"]
+                  [Literal.string "4261725f31385f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -462,6 +462,6 @@ Module Bar_18.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220eb4bd906aa1800d939faf5d81bcfd06dc8d70e723756d18845e1fa2919aa977d64736f6c634300081b0033".
+      "a26469706673582212201be1461bebe246848e62443158bae53b0ba6f616f7b3267856bb22a38a4a9f4e64736f6c634300081b0033".
   End Bar_18_deployed.
 End Bar_18.

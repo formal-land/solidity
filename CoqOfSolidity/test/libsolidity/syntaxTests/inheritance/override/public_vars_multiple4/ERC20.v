@@ -98,13 +98,13 @@ Module ERC20_23.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "45524332305f32335f6465706c6f796564"]
+                  [Literal.string "45524332305f32335f6465706c6f796564000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "45524332305f32335f6465706c6f796564"]
+                  [Literal.string "45524332305f32335f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module ERC20_23.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "45524332305f32335f6465706c6f796564"]
+                  [Literal.string "45524332305f32335f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1143,6 +1143,6 @@ Module ERC20_23.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122083bbafc21706ef711eda8aed82497c2b687d27867a436d3bbe3993bb46e5acc964736f6c634300081b0033".
+      "a2646970667358221220887788204186cd11938f04761a6ecb51050fe315c615639bca9f4fc29af0dfe164736f6c634300081b0033".
   End ERC20_23_deployed.
 End ERC20_23.

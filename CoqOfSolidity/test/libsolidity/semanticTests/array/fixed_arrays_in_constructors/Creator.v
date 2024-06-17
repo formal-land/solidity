@@ -864,7 +864,7 @@ Module Creator_25.
             Some (M.call (|
               "datasize",
               [
-                [Literal.string "43726561746f725f3235"]
+                [Literal.string "43726561746f725f323500000000000000000000000000000000000000000000"]
               ]
             |))
           |)
@@ -1693,13 +1693,13 @@ Module Creator_25.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "43726561746f725f32355f6465706c6f796564"]
+                  [Literal.string "43726561746f725f32355f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "43726561746f725f32355f6465706c6f796564"]
+                  [Literal.string "43726561746f725f32355f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -1715,7 +1715,7 @@ Module Creator_25.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "43726561746f725f32355f6465706c6f796564"]
+                  [Literal.string "43726561746f725f32355f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -2592,6 +2592,6 @@ Module Creator_25.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220802040ece7cfb02e3a24cdec171365ec76c56e92c2404b71cbf36731900ce19664736f6c634300081b0033".
+      "a2646970667358221220cfc489ce4b55372b2f664b13e3caddf58ef31ad600e60a6a646d0b52da0f8c1e64736f6c634300081b0033".
   End Creator_25_deployed.
 End Creator_25.

@@ -98,13 +98,13 @@ Module Set_34.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "5365745f33345f6465706c6f796564"]
+                  [Literal.string "5365745f33345f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5365745f33345f6465706c6f796564"]
+                  [Literal.string "5365745f33345f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module Set_34.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module Set_34.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5365745f33345f6465706c6f796564"]
+                  [Literal.string "5365745f33345f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1282,7 +1282,7 @@ Module Set_34.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -1389,6 +1389,6 @@ Module Set_34.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122065e920c1c125a8e9da4a880c016a100d8f530ea6f5dee920d5e07ede7287675264736f6c634300081b0033".
+      "a2646970667358221220228197275ce5c9b8dca8875ece4e8a5d01ebafe5c498eacdbe404a04573e5b4f64736f6c634300081b0033".
   End Set_34_deployed.
 End Set_34.

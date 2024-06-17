@@ -353,13 +353,13 @@ Module C_65.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f36355f6465706c6f796564"]
+                  [Literal.string "435f36355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f36355f6465706c6f796564"]
+                  [Literal.string "435f36355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -372,7 +372,7 @@ Module C_65.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3131"];
+              [Literal.string "3131000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -392,7 +392,7 @@ Module C_65.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f36355f6465706c6f796564"]
+                  [Literal.string "435f36355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -457,6 +457,6 @@ Module C_65.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220720c74153757507af6d5d2c02b0250a734e454e2df54d3db0f1d9d73b7ca3d1664736f6c634300081b0033".
+      "a26469706673582212201035e4e45993c1ad5b34c5a025f97666e02ad4cf95e274d8128479b28072a34164736f6c634300081b0033".
   End C_65_deployed.
 End C_65.

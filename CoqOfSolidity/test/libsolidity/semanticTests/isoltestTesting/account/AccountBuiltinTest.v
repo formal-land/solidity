@@ -98,13 +98,13 @@ Module AccountBuiltinTest_12.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4163636f756e744275696c74696e546573745f31325f6465706c6f796564"]
+                  [Literal.string "4163636f756e744275696c74696e546573745f31325f6465706c6f7965640000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4163636f756e744275696c74696e546573745f31325f6465706c6f796564"]
+                  [Literal.string "4163636f756e744275696c74696e546573745f31325f6465706c6f7965640000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module AccountBuiltinTest_12.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4163636f756e744275696c74696e546573745f31325f6465706c6f796564"]
+                  [Literal.string "4163636f756e744275696c74696e546573745f31325f6465706c6f7965640000"]
                 ]
               |)
             ]
@@ -621,6 +621,6 @@ Module AccountBuiltinTest_12.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212208192ecebe9b06ca793985e4c9f98e85820fb2c21cc5b97e4c24b564a7ccf8f3d64736f6c634300081b0033".
+      "a26469706673582212205ae2a7822ebee6bcdbffef3bd3ffe86f72b8ad68b1d0c948091c490c6ebdccb664736f6c634300081b0033".
   End AccountBuiltinTest_12_deployed.
 End AccountBuiltinTest_12.

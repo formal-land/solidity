@@ -98,13 +98,13 @@ Module BinarySearch_103.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "42696e6172795365617263685f3130335f6465706c6f796564"]
+                  [Literal.string "42696e6172795365617263685f3130335f6465706c6f79656400000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42696e6172795365617263685f3130335f6465706c6f796564"]
+                  [Literal.string "42696e6172795365617263685f3130335f6465706c6f79656400000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module BinarySearch_103.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42696e6172795365617263685f3130335f6465706c6f796564"]
+                  [Literal.string "42696e6172795365617263685f3130335f6465706c6f79656400000000000000"]
                 ]
               |)
             ]
@@ -185,6 +185,6 @@ Module BinarySearch_103.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122059dc462eb9f0f7bb1aa11848ca449dc78ac51a5638392a1a97e27ec565e5ab5b64736f6c634300081b0033".
+      "a2646970667358221220a1403992d6b370d5f10621d95510cfe9d5d68e5ef384af5c58e156462c61293f64736f6c634300081b0033".
   End BinarySearch_103_deployed.
 End BinarySearch_103.

@@ -98,13 +98,13 @@ Module ShortReturn_15.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "53686f727452657475726e5f31355f6465706c6f796564"]
+                  [Literal.string "53686f727452657475726e5f31355f6465706c6f796564000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53686f727452657475726e5f31355f6465706c6f796564"]
+                  [Literal.string "53686f727452657475726e5f31355f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module ShortReturn_15.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53686f727452657475726e5f31355f6465706c6f796564"]
+                  [Literal.string "53686f727452657475726e5f31355f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -568,6 +568,6 @@ Module ShortReturn_15.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220058a6841ac94cc42ce3dd9b371edd37a17cfff8721521c7541373a9712092d2764736f6c634300081b0033".
+      "a26469706673582212205055f2bc7df3ddc1651abc409c89e608d4d4465c239bf1a864e6a43c52c0154a64736f6c634300081b0033".
   End ShortReturn_15_deployed.
 End ShortReturn_15.

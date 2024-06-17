@@ -98,13 +98,13 @@ Module Lib_5.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c69625f355f6465706c6f796564"]
+                  [Literal.string "4c69625f355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c69625f355f6465706c6f796564"]
+                  [Literal.string "4c69625f355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module Lib_5.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module Lib_5.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c69625f355f6465706c6f796564"]
+                  [Literal.string "4c69625f355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -397,7 +397,7 @@ Module Lib_5.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -504,6 +504,6 @@ Module Lib_5.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e9276c1462e2e73a6bd3066b34787e4645afbc356b285b0858e276f2a744f2d164736f6c634300081b0033".
+      "a2646970667358221220d2dfea9742a30fcaedb217a80c3fd8ede50afcfdc835fd74946a0b8b189e123c64736f6c634300081b0033".
   End Lib_5_deployed.
 End Lib_5.

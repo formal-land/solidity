@@ -98,13 +98,13 @@ Module C_26.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f32365f6465706c6f796564"]
+                  [Literal.string "435f32365f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f32365f6465706c6f796564"]
+                  [Literal.string "435f32365f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_26.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f32365f6465706c6f796564"]
+                  [Literal.string "435f32365f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1067,7 +1067,7 @@ Module C_26.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "54686973"]
+                  [Literal.string "5468697300000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1167,7 +1167,7 @@ Module C_26.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "6973"]
+                  [Literal.string "6973000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1247,7 +1247,7 @@ Module C_26.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "616e"]
+                  [Literal.string "616e000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1327,7 +1327,7 @@ Module C_26.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "6172726179"]
+                  [Literal.string "6172726179000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1815,6 +1815,6 @@ Module C_26.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d4dd527ab649f4cfdaaab8935c8d079043e5da8eb7c68a774e57cf7e8259be9f64736f6c634300081b0033".
+      "a26469706673582212201df209033169050c55b5021bfc71b584122964ff5f04307a42445d69a21b835b64736f6c634300081b0033".
   End C_26_deployed.
 End C_26.

@@ -98,13 +98,13 @@ Module Homer_68.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "486f6d65725f36385f6465706c6f796564"]
+                  [Literal.string "486f6d65725f36385f6465706c6f796564000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "486f6d65725f36385f6465706c6f796564"]
+                  [Literal.string "486f6d65725f36385f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Homer_68.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "486f6d65725f36385f6465706c6f796564"]
+                  [Literal.string "486f6d65725f36385f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1581,7 +1581,7 @@ Module Homer_68.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "79656c6c6f77"]
+                  [Literal.string "79656c6c6f770000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1836,6 +1836,6 @@ Module Homer_68.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220888f48e8537adf8c2b45294a96e17a4370da32227b0ce1c18236d0e84128646e64736f6c634300081b0033".
+      "a264697066735822122061770982d24cdd2cd71ac2bdeb39f5d79f3f950b4e346f72723e5b32ba8bfa8664736f6c634300081b0033".
   End Homer_68_deployed.
 End Homer_68.

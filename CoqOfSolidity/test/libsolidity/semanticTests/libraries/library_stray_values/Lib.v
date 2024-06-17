@@ -98,13 +98,13 @@ Module Lib_15.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c69625f31355f6465706c6f796564"]
+                  [Literal.string "4c69625f31355f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c69625f31355f6465706c6f796564"]
+                  [Literal.string "4c69625f31355f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module Lib_15.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module Lib_15.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c69625f31355f6465706c6f796564"]
+                  [Literal.string "4c69625f31355f6465706c6f7965640000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -819,7 +819,7 @@ Module Lib_15.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -926,6 +926,6 @@ Module Lib_15.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220ed093d8bf6b072b4fb9b47da36917ac04ba11e00ffbbede51390f6df477ab15064736f6c634300081b0033".
+      "a2646970667358221220741d5469f78a296335845a108ae5bcbb1fc3ff47f0ce5c1c2ca524fb772efc8364736f6c634300081b0033".
   End Lib_15_deployed.
 End Lib_15.

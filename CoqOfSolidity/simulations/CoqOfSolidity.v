@@ -205,7 +205,7 @@ Module State.
   (** The state contains the various kinds of memory that we use in a smart contract. *)
   Record t : Set := {
     stack : Stack.t;
-    mem : Memory.t;
+    memory : Memory.t;
     storage : Storage.t;
     transientStorage : Storage.t;
     logs : list (list U256.t * list Z);
@@ -249,13 +249,13 @@ Definition eval_primitive {A : Set}
     )
   | Primitive.MLoad address length =>
     (
-      Memory.get_bytes state.(State.mem) address length,
+      Memory.get_bytes state.(State.memory) address length,
       state
     )
   | Primitive.MStore address bytes =>
     (
       tt,
-      state <| State.mem := Memory.update_bytes state.(State.mem) address bytes |>
+      state <| State.memory := Memory.update_bytes state.(State.memory) address bytes |>
     )
   | Primitive.SLoad address =>
     (
@@ -472,11 +472,15 @@ Module Stdlib.
     if x >? y then 1 else 0.
 
   (* Signed version of [lt] *)
-  Definition slt (x y : U256.t) : M.t U256.t :=
-    LowM.Impossible "slt".
+  Definition slt (x y : U256.t) : U256.t :=
+    let x := (x + 2 ^ 255) mod (2 ^ 256) in
+    let y := (y + 2 ^ 255) mod (2 ^ 256) in
+    lt x y.
 
-  Definition sgt (x y : U256.t) : M.t U256.t :=
-    LowM.Impossible "sgt".
+  Definition sgt (x y : U256.t) : U256.t :=
+    let x := (x + 2 ^ 255) mod (2 ^ 256) in
+    let y := (y + 2 ^ 255) mod (2 ^ 256) in
+    gt x y.
 
   Definition eq (x y : U256.t) : U256.t :=
     if x =? y then 1 else 0.
@@ -573,13 +577,32 @@ Module Stdlib.
     LowM.Primitive Primitive.GetEnvironment (fun env => M.pure env.(Environment.callvalue)).
 
   Definition calldataload (p : U256.t) : M.t U256.t :=
-    LowM.Impossible "calldataload".
+    let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
+    let calldata := environment.(Environment.calldata) in
+    let bytes : list Z :=
+      List.map
+        (fun (i : nat) =>
+          let address : nat := (Z.to_nat p + i)%nat in
+          List.nth_default 0 calldata address
+        )
+        (List.seq 0 32) in
+    M.pure (Memory.bytes_as_u256 bytes).
 
   Definition calldatasize : M.t U256.t :=
-    LowM.Impossible "calldatasize".
+    let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
+    M.pure (Z.of_nat (List.length environment.(Environment.calldata))).
 
   Definition calldatacopy (t f s : U256.t) : M.t unit :=
-    LowM.Impossible "calldatacopy".
+    let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
+    let calldata := environment.(Environment.calldata) in
+    let bytes : list Z :=
+      List.map
+        (fun (i : nat) =>
+          let address : nat := (Z.to_nat f + i)%nat in
+          List.nth_default 0 calldata address
+        )
+        (List.seq 0 (Z.to_nat s)) in
+    LowM.Primitive (Primitive.MStore t bytes) M.pure.
 
   Definition codesize : M.t U256.t :=
     LowM.Impossible "codesize".
@@ -600,7 +623,8 @@ Module Stdlib.
     LowM.Impossible "returndatacopy".
 
   Definition mcopy (t f s : U256.t) : M.t unit :=
-    LowM.Impossible "mcopy".
+    let* bytes := LowM.Primitive (Primitive.MLoad f s) M.pure in
+    LowM.Primitive (Primitive.MStore t bytes) M.pure.
 
   Definition extcodehash (a : U256.t) : M.t U256.t :=
     LowM.Impossible "extcodehash".
@@ -737,8 +761,8 @@ Module Stdlib.
     ("not", fn [x] => return_u256 (M.pure (not x)));
     ("lt", fn [x; y] => return_u256 (M.pure (lt x y)));
     ("gt", fn [x; y] => return_u256 (M.pure (gt x y)));
-    ("slt", fn [x; y] => return_u256 (slt x y));
-    ("sgt", fn [x; y] => return_u256 (sgt x y));
+    ("slt", fn [x; y] => return_u256 (M.pure (slt x y)));
+    ("sgt", fn [x; y] => return_u256 (M.pure (sgt x y)));
     ("eq", fn [x; y] => return_u256 (M.pure (eq x y)));
     ("iszero", fn [x] => return_u256 (M.pure (iszero x)));
     ("and", fn [x; y] => return_u256 (M.pure (and x y)));
@@ -777,7 +801,7 @@ Module Stdlib.
     ("extcodecopy", fn [a; p; s; n] => return_unit (extcodecopy a p s n));
     ("returndatasize", fn [] => return_u256 returndatasize);
     ("returndatacopy", fn [p; s; n] => return_unit (returndatacopy p s n));
-    ("mcopy", fn [p; s; n] => return_unit (mcopy p s n));
+    ("mcopy", fn [t; f; s] => return_unit (mcopy t f s));
     ("extcodehash", fn [a] => return_u256 (extcodehash a));
     ("create", fn [v; p; n] => return_u256 (create v p n));
     ("create2", fn [v; p; n; s] => return_u256 (create2 v p n s));
@@ -827,7 +851,7 @@ Module Stdlib.
   Definition init_state : State.t :=
     {|
       State.stack := init_stack;
-      State.mem := Memory.init;
+      State.memory := Memory.init;
       State.storage := Memory.init;
       State.transientStorage := Memory.init;
       State.logs := [];
@@ -841,6 +865,7 @@ Require test.libsolidity.semanticTests.various.erc20.ERC20.
 Definition foo_env : Environment.t := {|
   Environment.caller := 123;
   Environment.callvalue := 0;
+  Environment.calldata := [];
 |}.
 
 Definition foo : _ * State.t := eval 200 foo_env Stdlib.init_state ERC20.ERC20_403.code.
@@ -865,3 +890,5 @@ Compute (snd foo).(State.loaded_codes).
 
 Compute "call stack".
 Compute (snd foo).(State.call_stack).
+
+Require test.libsolidity.semanticTests.c99_scoping_activation.test.

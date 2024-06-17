@@ -415,7 +415,7 @@ Module Reverts_11.
             Some (M.call (|
               "datasize",
               [
-                [Literal.string "526576657274735f3131"]
+                [Literal.string "526576657274735f313100000000000000000000000000000000000000000000"]
               ]
             |))
           |)
@@ -529,7 +529,7 @@ Module Reverts_11.
                     [Literal.number 0]
                   ]
                 |);
-                [Literal.string "74657374206d6573736167652e"]
+                [Literal.string "74657374206d6573736167652e00000000000000000000000000000000000000"]
               ]
             |)
           |)
@@ -777,13 +777,13 @@ Module Reverts_11.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "526576657274735f31315f6465706c6f796564"]
+                  [Literal.string "526576657274735f31315f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "526576657274735f31315f6465706c6f796564"]
+                  [Literal.string "526576657274735f31315f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -799,7 +799,7 @@ Module Reverts_11.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "526576657274735f31315f6465706c6f796564"]
+                  [Literal.string "526576657274735f31315f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -864,6 +864,6 @@ Module Reverts_11.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220b91df47256b38fc00ee8460040b8277b733ec5232cd324a83c683676aa4713f464736f6c634300081b0033".
+      "a26469706673582212201a6195bedaea2a8f536132dc76866fa4d7658409de02b6b963cd9dc21dc53a1364736f6c634300081b0033".
   End Reverts_11_deployed.
 End Reverts_11.

@@ -518,13 +518,13 @@ Module D_70.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "445f37305f6465706c6f796564"]
+                  [Literal.string "445f37305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f37305f6465706c6f796564"]
+                  [Literal.string "445f37305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -537,7 +537,7 @@ Module D_70.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "32"];
+              [Literal.string "3200000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -554,7 +554,7 @@ Module D_70.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3135"];
+              [Literal.string "3135000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -571,7 +571,7 @@ Module D_70.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3238"];
+              [Literal.string "3238000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -588,7 +588,7 @@ Module D_70.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3433"];
+              [Literal.string "3433000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -608,7 +608,7 @@ Module D_70.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f37305f6465706c6f796564"]
+                  [Literal.string "445f37305f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1135,7 +1135,7 @@ Module D_70.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "32"]
+                  [Literal.string "3200000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1158,7 +1158,7 @@ Module D_70.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "3135"]
+                  [Literal.string "3135000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1181,7 +1181,7 @@ Module D_70.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "3238"]
+                  [Literal.string "3238000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1204,7 +1204,7 @@ Module D_70.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "3433"]
+                  [Literal.string "3433000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1363,6 +1363,6 @@ Module D_70.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220fab854ada0908ce64802adb6260d54ba894c4556789433371d16f6cbeeb2771464736f6c634300081b0033".
+      "a264697066735822122001dae37b8626d31178f75f67636ae883adabcf8b2b45ff0a49ed4543eb25d4cd64736f6c634300081b0033".
   End D_70_deployed.
 End D_70.

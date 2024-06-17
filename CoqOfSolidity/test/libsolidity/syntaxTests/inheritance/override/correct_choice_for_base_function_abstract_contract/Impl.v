@@ -98,13 +98,13 @@ Module Impl_38.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "496d706c5f33385f6465706c6f796564"]
+                  [Literal.string "496d706c5f33385f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "496d706c5f33385f6465706c6f796564"]
+                  [Literal.string "496d706c5f33385f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Impl_38.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "496d706c5f33385f6465706c6f796564"]
+                  [Literal.string "496d706c5f33385f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -462,6 +462,6 @@ Module Impl_38.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212204b0d66f0021a7a976b09f813800f80e24a90ecd69de6f8248f1aaf17bd3c842064736f6c634300081b0033".
+      "a264697066735822122076a208569f63183cd09e1ce657e10cf15d8e92c21e3b2a9615cce5b27c6c079b64736f6c634300081b0033".
   End Impl_38_deployed.
 End Impl_38.

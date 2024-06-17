@@ -459,7 +459,7 @@ Module test_38.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "72656365697665725f35"]
+                    [Literal.string "72656365697665725f3500000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -520,13 +520,13 @@ Module test_38.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "72656365697665725f35"]
+                    [Literal.string "72656365697665725f3500000000000000000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "72656365697665725f35"]
+                    [Literal.string "72656365697665725f3500000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -659,13 +659,13 @@ Module test_38.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "746573745f33385f6465706c6f796564"]
+                  [Literal.string "746573745f33385f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "746573745f33385f6465706c6f796564"]
+                  [Literal.string "746573745f33385f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -681,7 +681,7 @@ Module test_38.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "746573745f33385f6465706c6f796564"]
+                  [Literal.string "746573745f33385f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1502,7 +1502,7 @@ Module test_38.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "72656365697665725f35"]
+                      [Literal.string "72656365697665725f3500000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1551,13 +1551,13 @@ Module test_38.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "72656365697665725f35"]
+                      [Literal.string "72656365697665725f3500000000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "72656365697665725f35"]
+                      [Literal.string "72656365697665725f3500000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -2404,13 +2404,13 @@ Module test_38.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "72656365697665725f355f6465706c6f796564"]
+                      [Literal.string "72656365697665725f355f6465706c6f79656400000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "72656365697665725f355f6465706c6f796564"]
+                      [Literal.string "72656365697665725f355f6465706c6f79656400000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -2426,7 +2426,7 @@ Module test_38.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "72656365697665725f355f6465706c6f796564"]
+                      [Literal.string "72656365697665725f355f6465706c6f79656400000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -2730,12 +2730,12 @@ Module test_38.
           M.close_scope.
 
         Definition data : string :=
-          "a26469706673582212203ba5287b90283ac9fbd86232eaf76e9be226c4980f3c3486c0eb5ac24be461dc64736f6c634300081b0033".
+          "a2646970667358221220317691564ccdf438b97e23c6025fc63e91898dcb3dbc6190b7691bc67c1c5e8c64736f6c634300081b0033".
       End receiver_5_deployed.
     End receiver_5.
 
     Definition data : string :=
-      "a26469706673582212201a4e17282f1b7896caa324d657b2dc3ef1dd585371b9bc9fa8e867223d08811a64736f6c634300081b0033".
+      "a2646970667358221220a87817b497140fbe9e04ff42d3ab076234b3706a0fe9b5f40d30fb49f42e57c564736f6c634300081b0033".
   End test_38_deployed.
 
   Module receiver_5.
@@ -2835,13 +2835,13 @@ Module test_38.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "72656365697665725f355f6465706c6f796564"]
+                    [Literal.string "72656365697665725f355f6465706c6f79656400000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "72656365697665725f355f6465706c6f796564"]
+                    [Literal.string "72656365697665725f355f6465706c6f79656400000000000000000000000000"]
                   ]
                 |)
               ]
@@ -2857,7 +2857,7 @@ Module test_38.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "72656365697665725f355f6465706c6f796564"]
+                    [Literal.string "72656365697665725f355f6465706c6f79656400000000000000000000000000"]
                   ]
                 |)
               ]
@@ -3161,7 +3161,7 @@ Module test_38.
         M.close_scope.
 
       Definition data : string :=
-        "a26469706673582212203ba5287b90283ac9fbd86232eaf76e9be226c4980f3c3486c0eb5ac24be461dc64736f6c634300081b0033".
+        "a2646970667358221220317691564ccdf438b97e23c6025fc63e91898dcb3dbc6190b7691bc67c1c5e8c64736f6c634300081b0033".
     End receiver_5_deployed.
   End receiver_5.
 End test_38.

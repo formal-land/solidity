@@ -98,13 +98,13 @@ Module Vehicle_13.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "56656869636c655f31335f6465706c6f796564"]
+                  [Literal.string "56656869636c655f31335f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "56656869636c655f31335f6465706c6f796564"]
+                  [Literal.string "56656869636c655f31335f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Vehicle_13.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "56656869636c655f31335f6465706c6f796564"]
+                  [Literal.string "56656869636c655f31335f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -911,6 +911,6 @@ Module Vehicle_13.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122077749a29f2c23350fcbddc1e100ccbc94bbf6e7844e4f8f74cd22c9963ccc56264736f6c634300081b0033".
+      "a26469706673582212206b7942b4cdf39c949f1f5510268bac7938aec48220eb3f5b1920a8f4323e5e1a64736f6c634300081b0033".
   End Vehicle_13_deployed.
 End Vehicle_13.

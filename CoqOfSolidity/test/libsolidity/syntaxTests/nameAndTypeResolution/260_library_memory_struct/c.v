@@ -98,13 +98,13 @@ Module c_12.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "635f31325f6465706c6f796564"]
+                  [Literal.string "635f31325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "635f31325f6465706c6f796564"]
+                  [Literal.string "635f31325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module c_12.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module c_12.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "635f31325f6465706c6f796564"]
+                  [Literal.string "635f31325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -813,7 +813,7 @@ Module c_12.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -920,6 +920,6 @@ Module c_12.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e267cf5551ca14bf042deb4e1aac9d2f0a93de2cde027f21072a1765837d59ae64736f6c634300081b0033".
+      "a2646970667358221220cda71c2cf1feef0d214698841a84b0ed543b7555405617fe3c7c421e7f7edd6f64736f6c634300081b0033".
   End c_12_deployed.
 End c_12.

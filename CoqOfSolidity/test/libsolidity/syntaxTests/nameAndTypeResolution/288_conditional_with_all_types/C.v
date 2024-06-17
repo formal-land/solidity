@@ -98,13 +98,13 @@ Module C_255.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3235355f6465706c6f796564"]
+                  [Literal.string "435f3235355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3235355f6465706c6f796564"]
+                  [Literal.string "435f3235355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_255.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3235355f6465706c6f796564"]
+                  [Literal.string "435f3235355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1326,7 +1326,7 @@ Module C_255.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "776f726c64"]
+                  [Literal.string "776f726c64000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1406,7 +1406,7 @@ Module C_255.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "68656c6c6f"]
+                  [Literal.string "68656c6c6f000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1486,7 +1486,7 @@ Module C_255.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "75736564"]
+                  [Literal.string "7573656400000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -4918,6 +4918,6 @@ Module C_255.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212204648fbb7529f308fdf90eadd8c893072192c9290e94b9d848149fb246985bf4364736f6c634300081b0033".
+      "a2646970667358221220821bfe85550af908b2513189023d6d8a4895379b019fa157c72a9838900305c264736f6c634300081b0033".
   End C_255_deployed.
 End C_255.

@@ -98,13 +98,13 @@ Module Bike_29.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "42696b655f32395f6465706c6f796564"]
+                  [Literal.string "42696b655f32395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42696b655f32395f6465706c6f796564"]
+                  [Literal.string "42696b655f32395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Bike_29.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "42696b655f32395f6465706c6f796564"]
+                  [Literal.string "42696b655f32395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -911,6 +911,6 @@ Module Bike_29.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212203bbf29a7d639ac1fd5d08b321351c47234a1469a430aa58fd76e090f4fd8f07664736f6c634300081b0033".
+      "a2646970667358221220dd6124b6b4188feb9dfd700d9a029a7400f5d1d9a099d4d78e2c70b12df050ca64736f6c634300081b0033".
   End Bike_29_deployed.
 End Bike_29.

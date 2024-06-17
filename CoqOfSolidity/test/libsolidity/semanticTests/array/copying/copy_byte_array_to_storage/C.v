@@ -98,13 +98,13 @@ Module C_225.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3232355f6465706c6f796564"]
+                  [Literal.string "435f3232355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3232355f6465706c6f796564"]
+                  [Literal.string "435f3232355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_225.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3232355f6465706c6f796564"]
+                  [Literal.string "435f3232355f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1179,7 +1179,7 @@ Module C_225.
                   M.call (|
                     "add",
                     [
-                      [Literal.string "616263"];
+                      [Literal.string "6162630000000000000000000000000000000000000000000000000000000000"];
                       [Literal.number 6]
                     ]
                   |)
@@ -1356,7 +1356,7 @@ Module C_225.
                       [Literal.number 2]
                     ]
                   |);
-                  [Literal.string "353637383930"]
+                  [Literal.string "3536373839300000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1873,7 +1873,7 @@ Module C_225.
                       [Literal.number 1]
                     ]
                   |);
-                  [Literal.string "33343536"]
+                  [Literal.string "3334353600000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -4534,6 +4534,6 @@ Module C_225.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212208c293d15887a180dc1022709523829a1d5d1634c72ada39beab9cdc22d5b283c64736f6c634300081b0033".
+      "a2646970667358221220123d1edb5726bd926f2699bea52d16a1a4f206f4305e6047e985070efa3ddeda64736f6c634300081b0033".
   End C_225_deployed.
 End C_225.

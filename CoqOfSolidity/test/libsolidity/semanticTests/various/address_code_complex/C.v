@@ -98,13 +98,13 @@ Module C_38.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f33385f6465706c6f796564"]
+                  [Literal.string "435f33385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33385f6465706c6f796564"]
+                  [Literal.string "435f33385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_38.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33385f6465706c6f796564"]
+                  [Literal.string "435f33385f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1303,7 +1303,7 @@ Module C_38.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "415f36"]
+                      [Literal.string "415f360000000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1352,13 +1352,13 @@ Module C_38.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "415f36"]
+                      [Literal.string "415f360000000000000000000000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "415f36"]
+                      [Literal.string "415f360000000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1504,7 +1504,7 @@ Module C_38.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "415f36"]
+                      [Literal.string "415f360000000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1553,13 +1553,13 @@ Module C_38.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "415f36"]
+                      [Literal.string "415f360000000000000000000000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "415f36"]
+                      [Literal.string "415f360000000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1885,13 +1885,13 @@ Module C_38.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "415f365f6465706c6f796564"]
+                      [Literal.string "415f365f6465706c6f7965640000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "415f365f6465706c6f796564"]
+                      [Literal.string "415f365f6465706c6f7965640000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1907,7 +1907,7 @@ Module C_38.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "415f365f6465706c6f796564"]
+                      [Literal.string "415f365f6465706c6f7965640000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1972,11 +1972,11 @@ Module C_38.
           M.close_scope.
 
         Definition data : string :=
-          "a264697066735822122023793c9a71b56e6391dbf77f18eb40e0648cd8361e7b480f789c2637c93ea09964736f6c634300081b0033".
+          "a26469706673582212206eb475a5cd73310bd32bcab75d80fa2ccdf15b1e61f8b5533bbecbaeea09041564736f6c634300081b0033".
       End A_6_deployed.
     End A_6.
 
     Definition data : string :=
-      "a26469706673582212204540091ea838ce86b115bdd2a894af7aba8735c44fa66f16eabb8ffcdb17d13e64736f6c634300081b0033".
+      "a26469706673582212201c7357700ef8a5fc43cb4a1d1fdf8fe71af2393d32e6443135831425e7d0006f64736f6c634300081b0033".
   End C_38_deployed.
 End C_38.

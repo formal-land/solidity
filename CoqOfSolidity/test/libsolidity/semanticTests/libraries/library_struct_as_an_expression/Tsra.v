@@ -98,13 +98,13 @@ Module Tsra_19.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "547372615f31395f6465706c6f796564"]
+                  [Literal.string "547372615f31395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "547372615f31395f6465706c6f796564"]
+                  [Literal.string "547372615f31395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Tsra_19.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "547372615f31395f6465706c6f796564"]
+                  [Literal.string "547372615f31395f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -648,6 +648,6 @@ Module Tsra_19.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220493ac60aad67bf2402b373085c74a297a3fdbc874f727f96126ab028302a96b064736f6c634300081b0033".
+      "a264697066735822122074d9459e49df05a030e37a216812d35aad18bb9821f8fde73eba59ea60a6ff9864736f6c634300081b0033".
   End Tsra_19_deployed.
 End Tsra_19.

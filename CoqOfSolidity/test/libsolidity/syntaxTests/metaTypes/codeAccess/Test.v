@@ -98,13 +98,13 @@ Module Test_23.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "546573745f32335f6465706c6f796564"]
+                  [Literal.string "546573745f32335f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f32335f6465706c6f796564"]
+                  [Literal.string "546573745f32335f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Test_23.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f32335f6465706c6f796564"]
+                  [Literal.string "546573745f32335f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -881,7 +881,7 @@ Module Test_23.
               Some (M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f746865725f33322e4f746865725f33325f6465706c6f796564"]
+                  [Literal.string "4f746865725f33322e4f746865725f33325f6465706c6f796564000000000000"]
                 ]
               |))
             |)
@@ -929,7 +929,7 @@ Module Test_23.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "4f746865725f33322e4f746865725f33325f6465706c6f796564"]
+                      [Literal.string "4f746865725f33322e4f746865725f33325f6465706c6f796564000000000000"]
                     ]
                   |);
                   M.get_var (| "_1" |)
@@ -976,7 +976,7 @@ Module Test_23.
               Some (M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f746865725f3332"]
+                  [Literal.string "4f746865725f3332000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -1024,7 +1024,7 @@ Module Test_23.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "4f746865725f3332"]
+                      [Literal.string "4f746865725f3332000000000000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.get_var (| "_1" |)
@@ -1245,13 +1245,13 @@ Module Test_23.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "4f746865725f33325f6465706c6f796564"]
+                      [Literal.string "4f746865725f33325f6465706c6f796564000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "4f746865725f33325f6465706c6f796564"]
+                      [Literal.string "4f746865725f33325f6465706c6f796564000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1267,7 +1267,7 @@ Module Test_23.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "4f746865725f33325f6465706c6f796564"]
+                      [Literal.string "4f746865725f33325f6465706c6f796564000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1815,11 +1815,11 @@ Module Test_23.
           M.close_scope.
 
         Definition data : string :=
-          "a2646970667358221220b6c406fd5481f9409483013f5d4d2b9a0311fadadbc516c4d9fde50683416a7464736f6c634300081b0033".
+          "a2646970667358221220fe2b2dbe272c1924e9fc296d9b495a3a2c68d3cd712fe2e491f84095b67c26fd64736f6c634300081b0033".
       End Other_32_deployed.
     End Other_32.
 
     Definition data : string :=
-      "a26469706673582212206b0e029ece7cd8881d2ff3c5d7c1cfe3c75e5c4fa4e65815e540fc244d5bc90d64736f6c634300081b0033".
+      "a2646970667358221220773e1c0d25aa8eaba22c69c097c6209b78e167dce623fbfceeb17ebcb08644a064736f6c634300081b0033".
   End Test_23_deployed.
 End Test_23.

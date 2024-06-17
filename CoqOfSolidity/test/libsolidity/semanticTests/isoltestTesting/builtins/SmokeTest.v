@@ -98,13 +98,13 @@ Module SmokeTest_1.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "536d6f6b65546573745f315f6465706c6f796564"]
+                  [Literal.string "536d6f6b65546573745f315f6465706c6f796564000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "536d6f6b65546573745f315f6465706c6f796564"]
+                  [Literal.string "536d6f6b65546573745f315f6465706c6f796564000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module SmokeTest_1.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "536d6f6b65546573745f315f6465706c6f796564"]
+                  [Literal.string "536d6f6b65546573745f315f6465706c6f796564000000000000000000000000"]
                 ]
               |)
             ]
@@ -185,6 +185,6 @@ Module SmokeTest_1.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220a90266a652ae4d69a90e62e46c5159071210fceaaff2b5cf0e77f209e69318af64736f6c634300081b0033".
+      "a26469706673582212207a1be3ded92a224dba448c62461553f6c3f6155ef05284d7d2c24e3eedd6b46a64736f6c634300081b0033".
   End SmokeTest_1_deployed.
 End SmokeTest_1.

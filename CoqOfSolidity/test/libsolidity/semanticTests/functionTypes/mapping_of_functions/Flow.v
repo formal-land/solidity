@@ -502,13 +502,13 @@ Module Flow_64.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "466c6f775f36345f6465706c6f796564"]
+                  [Literal.string "466c6f775f36345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "466c6f775f36345f6465706c6f796564"]
+                  [Literal.string "466c6f775f36345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -524,7 +524,7 @@ Module Flow_64.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "466c6f775f36345f6465706c6f796564"]
+                  [Literal.string "466c6f775f36345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2238,6 +2238,6 @@ Module Flow_64.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122074673e89178c7bb21f768a84d285615691539de18e140c5237a0dcaff6e5521564736f6c634300081b0033".
+      "a2646970667358221220c7d1349e2697e8115176665a15eb62ce755fe8d85203c16456667c9f0f71130f64736f6c634300081b0033".
   End Flow_64_deployed.
 End Flow_64.

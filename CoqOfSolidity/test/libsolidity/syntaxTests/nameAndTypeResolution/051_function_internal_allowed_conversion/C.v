@@ -98,13 +98,13 @@ Module C_3.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f335f6465706c6f796564"]
+                  [Literal.string "435f335f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f335f6465706c6f796564"]
+                  [Literal.string "435f335f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_3.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f335f6465706c6f796564"]
+                  [Literal.string "435f335f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -185,6 +185,6 @@ Module C_3.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212209eaf40108ebf2bbaa598911d675802ce6e2f7ab295719ca527c040b4242a15c664736f6c634300081b0033".
+      "a26469706673582212200b3e1398d280dc07b0c5a825d8ce11055e8974618cdb797616ae6ac450b8b9d964736f6c634300081b0033".
   End C_3_deployed.
 End C_3.

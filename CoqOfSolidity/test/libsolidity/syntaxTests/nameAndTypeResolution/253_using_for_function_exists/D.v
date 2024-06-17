@@ -98,13 +98,13 @@ Module D_13.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "445f31335f6465706c6f796564"]
+                  [Literal.string "445f31335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f31335f6465706c6f796564"]
+                  [Literal.string "445f31335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module D_13.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module D_13.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f31335f6465706c6f796564"]
+                  [Literal.string "445f31335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -852,7 +852,7 @@ Module D_13.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -959,6 +959,6 @@ Module D_13.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d4d7b5506ee0b023dc44256182567df18895a3314752c4eb8320695b8cc40b0c64736f6c634300081b0033".
+      "a2646970667358221220cf41edeba3eabc7663baa7826426a7f6f9c6b28c2e908aeea28bf9e338720d6c64736f6c634300081b0033".
   End D_13_deployed.
 End D_13.

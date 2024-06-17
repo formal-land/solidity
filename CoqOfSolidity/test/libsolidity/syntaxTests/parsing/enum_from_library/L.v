@@ -98,13 +98,13 @@ Module L_4.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c5f345f6465706c6f796564"]
+                  [Literal.string "4c5f345f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f345f6465706c6f796564"]
+                  [Literal.string "4c5f345f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module L_4.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module L_4.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c5f345f6465706c6f796564"]
+                  [Literal.string "4c5f345f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module L_4.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220811b021f1e32f4dcdbe913b9e06836ba624d717593376db74ddaec1c1081800764736f6c634300081b0033".
+      "a264697066735822122013c0d65837725c5bec7b417095196e23103c121bdd5109d0fdeb6ebfa7f7b31c64736f6c634300081b0033".
   End L_4_deployed.
 End L_4.

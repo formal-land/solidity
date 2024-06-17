@@ -15,13 +15,13 @@ Module C_2.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f325f6465706c6f796564"]
+                  [Literal.string "435f325f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f325f6465706c6f796564"]
+                  [Literal.string "435f325f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -37,7 +37,7 @@ Module C_2.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f325f6465706c6f796564"]
+                  [Literal.string "435f325f6465706c6f7965640000000000000000000000000000000000000000"]
                 ]
               |)
             ]

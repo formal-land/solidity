@@ -98,13 +98,13 @@ Module C_75.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f37355f6465706c6f796564"]
+                  [Literal.string "435f37355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f37355f6465706c6f796564"]
+                  [Literal.string "435f37355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_75.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f37355f6465706c6f796564"]
+                  [Literal.string "435f37355f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1947,7 +1947,7 @@ Module C_75.
                 "mstore",
                 [
                   M.get_var (| "pos" |);
-                  [Literal.string "616263"]
+                  [Literal.string "6162630000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -2546,6 +2546,6 @@ Module C_75.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220c4e491d533fa3247fa1620b1a08f2dc4de39f2ddce56b4c44e5dc30b8259ef1164736f6c634300081b0033".
+      "a2646970667358221220a22cc43ef355731fdf19542df3538b876cda52c51a14052d3b8b76ca6359f72664736f6c634300081b0033".
   End C_75_deployed.
 End C_75.

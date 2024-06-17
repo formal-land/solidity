@@ -415,7 +415,7 @@ Module D_43.
             Some (M.call (|
               "datasize",
               [
-                [Literal.string "445f3433"]
+                [Literal.string "445f343300000000000000000000000000000000000000000000000000000000"]
               ]
             |))
           |)
@@ -930,7 +930,7 @@ Module D_43.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f3133"]
+                    [Literal.string "435f313300000000000000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -991,13 +991,13 @@ Module D_43.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "435f3133"]
+                    [Literal.string "435f313300000000000000000000000000000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f3133"]
+                    [Literal.string "435f313300000000000000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -1143,13 +1143,13 @@ Module D_43.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "445f34335f6465706c6f796564"]
+                  [Literal.string "445f34335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f34335f6465706c6f796564"]
+                  [Literal.string "445f34335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1165,7 +1165,7 @@ Module D_43.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "445f34335f6465706c6f796564"]
+                  [Literal.string "445f34335f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2410,7 +2410,7 @@ Module D_43.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220345943dec3cf2705b94ee4da9bb092028b6fab6a1ad3ea38753bb3d555f08b6d64736f6c634300081b0033".
+      "a2646970667358221220e7e38b2ae8ad14e3c54811ff388f1f6fd74d8eb2afb1332de22860db126f4e2064736f6c634300081b0033".
   End D_43_deployed.
 
   Module C_13.
@@ -2827,7 +2827,7 @@ Module D_43.
               Some (M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3133"]
+                  [Literal.string "435f313300000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -3190,13 +3190,13 @@ Module D_43.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "435f31335f6465706c6f796564"]
+                    [Literal.string "435f31335f6465706c6f79656400000000000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f31335f6465706c6f796564"]
+                    [Literal.string "435f31335f6465706c6f79656400000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -3212,7 +3212,7 @@ Module D_43.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f31335f6465706c6f796564"]
+                    [Literal.string "435f31335f6465706c6f79656400000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -3748,7 +3748,7 @@ Module D_43.
         M.close_scope.
 
       Definition data : string :=
-        "a2646970667358221220429fc6f6cf35db8171a28dcb9f2d70926360cb984b0572f660a0c1e3d06a4fcb64736f6c634300081b0033".
+        "a26469706673582212206c299711270d10a7faf1fe512988bc82f418ddc2675e5270ba88b953b1fcf25564736f6c634300081b0033".
     End C_13_deployed.
   End C_13.
 End D_43.

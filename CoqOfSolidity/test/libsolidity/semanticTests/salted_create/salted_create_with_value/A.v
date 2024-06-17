@@ -98,13 +98,13 @@ Module A_87.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "415f38375f6465706c6f796564"]
+                  [Literal.string "415f38375f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "415f38375f6465706c6f796564"]
+                  [Literal.string "415f38375f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module A_87.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "415f38375f6465706c6f796564"]
+                  [Literal.string "415f38375f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1434,7 +1434,7 @@ Module A_87.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1483,13 +1483,13 @@ Module A_87.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1605,7 +1605,7 @@ Module A_87.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1654,13 +1654,13 @@ Module A_87.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1776,7 +1776,7 @@ Module A_87.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -1825,13 +1825,13 @@ Module A_87.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f3239"]
+                      [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -2990,7 +2990,7 @@ Module A_87.
                 Some (M.call (|
                   "datasize",
                   [
-                    [Literal.string "425f3239"]
+                    [Literal.string "425f323900000000000000000000000000000000000000000000000000000000"]
                   ]
                 |))
               |)
@@ -3335,13 +3335,13 @@ Module A_87.
                   M.call (|
                     "dataoffset",
                     [
-                      [Literal.string "425f32395f6465706c6f796564"]
+                      [Literal.string "425f32395f6465706c6f79656400000000000000000000000000000000000000"]
                     ]
                   |);
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f32395f6465706c6f796564"]
+                      [Literal.string "425f32395f6465706c6f79656400000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -3357,7 +3357,7 @@ Module A_87.
                   M.call (|
                     "datasize",
                     [
-                      [Literal.string "425f32395f6465706c6f796564"]
+                      [Literal.string "425f32395f6465706c6f79656400000000000000000000000000000000000000"]
                     ]
                   |)
                 ]
@@ -4355,11 +4355,11 @@ Module A_87.
           M.close_scope.
 
         Definition data : string :=
-          "a2646970667358221220fa1e75647023159465824a9fc8c90cb07a90a6ee63a8bfc21cf28de6d749ebee64736f6c634300081b0033".
+          "a2646970667358221220739dff7ed61818fef74ea422c03f6a39c2d42a4fc7df3c159af5fa638501c8c564736f6c634300081b0033".
       End B_29_deployed.
     End B_29.
 
     Definition data : string :=
-      "a2646970667358221220a6c80d9876dcb8ed8362e32cc5496a8695452212956050f2755bf662b7edafbe64736f6c634300081b0033".
+      "a264697066735822122014cb5bc0a29e4f1ddf7baebd07b05a76c7d481328fe24d740d684f125d89414364736f6c634300081b0033".
   End A_87_deployed.
 End A_87.

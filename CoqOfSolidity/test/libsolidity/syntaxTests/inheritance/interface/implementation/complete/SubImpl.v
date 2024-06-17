@@ -98,13 +98,13 @@ Module SubImpl_53.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "537562496d706c5f35335f6465706c6f796564"]
+                  [Literal.string "537562496d706c5f35335f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "537562496d706c5f35335f6465706c6f796564"]
+                  [Literal.string "537562496d706c5f35335f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module SubImpl_53.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "537562496d706c5f35335f6465706c6f796564"]
+                  [Literal.string "537562496d706c5f35335f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -1028,6 +1028,6 @@ Module SubImpl_53.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220710c8bb25bca718fe1864a6667671a6baeb0248d1aaa311cd4d1694057b0d29c64736f6c634300081b0033".
+      "a26469706673582212206643887c1ef8cd153c4df7864e316d45fcc8c548befed2dffdead24ce0d96b7c64736f6c634300081b0033".
   End SubImpl_53_deployed.
 End SubImpl_53.

@@ -443,13 +443,13 @@ Module Voting_47.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "566f74696e675f34375f6465706c6f796564"]
+                  [Literal.string "566f74696e675f34375f6465706c6f7965640000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "566f74696e675f34375f6465706c6f796564"]
+                  [Literal.string "566f74696e675f34375f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -465,7 +465,7 @@ Module Voting_47.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "566f74696e675f34375f6465706c6f796564"]
+                  [Literal.string "566f74696e675f34375f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1293,6 +1293,6 @@ Module Voting_47.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212204f9d9e79ceb8c6eb2b3c8e4b6add6b1398468226ff6494bff261e2ccfb77f11564736f6c634300081b0033".
+      "a2646970667358221220c92bc7acdd80599dc2e9e71a485122eaa856acad76805b25d81685d81f23658464736f6c634300081b0033".
   End Voting_47_deployed.
 End Voting_47.

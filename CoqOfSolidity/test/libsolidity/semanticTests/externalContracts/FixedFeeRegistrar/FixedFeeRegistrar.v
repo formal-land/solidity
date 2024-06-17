@@ -98,13 +98,13 @@ Module FixedFeeRegistrar_352.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "46697865644665655265676973747261725f3335325f6465706c6f796564"]
+                  [Literal.string "46697865644665655265676973747261725f3335325f6465706c6f7965640000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "46697865644665655265676973747261725f3335325f6465706c6f796564"]
+                  [Literal.string "46697865644665655265676973747261725f3335325f6465706c6f7965640000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module FixedFeeRegistrar_352.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "46697865644665655265676973747261725f3335325f6465706c6f796564"]
+                  [Literal.string "46697865644665655265676973747261725f3335325f6465706c6f7965640000"]
                 ]
               |)
             ]
@@ -7323,6 +7323,6 @@ Module FixedFeeRegistrar_352.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220aaedef440368b70b2c5f72c4095e09e377960ebef05bde4e78b25cc6b6d301f964736f6c634300081b0033".
+      "a264697066735822122026b5b81e53dc9b141e0ea3fbb09584e13a42e49104de593d0355471c47f66d0464736f6c634300081b0033".
   End FixedFeeRegistrar_352_deployed.
 End FixedFeeRegistrar_352.

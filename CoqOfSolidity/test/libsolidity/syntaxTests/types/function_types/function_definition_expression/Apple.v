@@ -98,13 +98,13 @@ Module Apple_19.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4170706c655f31395f6465706c6f796564"]
+                  [Literal.string "4170706c655f31395f6465706c6f796564000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4170706c655f31395f6465706c6f796564"]
+                  [Literal.string "4170706c655f31395f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Apple_19.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4170706c655f31395f6465706c6f796564"]
+                  [Literal.string "4170706c655f31395f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -462,6 +462,6 @@ Module Apple_19.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212200f5b51c2f733ed51b6b9bfaba9274edc0b9041301b96de21fadc5fb0f70111f164736f6c634300081b0033".
+      "a26469706673582212209426a6a6da55c5d2f1aaf2db1ccd6d8e7aaf6b8b8c97f8963fdf2a2644e89d1364736f6c634300081b0033".
   End Apple_19_deployed.
 End Apple_19.

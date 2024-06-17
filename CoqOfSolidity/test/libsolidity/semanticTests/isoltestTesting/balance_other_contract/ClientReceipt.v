@@ -516,7 +516,7 @@ Module ClientReceipt_43.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "4f746865725f3136"]
+                    [Literal.string "4f746865725f3136000000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -577,13 +577,13 @@ Module ClientReceipt_43.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "4f746865725f3136"]
+                    [Literal.string "4f746865725f3136000000000000000000000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "4f746865725f3136"]
+                    [Literal.string "4f746865725f3136000000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -698,13 +698,13 @@ Module ClientReceipt_43.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "436c69656e74526563656970745f34335f6465706c6f796564"]
+                  [Literal.string "436c69656e74526563656970745f34335f6465706c6f79656400000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "436c69656e74526563656970745f34335f6465706c6f796564"]
+                  [Literal.string "436c69656e74526563656970745f34335f6465706c6f79656400000000000000"]
                 ]
               |)
             ]
@@ -720,7 +720,7 @@ Module ClientReceipt_43.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "436c69656e74526563656970745f34335f6465706c6f796564"]
+                  [Literal.string "436c69656e74526563656970745f34335f6465706c6f79656400000000000000"]
                 ]
               |)
             ]
@@ -1971,7 +1971,7 @@ Module ClientReceipt_43.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212202a7852676b221d5210c3ad6bb71cf6c45b12a43da2939aac7678548ce6a37ee664736f6c634300081b0033".
+      "a2646970667358221220693cc7acfb5e61c61064f8de7dbea42a6ce6124e183f63689c0986256a7a85f064736f6c634300081b0033".
   End ClientReceipt_43_deployed.
 
   Module Other_16.
@@ -2033,13 +2033,13 @@ Module ClientReceipt_43.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "4f746865725f31365f6465706c6f796564"]
+                    [Literal.string "4f746865725f31365f6465706c6f796564000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "4f746865725f31365f6465706c6f796564"]
+                    [Literal.string "4f746865725f31365f6465706c6f796564000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -2055,7 +2055,7 @@ Module ClientReceipt_43.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "4f746865725f31365f6465706c6f796564"]
+                    [Literal.string "4f746865725f31365f6465706c6f796564000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -2655,7 +2655,7 @@ Module ClientReceipt_43.
         M.close_scope.
 
       Definition data : string :=
-        "a2646970667358221220582648738dc565e6bd34e10c4e6c01523379723059e450afb24fc2fc00fb34cd64736f6c634300081b0033".
+        "a2646970667358221220fabd45918203d4242aba9bc3ff111a28db4b971f9a3bf58b9e77d98793db6ee564736f6c634300081b0033".
     End Other_16_deployed.
   End Other_16.
 End ClientReceipt_43.

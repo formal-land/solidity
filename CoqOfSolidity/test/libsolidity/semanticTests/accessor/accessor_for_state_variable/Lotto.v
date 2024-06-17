@@ -356,13 +356,13 @@ Module Lotto_4.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4c6f74746f5f345f6465706c6f796564"]
+                  [Literal.string "4c6f74746f5f345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c6f74746f5f345f6465706c6f796564"]
+                  [Literal.string "4c6f74746f5f345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -378,7 +378,7 @@ Module Lotto_4.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4c6f74746f5f345f6465706c6f796564"]
+                  [Literal.string "4c6f74746f5f345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -914,6 +914,6 @@ Module Lotto_4.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d024ddf82498aa4dea93514a560bbf127ee9f44f9c90728d751a7eea8d30e74a64736f6c634300081b0033".
+      "a2646970667358221220a12419a4c393f4317a5a2d1ff56800bddd49e1a30f3599a81d56d58628caeb1b64736f6c634300081b0033".
   End Lotto_4_deployed.
 End Lotto_4.

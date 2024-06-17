@@ -420,13 +420,13 @@ Module Ownable_70.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4f776e61626c655f37305f6465706c6f796564"]
+                  [Literal.string "4f776e61626c655f37305f6465706c6f79656400000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f776e61626c655f37305f6465706c6f796564"]
+                  [Literal.string "4f776e61626c655f37305f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -442,7 +442,7 @@ Module Ownable_70.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4f776e61626c655f37305f6465706c6f796564"]
+                  [Literal.string "4f776e61626c655f37305f6465706c6f79656400000000000000000000000000"]
                 ]
               |)
             ]
@@ -2271,6 +2271,6 @@ Module Ownable_70.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220a2f449866b0fee2a813320fb8640752ccd0a1488d8ac5f72acdd6092919bdb7164736f6c634300081b0033".
+      "a264697066735822122006b90b7d315afa24099b545f44ce55d33b7f4f75b2db92aa416b0774e3670f4c64736f6c634300081b0033".
   End Ownable_70_deployed.
 End Ownable_70.

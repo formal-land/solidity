@@ -321,13 +321,13 @@ Module C_254.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3235345f6465706c6f796564"]
+                  [Literal.string "435f3235345f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3235345f6465706c6f796564"]
+                  [Literal.string "435f3235345f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -343,7 +343,7 @@ Module C_254.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3235345f6465706c6f796564"]
+                  [Literal.string "435f3235345f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -3587,7 +3587,7 @@ Module C_254.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "313233"]
+                  [Literal.string "3132330000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -4967,7 +4967,7 @@ Module C_254.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "6645787465726e616c2875696e743235362c737472696e6729"]
+                  [Literal.string "6645787465726e616c2875696e743235362c737472696e672900000000000000"]
                 ]
               |)
             |)
@@ -6525,7 +6525,7 @@ Module C_254.
                   M.call (|
                     "add",
                     [
-                      [Literal.string "6645787465726e616c2875696e743235362c737472696e6729"];
+                      [Literal.string "6645787465726e616c2875696e743235362c737472696e672900000000000000"];
                       [Literal.number 50]
                     ]
                   |)
@@ -7366,6 +7366,6 @@ Module C_254.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220ece4b9f760bb5ef242f10cca0be547de3bbe919b32bbea6b1c2ed866b486e10464736f6c634300081b0033".
+      "a26469706673582212201b09a2637492872ec470976648eeec2bcce642c3bf12671666528c63e585f56564736f6c634300081b0033".
   End C_254_deployed.
 End C_254.

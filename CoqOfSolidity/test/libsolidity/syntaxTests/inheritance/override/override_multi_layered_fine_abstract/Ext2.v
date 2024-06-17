@@ -98,13 +98,13 @@ Module Ext2_44.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "457874325f34345f6465706c6f796564"]
+                  [Literal.string "457874325f34345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "457874325f34345f6465706c6f796564"]
+                  [Literal.string "457874325f34345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Ext2_44.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "457874325f34345f6465706c6f796564"]
+                  [Literal.string "457874325f34345f6465706c6f79656400000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -462,6 +462,6 @@ Module Ext2_44.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122078eaf6b9c1d6c13692df0c82ca9a06b020a036766ddee3a60917a7480aa58d7964736f6c634300081b0033".
+      "a2646970667358221220a2f3f7df8e0417d4bd36258fadc0df3990250bb057c641d8e3d37c5f93f3e17464736f6c634300081b0033".
   End Ext2_44_deployed.
 End Ext2_44.

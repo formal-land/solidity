@@ -98,13 +98,13 @@ Module K_49.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "4b5f34395f6465706c6f796564"]
+                  [Literal.string "4b5f34395f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4b5f34395f6465706c6f796564"]
+                  [Literal.string "4b5f34395f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module K_49.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module K_49.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "4b5f34395f6465706c6f796564"]
+                  [Literal.string "4b5f34395f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -200,6 +200,6 @@ Module K_49.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212209706c49ceca74f415ceb7a1fe71c5a61cdcaa71df99c43a20682871beabb62b664736f6c634300081b0033".
+      "a26469706673582212204d15fe532a2bebc134fc2f824e1d4c9898fc1db9f0da6a3d30843d9b58beb29e64736f6c634300081b0033".
   End K_49_deployed.
 End K_49.

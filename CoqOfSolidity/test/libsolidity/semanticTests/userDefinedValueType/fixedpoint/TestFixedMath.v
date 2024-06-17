@@ -98,13 +98,13 @@ Module TestFixedMath_159.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "5465737446697865644d6174685f3135395f6465706c6f796564"]
+                  [Literal.string "5465737446697865644d6174685f3135395f6465706c6f796564000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5465737446697865644d6174685f3135395f6465706c6f796564"]
+                  [Literal.string "5465737446697865644d6174685f3135395f6465706c6f796564000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module TestFixedMath_159.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "5465737446697865644d6174685f3135395f6465706c6f796564"]
+                  [Literal.string "5465737446697865644d6174685f3135395f6465706c6f796564000000000000"]
                 ]
               |)
             ]
@@ -2378,6 +2378,6 @@ Module TestFixedMath_159.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122034d97aa6f9e111883161c086c054c8e36f55e62942c30921c36eb50172af091f64736f6c634300081b0033".
+      "a264697066735822122007b752e894c27cc363ba22aae3119bf71b05f2136f7eec18b4f75dfe51f117d364736f6c634300081b0033".
   End TestFixedMath_159_deployed.
 End TestFixedMath_159.

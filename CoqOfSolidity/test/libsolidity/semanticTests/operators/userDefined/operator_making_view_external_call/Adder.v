@@ -98,13 +98,13 @@ Module Adder_138.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "41646465725f3133385f6465706c6f796564"]
+                  [Literal.string "41646465725f3133385f6465706c6f7965640000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "41646465725f3133385f6465706c6f796564"]
+                  [Literal.string "41646465725f3133385f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module Adder_138.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "41646465725f3133385f6465706c6f796564"]
+                  [Literal.string "41646465725f3133385f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1331,6 +1331,6 @@ Module Adder_138.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212206a86785ea7e30bea4d503330221efbcbf03d4a402e4810d81954c34a48491c9364736f6c634300081b0033".
+      "a264697066735822122019dba3932cd32b7ec9ebd7e3b2ceda528497cf497bfa441fbf5572c6844fa1de64736f6c634300081b0033".
   End Adder_138_deployed.
 End Adder_138.

@@ -333,7 +333,7 @@ Module ERC20_403.
                     [Literal.number 0]
                   ]
                 |);
-                [Literal.string "45524332303a206d696e7420746f20746865207a65726f2061646472657373"]
+                [Literal.string "45524332303a206d696e7420746f20746865207a65726f206164647265737300"]
               ]
             |)
           |)
@@ -1501,13 +1501,13 @@ Module ERC20_403.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "45524332305f3430335f6465706c6f796564"]
+                  [Literal.string "45524332305f3430335f6465706c6f7965640000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "45524332305f3430335f6465706c6f796564"]
+                  [Literal.string "45524332305f3430335f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1523,7 +1523,7 @@ Module ERC20_403.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "45524332305f3430335f6465706c6f796564"]
+                  [Literal.string "45524332305f3430335f6465706c6f7965640000000000000000000000000000"]
                 ]
               |)
             ]
@@ -4736,7 +4736,7 @@ Module ERC20_403.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "72657373"]
+                  [Literal.string "7265737300000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -4958,7 +4958,7 @@ Module ERC20_403.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "7373"]
+                  [Literal.string "7373000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -5700,7 +5700,7 @@ Module ERC20_403.
                       [Literal.number 32]
                     ]
                   |);
-                  [Literal.string "657373"]
+                  [Literal.string "6573730000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -6498,6 +6498,6 @@ Module ERC20_403.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122092842bbd37beb3912f7551ef824fbe3a948830ed78630ccd02dbeecad32ba11464736f6c634300081b0033".
+      "a26469706673582212200e61ac8dc4473fc60ada6c8f8ee0bf61a56950e3b67d75fafe04d9fac0b8f65964736f6c634300081b0033".
   End ERC20_403_deployed.
 End ERC20_403.

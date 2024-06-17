@@ -185,7 +185,7 @@ Module Test_161.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f3334"]
+                    [Literal.string "435f333400000000000000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -246,13 +246,13 @@ Module Test_161.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "435f3334"]
+                    [Literal.string "435f333400000000000000000000000000000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f3334"]
+                    [Literal.string "435f333400000000000000000000000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -391,13 +391,13 @@ Module Test_161.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "546573745f3136315f6465706c6f796564"]
+                  [Literal.string "546573745f3136315f6465706c6f796564000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f3136315f6465706c6f796564"]
+                  [Literal.string "546573745f3136315f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -410,7 +410,7 @@ Module Test_161.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "3431"];
+              [Literal.string "3431000000000000000000000000000000000000000000000000000000000000"];
               M.call (|
                 "mload",
                 [
@@ -430,7 +430,7 @@ Module Test_161.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f3136315f6465706c6f796564"]
+                  [Literal.string "546573745f3136315f6465706c6f796564000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -3546,7 +3546,7 @@ Module Test_161.
               Some (M.call (|
                 "loadimmutable",
                 [
-                  [Literal.string "3431"]
+                  [Literal.string "3431000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |))
             |)
@@ -4577,7 +4577,7 @@ Module Test_161.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220750021f0a117edd80b8cdca198340be787dd04955170d0504d89c3ff8278f0da64736f6c634300081b0033".
+      "a2646970667358221220324436e0b4febe7e47059813ab1d14703393741fabc4add2ec21d833566ff71464736f6c634300081b0033".
   End Test_161_deployed.
 
   Module C_34.
@@ -4677,13 +4677,13 @@ Module Test_161.
                 M.call (|
                   "dataoffset",
                   [
-                    [Literal.string "435f33345f6465706c6f796564"]
+                    [Literal.string "435f33345f6465706c6f79656400000000000000000000000000000000000000"]
                   ]
                 |);
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f33345f6465706c6f796564"]
+                    [Literal.string "435f33345f6465706c6f79656400000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -4699,7 +4699,7 @@ Module Test_161.
                 M.call (|
                   "datasize",
                   [
-                    [Literal.string "435f33345f6465706c6f796564"]
+                    [Literal.string "435f33345f6465706c6f79656400000000000000000000000000000000000000"]
                   ]
                 |)
               ]
@@ -7118,7 +7118,7 @@ Module Test_161.
         M.close_scope.
 
       Definition data : string :=
-        "a2646970667358221220338dc84b0a93e0972f44265d8e11662cad187f04b1124a352f18b73d3fe8a0f164736f6c634300081b0033".
+        "a26469706673582212205b1e7444f48fa352a4b18921165fc2674b6236af87ef43bec85c8c8cd456fa1b64736f6c634300081b0033".
     End C_34_deployed.
   End C_34.
 End Test_161.

@@ -98,13 +98,13 @@ Module SubExternal_1.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "53756245787465726e616c5f315f6465706c6f796564"]
+                  [Literal.string "53756245787465726e616c5f315f6465706c6f79656400000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53756245787465726e616c5f315f6465706c6f796564"]
+                  [Literal.string "53756245787465726e616c5f315f6465706c6f79656400000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module SubExternal_1.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53756245787465726e616c5f315f6465706c6f796564"]
+                  [Literal.string "53756245787465726e616c5f315f6465706c6f79656400000000000000000000"]
                 ]
               |)
             ]
@@ -185,6 +185,6 @@ Module SubExternal_1.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212209ca54d19046bd20791d2c093448d832fc4a0866c27d461c2db2e5a3de6c8e50764736f6c634300081b0033".
+      "a2646970667358221220b3fc76c8ddd31825717c34db4ed2a4f8870d36c69afe53c8f49533bc57528c9f64736f6c634300081b0033".
   End SubExternal_1_deployed.
 End SubExternal_1.

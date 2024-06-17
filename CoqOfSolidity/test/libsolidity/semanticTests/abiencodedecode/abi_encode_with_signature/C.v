@@ -98,13 +98,13 @@ Module C_133.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3133335f6465706c6f796564"]
+                  [Literal.string "435f3133335f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3133335f6465706c6f796564"]
+                  [Literal.string "435f3133335f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_133.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3133335f6465706c6f796564"]
+                  [Literal.string "435f3133335f6465706c6f796564000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -1916,7 +1916,7 @@ Module C_133.
                   M.call (|
                     "add",
                     [
-                      [Literal.string "662875696e7432353629"];
+                      [Literal.string "662875696e743235362900000000000000000000000000000000000000000000"];
                       [Literal.number 20]
                     ]
                   |)
@@ -2556,7 +2556,7 @@ Module C_133.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "616263"]
+                  [Literal.string "6162630000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -3084,7 +3084,7 @@ Module C_133.
                       [Literal.number 96]
                     ]
                   |);
-                  [Literal.string "6f726520657420646f6c6f7265206d61676e6120616c697175612e"]
+                  [Literal.string "6f726520657420646f6c6f7265206d61676e6120616c697175612e0000000000"]
                 ]
               |)
             |)
@@ -4672,7 +4672,7 @@ Module C_133.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "662875696e7432353629"]
+                  [Literal.string "662875696e743235362900000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -5078,6 +5078,6 @@ Module C_133.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212205a67ebdf53c7c5e36a3d45b5a25c2780858081681c3eb61237459fe2f2c1e0ae64736f6c634300081b0033".
+      "a264697066735822122059e04d6b9b4c24e65c18876ae023500be2242094d7bc3a4a1523303a2a8c9ecd64736f6c634300081b0033".
   End C_133_deployed.
 End C_133.

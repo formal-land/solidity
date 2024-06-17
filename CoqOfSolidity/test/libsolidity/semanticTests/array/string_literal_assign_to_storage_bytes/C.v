@@ -701,7 +701,7 @@ Module C_31.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "616263"];
+                    [Literal.string "6162630000000000000000000000000000000000000000000000000000000000"];
                     [Literal.number 6]
                   ]
                 |)
@@ -774,7 +774,7 @@ Module C_31.
                 M.call (|
                   "add",
                   [
-                    [Literal.string "61626364"];
+                    [Literal.string "6162636400000000000000000000000000000000000000000000000000000000"];
                     [Literal.number 8]
                   ]
                 |)
@@ -895,13 +895,13 @@ Module C_31.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f33315f6465706c6f796564"]
+                  [Literal.string "435f33315f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33315f6465706c6f796564"]
+                  [Literal.string "435f33315f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -917,7 +917,7 @@ Module C_31.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f33315f6465706c6f796564"]
+                  [Literal.string "435f33315f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -2960,7 +2960,7 @@ Module C_31.
                   M.call (|
                     "add",
                     [
-                      [Literal.string "61626364"];
+                      [Literal.string "6162636400000000000000000000000000000000000000000000000000000000"];
                       [Literal.number 8]
                     ]
                   |)
@@ -3033,7 +3033,7 @@ Module C_31.
                   M.call (|
                     "add",
                     [
-                      [Literal.string "616263"];
+                      [Literal.string "6162630000000000000000000000000000000000000000000000000000000000"];
                       [Literal.number 6]
                     ]
                   |)
@@ -3252,6 +3252,6 @@ Module C_31.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122001de2bbccf06b87e888d67bf4f34911f16265295573c12dc24adb4b83a2526de64736f6c634300081b0033".
+      "a26469706673582212202677ea4e118f92dfe1e1ae127f2f70ef9586d898b705929cc11b5463ebd69e6164736f6c634300081b0033".
   End C_31_deployed.
 End C_31.

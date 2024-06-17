@@ -98,13 +98,13 @@ Module C_52.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f35325f6465706c6f796564"]
+                  [Literal.string "435f35325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f35325f6465706c6f796564"]
+                  [Literal.string "435f35325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C_52.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f35325f6465706c6f796564"]
+                  [Literal.string "435f35325f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -795,7 +795,7 @@ Module C_52.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "32"]
+                  [Literal.string "3200000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -875,7 +875,7 @@ Module C_52.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "31"]
+                  [Literal.string "3100000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -955,7 +955,7 @@ Module C_52.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "30"]
+                  [Literal.string "3000000000000000000000000000000000000000000000000000000000000000"]
                 ]
               |)
             |)
@@ -1869,6 +1869,6 @@ Module C_52.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e07db95a0d2dd673b65951f7b729c7bfb9bb39a290d3534392b009a91d405ef464736f6c634300081b0033".
+      "a26469706673582212207a651e810026988dd002b39b550fedc38f77d160b0aea5dda7192e0c88ee5a5a64736f6c634300081b0033".
   End C_52_deployed.
 End C_52.

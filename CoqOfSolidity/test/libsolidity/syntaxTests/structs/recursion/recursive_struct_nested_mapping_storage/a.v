@@ -98,13 +98,13 @@ Module a_14.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "615f31345f6465706c6f796564"]
+                  [Literal.string "615f31345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "615f31345f6465706c6f796564"]
+                  [Literal.string "615f31345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -117,7 +117,7 @@ Module a_14.
             "setimmutable",
             [
               M.get_var (| "_1" |);
-              [Literal.string "6c6962726172795f6465706c6f795f61646472657373"];
+              [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"];
               M.call (|
                 "address",
                 []
@@ -135,7 +135,7 @@ Module a_14.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "615f31345f6465706c6f796564"]
+                  [Literal.string "615f31345f6465706c6f79656400000000000000000000000000000000000000"]
                 ]
               |)
             ]
@@ -514,7 +514,7 @@ Module a_14.
                     M.call (|
                       "loadimmutable",
                       [
-                        [Literal.string "6c6962726172795f6465706c6f795f61646472657373"]
+                        [Literal.string "6c6962726172795f6465706c6f795f6164647265737300000000000000000000"]
                       ]
                     |);
                     M.call (|
@@ -621,6 +621,6 @@ Module a_14.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122014119ce0c9260e906b1b4282a4790fa071b39d11d43fac2b2b84ab738fd714cd64736f6c634300081b0033".
+      "a264697066735822122037801d862c62bcfbec972ab9d5e8f0558f5c2bea04dfe81e81f45bcf24e9beff64736f6c634300081b0033".
   End a_14_deployed.
 End a_14.

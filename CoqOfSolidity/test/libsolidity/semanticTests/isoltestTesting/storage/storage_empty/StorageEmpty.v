@@ -98,13 +98,13 @@ Module StorageEmpty_1.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "53746f72616765456d7074795f315f6465706c6f796564"]
+                  [Literal.string "53746f72616765456d7074795f315f6465706c6f796564000000000000000000"]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53746f72616765456d7074795f315f6465706c6f796564"]
+                  [Literal.string "53746f72616765456d7074795f315f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module StorageEmpty_1.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "53746f72616765456d7074795f315f6465706c6f796564"]
+                  [Literal.string "53746f72616765456d7074795f315f6465706c6f796564000000000000000000"]
                 ]
               |)
             ]
@@ -185,6 +185,6 @@ Module StorageEmpty_1.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122034540a95f8538429061980c9d58cfa3cc3857940d8b931d9304a88777993eb3564736f6c634300081b0033".
+      "a2646970667358221220f617beb6ad877fa88c0a8cdcc152d87d4972420364e7de9a19460fedbb9ec2c264736f6c634300081b0033".
   End StorageEmpty_1_deployed.
 End StorageEmpty_1.
