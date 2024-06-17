@@ -182,6 +182,18 @@ Module Storage.
         storage current_address.
 End Storage.
 
+Module LoadedCode.
+  (** The description of some code loaded into memory, to keep a trace of what was loaded. *)
+  Record t : Set := {
+    (** The name as a Yul object. *)
+    name : Z;
+    (** The start position in memory. *)
+    address : U256.t;
+    (** The length in memory. *)
+    length : U256.t;
+  }.
+End LoadedCode.
+
 Module CallStack.
   (** The list of functions that were called with their corresponding parameters. This is for
       debugging purpose only, and does not exist in the semantics of Yul. *)
@@ -197,6 +209,7 @@ Module State.
     storage : Storage.t;
     transientStorage : Storage.t;
     logs : list (list U256.t * list Z);
+    loaded_codes : list LoadedCode.t;
     (** This is only for debugging *)
     call_stack : CallStack.t;
   }.
@@ -270,6 +283,15 @@ Definition eval_primitive {A : Set}
     (
       tt,
       state <| State.logs := (topics, payload) :: state.(State.logs) |>
+    )
+  | Primitive.LoadCode name address length =>
+    (
+      tt,
+      state <| State.loaded_codes := {|
+        LoadedCode.name := name;
+        LoadedCode.address := address;
+        LoadedCode.length := length;
+      |} :: state.(State.loaded_codes) |>
     )
   | Primitive.GetEnvironment =>
     (
@@ -562,9 +584,8 @@ Module Stdlib.
   Definition codesize : M.t U256.t :=
     LowM.Impossible "codesize".
 
-  (** TODO: register somewhere that we hzave copied the code *)
   Definition codecopy (t f s : U256.t) : M.t unit :=
-    M.pure tt.
+    LowM.Primitive (Primitive.LoadCode f t s) M.pure.
 
   Definition extcodesize (a : U256.t) : M.t U256.t :=
     LowM.Impossible "extcodesize".
@@ -810,6 +831,7 @@ Module Stdlib.
       State.storage := Memory.init;
       State.transientStorage := Memory.init;
       State.logs := [];
+      State.loaded_codes := [];
       State.call_stack := [];
     |}.
 End Stdlib.
@@ -837,6 +859,9 @@ Compute declared_vars (snd foo).
 
 Compute "logs".
 Compute (snd foo).(State.logs).
+
+Compute "loaded codes".
+Compute (snd foo).(State.loaded_codes).
 
 Compute "call stack".
 Compute (snd foo).(State.call_stack).

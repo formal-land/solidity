@@ -86,6 +86,7 @@ Module Primitive.
   | TLoad (address : U256.t) : t U256.t
   | TStore (address value : U256.t) : t unit
   | Log (topics : list U256.t) (payload : list Z) : t unit
+  | LoadCode (name : Z) (address length : U256.t) : t unit
   | GetEnvironment : t Environment.t
   (** The call stack is there to debug the semantics of Yul. *)
   | CallStackPush (name : string) (arguments : list (string * U256.t)) : t unit
