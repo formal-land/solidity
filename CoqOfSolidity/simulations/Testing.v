@@ -53,8 +53,102 @@ Module abiencodedecode.
         (fun (i : nat) => (snd output1).(State.memory) (Z.of_nat i))
         (* The following values are taken from the result *)
         (List.seq 192 128).
-
     Compute memory.
-    Compute environemnt1.
   End abi_decode_calldata.
+
+  Module abi_decode_simple.
+    Require test.libsolidity.semanticTests.abiencodedecode.abi_decode_simple.C.
+
+    Module Selectors.
+      Definition f : list Z := [0xd4; 0x57; 0x54; 0xf8].
+    End Selectors.
+
+    (* f(bytes): 0x20, 0x80, 0x21, 0x40, 0x7, "abcdefg" -> 0x21, 0x40, 0x7, "abcdefg" *)
+
+    Compute Memory.u256_as_bytes 0x20.
+
+    Definition environemnt1 : Environment.t :=
+      environment <|
+        Environment.calldata :=
+          Selectors.f ++
+          Memory.u256_as_bytes 0x20 ++
+          Memory.u256_as_bytes 0x80 ++
+          Memory.u256_as_bytes 0x21 ++
+          Memory.u256_as_bytes 0x40 ++
+          Memory.u256_as_bytes 0x7 ++
+          Memory.u256_as_bytes 0x6162636465666700000000000000000000000000000000000000000000000000
+      |>.
+
+    Compute List.length environemnt1.(Environment.calldata).
+
+    Definition output1 : _ * State.t :=
+      eval 200 environemnt1 Stdlib.init_state abi_decode_simple.C.C_21.C_21_deployed.code.
+
+    Compute "result".
+    Compute fst output1.
+
+    Compute "declared_vars".
+    Compute declared_vars (snd output1).
+
+    Compute "call_stack".
+    Compute (snd output1).(State.call_stack).
+
+    Compute "memory".
+    Definition memory : list Z :=
+      List.map
+        (fun (i : nat) => (snd output1).(State.memory) (Z.of_nat i))
+        (* The following values are taken from the result *)
+        (List.seq 352 128).
+    Compute memory.
+  End abi_decode_simple.
+
+  Module abi_decode_simple_storage.
+    Require test.libsolidity.semanticTests.abiencodedecode.abi_decode_simple_storage.C.
+
+    Module Selectors.
+      Definition f : list Z := [0xd4; 0x57; 0x54; 0xf8].
+    End Selectors.
+
+    (* f(bytes): 0x20, 0x80, 0x21, 0x40, 0x7, "abcdefg" -> 0x21, 0x40, 0x7, "abcdefg" *)
+
+    Compute Memory.u256_as_bytes 0x20.
+
+    Definition environemnt1 : Environment.t :=
+      environment <|
+        Environment.calldata :=
+          Selectors.f ++
+          Memory.u256_as_bytes 0x20 ++
+          Memory.u256_as_bytes 0x80 ++
+          Memory.u256_as_bytes 0x21 ++
+          Memory.u256_as_bytes 0x40 ++
+          Memory.u256_as_bytes 0x7 ++
+          Memory.u256_as_bytes 0x6162636465666700000000000000000000000000000000000000000000000000
+      |>.
+
+    Compute List.length environemnt1.(Environment.calldata).
+
+    Definition output1 : _ * State.t :=
+      eval 200 environemnt1 Stdlib.init_state abi_decode_simple_storage.C.C_27.C_27_deployed.code.
+
+    Check output1.
+
+    Print Assumptions output1.
+
+    Compute "result".
+    Compute fst output1.
+
+    Compute "declared_vars".
+    Compute declared_vars (snd output1).
+
+    Compute "call_stack".
+    Compute (snd output1).(State.call_stack).
+
+    Compute "memory".
+    Definition memory : list Z :=
+      List.map
+        (fun (i : nat) => (snd output1).(State.memory) (Z.of_nat i))
+        (* The following values are taken from the result *)
+        (List.seq 352 128).
+    Compute memory.
+  End abi_decode_simple_storage.
 End abiencodedecode.
