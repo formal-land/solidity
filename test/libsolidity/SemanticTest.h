@@ -91,6 +91,8 @@ public:
 	/// Returns true if deployment was successful, false otherwise.
 	bool deploy(std::string const& _contractName, u256 const& _value, bytes const& _arguments, std::map<std::string, solidity::test::Address> const& _libraries = {});
 
+	void outputCoqTestFile(std::string const& _filename);
+
 private:
 	TestResult runTest(
 		std::ostream& _stream,

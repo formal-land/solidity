@@ -108,6 +108,11 @@ Module LowM.
       (name : string)
       (arguments : list U256.t)
       (k : Result.t (list U256.t) -> t A)
+  | Loop {B : Set}
+      (body : t B)
+      (** The final value to return if we decide to break of the loop. *)
+      (break_with : B -> option B)
+      (k : B -> t A)
   (** Explicit cut in the monadic expressions, to provide better composition for the proofs. *)
   | Let {B : Set} (e1 : t B) (k : B -> t A)
   | Impossible (message : string).
@@ -115,6 +120,7 @@ Module LowM.
   Arguments Primitive {_ _}.
   Arguments DeclareFunction {_}.
   Arguments CallFunction {_}.
+  Arguments Loop {_ _}.
   Arguments Let {_ _}.
   Arguments Impossible {_}.
 
@@ -128,6 +134,8 @@ Module LowM.
       DeclareFunction name body (let_ k e2)
     | CallFunction name arguments k =>
       CallFunction name arguments (fun result => let_ (k result) e2)
+    | Loop body break_with k =>
+      Loop body break_with (fun result => let_ (k result) e2)
     | Let e1 k =>
       Let e1 (fun result => let_ (k result) e2)
     | Impossible message => Impossible message
@@ -253,7 +261,24 @@ Module M.
       switch_aux value cases
     ).
 
-  Parameter for_ : list U256.t -> t BlockUnit.t -> t BlockUnit.t -> t BlockUnit.t.
+  Definition for_ (condition : t (list U256.t)) (after body : t BlockUnit.t) : t BlockUnit.t :=
+    let loop_body : t BlockUnit.t :=
+      let_ condition (fun condition =>
+      match condition with
+      | [0] => pure BlockUnit.Break
+      | [_] => do body after
+      | _ => LowM.Impossible "for: expected a single value as condition"
+      end) in
+    let break_with (result : Result.t BlockUnit.t) : option (Result.t BlockUnit.t) :=
+      match result with
+      | Result.Ok output =>
+        match output with
+        | BlockUnit.Break | BlockUnit.Leave => Some (Result.Ok BlockUnit.Tt)
+        | BlockUnit.Tt | BlockUnit.Continue => None
+        end
+      | _ => Some result
+      end in
+    LowM.Loop loop_body break_with (fun _ => pure BlockUnit.Tt).
 
   Definition break : t BlockUnit.t :=
     pure BlockUnit.Break.

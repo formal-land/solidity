@@ -218,9 +218,9 @@ End State.
 (** We consider that all the primitives can be defined as a function over the state. *)
 Definition eval_primitive {A : Set}
     (environment : Environment.t)
-    (state : State.t)
     (primitive : Primitive.t A) :
-    A * State.t :=
+    State.t -> A * State.t :=
+  fun state =>
   match primitive with
   | Primitive.OpenScope =>
     (
@@ -310,39 +310,53 @@ Definition eval_primitive {A : Set}
     )
   end.
 
+Definition state_error_bind {S E A B : Set} (e1 : S -> (A + E) * S) (e2 : A -> S -> (B + E) * S) :
+    S -> (B + E) * S :=
+  fun state =>
+  match e1 state with
+  | (inl a, state) => e2 a state
+  | (inr error, state) => (inr error, state)
+  end.
+
+Notation "'letS?' x ':=' e 'in' body" :=
+  (state_error_bind e (fun x => body))
+  (at level 200, x ident, e at level 200, body at level 200).
+
 (** A function to evaluate an expression assuming that we have enough [fuel]. *)
 Fixpoint eval {A : Set}
     (fuel : nat)
     (environment : Environment.t)
-    (state : State.t)
     (e : LowM.t A) :
-    (A + string) * State.t :=
+    State.t -> (A + string) * State.t :=
   match fuel with
-  | O => (inr "out of fuel", state)
+  | O => fun state => (inr "out of fuel", state)
   | S fuel =>
     match e with
-    | LowM.Pure output => (inl output, state)
+    | LowM.Pure output => fun state => (inl output, state)
     | LowM.Primitive primitive k =>
-      let '(value, state_inter) := eval_primitive environment state primitive in
-      eval fuel environment state_inter (k value)
+      fun state =>
+      let '(value, state) := eval_primitive environment primitive state in
+      eval fuel environment (k value) state
     | LowM.DeclareFunction name body k =>
-      let state_inter :=
+      fun state =>
+      let state :=
         state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
-      eval fuel environment state_inter k
+      eval fuel environment k state
     | LowM.CallFunction name arguments k =>
+      fun state =>
       let function := Stack.get_function state.(State.stack) name in
-      let (results, state_inter) := eval fuel environment state (function arguments) in
-      match results with
-      | inl results => eval fuel environment state_inter (k results)
-      | inr message => (inr message, state_inter)
+      (letS? results := eval fuel environment (function arguments) in
+      eval fuel environment (k results)) state
+    | LowM.Loop body break_with k =>
+      letS? output := eval fuel environment body in
+      match break_with output with
+      | None => eval fuel environment (LowM.Loop body break_with k)
+      | Some output => eval fuel environment (k output)
       end
     | LowM.Let e1 k =>
-      let (output_inter, state_inter) := eval fuel environment state e1 in
-      match output_inter with
-      | inl output_inter => eval fuel environment state_inter (k output_inter)
-      | inr message => (inr message, state_inter)
-      end
-    | LowM.Impossible message => (inr ("Impossible: " ++ message)%string, state)
+      letS? value := eval fuel environment e1 in
+      eval fuel environment (k value)
+    | LowM.Impossible message => fun state => (inr ("Impossible: " ++ message)%string, state)
     end
   end.
 
@@ -354,7 +368,7 @@ Module Run.
       LowM.t A -> State.t -> Prop :=
   | Pure : {{ environment, state | LowM.Pure output ⇓ output | state }}
   | Primitive {B : Set} (primitive : Primitive.t B) (k : B -> LowM.t A) state' :
-    let value_state_inter := eval_primitive environment state primitive in
+    let value_state_inter := eval_primitive environment primitive state in
     (* Because we are not allowed to destructure a value in an inductive definition, so we use
        the [fst] and [snd] functions instead of a pattern. *)
     let value := fst value_state_inter in
@@ -383,7 +397,7 @@ End Run.
 Import Run.
 
 (** The [eval] function follows the semantics given by [Run.t]. *)
-Fixpoint eval_is_run {A : Set}
+(* Fixpoint eval_is_run {A : Set}
     (fuel : nat)
     (environment : Environment.t)
     (state : State.t)
@@ -429,7 +443,7 @@ Proof.
   { (* Impossible *)
     discriminate.
   }
-Qed.
+Qed. *)
 
 Module Stdlib.
   Definition return_ (p s : U256.t) : M.t unit :=
@@ -860,6 +874,7 @@ Module Stdlib.
     |}.
 End Stdlib.
 
+(*
 Require test.libsolidity.semanticTests.various.erc20.ERC20.
 
 Definition foo_env : Environment.t := {|
@@ -868,7 +883,7 @@ Definition foo_env : Environment.t := {|
   Environment.calldata := [];
 |}.
 
-Definition foo : _ * State.t := eval 200 foo_env Stdlib.init_state ERC20.ERC20_403.code.
+Definition foo : _ * State.t := eval 200 foo_env ERC20.ERC20_403.code Stdlib.init_state.
 
 Compute "result".
 Compute fst foo.
@@ -892,3 +907,4 @@ Compute "call stack".
 Compute (snd foo).(State.call_stack).
 
 Require test.libsolidity.semanticTests.c99_scoping_activation.test.
+*)

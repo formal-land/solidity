@@ -116,6 +116,8 @@ SemanticTest::SemanticTest(
 		m_compiler.setMetadataFormat(CompilerStack::MetadataFormat::NoMetadata);
 		m_compiler.setMetadataHash(CompilerStack::MetadataHash::None);
 	}
+
+	outputCoqTestFile(_filename);
 }
 
 std::map<std::string, Builtin> SemanticTest::makeBuiltins()
@@ -433,6 +435,11 @@ TestCase::TestResult SemanticTest::runTest(
 					"The function " + test.call().signature + " is not known to the compiler"
 				);
 
+				std::cout << std::endl;
+				std::cout << "Last contract name: " << m_compiler.lastContractName(m_sources.mainSourceFile) << std::endl;
+				std::cout << "Main source file: " <<  m_sources.mainSourceFile << std::endl;
+				std::cout << std::endl;
+
 				output = callContractFunctionWithValueNoEncoding(
 					test.call().signature,
 					test.call().value.value,
@@ -702,5 +709,83 @@ bool SemanticTest::deploy(
 )
 {
 	auto output = compileAndRunWithoutCheck(m_sources.sources, _value, _contractName, _arguments, _libraries, m_sources.mainSourceFile);
+
+	std::cout << "DEPLOY" << std::endl;
+	std::cout << "Contract name: " << _contractName << std::endl;
+	std::cout << "Contract path: " << m_reader.fileName() << std::endl;
+	// Get the relative path with respect to the current path
+	std::string contractPath = fs::relative(m_reader.fileName(), fs::current_path()).generic_string();
+	std::string contractPathWithoutExtension = contractPath.substr(0, contractPath.size() - 4);
+	std::string outputPath = "CoqOfSolidity/" + contractPathWithoutExtension + "/GeneratedTest.v";
+	std::string requirePathPrefix = contractPathWithoutExtension;
+	std::replace(requirePathPrefix.begin(), requirePathPrefix.end(), '/', '.');
+	// Create the output file
+	std::ofstream outputFile(outputPath);
+	// Write the contract name to the output file
+	outputFile << "(* Generated test file *)" << std::endl;
+	outputFile << "Require Import CoqOfSolidity.CoqOfSolidity." << std::endl;
+	outputFile << "Require Import simulations.CoqOfSolidity." << std::endl;
+	outputFile << std::endl;
+
+	// For each contract
+	for (std::string const& name: m_compiler.contractNames())
+	{
+		// We remove the first character of a contract name which is always a colon
+		std::string requirePath = requirePathPrefix + "." + name.substr(1);
+		outputFile << "Require " << requirePath << "." << std::endl;
+	}
+	outputFile << std::endl;
+
+	// Call the constructor
+	outputFile << "(* Calling the constructor of the last contract of the file *)" << std::endl;
+	std::string lastContractName = m_compiler.lastContractName(m_sources.mainSourceFile).substr(1);
+	outputFile << "(* Last contract name: " << lastContractName << " *)" << std::endl;
+	outputFile << "(* Transferred value: " << _value << " *)" << std::endl;
+	outputFile << "(* Arguments: \"" << util::toHex(_arguments) << "\" *)" << std::endl;
+	outputFile << "Definition constructor : M.t BlockUnit.t :=" << std::endl;
+	outputFile << "  " << requirePathPrefix << "." << lastContractName << "." << lastContractName << ".code." << std::endl;
+
+	// Close the output file
+	outputFile.close();
+
+	std::cout << "Value: " << _value << std::endl;
+	std::cout << "Arguments: " << util::toHex(_arguments) << std::endl;
+	std::cout << "Libraries: " << std::endl;
+	for (auto const& [name, address]: _libraries)
+		std::cout << name << ": " << address << std::endl;
+	std::cout << std::endl;
+
 	return !output.empty() && m_transactionSuccessful;
+}
+
+void SemanticTest::outputCoqTestFile(std::string const& _filename)
+{
+	std::cout << "Running " << _filename << " with " << m_tests.size() << " tests." << std::endl;
+
+	// for (auto const& [name, source]: m_sources.sources)
+	// {
+	// 	std::cout << "Source: " << name << std::endl;
+	// 	std::cout << source << std::endl;
+	// }
+
+	// Display each test case
+	for (TestFunctionCall const& test: m_tests)
+	{
+		std::cout << "Test: " << test.call().signature << std::endl;
+		// std::cout << "Expectations: " << test.call().expectations.rawString << std::endl;
+		std::cout << test.format() << std::endl;
+		std::cout << "Call description:" << std::endl;
+		std::cout << "Signature: " << test.call().signature << std::endl;
+		std::cout << "Selector: " << util::selectorFromSignatureH32(test.call().signature) << std::endl;
+		// std::cout << "Kind: " << test.call().kind << std::endl;
+		std::cout << "Value: " << test.call().value.value << std::endl;
+		std::cout << "Arguments: " << util::toHex(test.call().arguments.rawBytes()) << std::endl;
+		std::cout << "Expectations: " << util::toHex(test.call().expectations.rawBytes()) << std::endl;
+		// std::cout << "Expected side effects: " << test.call().expectedSideEffects << std::endl;
+		// std::cout << "Actual side effects: " << test.call().actualSideEffects << std::endl;
+		// std::cout << "Failure: " << test.call().failure << std::endl;
+		// std::cout << "Raw bytes: " << test.call().rawString << std::endl;
+		// std::cout << "Gas cost: " << test.call().gasCost << std::endl;
+		std::cout << std::endl;
+	}
 }

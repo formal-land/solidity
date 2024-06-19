@@ -119,7 +119,20 @@ std::string Object::toCoq() const
 	for (auto const& subObject: subObjects)
 		inner += "\n\n" + subObject->toCoq();
 
-	return "Module " + name.str() + ".\n" + prefixLines(inner, "  ") + "\nEnd " + name.str() + ".";
+	// We remove the id from the name has it makes things more difficult to find the definition in Coq,
+	// especially for the generated test files from the tests of the Solidity compiler.
+	std::string nameWithoutId = name.str();
+	std::string deployedSuffix = "_deployed";
+	bool hasDeployed = boost::ends_with(nameWithoutId, deployedSuffix);
+	if (hasDeployed)
+		nameWithoutId = nameWithoutId.substr(0, nameWithoutId.size() - deployedSuffix.size());
+	std::size_t idPosition = nameWithoutId.rfind("_");
+	if (idPosition != std::string::npos)
+		nameWithoutId = nameWithoutId.substr(0, idPosition);
+	if (hasDeployed)
+		nameWithoutId += deployedSuffix;
+
+	return "Module " + nameWithoutId + ".\n" + prefixLines(inner, "  ") + "\nEnd " + nameWithoutId + ".";
 
 }
 

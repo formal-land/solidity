@@ -7,7 +7,7 @@ from pqdm.processes import pqdm
 
 test_folders = [
   "../test/libsolidity/semanticTests",
-  "../test/libsolidity/syntaxTests",
+#  "../test/libsolidity/syntaxTests",
 ]
 
 files_to_translate = []

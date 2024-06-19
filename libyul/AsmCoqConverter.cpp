@@ -160,7 +160,7 @@ std::string AsmCoqConverter::operator()(FunctionDefinition const& _node)
 	for (auto const& var: _node.returnVariables)
 	{
 		if (!isFirst)
-			ret += ";\n";
+			ret += "; ";
 		isFirst = false;
 		ret += "\"" + var.name.str() + "\"";
 	}
@@ -228,11 +228,15 @@ std::string AsmCoqConverter::operator()(ForLoop const& _node)
 	m_indent++;
 	ret += indent() + (*this)(_node.pre) + " in\n";
 	m_indent--;
-	ret += "ltac:(M.monadic (\n";
+	ret += indent() + "ltac:(M.monadic (\n";
 	m_indent++;
 	ret += indent() + "M.for_ (|\n";
 	m_indent++;
-	ret += indent() + std::visit(*this, *_node.condition) + ",\n";
+	ret += indent() + "ltac:(M.monadic (\n";
+	m_indent++;
+	ret += indent() + std::visit(*this, *_node.condition) + "\n";
+	m_indent--;
+	ret += indent() + ")),\n";
 	ret += indent() + (*this)(_node.post) + ",\n";
 	ret += indent() + (*this)(_node.body) + "\n";
 	m_indent--;
