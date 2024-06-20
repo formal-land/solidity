@@ -287,7 +287,7 @@ std::string AsmCoqConverter::rawLiteral(Literal const& _node) const
 		std::string hex = util::toHex(util::asBytes(_node.value.str()));
 
 		// Add a padding of zeros so that we always fit 32 bytes. The strings are in big-endian format.
-		return "Literal.string \"" + hex + std::string(64 - hex.size(), '0') + "\"";
+		return "Literal.string 0x" + hex + std::string(64 - hex.size(), '0') + "";
 	}
 	default:
 		yulAssert(false, "Invalid literal kind");

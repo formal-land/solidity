@@ -364,6 +364,7 @@ TestCase::TestResult SemanticTest::runTest(
 	std::map<std::string, solidity::test::Address> libraries;
 
 	bool constructed = false;
+	size_t testIndex = 0;
 
 	for (TestFunctionCall& test: m_tests)
 	{
@@ -445,6 +446,17 @@ TestCase::TestResult SemanticTest::runTest(
 					test.call().value.value,
 					test.call().arguments.rawBytes()
 				);
+
+				writeCoqCallTest(
+					test.format(),
+					test.call().signature,
+					test.call().value.value,
+					test.call().arguments.rawBytes(),
+					output,
+					testIndex
+				);
+
+				testIndex++;
 			}
 
 			bool outputMismatch = (output != test.call().expectations.rawBytes());
@@ -713,14 +725,9 @@ bool SemanticTest::deploy(
 	std::cout << "DEPLOY" << std::endl;
 	std::cout << "Contract name: " << _contractName << std::endl;
 	std::cout << "Contract path: " << m_reader.fileName() << std::endl;
-	// Get the relative path with respect to the current path
-	std::string contractPath = fs::relative(m_reader.fileName(), fs::current_path()).generic_string();
-	std::string contractPathWithoutExtension = contractPath.substr(0, contractPath.size() - 4);
-	std::string outputPath = "CoqOfSolidity/" + contractPathWithoutExtension + "/GeneratedTest.v";
-	std::string requirePathPrefix = contractPathWithoutExtension;
-	std::replace(requirePathPrefix.begin(), requirePathPrefix.end(), '/', '.');
+
 	// Create the output file
-	std::ofstream outputFile(outputPath);
+	std::ofstream outputFile(testCoqFilename());
 	// Write the contract name to the output file
 	outputFile << "(* Generated test file *)" << std::endl;
 	outputFile << "Require Import CoqOfSolidity.CoqOfSolidity." << std::endl;
@@ -731,19 +738,25 @@ bool SemanticTest::deploy(
 	for (std::string const& name: m_compiler.contractNames())
 	{
 		// We remove the first character of a contract name which is always a colon
-		std::string requirePath = requirePathPrefix + "." + name.substr(1);
+		std::string requirePath = requirePathPrefix() + "." + name.substr(1);
 		outputFile << "Require " << requirePath << "." << std::endl;
 	}
 	outputFile << std::endl;
 
-	// Call the constructor
-	outputFile << "(* Calling the constructor of the last contract of the file *)" << std::endl;
 	std::string lastContractName = m_compiler.lastContractName(m_sources.mainSourceFile).substr(1);
-	outputFile << "(* Last contract name: " << lastContractName << " *)" << std::endl;
-	outputFile << "(* Transferred value: " << _value << " *)" << std::endl;
-	outputFile << "(* Arguments: \"" << util::toHex(_arguments) << "\" *)" << std::endl;
-	outputFile << "Definition constructor : M.t BlockUnit.t :=" << std::endl;
-	outputFile << "  " << requirePathPrefix << "." << lastContractName << "." << lastContractName << ".code." << std::endl;
+	outputFile << "Module Constructor." << std::endl;
+	outputFile << "  Definition environment : Environment.t :={|" << std::endl;
+	outputFile << "    Environment.caller := 0x" << m_sender << ";" << std::endl;
+	outputFile << "    Environment.callvalue := " << _value << ";" << std::endl;
+	outputFile << "    Environment.calldata := Memory.hex_string_as_bytes \"" << util::toHex(_arguments) << "\";" << std::endl;
+	outputFile << "  |}." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Definition code : M.t BlockUnit.t :=" << std::endl;
+	outputFile << "    " << requirePathPrefix() << "." << lastContractName << "." << lastContractName << ".code." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Definition state : State.t :=" << std::endl;
+	outputFile << "    snd (eval 1000 environment code Stdlib.initial_state)." << std::endl;
+	outputFile << "End Constructor." << std::endl;
 
 	// Close the output file
 	outputFile.close();
@@ -756,6 +769,81 @@ bool SemanticTest::deploy(
 	std::cout << std::endl;
 
 	return !output.empty() && m_transactionSuccessful;
+}
+
+std::string SemanticTest::contractPathWithoutExtension() const
+{
+	std::string contractPath = fs::relative(m_reader.fileName(), fs::current_path()).generic_string();
+
+	return contractPath.substr(0, contractPath.size() - 4);
+}
+
+std::string SemanticTest::testCoqFilename() const
+{
+	return "CoqOfSolidity/" + contractPathWithoutExtension() + "/GeneratedTest.v";
+}
+
+std::string SemanticTest::requirePathPrefix() const
+{
+	std::string requirePathPrefix = contractPathWithoutExtension();
+	std::replace(requirePathPrefix.begin(), requirePathPrefix.end(), '/', '.');
+
+	return requirePathPrefix;
+}
+
+void SemanticTest::writeCoqCallTest(
+	std::string const& asComment,
+	std::string const& _signature,
+	u256 const& _value,
+	bytes const& _arguments,
+	bytes const& _output,
+	size_t testIndex
+) const
+{
+	// Re-open the output file
+	std::ofstream outputFile(testCoqFilename(), std::ios::app);
+
+	std::string lastContractName = m_compiler.lastContractName(m_sources.mainSourceFile).substr(1);
+	outputFile << std::endl;
+	outputFile << "(* " << asComment << " *)" << std::endl;
+	outputFile << "Module Step" << testIndex + 1 << "." << std::endl;
+	outputFile << "  Definition environment : Environment.t :={|" << std::endl;
+	outputFile << "    Environment.caller := 0x" << m_sender << ";" << std::endl;
+	outputFile << "    Environment.callvalue := " << _value << ";" << std::endl;
+	bytes arguments = util::selectorFromSignatureH32(_signature).asBytes() + _arguments;
+	outputFile << "    Environment.calldata := Memory.hex_string_as_bytes \"" << util::toHex(arguments) << "\";" << std::endl;
+	outputFile << "  |}." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Definition code : M.t BlockUnit.t :=" << std::endl;
+	outputFile << "    " << requirePathPrefix() << "." <<
+		lastContractName << "." << lastContractName << ".deployed.code." << std::endl;
+	outputFile << std::endl;
+	std::string initialState =
+		testIndex == 0 ?
+			"Constructor.state" :
+			"Step" + std::to_string(testIndex) + ".state";
+	outputFile << "  Definition initial_state : State.t :=" << std::endl;
+	outputFile << "    Stdlib.initial_state <|" << std::endl;
+	outputFile << "      State.storage := " << initialState << ".(State.storage)" << std::endl;
+	outputFile << "    |>." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Definition result_state :=" << std::endl;
+	outputFile << "    eval 1000 environment code initial_state." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Definition result := fst result_state." << std::endl;
+	outputFile << "  Definition state := snd result_state." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Definition expected_output : list Z :=" << std::endl;
+	outputFile << "    Memory.hex_string_as_bytes \"" << util::toHex(_output) << "\"." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Goal extract_output result state = Some expected_output." << std::endl;
+	outputFile << "  Proof." << std::endl;
+	outputFile << "    reflexivity." << std::endl;
+	outputFile << "  Qed." << std::endl;
+	outputFile << "End Step" << testIndex + 1 << "." << std::endl;
+
+	// Close the output file
+	outputFile.close();
 }
 
 void SemanticTest::outputCoqTestFile(std::string const& _filename)

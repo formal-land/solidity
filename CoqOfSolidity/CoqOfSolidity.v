@@ -360,6 +360,6 @@ Module Literal.
   Definition bool (b : bool) : U256.t :=
     if b then 1 else 0.
 
-  Definition string (hex : string) : U256.t :=
-    HexString.to_Z hex.
+  Definition string (z : Z) : U256.t :=
+    z.
 End Literal.

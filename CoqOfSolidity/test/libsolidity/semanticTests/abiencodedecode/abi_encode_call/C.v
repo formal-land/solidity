@@ -98,13 +98,13 @@ Module C.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "435f3234315f6465706c6f796564000000000000000000000000000000000000"]
+                  [Literal.string 0x435f3234315f6465706c6f796564000000000000000000000000000000000000]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3234315f6465706c6f796564000000000000000000000000000000000000"]
+                  [Literal.string 0x435f3234315f6465706c6f796564000000000000000000000000000000000000]
                 ]
               |)
             ]
@@ -120,7 +120,7 @@ Module C.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "435f3234315f6465706c6f796564000000000000000000000000000000000000"]
+                  [Literal.string 0x435f3234315f6465706c6f796564000000000000000000000000000000000000]
                 ]
               |)
             ]
@@ -131,7 +131,7 @@ Module C.
     )) in
     M.close_scope.
 
-  Module C_deployed.
+  Module deployed.
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2850,7 +2850,7 @@ Module C.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "3132333400000000000000000000000000000000000000000000000000000000"]
+                  [Literal.string 0x3132333400000000000000000000000000000000000000000000000000000000]
                 ]
               |)
             |)
@@ -4761,7 +4761,7 @@ Module C.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "5374727563744e616d6500000000000000000000000000000000000000000000"]
+                  [Literal.string 0x5374727563744e616d6500000000000000000000000000000000000000000000]
                 ]
               |)
             |)
@@ -5950,7 +5950,7 @@ Module C.
                       [Literal.number 0]
                     ]
                   |);
-                  [Literal.string "546573744e616d65000000000000000000000000000000000000000000000000"]
+                  [Literal.string 0x546573744e616d65000000000000000000000000000000000000000000000000]
                 ]
               |)
             |)
@@ -7154,6 +7154,6 @@ Module C.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220fd97bcd5af640cb6ace0642d0cef71841733e1c01b1094ecf0afa66183bc4d1e64736f6c634300081b0033".
-  End C_deployed.
+      "a26469706673582212201f9d67a2f069dcfa40f418ca9371a8bc69eef4b89c2f27be2dd702f9bb05f7df64736f6c634300081b0033".
+  End deployed.
 End C.

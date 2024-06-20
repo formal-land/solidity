@@ -4,9 +4,233 @@ Require Import simulations.CoqOfSolidity.
 
 Require test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.
 
-(* Calling the constructor of the last contract of the file *)
-(* Last contract name: C *)
-(* Transferred value: 0 *)
-(* Arguments: "" *)
-Definition constructor : M.t BlockUnit.t :=
-  test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.code.
+Module Constructor.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.code.
+
+  Definition state : State.t :=
+    snd (eval 1000 environment code Stdlib.initial_state).
+End Constructor.
+
+(* // assertConsistentSelectors() -> *)
+Module Step1.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "3d3df1f1";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.deployed.code.
+
+  Definition initial_state : State.t :=
+    Stdlib.initial_state <|
+      State.storage := Constructor.state.(State.storage)
+    |>.
+
+  Definition result_state :=
+    eval 1000 environment code initial_state.
+
+  Definition result := fst result_state.
+  Definition state := snd result_state.
+
+  Definition expected_output : list Z :=
+    Memory.hex_string_as_bytes "".
+
+  Goal extract_output result state = Some expected_output.
+  Proof.
+    reflexivity.
+  Qed.
+End Step1.
+
+(* // fSignatureFromLiteralNoArgs() -> 0x20, 0x04, 12200448252684243758085936796735499259670113115893304444050964496075123064832 *)
+Module Step2.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "7d3f72d4";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.deployed.code.
+
+  Definition initial_state : State.t :=
+    Stdlib.initial_state <|
+      State.storage := Step1.state.(State.storage)
+    |>.
+
+  Definition result_state :=
+    eval 1000 environment code initial_state.
+
+  Definition result := fst result_state.
+  Definition state := snd result_state.
+
+  Definition expected_output : list Z :=
+    Memory.hex_string_as_bytes "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000041af9358100000000000000000000000000000000000000000000000000000000".
+
+  Goal extract_output result state = Some expected_output.
+  Proof.
+    reflexivity.
+  Qed.
+End Step2.
+
+(* // fPointerNoArgs() -> 0x20, 4, 12200448252684243758085936796735499259670113115893304444050964496075123064832 *)
+Module Step3.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "e1d1ef83";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.deployed.code.
+
+  Definition initial_state : State.t :=
+    Stdlib.initial_state <|
+      State.storage := Step2.state.(State.storage)
+    |>.
+
+  Definition result_state :=
+    eval 1000 environment code initial_state.
+
+  Definition result := fst result_state.
+  Definition state := snd result_state.
+
+  Definition expected_output : list Z :=
+    Memory.hex_string_as_bytes "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000041af9358100000000000000000000000000000000000000000000000000000000".
+
+  Goal extract_output result state = Some expected_output.
+  Proof.
+    reflexivity.
+  Qed.
+End Step3.
+
+(* // fSignatureFromLiteralArray() -> 0x20, 0x44, 4612216551196396486909126966576324289294165774260092952932219511233230929920, 862718293348820473429344482784628181556388621521298319395315527974912, 0 *)
+Module Step4.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "91c0c3fc";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.deployed.code.
+
+  Definition initial_state : State.t :=
+    Stdlib.initial_state <|
+      State.storage := Step3.state.(State.storage)
+    |>.
+
+  Definition result_state :=
+    eval 1000 environment code initial_state.
+
+  Definition result := fst result_state.
+  Definition state := snd result_state.
+
+  Definition expected_output : list Z :=
+    Memory.hex_string_as_bytes "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000440a326c0c0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000".
+
+  Goal extract_output result state = Some expected_output.
+  Proof.
+    reflexivity.
+  Qed.
+End Step4.
+
+(* // fPointerArray() -> 0x20, 0x44, 4612216551196396486909126966576324289294165774260092952932219511233230929920, 862718293348820473429344482784628181556388621521298319395315527974912, 0 *)
+Module Step5.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "965fae3c";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.deployed.code.
+
+  Definition initial_state : State.t :=
+    Stdlib.initial_state <|
+      State.storage := Step4.state.(State.storage)
+    |>.
+
+  Definition result_state :=
+    eval 1000 environment code initial_state.
+
+  Definition result := fst result_state.
+  Definition state := snd result_state.
+
+  Definition expected_output : list Z :=
+    Memory.hex_string_as_bytes "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000440a326c0c0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000".
+
+  Goal extract_output result state = Some expected_output.
+  Proof.
+    reflexivity.
+  Qed.
+End Step5.
+
+(* // fPointerUint() -> 0x20, 0x44, 30372892641494467502622535050667754357470287521126424526399600764424271429632, 323519360005807677536004181044235568083645733070486869773243322990592, 350479306672958317330671196131255198757282877493027442254346933239808 *)
+Module Step6.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "3b403d1b";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.deployed.code.
+
+  Definition initial_state : State.t :=
+    Stdlib.initial_state <|
+      State.storage := Step5.state.(State.storage)
+    |>.
+
+  Definition result_state :=
+    eval 1000 environment code initial_state.
+
+  Definition result := fst result_state.
+  Definition state := snd result_state.
+
+  Definition expected_output : list Z :=
+    Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000044432672b2000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000d00000000000000000000000000000000000000000000000000000000".
+
+  Goal extract_output result state = Some expected_output.
+  Proof.
+    reflexivity.
+  Qed.
+End Step6.
+
+(* // fSignatureFromLiteralUint() -> 0x20, 0x44, 30372892641494467502622535050667754357470287521126424526399600764424271429632, 323519360005807677536004181044235568083645733070486869773243322990592, 350479306672958317330671196131255198757282877493027442254346933239808 *)
+Module Step7.
+  Definition environment : Environment.t :={|
+    Environment.caller := 0x1212121212121212121212121212120000000012;
+    Environment.callvalue := 0;
+    Environment.calldata := Memory.hex_string_as_bytes "af5b0af9";
+  |}.
+
+  Definition code : M.t BlockUnit.t :=
+    test.libsolidity.semanticTests.abiencodedecode.abi_encode_call_special_args.C.C.deployed.code.
+
+  Definition initial_state : State.t :=
+    Stdlib.initial_state <|
+      State.storage := Step6.state.(State.storage)
+    |>.
+
+  Definition result_state :=
+    eval 1000 environment code initial_state.
+
+  Definition result := fst result_state.
+  Definition state := snd result_state.
+
+  Definition expected_output : list Z :=
+    Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000044432672b2000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000d00000000000000000000000000000000000000000000000000000000".
+
+  Goal extract_output result state = Some expected_output.
+  Proof.
+    reflexivity.
+  Qed.
+End Step7.

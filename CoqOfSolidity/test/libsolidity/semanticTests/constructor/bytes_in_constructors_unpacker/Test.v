@@ -804,7 +804,7 @@ Module Test.
             Some (M.call (|
               "datasize",
               [
-                [Literal.string "546573745f323100000000000000000000000000000000000000000000000000"]
+                [Literal.string 0x546573745f323100000000000000000000000000000000000000000000000000]
               ]
             |))
           |)
@@ -2233,13 +2233,13 @@ Module Test.
               M.call (|
                 "dataoffset",
                 [
-                  [Literal.string "546573745f32315f6465706c6f79656400000000000000000000000000000000"]
+                  [Literal.string 0x546573745f32315f6465706c6f79656400000000000000000000000000000000]
                 ]
               |);
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f32315f6465706c6f79656400000000000000000000000000000000"]
+                  [Literal.string 0x546573745f32315f6465706c6f79656400000000000000000000000000000000]
                 ]
               |)
             ]
@@ -2255,7 +2255,7 @@ Module Test.
               M.call (|
                 "datasize",
                 [
-                  [Literal.string "546573745f32315f6465706c6f79656400000000000000000000000000000000"]
+                  [Literal.string 0x546573745f32315f6465706c6f79656400000000000000000000000000000000]
                 ]
               |)
             ]
@@ -2266,7 +2266,7 @@ Module Test.
     )) in
     M.close_scope.
 
-  Module Test_deployed.
+  Module deployed.
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -3859,6 +3859,6 @@ Module Test.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220acd1eccefafc3d2bd33ea330ab32c211eaffe5393ec939938ae9536e0f3e869664736f6c634300081b0033".
-  End Test_deployed.
+      "a26469706673582212202e0a6dbf06df268cec8ab9832798036cf2cf7127e013bfadc9af810fb6d281ac64736f6c634300081b0033".
+  End deployed.
 End Test.

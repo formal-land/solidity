@@ -166,6 +166,19 @@ Module Memory.
     List.map
       (fun (byte : Z) => Nibble.byte_of_N (Z.to_N byte))
       bytes.
+
+  Fixpoint hex_string_as_bytes (hex_string : string) : list Z :=
+    match hex_string with
+    | "" => []
+    | String.String a "" => [] (* this case is unexpected *)
+    | String.String a (String.String b rest) =>
+      match HexString.ascii_to_digit a, HexString.ascii_to_digit b with
+      | Some a, Some b =>
+        let byte := 16 * Z.of_N a + Z.of_N b in
+        byte :: hex_string_as_bytes rest
+      | _, _ => [] (* this case is unexpected *)
+      end
+    end.
 End Memory.
 
 Module Storage.
@@ -862,7 +875,7 @@ Module Stdlib.
       |}
     ].
 
-  Definition init_state : State.t :=
+  Definition initial_state : State.t :=
     {|
       State.stack := init_stack;
       State.memory := Memory.init;
@@ -873,6 +886,15 @@ Module Stdlib.
       State.call_stack := [];
     |}.
 End Stdlib.
+
+Definition extract_output (result : Result.t BlockUnit.t + string) (state : State.t) :
+    option (list Z) :=
+  match result with
+  | inl (Result.Return start length Revert.Without) =>
+    let output := Memory.get_bytes state.(State.memory) start length in
+    Some output
+  | _ => None
+  end.
 
 (*
 Require test.libsolidity.semanticTests.various.erc20.ERC20.
