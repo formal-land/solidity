@@ -19,13 +19,13 @@ Module Constructor.
   Definition result_state :=
     eval 1000 environment code Stdlib.initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
-  Goal Test.IsReturn result.
+  Goal Test.is_return result = None.
   Proof.
-    unfold result.
-    exact I.
+    vm_compute.
+    reflexivity.
   Qed.
 End Constructor.
 
@@ -50,15 +50,15 @@ Module Step1.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36bd19b".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step1.
@@ -84,15 +84,15 @@ Module Step2.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "036b6384b5eca791c62761152d0c79bb0604c104a5fb6f4eb0703f3154bb3db0".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step2.
@@ -118,15 +118,15 @@ Module Step3.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "a9c584056064687e149968cbab758a3376d22aedc6a55823d1b3ecbee81b8fb9".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step3.

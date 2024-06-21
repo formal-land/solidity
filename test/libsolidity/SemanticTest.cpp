@@ -759,13 +759,13 @@ bool SemanticTest::deploy(
 	outputFile << "  Definition result_state :=" << std::endl;
 	outputFile << "    eval 1000 environment code Stdlib.initial_state." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Definition result := Eval vm_compute in fst result_state." << std::endl;
+	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Goal Test.IsReturn result." << std::endl;
+	outputFile << "  Goal Test.is_return result = None." << std::endl;
 	outputFile << "  Proof." << std::endl;
-	outputFile << "    unfold result." << std::endl;
-	outputFile << "    exact I." << std::endl;
+	outputFile << "    vm_compute." << std::endl;
+	outputFile << "    reflexivity." << std::endl;
 	outputFile << "  Qed." << std::endl;
 	outputFile << "End Constructor." << std::endl;
 
@@ -843,15 +843,15 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "  Definition result_state :=" << std::endl;
 	outputFile << "    eval 1000 environment code initial_state." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Definition result := Eval vm_compute in fst result_state." << std::endl;
+	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition expected_output : list Z :=" << std::endl;
 	outputFile << "    Memory.hex_string_as_bytes \"" << util::toHex(_output) << "\"." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Goal Test.extract_output result state = Some expected_output." << std::endl;
+	outputFile << "  Goal Test.extract_output result state = inl expected_output." << std::endl;
 	outputFile << "  Proof." << std::endl;
-	outputFile << "    unfold result." << std::endl;
+	outputFile << "    vm_compute." << std::endl;
 	outputFile << "    reflexivity." << std::endl;
 	outputFile << "  Qed." << std::endl;
 	outputFile << "End Step" << testIndex + 1 << "." << std::endl;

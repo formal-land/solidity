@@ -19,13 +19,13 @@ Module Constructor.
   Definition result_state :=
     eval 1000 environment code Stdlib.initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
-  Goal Test.IsReturn result.
+  Goal Test.is_return result = None.
   Proof.
-    unfold result.
-    exact I.
+    vm_compute.
+    reflexivity.
   Qed.
 End Constructor.
 
@@ -50,15 +50,15 @@ Module Step1.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step1.
@@ -87,15 +87,15 @@ Module Step2.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e00".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step2.
@@ -124,15 +124,15 @@ Module Step3.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step3.
@@ -161,15 +161,15 @@ Module Step4.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000021000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step4.
@@ -198,15 +198,15 @@ Module Step5.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e00".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step5.
@@ -234,15 +234,15 @@ Module Step6.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000c000102030405060708090a0b0000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step6.
@@ -271,15 +271,15 @@ Module Step7.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := Eval vm_compute in fst result_state.
+  Definition result := fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000081000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f8000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = inl expected_output.
   Proof.
-    unfold result.
+    vm_compute.
     reflexivity.
   Qed.
 End Step7.

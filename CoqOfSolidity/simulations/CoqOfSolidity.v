@@ -894,20 +894,24 @@ Module Stdlib.
     |}.
 End Stdlib.
 
+(** We design the testing primitives so that, in case of error, we can see what was wrong. *)
 Module Test.
-  Definition IsReturn (result : Result.t BlockUnit.t + string) : Prop :=
+  (** Supposed to be equal to [None]. *)
+  Definition is_return (result : Result.t BlockUnit.t + string) :
+      option (Result.t BlockUnit.t + string) :=
     match result with
-    | inl (Result.Return _ _) => True
-    | _ => False
+    | inl (Result.Return _ _) => None
+    | _ => Some result
     end.
 
+  (** Supposed to be equal to [inl expected_output]. *)
   Definition extract_output (result : Result.t BlockUnit.t + string) (state : State.t) :
-      option (list Z) :=
+      list Z + (Result.t BlockUnit.t + string) :=
     match result with
     | inl (Result.Return start length) =>
       let output := Memory.get_bytes state.(State.memory) start length in
-      Some output
-    | _ => None
+      inl output
+    | _ => inr result
     end.
 End Test.
 
