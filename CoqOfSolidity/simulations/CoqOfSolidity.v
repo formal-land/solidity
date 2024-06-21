@@ -499,8 +499,8 @@ Module Stdlib.
   Definition xor (x y : U256.t) : U256.t :=
     Z.lxor x y.
 
-  Definition byte (n x : U256.t) : M.t U256.t :=
-    LowM.Impossible "byte".
+  Definition byte (n x : U256.t) : U256.t :=
+    (x / (256 ^ (31 - n))) mod 256.
 
   Definition shl (x y : U256.t) : U256.t :=
     (y * (2 ^ x)) mod (2 ^ 256).
@@ -517,8 +517,19 @@ Module Stdlib.
   Definition mulmod (x y m : U256.t) : U256.t :=
     (x * y) mod m.
 
-  Definition signextend (i x : U256.t) : M.t U256.t :=
-    LowM.Impossible "signextend".
+  Definition signextend (i x : Z) : Z :=
+    if i >=? 31 then
+      x
+    else
+      let size := 8 * (i + 1) in
+      let byte := (x / 2 ^ (8 * i)) mod 256 in
+      let sign_bit := byte / 128 in
+      let extend_bit (bit size : Z) : Z :=
+        if bit =? 1 then
+          - (2 ^ size)
+        else
+          0 in
+      x mod 2 ^ size + extend_bit sign_bit size.
 
   Definition keccak256 (p n : U256.t) : M.t U256.t :=
     let* bytes := LowM.Primitive (Primitive.MLoad p n) M.pure in
@@ -803,13 +814,13 @@ Module Stdlib.
     ("and", fn [x; y] => return_u256 (M.pure (and x y)));
     ("or", fn [x; y] => return_u256 (M.pure (or x y)));
     ("xor", fn [x; y] => return_u256 (M.pure (xor x y)));
-    ("byte", fn [n; x] => return_u256 (byte n x));
+    ("byte", fn [n; x] => return_u256 (M.pure (byte n x)));
     ("shl", fn [x; y] => return_u256 (M.pure (shl x y)));
     ("shr", fn [x; y] => return_u256 (M.pure (shr x y)));
     ("sar", fn [x; y] => return_u256 (sar x y));
     ("addmod", fn [x; y; m] => return_u256 (M.pure (addmod x y m)));
     ("mulmod", fn [x; y; m] => return_u256 (M.pure (mulmod x y m)));
-    ("signextend", fn [i; x] => return_u256 (signextend i x));
+    ("signextend", fn [i; x] => return_u256 (M.pure (signextend i x)));
     ("keccak256", fn [p; n] => return_u256 (keccak256 p n));
     ("pc", fn [] => return_u256 pc);
     ("pop", fn [x] => return_unit (pop x));
