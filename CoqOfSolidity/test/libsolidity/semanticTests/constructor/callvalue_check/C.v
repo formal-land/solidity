@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C.
+  Definition name : string := "C_106".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module C.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "C_106_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2211,7 +2215,8 @@ Module C.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -2230,6 +2235,8 @@ Module C.
       M.close_scope.
 
     Module B1.
+      Definition name : string := "B1_8".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -2360,6 +2367,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "B1_8_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -2413,11 +2422,13 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a2646970667358221220a38a7aacb94b625262c9d3ac5a96d577ef9ffa22d3350f96ca781fd4b0f9b78864736f6c634300081b0033".
+          "a264697066735822122028459a52fde2c508fd978fcb1e849f918b2a3ae2c0dc98c217b6efe78fb3ce7d64736f6c634300081b0033".
       End deployed.
     End B1.
 
     Module B2.
+      Definition name : string := "B2_16".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -2548,6 +2559,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "B2_16_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -2601,11 +2614,13 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a26469706673582212203601dcbd0f362c6acfff0d5ae7dcb5503e5216c59700ae522a0ab49d42e53fcf64736f6c634300081b0033".
+          "a2646970667358221220adb0368f12cda5fcbc2e59ae53d83da6c69815e6e924b1f6cf0b386c3bdc13d164736f6c634300081b0033".
       End deployed.
     End B2.
 
     Module B3.
+      Definition name : string := "B3_17".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -2736,6 +2751,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "B3_17_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -2789,11 +2806,13 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a2646970667358221220795d702899e3d52eb746fa4e5ea08dd46a1a58e7394a09eaa0ab69cfcf6261b064736f6c634300081b0033".
+          "a26469706673582212206e9b49132b3b33582960bce0220130cb075202d44f5d0aaaf40fea6ff04cd53464736f6c634300081b0033".
       End deployed.
     End B3.
 
     Module B4.
+      Definition name : string := "B4_22".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -2924,6 +2943,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "B4_22_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -2977,11 +2998,11 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a26469706673582212201e982d93b0120a46f3c9dc322c109c3fd5b49f0073d9db29b86f591cead337c864736f6c634300081b0033".
+          "a2646970667358221220d8d5c0f3deb570263daffe539cb94b64936810dc15b56e646d9c7a8a924bfaed64736f6c634300081b0033".
       End deployed.
     End B4.
 
     Definition data : string :=
-      "a26469706673582212204a56aec3781ce24b17b5448a89cc140f33045c859e2902e2ec9505b11c48544064736f6c634300081b0033".
+      "a264697066735822122032f887a0ea1a13f1dd44d35d22c3b9c0e6bb21d18e9c8b3bb8e619f7076d954564736f6c634300081b0033".
   End deployed.
 End C.

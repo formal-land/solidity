@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module c.
+  Definition name : string := "c_23".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module c.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "c_23_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -1414,11 +1418,13 @@ Module c.
                             |)
                           )) in
                           M.close_scope
-                        )                ]
+                        )
+                      ]
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -1632,11 +1638,13 @@ Module c.
                             |)
                           )) in
                           M.close_scope
-                        )                ]
+                        )
+                      ]
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -2323,7 +2331,8 @@ Module c.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -2459,7 +2468,8 @@ Module c.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -2504,6 +2514,6 @@ Module c.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220602322502b58c465d9379e07e73e234c6b503712763a0b2473684cedf1dc87b664736f6c634300081b0033".
+      "a2646970667358221220dd0f0d90dc653354eca36e6945af9b982a66d29e334e4c28107a0b02d7b1f6bd64736f6c634300081b0033".
   End deployed.
 End c.

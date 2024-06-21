@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C.
+  Definition name : string := "C_58".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -848,6 +850,8 @@ Module C.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "C_58_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -3928,7 +3932,8 @@ Module C.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -3947,6 +3952,6 @@ Module C.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212209246df92b5846ddeb13e77b4644ef6d85be6c248de6b6b6e7bb50ce993d9c73f64736f6c634300081b0033".
+      "a2646970667358221220bb7ead11ea1f3c9a9b71fd77bf7af1112c16105899f2e09f5a555a8e2163f1d164736f6c634300081b0033".
   End deployed.
 End C.

@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module B.
+  Definition name : string := "B_80".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module B.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "B_80_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2480,7 +2484,8 @@ Module B.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -2499,6 +2504,8 @@ Module B.
       M.close_scope.
 
     Module A.
+      Definition name : string := "A_45".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -2629,6 +2636,8 @@ Module B.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "A_45_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -4553,7 +4562,8 @@ Module B.
                         None,
                         do* M.open_scope in
                         M.close_scope
-                      )          ]
+                      )
+                    ]
                   |)
                 )) in
                 M.close_scope
@@ -4572,11 +4582,11 @@ Module B.
           M.close_scope.
 
         Definition data : string :=
-          "a2646970667358221220a5d8dc69cbf7ff9d28d14c9afbf7988dd7a68e9c88e0c5d956137b3f53986f6f64736f6c634300081b0033".
+          "a264697066735822122050fb5defbf46cc9c52fc7a91883b04e76486de5ff02d48baff2be3ea3fcb2c1164736f6c634300081b0033".
       End deployed.
     End A.
 
     Definition data : string :=
-      "a26469706673582212205161a3ecd9f8bf68a078623ea85fec68cac6ce7320cb8832964cbe10b564bd7c64736f6c634300081b0033".
+      "a2646970667358221220e46c9df1a219244a8c373194bc1d83d71e677dca27ca721ca5d4f04c435c118664736f6c634300081b0033".
   End deployed.
 End B.

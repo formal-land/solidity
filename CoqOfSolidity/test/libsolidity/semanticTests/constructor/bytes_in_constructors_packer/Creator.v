@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module Creator.
+  Definition name : string := "Creator_96".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module Creator.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "Creator_96_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2559,7 +2563,8 @@ Module Creator.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -2578,6 +2583,8 @@ Module Creator.
       M.close_scope.
 
     Module Main.
+      Definition name : string := "Main_60".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -4721,7 +4728,8 @@ Module Creator.
                       |)
                     )) in
                     M.close_scope
-                  )        ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -4970,6 +4978,8 @@ Module Creator.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "Main_60_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -7018,7 +7028,8 @@ Module Creator.
                         |)
                       )) in
                       M.close_scope
-                    )        ]
+                    )
+                  ]
                 |)
               )) in
               M.close_scope
@@ -7369,7 +7380,8 @@ Module Creator.
                         None,
                         do* M.open_scope in
                         M.close_scope
-                      )          ]
+                      )
+                    ]
                   |)
                 )) in
                 M.close_scope
@@ -7388,11 +7400,11 @@ Module Creator.
           M.close_scope.
 
         Definition data : string :=
-          "a2646970667358221220a82ecb0c3cab4885d21db395e26545cd625ac9bc7a33de73f0173412361b640664736f6c634300081b0033".
+          "a264697066735822122093ab8d114af5ba2eb23c2f40fe7d297549571646b78ee030fcfc52b93633576b64736f6c634300081b0033".
       End deployed.
     End Main.
 
     Definition data : string :=
-      "a26469706673582212205badc5d3c68bd706b215b848c3dbca570da3db75e1ae9561cdda11e995d01e0d64736f6c634300081b0033".
+      "a26469706673582212200c260bdac804d94be62bee8ac7ec04ccfd661f12163ea96b9df4bfb6c7a4bfd264736f6c634300081b0033".
   End deployed.
 End Creator.

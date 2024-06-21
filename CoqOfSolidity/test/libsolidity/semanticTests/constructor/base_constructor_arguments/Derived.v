@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module Derived.
+  Definition name : string := "Derived_36".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -761,6 +763,8 @@ Module Derived.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "Derived_36_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -1290,7 +1294,8 @@ Module Derived.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -1309,6 +1314,6 @@ Module Derived.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212203f7da1cbdb741d10a5e99f7cdb9ce6d9faed97db34c8ad72780e1ca4f70662de64736f6c634300081b0033".
+      "a2646970667358221220e800ea167deda88c26b4eb3a3b93e5e397e577a46b05b3c51543b1b4bcf59efe64736f6c634300081b0033".
   End deployed.
 End Derived.

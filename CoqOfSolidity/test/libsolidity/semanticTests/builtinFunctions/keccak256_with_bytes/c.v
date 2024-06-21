@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module c.
+  Definition name : string := "c_35".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module c.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "c_35_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -949,7 +953,8 @@ Module c.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -1440,7 +1445,8 @@ Module c.
                             |)
                           )) in
                           M.close_scope
-                        )                ]
+                        )
+                      ]
                     |)
                   )) in
                   M.close_scope
@@ -1490,7 +1496,8 @@ Module c.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -1793,7 +1800,8 @@ Module c.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -2359,7 +2367,8 @@ Module c.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -2378,6 +2387,6 @@ Module c.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122034fe9a8354253b136b6c0ac5f38f0e7cbda0bdceda210729dc6a2891d5216e4364736f6c634300081b0033".
+      "a2646970667358221220cf4d4ee53703e4e75e6ce0ae42c8fd90aea651b73ff4b1695b733de68f29332164736f6c634300081b0033".
   End deployed.
 End c.

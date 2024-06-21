@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C.
+  Definition name : string := "C_55".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module C.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "C_55_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -1171,7 +1175,8 @@ Module C.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -1190,6 +1195,8 @@ Module C.
       M.close_scope.
 
     Module B1.
+      Definition name : string := "B1_8".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -1282,6 +1289,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "B1_8_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -1335,11 +1344,13 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a264697066735822122004129a3329f710d4dcd63777fa1c6e2b93b6dc0d582d2605c596a373bbf3b2a664736f6c634300081b0033".
+          "a2646970667358221220c62013c5cd36691302bc89ccf0fc8a2bb7dcde57d190d8f350ec5338851790c964736f6c634300081b0033".
       End deployed.
     End B1.
 
     Module B2.
+      Definition name : string := "B2_20".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -1432,6 +1443,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "B2_20_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -1485,11 +1498,13 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a26469706673582212203808000f3add61aa574c9c315416ba821ff8708d96b1fcbe28322b949c2ebef064736f6c634300081b0033".
+          "a26469706673582212209b3deb7b141ffc16b7a4d7839913b340fcd941897b3fe72e710651506f8e60b464736f6c634300081b0033".
       End deployed.
     End B2.
 
     Module B3.
+      Definition name : string := "B3_25".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -1582,6 +1597,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "B3_25_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -1635,11 +1652,11 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a264697066735822122018702c6ef080a0f8991076a52908c18cdf41f43b147e8343667b86fc99a6515164736f6c634300081b0033".
+          "a2646970667358221220b75400c9b71c454b971b96bb8e29d25c9d586b261afb6f5b445b6c4e35fa9f9d64736f6c634300081b0033".
       End deployed.
     End B3.
 
     Definition data : string :=
-      "a26469706673582212201e86c33dcfa41ded2ee32a58ae54c577a8be71c3c4a7a078117fc6a61d64134464736f6c634300081b0033".
+      "a264697066735822122063b81270c493604bc2e9db00192672f62128d62ac100e7c863c878395242b65364736f6c634300081b0033".
   End deployed.
 End C.

@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C.
+  Definition name : string := "C_85".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module C.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "C_85_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2051,7 +2055,8 @@ Module C.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -2291,11 +2296,13 @@ Module C.
                             |)
                           )) in
                           M.close_scope
-                        )                ]
+                        )
+                      ]
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -2534,7 +2541,8 @@ Module C.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -2830,7 +2838,8 @@ Module C.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -3801,7 +3810,8 @@ Module C.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -4419,7 +4429,8 @@ Module C.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -4698,7 +4709,8 @@ Module C.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -4717,6 +4729,6 @@ Module C.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220ab15ad8f224c973b7bb3dd4ba196e2cd9e198e3fe3409147e12bd28b26c25e1d64736f6c634300081b0033".
+      "a26469706673582212201cb16f4caf22f6e723b4f4896a3cee1937febedf9cb2dc2ec045de49ae4cbe9564736f6c634300081b0033".
   End deployed.
 End C.

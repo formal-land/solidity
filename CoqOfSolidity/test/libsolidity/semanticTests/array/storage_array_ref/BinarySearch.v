@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module BinarySearch.
+  Definition name : string := "BinarySearch_103".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module BinarySearch.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "BinarySearch_103_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -185,6 +189,6 @@ Module BinarySearch.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212208f22a101e290495f03e2bfb782bcc2c97a07ad9295853b4aa5d4e5d2c1fc995e64736f6c634300081b0033".
+      "a2646970667358221220348c4e65df1bdbbb307f49135352abba2b3c21ed4ce9da9a52ae54dcb26a172364736f6c634300081b0033".
   End deployed.
 End BinarySearch.

@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module buggystruct.
+  Definition name : string := "buggystruct_62".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -1898,7 +1900,8 @@ Module buggystruct.
                   |)
                 )) in
                 M.close_scope
-              )        ]
+              )
+            ]
           |)
         )) in
         M.close_scope
@@ -2390,6 +2393,8 @@ Module buggystruct.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "buggystruct_62_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -3345,7 +3350,8 @@ Module buggystruct.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -4642,7 +4648,8 @@ Module buggystruct.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -4661,6 +4668,6 @@ Module buggystruct.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d44fcefda91cc5fb40677ac126d2b1f23ee260178e7793caac08c901d795d17164736f6c634300081b0033".
+      "a2646970667358221220aaa279d0ce9108e00d838dc01b173758eb0974b5bcceed5131ce00958f9a153064736f6c634300081b0033".
   End deployed.
 End buggystruct.

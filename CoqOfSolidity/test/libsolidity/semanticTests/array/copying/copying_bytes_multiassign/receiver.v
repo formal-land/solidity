@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module receiver.
+  Definition name : string := "receiver_23".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module receiver.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "receiver_23_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -1455,7 +1459,8 @@ Module receiver.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -1500,6 +1505,6 @@ Module receiver.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d4e009e1113d2fb1b3acf2755015d09ad8193e3983521c8e10bb90be22c2dd3364736f6c634300081b0033".
+      "a2646970667358221220bd4d585cc948d0c34f5d7f562b38aa370e0207e44e2a355af7fa609ec7fddbf764736f6c634300081b0033".
   End deployed.
 End receiver.

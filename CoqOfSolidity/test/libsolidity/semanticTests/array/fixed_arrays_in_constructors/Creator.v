@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module Creator.
+  Definition name : string := "Creator_25".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -1727,6 +1729,8 @@ Module Creator.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "Creator_25_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2573,7 +2577,8 @@ Module Creator.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -2592,6 +2597,6 @@ Module Creator.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212206d115a02380a589fbaf0d0e8d2d196306db7b09d0c0885e2959720791f4a84e564736f6c634300081b0033".
+      "a2646970667358221220d628cc92f27a7352ca5cc3a311568b01a2a1726c0aaab2eae01f7cbb3c3fc7e364736f6c634300081b0033".
   End deployed.
 End Creator.

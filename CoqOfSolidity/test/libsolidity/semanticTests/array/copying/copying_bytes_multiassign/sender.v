@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module sender.
+  Definition name : string := "sender_99".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -693,6 +695,8 @@ Module sender.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "sender_99_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -1918,7 +1922,8 @@ Module sender.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -2306,7 +2311,8 @@ Module sender.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -3084,11 +3090,13 @@ Module sender.
                             |)
                           )) in
                           M.close_scope
-                        )                ]
+                        )
+                      ]
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -3254,11 +3262,13 @@ Module sender.
                             |)
                           )) in
                           M.close_scope
-                        )                ]
+                        )
+                      ]
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -3748,7 +3758,8 @@ Module sender.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           do* ltac:(M.monadic (
@@ -4653,7 +4664,8 @@ Module sender.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -5066,7 +5078,8 @@ Module sender.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -5237,7 +5250,8 @@ Module sender.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -5282,10 +5296,12 @@ Module sender.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220c079745be97f868de903fd9885965cd9689585bb2e0202214e4f5ee66ebe101264736f6c634300081b0033".
+      "a264697066735822122044b948eb08ff54b0acc05a191cf5aedc425a7fe98bb577f26c1be8b774e34d3b64736f6c634300081b0033".
   End deployed.
 
   Module receiver.
+    Definition name : string := "receiver_23".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -5416,6 +5432,8 @@ Module sender.
       M.close_scope.
 
     Module deployed.
+      Definition name : string := "receiver_23_deployed".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -6739,7 +6757,8 @@ Module sender.
                       None,
                       do* M.open_scope in
                       M.close_scope
-                    )          ]
+                    )
+                  ]
                 |)
               )) in
               M.close_scope
@@ -6784,7 +6803,7 @@ Module sender.
         M.close_scope.
 
       Definition data : string :=
-        "a2646970667358221220d4e009e1113d2fb1b3acf2755015d09ad8193e3983521c8e10bb90be22c2dd3364736f6c634300081b0033".
+        "a2646970667358221220bd4d585cc948d0c34f5d7f562b38aa370e0207e44e2a355af7fa609ec7fddbf764736f6c634300081b0033".
     End deployed.
   End receiver.
 End sender.

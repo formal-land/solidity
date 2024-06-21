@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module Sample.
+  Definition name : string := "Sample_53".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -2475,7 +2477,8 @@ Module Sample.
                   |)
                 )) in
                 M.close_scope
-              )        ]
+              )
+            ]
           |)
         )) in
         M.close_scope
@@ -3101,6 +3104,8 @@ Module Sample.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "Sample_53_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -4062,7 +4067,8 @@ Module Sample.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           M.close_scope
@@ -4936,7 +4942,8 @@ Module Sample.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -4955,6 +4962,6 @@ Module Sample.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212208cf2b996eafd38d7082f8aa0689927be363579fa93a2ccffb6b4ca12666fbb5664736f6c634300081b0033".
+      "a26469706673582212202e5a9dbc7a81d855f9ce450dd0e0e06d20ecfca24a8e45c53dc0aacf20aab12164736f6c634300081b0033".
   End deployed.
 End Sample.

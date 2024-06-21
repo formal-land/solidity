@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module Lotto.
+  Definition name : string := "Lotto_4".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module Lotto.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "Lotto_4_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -620,7 +624,8 @@ Module Lotto.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -639,6 +644,6 @@ Module Lotto.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122004e8417fac34a6e6a822bbe19e107a181c65f1dc54ffff3b22d4542a0260cad864736f6c634300081b0033".
+      "a26469706673582212206c536f2e8be68980bbd2d1e2219d5729036b73994ad8a23f9635a7dd25e631cf64736f6c634300081b0033".
   End deployed.
 End Lotto.

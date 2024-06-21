@@ -319,7 +319,10 @@ TestCase::TestResult SemanticTest::run(std::ostream& _stream, std::string const&
 	TestResult result = TestResult::Success;
 
 	if (m_testCaseWantsLegacyRun && !m_eofVersion.has_value())
-		result = runTest(_stream, _linePrefix, _formatted, false /* _isYulRun */);
+	{
+		// We ignore the tests in non-Yul mode, whose results might differ in rare cases
+		// result = runTest(_stream, _linePrefix, _formatted, false /* _isYulRun */);
+	}
 
 	if (m_testCaseWantsYulRun && result == TestResult::Success)
 	{
@@ -348,6 +351,8 @@ TestCase::TestResult SemanticTest::runTest(
 {
 	bool success = true;
 	m_gasCostFailure = false;
+
+	soltestAssert(_isYulRun, "Runs without Yul are not handled.");
 
 	selectVM(evmc_capabilities::EVMC_CAPABILITY_EVM1);
 

@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C.
+  Definition name : string := "C_203".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -132,6 +134,8 @@ Module C.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "C_203_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2049,7 +2053,8 @@ Module C.
                     |)
                   )) in
                   M.close_scope
-                )        ]
+                )
+              ]
             |)
           )) in
           do* ltac:(M.monadic (
@@ -5785,7 +5790,8 @@ Module C.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -5804,6 +5810,8 @@ Module C.
       M.close_scope.
 
     Module D.
+      Definition name : string := "D_51".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -5934,6 +5942,8 @@ Module C.
         M.close_scope.
 
       Module deployed.
+        Definition name : string := "D_51_deployed".
+
         Definition code : M.t BlockUnit.t :=
           do* M.open_scope in
           do* ltac:(M.monadic (
@@ -9142,7 +9152,8 @@ Module C.
                         None,
                         do* M.open_scope in
                         M.close_scope
-                      )          ]
+                      )
+                    ]
                   |)
                 )) in
                 M.close_scope
@@ -9161,11 +9172,11 @@ Module C.
           M.close_scope.
 
         Definition data : string :=
-          "a2646970667358221220d2a6a574c8bc7dbb59993ee4456ec2c50490ace8aebe9c6340688c7c31c5799e64736f6c634300081b0033".
+          "a264697066735822122030ee4aa71cedea00fc8a68a8a2f6f1e3cf3e443c3f44b03c60da2bf3d4ec061f64736f6c634300081b0033".
       End deployed.
     End D.
 
     Definition data : string :=
-      "a26469706673582212206518626e3894bdfc23a791fe38f1980f8d4f07ff4b97346d85729d6afdff44d264736f6c634300081b0033".
+      "a2646970667358221220cd9097a864fb77d983f4da70ffda4bdad8eb879840a0432f25df186b2bfa62dc64736f6c634300081b0033".
   End deployed.
 End C.

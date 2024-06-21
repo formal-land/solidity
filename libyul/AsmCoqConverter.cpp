@@ -201,6 +201,7 @@ std::string AsmCoqConverter::operator()(Switch const& _node)
 		isFirst = false;
 		ret += indent() + (*this)(var);
 	}
+	ret += "\n";
 	m_indent--;
 	ret += indent() + "]\n";
 	m_indent--;

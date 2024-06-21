@@ -2,6 +2,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module Main.
+  Definition name : string := "Main_74".
+
   Definition code : M.t BlockUnit.t :=
     do* M.open_scope in
     do* ltac:(M.monadic (
@@ -803,6 +805,8 @@ Module Main.
     M.close_scope.
 
   Module deployed.
+    Definition name : string := "Main_74_deployed".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -2595,7 +2599,8 @@ Module Main.
                     None,
                     do* M.open_scope in
                     M.close_scope
-                  )          ]
+                  )
+                ]
               |)
             )) in
             M.close_scope
@@ -2614,10 +2619,12 @@ Module Main.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220e4664ef7eb3b958b4ce8144ea5e5a60c9b1d05e9330deb1913b99c4a3c73c8a564736f6c634300081b0033".
+      "a264697066735822122063ea836d0cb91c4314db17137d77c0667dcf93d0759b754020187f66d687819764736f6c634300081b0033".
   End deployed.
 
   Module Helper.
+    Definition name : string := "Helper_37".
+
     Definition code : M.t BlockUnit.t :=
       do* M.open_scope in
       do* ltac:(M.monadic (
@@ -3746,6 +3753,8 @@ Module Main.
       M.close_scope.
 
     Module deployed.
+      Definition name : string := "Helper_37_deployed".
+
       Definition code : M.t BlockUnit.t :=
         do* M.open_scope in
         do* ltac:(M.monadic (
@@ -4659,7 +4668,8 @@ Module Main.
                       None,
                       do* M.open_scope in
                       M.close_scope
-                    )          ]
+                    )
+                  ]
                 |)
               )) in
               M.close_scope
@@ -4678,7 +4688,7 @@ Module Main.
         M.close_scope.
 
       Definition data : string :=
-        "a2646970667358221220473606a9f8d564e054bd168e74649571b589dcdd9323bed4c658b3742a0317e764736f6c634300081b0033".
+        "a264697066735822122070506da2f7011d8082daf3cab7ee5adf270d7be6f194b81195e36233759c8e2d64736f6c634300081b0033".
     End deployed.
   End Helper.
 End Main.
