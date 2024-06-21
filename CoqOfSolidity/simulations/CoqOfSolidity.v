@@ -465,7 +465,7 @@ Module Stdlib.
     x ^ y.
 
   Definition not (x : U256.t) : U256.t :=
-    Z.lnot x.
+    2^256 - x - 1.
 
   Definition lt (x y : U256.t) : U256.t :=
     if x <? y then 1 else 0.
