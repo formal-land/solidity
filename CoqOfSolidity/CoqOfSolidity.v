@@ -167,8 +167,11 @@ Module M.
   Definition let_ {A B : Set} : t A -> (A -> t B) -> t B :=
     generic_let (@LowM.let_).
 
+  Definition strong_let_ {A B : Set} : t A -> (A -> t B) -> t B :=
+    generic_let (fun A B => @LowM.Let B A).
+
   Definition do (e1 : t BlockUnit.t) (e2 : t BlockUnit.t) : t BlockUnit.t :=
-    generic_let (fun A B => @LowM.Let B A) e1 (fun output =>
+    strong_let_ e1 (fun output =>
     match output with
     | BlockUnit.Tt => e2
     | _ => pure output
@@ -264,22 +267,29 @@ Module M.
 
   Definition for_ (condition : t (list U256.t)) (after body : t BlockUnit.t) : t BlockUnit.t :=
     let loop_body : t BlockUnit.t :=
-      let_ condition (fun condition =>
+      strong_let_ condition (fun condition =>
       match condition with
       | [0] => pure BlockUnit.Break
-      | [_] => do body after
+      | [_] =>
+        strong_let_ body (fun output =>
+          match output with
+          | BlockUnit.Tt | BlockUnit.Continue => after
+          | BlockUnit.Break | BlockUnit.Leave => pure output
+          end
+        )
       | _ => LowM.Impossible "for: expected a single value as condition"
       end) in
     let break_with (result : Result.t BlockUnit.t) : option (Result.t BlockUnit.t) :=
       match result with
       | Result.Ok output =>
         match output with
-        | BlockUnit.Break | BlockUnit.Leave => Some (Result.Ok BlockUnit.Tt)
+        | BlockUnit.Break => Some (Result.Ok BlockUnit.Tt)
+        | BlockUnit.Leave => Some (Result.Ok BlockUnit.Leave)
         | BlockUnit.Tt | BlockUnit.Continue => None
         end
       | _ => Some result
       end in
-    LowM.Loop loop_body break_with (fun _ => pure BlockUnit.Tt).
+    LowM.Loop loop_body break_with LowM.Pure.
 
   Definition break : t BlockUnit.t :=
     pure BlockUnit.Break.
