@@ -195,18 +195,6 @@ Module Storage.
         storage current_address.
 End Storage.
 
-Module LoadedCode.
-  (** The description of some code loaded into memory, to keep a trace of what was loaded. *)
-  Record t : Set := {
-    (** The name as a Yul object. *)
-    name : Z;
-    (** The start position in memory. *)
-    address : U256.t;
-    (** The length in memory. *)
-    length : U256.t;
-  }.
-End LoadedCode.
-
 Module CallStack.
   (** The list of functions that were called with their corresponding parameters. This is for
       debugging purpose only, and does not exist in the semantics of Yul. *)
@@ -222,7 +210,6 @@ Module State.
     storage : Storage.t;
     transientStorage : Storage.t;
     logs : list (list U256.t * list Z);
-    loaded_codes : list LoadedCode.t;
     (** This is only for debugging *)
     call_stack : CallStack.t;
   }.
@@ -296,15 +283,6 @@ Definition eval_primitive {A : Set}
     (
       tt,
       state <| State.logs := (topics, payload) :: state.(State.logs) |>
-    )
-  | Primitive.LoadCode name address length =>
-    (
-      tt,
-      state <| State.loaded_codes := {|
-        LoadedCode.name := name;
-        LoadedCode.address := address;
-        LoadedCode.length := length;
-      |} :: state.(State.loaded_codes) |>
     )
   | Primitive.GetEnvironment =>
     (
@@ -459,11 +437,8 @@ Proof.
 Qed. *)
 
 Module Stdlib.
-  Definition return_ (p s : U256.t) : M.t unit :=
-    LowM.Pure (Result.Return p s Revert.Without).
-
   Definition stop : M.t unit :=
-    return_ 0 0.
+    LowM.Pure (Result.Return 0 0).
 
   Definition add (x y : U256.t) : U256.t :=
     (x + y) mod (2 ^ 256).
@@ -586,10 +561,14 @@ Module Stdlib.
     LowM.Impossible "msize".
 
   Definition gas : M.t U256.t :=
-    LowM.Impossible "gas".
+    M.pure 1000.
 
   Definition address : M.t U256.t :=
-    LowM.Impossible "address".
+    let* environemnt := LowM.Primitive Primitive.GetEnvironment M.pure in
+    match environemnt.(Environment.address) with
+    | Some address => M.pure address
+    | None => LowM.Impossible "address not defined in the environment"
+    end.
 
   Definition balance (a : U256.t) : M.t U256.t :=
     LowM.Impossible "balance".
@@ -632,10 +611,31 @@ Module Stdlib.
     LowM.Primitive (Primitive.MStore t bytes) M.pure.
 
   Definition codesize : M.t U256.t :=
-    LowM.Impossible "codesize".
+    let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
+    M.pure (32 + Z.of_nat (List.length environment.(Environment.codedata))).
 
+  (** There are two kinds of code copy that we handle: either to copy actual code, or
+      to copy the constructor's parameters that are stored just after the code of the
+      constructor. *)
   Definition codecopy (t f s : U256.t) : M.t unit :=
-    LowM.Primitive (Primitive.LoadCode f t s) M.pure.
+    (* code case *)
+    if f mod (2^256) =? 0 then
+      if s =? 32 then
+        let name : U256.t := t / (2^256) in
+        let bytes := Memory.u256_as_bytes name in
+        LowM.Primitive (Primitive.MStore t bytes) M.pure
+      else
+        LowM.Impossible "codecopy: s must be 32 for the code case"
+    (* codedata case *)
+    else if f mod (2^256) =? 32 then
+      let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
+      let bytes : list Z := environment.(Environment.codedata) in
+      if s =? Z.of_nat (List.length bytes) then
+        LowM.Primitive (Primitive.MStore t bytes) M.pure
+      else
+        LowM.Impossible "codecopy: s must be the length of the codedata for the codedata case"
+    else
+      LowM.Impossible "codecopy: f mod (2^256) must be 0 or 32".
 
   Definition extcodesize (a : U256.t) : M.t U256.t :=
     LowM.Impossible "extcodesize".
@@ -674,8 +674,11 @@ Module Stdlib.
   Definition staticcall (g a in_ insize out outsize : U256.t) : M.t U256.t :=
     LowM.Impossible "staticcall".
 
+  Definition return_ (p s : U256.t) : M.t unit :=
+    LowM.Pure (Result.Return p s).
+
   Definition revert (p s : U256.t) : M.t unit :=
-    LowM.Pure (Result.Return p s Revert.With).
+    LowM.Pure (Result.Revert p s).
 
   Definition selfdestruct (a : U256.t) : M.t unit :=
     LowM.Impossible "selfdestruct".
@@ -748,17 +751,22 @@ Module Stdlib.
     Definition memoryguard (size : U256.t) : M.t U256.t :=
       M.pure size.
 
-    (** For the [dataoffset] function we use the Keccak256 of the [name] to have something unique,
-        but it could be any value in the implementation *)
-    Definition dataoffset (name : Z) : M.t U256.t :=
+    (** For the [dataoffset] function we use the Kecaak256 of the [name] of the code. We shift this
+        address by 256 bits in order to be able to complete it with the address constructor call's
+        parameters that are concatenated to the constructor's code at startup.
+
+        Having an that is more than 256 bits long is not realistic but not an issue for us as we
+        store the addresses in [Z].
+    *)
+    Definition dataoffset (name : U256.t) : M.t U256.t :=
       let name : string := HexString.of_Z name in
       let hash : list Nibble.byte := EVM.Crypto.Keccak.keccak_256_of_string name in
       let hash : list Z := (List.map (fun byte => Z.of_N (Nibble.N_of_byte byte))) hash in
-      M.pure (Memory.bytes_as_u256 hash).
+      M.pure (Memory.bytes_as_u256 (hash ++ List.repeat 0 32)).
 
-    (** Same as for [dataoffset], we could take any value so we take one that is unique. *)
-    Definition datasize (name : Z) : M.t U256.t :=
-      dataoffset name.
+    (** We suppose that the size of the code is a word's size, and is one word that is the name. *)
+    Definition datasize (name : U256.t) : M.t U256.t :=
+      M.pure 32.
   End Object.
 
   Notation "'fn' p '=>' body" :=
@@ -882,19 +890,26 @@ Module Stdlib.
       State.storage := Memory.init;
       State.transientStorage := Memory.init;
       State.logs := [];
-      State.loaded_codes := [];
       State.call_stack := [];
     |}.
 End Stdlib.
 
-Definition extract_output (result : Result.t BlockUnit.t + string) (state : State.t) :
-    option (list Z) :=
-  match result with
-  | inl (Result.Return start length Revert.Without) =>
-    let output := Memory.get_bytes state.(State.memory) start length in
-    Some output
-  | _ => None
-  end.
+Module Test.
+  Definition IsReturn (result : Result.t BlockUnit.t + string) : Prop :=
+    match result with
+    | inl (Result.Return _ _) => True
+    | _ => False
+    end.
+
+  Definition extract_output (result : Result.t BlockUnit.t + string) (state : State.t) :
+      option (list Z) :=
+    match result with
+    | inl (Result.Return start length) =>
+      let output := Memory.get_bytes state.(State.memory) start length in
+      Some output
+    | _ => None
+    end.
+End Test.
 
 (*
 Require test.libsolidity.semanticTests.various.erc20.ERC20.

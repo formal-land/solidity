@@ -14,14 +14,25 @@ Module Constructor.
   Definition environment : Environment.t :={|
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 0;
-    Environment.calldata := Memory.hex_string_as_bytes "";
+    Environment.calldata := [];
+    Environment.codedata := Memory.hex_string_as_bytes "";
+    Environment.address := None;
   |}.
 
   Definition code : M.t BlockUnit.t :=
     test.libsolidity.semanticTests.constructor.callvalue_check.C.C.code.
 
-  Definition state : State.t :=
-    snd (eval 1000 environment code Stdlib.initial_state).
+  Definition result_state :=
+    eval 1000 environment code Stdlib.initial_state.
+
+  Definition result := Eval vm_compute in fst result_state.
+  Definition state := snd result_state.
+
+  Goal Test.IsReturn result.
+  Proof.
+    unfold result.
+    exact I.
+  Qed.
 End Constructor.
 
 (* // f(uint256), 2000 ether: 0 -> true *)
@@ -30,6 +41,8 @@ Module Step1.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "b3de648b0000000000000000000000000000000000000000000000000000000000000000";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -43,14 +56,15 @@ Module Step1.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000001".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step1.
@@ -61,6 +75,8 @@ Module Step2.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "b3de648b0000000000000000000000000000000000000000000000000000000000000064";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -74,14 +90,15 @@ Module Step2.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step2.
@@ -92,6 +109,8 @@ Module Step3.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "e420264a0000000000000000000000000000000000000000000000000000000000000000";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -105,14 +124,15 @@ Module Step3.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000001".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step3.
@@ -123,6 +143,8 @@ Module Step4.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "e420264a0000000000000000000000000000000000000000000000000000000000000064";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -136,14 +158,15 @@ Module Step4.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step4.
@@ -154,6 +177,8 @@ Module Step5.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "cb97492a0000000000000000000000000000000000000000000000000000000000000000";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -167,14 +192,15 @@ Module Step5.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000001".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step5.
@@ -185,6 +211,8 @@ Module Step6.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "cb97492a0000000000000000000000000000000000000000000000000000000000000064";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -198,14 +226,15 @@ Module Step6.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step6.
@@ -216,6 +245,8 @@ Module Step7.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "29688a800000000000000000000000000000000000000000000000000000000000000000";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -229,14 +260,15 @@ Module Step7.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000001".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step7.
@@ -247,6 +279,8 @@ Module Step8.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 2000000000000000000000;
     Environment.calldata := Memory.hex_string_as_bytes "29688a800000000000000000000000000000000000000000000000000000000000000064";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -260,14 +294,15 @@ Module Step8.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step8.

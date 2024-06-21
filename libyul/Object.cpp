@@ -113,7 +113,8 @@ std::string Object::toCoq() const
 {
 	yulAssert(code, "No code");
 
-	std::string inner = "Definition code : M.t BlockUnit.t :=\n";
+	std::string inner = "Definition name : string := \"" + name.str() + "\".\n\n";
+	inner += "Definition code : M.t BlockUnit.t :=\n";
 	inner += prefixLines(AsmCoqConverter(0)(*code), "  ") + ".";
 
 	for (auto const& subObject: subObjects)

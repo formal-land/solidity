@@ -1309,6 +1309,6 @@ Module Derived.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220f7c3e98a8243a62f323bd92d7fd1b10f9f7b4804c05fc23adc0535c7e6ab718364736f6c634300081b0033".
+      "a26469706673582212203f7da1cbdb741d10a5e99f7cdb9ce6d9faed97db34c8ad72780e1ca4f70662de64736f6c634300081b0033".
   End deployed.
 End Derived.

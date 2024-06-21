@@ -40,6 +40,11 @@ Module Environment.
     (** Amount of wei sent to the current contract *)
     callvalue : U256.t;
     calldata : list Z;
+    (** When calling a constructor the parameters are concatenated to the code. We represent them
+        here. *)
+    codedata : list Z;
+    (** The address of the contract. *)
+    address : option U256.t;
   }.
 End Environment.
 
@@ -56,20 +61,16 @@ Module BlockUnit.
   | Leave.
 End BlockUnit.
 
-Module Revert.
-  Inductive t : Set :=
-  | With
-  | Without.
-End Revert.
-
 Module Result.
   (** A wrapper for the result of an expression or a code block. We can either return a normal value
       with [Ok], or a special instruction [Return] that will stop the execution of the contract. *)
   Inductive t (A : Set) : Set :=
   | Ok (output : A)
-  | Return (p s : U256.t) (with_revert : Revert.t).
+  | Return (p s : U256.t)
+  | Revert (p s : U256.t).
   Arguments Ok {_}.
   Arguments Return {_}.
+  Arguments Revert {_}.
 End Result.
 
 Module Primitive.
@@ -87,7 +88,6 @@ Module Primitive.
   | TLoad (address : U256.t) : t U256.t
   | TStore (address value : U256.t) : t unit
   | Log (topics : list U256.t) (payload : list Z) : t unit
-  | LoadCode (name : Z) (address length : U256.t) : t unit
   | GetEnvironment : t Environment.t
   (** The call stack is there to debug the semantics of Yul. *)
   | CallStackPush (name : string) (arguments : list (string * U256.t)) : t unit
@@ -159,7 +159,8 @@ Module M.
     let_ e1 (fun result =>
     match result with
     | Result.Ok value => e2 value
-    | Result.Return p s with_revert => LowM.Pure (Result.Return p s with_revert)
+    | Result.Return p s => LowM.Pure (Result.Return p s)
+    | Result.Revert p s => LowM.Pure (Result.Revert p s)
     end).
   Arguments generic_let /.
 

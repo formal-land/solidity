@@ -3,13 +3,13 @@ Require Import simulations.CoqOfSolidity.
 
 Import Run.
 
-Definition environment : Environment.t := {|
+(* Definition environment : Environment.t := {|
   Environment.caller := 123;
   Environment.callvalue := 0;
   Environment.calldata := [];
-|}.
+|}. *)
 
-Module abiencodedecode.
+(*Module abiencodedecode.
   Module abi_decode_calldata.
     Require test.libsolidity.semanticTests.abiencodedecode.abi_decode_calldata.C.
 
@@ -159,4 +159,4 @@ Module abiencodedecode.
 
     Compute "result".
     Compute fst output1.
-End abiencodedecode.
+End abiencodedecode.*)

@@ -3223,6 +3223,6 @@ Module Test.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220713dae8d013786316b2894a32b9ea30bf96f3dda60fd775a9248b5fd298bebfa64736f6c634300081b0033".
+      "a26469706673582212207454c4ea7e43d08cee71dec6c4af2833ff9c2e857cfd920736a8cfcdfd4b3f7564736f6c634300081b0033".
   End deployed.
 End Test.

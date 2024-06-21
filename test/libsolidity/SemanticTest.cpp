@@ -748,14 +748,25 @@ bool SemanticTest::deploy(
 	outputFile << "  Definition environment : Environment.t :={|" << std::endl;
 	outputFile << "    Environment.caller := 0x" << m_sender << ";" << std::endl;
 	outputFile << "    Environment.callvalue := " << _value << ";" << std::endl;
-	outputFile << "    Environment.calldata := Memory.hex_string_as_bytes \"" << util::toHex(_arguments) << "\";" << std::endl;
+	outputFile << "    Environment.calldata := [];" << std::endl;
+	outputFile << "    Environment.codedata := Memory.hex_string_as_bytes \"" << util::toHex(_arguments) << "\";" << std::endl;
+	outputFile << "    Environment.address := None;" << std::endl;
 	outputFile << "  |}." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition code : M.t BlockUnit.t :=" << std::endl;
 	outputFile << "    " << requirePathPrefix() << "." << lastContractName << "." << lastContractName << ".code." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Definition state : State.t :=" << std::endl;
-	outputFile << "    snd (eval 1000 environment code Stdlib.initial_state)." << std::endl;
+	outputFile << "  Definition result_state :=" << std::endl;
+	outputFile << "    eval 1000 environment code Stdlib.initial_state." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Definition result := Eval vm_compute in fst result_state." << std::endl;
+	outputFile << "  Definition state := snd result_state." << std::endl;
+	outputFile << std::endl;
+	outputFile << "  Goal Test.IsReturn result." << std::endl;
+	outputFile << "  Proof." << std::endl;
+	outputFile << "    unfold result." << std::endl;
+	outputFile << "    exact I." << std::endl;
+	outputFile << "  Qed." << std::endl;
 	outputFile << "End Constructor." << std::endl;
 
 	// Close the output file
@@ -812,6 +823,8 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "    Environment.callvalue := " << _value << ";" << std::endl;
 	bytes arguments = util::selectorFromSignatureH32(_signature).asBytes() + _arguments;
 	outputFile << "    Environment.calldata := Memory.hex_string_as_bytes \"" << util::toHex(arguments) << "\";" << std::endl;
+	outputFile << "    Environment.codedata := [];" << std::endl;
+	outputFile << "    Environment.address := Some 0x" << m_contractAddress << ";" << std::endl;
 	outputFile << "  |}." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition code : M.t BlockUnit.t :=" << std::endl;
@@ -830,14 +843,15 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "  Definition result_state :=" << std::endl;
 	outputFile << "    eval 1000 environment code initial_state." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Definition result := fst result_state." << std::endl;
+	outputFile << "  Definition result := Eval vm_compute in fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition expected_output : list Z :=" << std::endl;
 	outputFile << "    Memory.hex_string_as_bytes \"" << util::toHex(_output) << "\"." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Goal extract_output result state = Some expected_output." << std::endl;
+	outputFile << "  Goal Test.extract_output result state = Some expected_output." << std::endl;
 	outputFile << "  Proof." << std::endl;
+	outputFile << "    unfold result." << std::endl;
 	outputFile << "    reflexivity." << std::endl;
 	outputFile << "  Qed." << std::endl;
 	outputFile << "End Step" << testIndex + 1 << "." << std::endl;

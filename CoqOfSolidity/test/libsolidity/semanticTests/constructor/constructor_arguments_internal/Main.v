@@ -2614,7 +2614,7 @@ Module Main.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220fc63b83ccaede7f4156ad5861eab906c06307f6017ecdb353ba2a6b0f818151364736f6c634300081b0033".
+      "a2646970667358221220e4664ef7eb3b958b4ce8144ea5e5a60c9b1d05e9330deb1913b99c4a3c73c8a564736f6c634300081b0033".
   End deployed.
 
   Module Helper.
@@ -4678,7 +4678,7 @@ Module Main.
         M.close_scope.
 
       Definition data : string :=
-        "a26469706673582212207e370897436b286b9a8b9d5e5bd014c430f0be926de5bf8bccbecca9dbbae93164736f6c634300081b0033".
+        "a2646970667358221220473606a9f8d564e054bd168e74649571b589dcdd9323bed4c658b3742a0317e764736f6c634300081b0033".
     End deployed.
   End Helper.
 End Main.

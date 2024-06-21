@@ -1328,6 +1328,6 @@ Module BaseBase.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220d7b42cb553b3d070cf84388b815c9558eed7cc411ba7f983ea596e36e37a2d4f64736f6c634300081b0033".
+      "a2646970667358221220c5f40c2dd4bd9dbc18e32939e62f76aad46dd653033d4ea5cfc49713b6692e9964736f6c634300081b0033".
   End deployed.
 End BaseBase.

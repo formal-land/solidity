@@ -10,14 +10,25 @@ Module Constructor.
   Definition environment : Environment.t :={|
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 0;
-    Environment.calldata := Memory.hex_string_as_bytes "";
+    Environment.calldata := [];
+    Environment.codedata := Memory.hex_string_as_bytes "";
+    Environment.address := None;
   |}.
 
   Definition code : M.t BlockUnit.t :=
     test.libsolidity.semanticTests.constructor.arrays_in_constructors.Creator.Creator.code.
 
-  Definition state : State.t :=
-    snd (eval 1000 environment code Stdlib.initial_state).
+  Definition result_state :=
+    eval 1000 environment code Stdlib.initial_state.
+
+  Definition result := Eval vm_compute in fst result_state.
+  Definition state := snd result_state.
+
+  Goal Test.IsReturn result.
+  Proof.
+    unfold result.
+    exact I.
+  Qed.
 End Constructor.
 
 (* // f(uint256,address[]): 7, 0x40, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 -> 7, 8
@@ -32,6 +43,8 @@ Module Step1.
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "1b2902dd00000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000700000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000a";
+    Environment.codedata := [];
+    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
   Definition code : M.t BlockUnit.t :=
@@ -45,14 +58,15 @@ Module Step1.
   Definition result_state :=
     eval 1000 environment code initial_state.
 
-  Definition result := fst result_state.
+  Definition result := Eval vm_compute in fst result_state.
   Definition state := snd result_state.
 
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000008".
 
-  Goal extract_output result state = Some expected_output.
+  Goal Test.extract_output result state = Some expected_output.
   Proof.
+    unfold result.
     reflexivity.
   Qed.
 End Step1.
