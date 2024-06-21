@@ -56,7 +56,7 @@ Module Step1.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "1b0f3c404d12075c68c938f9f60ebea4f74941a0000000000000000000000000".
 
-  Goal Test.extract_output result state = inl expected_output.
+  Goal Test.extract_output result state true = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -90,7 +90,7 @@ Module Step2.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "ee54aa84fc32d8fed5a5fe160442ae84626829d9000000000000000000000000".
 
-  Goal Test.extract_output result state = inl expected_output.
+  Goal Test.extract_output result state true = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -124,7 +124,7 @@ Module Step3.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "1cf4e77f5966e13e109703cd8a0df7ceda7f3dc3000000000000000000000000".
 
-  Goal Test.extract_output result state = inl expected_output.
+  Goal Test.extract_output result state true = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.

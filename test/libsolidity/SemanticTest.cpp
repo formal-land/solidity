@@ -458,6 +458,7 @@ TestCase::TestResult SemanticTest::runTest(
 					test.call().value.value,
 					test.call().arguments.rawBytes(),
 					output,
+					!test.call().expectations.failure,
 					testIndex
 				);
 
@@ -813,6 +814,7 @@ void SemanticTest::writeCoqCallTest(
 	u256 const& _value,
 	bytes const& _arguments,
 	bytes const& _output,
+	bool success,
 	size_t testIndex
 ) const
 {
@@ -854,7 +856,7 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "  Definition expected_output : list Z :=" << std::endl;
 	outputFile << "    Memory.hex_string_as_bytes \"" << util::toHex(_output) << "\"." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Goal Test.extract_output result state = inl expected_output." << std::endl;
+	outputFile << "  Goal Test.extract_output result state " << (success ? "true" : "false") << " = inl expected_output." << std::endl;
 	outputFile << "  Proof." << std::endl;
 	outputFile << "    vm_compute." << std::endl;
 	outputFile << "    reflexivity." << std::endl;

@@ -99,6 +99,7 @@ public:
 		u256 const& _value,
 		bytes const& _arguments,
 		bytes const& _output,
+		bool success,
 		size_t testIndex
 	) const;
 

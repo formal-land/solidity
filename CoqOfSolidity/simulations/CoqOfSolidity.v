@@ -916,14 +916,25 @@ Module Test.
     end.
 
   (** Supposed to be equal to [inl expected_output]. *)
-  Definition extract_output (result : Result.t BlockUnit.t + string) (state : State.t) :
+  Definition extract_output
+      (result : Result.t BlockUnit.t + string)
+      (state : State.t)
+      (success : bool) :
       list Z + (Result.t BlockUnit.t + string) :=
-    match result with
-    | inl (Result.Return start length) =>
-      let output := Memory.get_bytes state.(State.memory) start length in
-      inl output
-    | _ => inr result
-    end.
+    if success then
+      match result with
+      | inl (Result.Return start length) =>
+        let output := Memory.get_bytes state.(State.memory) start length in
+        inl output
+      | _ => inr result
+      end
+    else
+      match result with
+      | inl (Result.Revert start length) =>
+        let output := Memory.get_bytes state.(State.memory) start length in
+        inl output
+      | _ => inr result
+      end.
 End Test.
 
 (*
