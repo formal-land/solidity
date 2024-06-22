@@ -17,7 +17,7 @@ Module Constructor.
     test.libsolidity.semanticTests.byte_array_to_storage_cleanup.C.C.code.
 
   Definition result_state :=
-    eval 1000 environment code Stdlib.initial_state.
+    eval_with_revert 1000 environment code Stdlib.initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -49,7 +49,7 @@ Module Step1.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -83,7 +83,7 @@ Module Step2.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -117,7 +117,7 @@ Module Step3.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

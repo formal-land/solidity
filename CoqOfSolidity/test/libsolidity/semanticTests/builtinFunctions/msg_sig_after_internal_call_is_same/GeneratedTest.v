@@ -17,7 +17,7 @@ Module Constructor.
     test.libsolidity.semanticTests.builtinFunctions.msg_sig_after_internal_call_is_same.test.test.code.
 
   Definition result_state :=
-    eval 1000 environment code Stdlib.initial_state.
+    eval_with_revert 1000 environment code Stdlib.initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -48,7 +48,7 @@ Module Step1.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

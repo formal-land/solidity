@@ -3696,6 +3696,6 @@ Module C.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220de0ef6ba4045f7ae0ea8fe8cbe783bcb5b5318cffd79b8f4b980b77483cc4b2e64736f6c634300081b0033".
+      "a2646970667358221220ebab98f6f769f4108ffc7b8199f599b4ecf0b05c32b096844393fbbc861b399a64736f6c634300081b0033".
   End deployed.
 End C.

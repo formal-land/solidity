@@ -4962,6 +4962,6 @@ Module Sample.
       M.close_scope.
 
     Definition data : string :=
-      "a26469706673582212202e5a9dbc7a81d855f9ce450dd0e0e06d20ecfca24a8e45c53dc0aacf20aab12164736f6c634300081b0033".
+      "a2646970667358221220adac58e56e7b5ca086da63f60c4daa7823100d5a4fc52e6603b0bf7aa8e9025564736f6c634300081b0033".
   End deployed.
 End Sample.

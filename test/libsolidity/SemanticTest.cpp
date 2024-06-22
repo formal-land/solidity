@@ -763,7 +763,7 @@ bool SemanticTest::deploy(
 	outputFile << "    " << requirePathPrefix() << "." << lastContractName << "." << lastContractName << ".code." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result_state :=" << std::endl;
-	outputFile << "    eval 1000 environment code Stdlib.initial_state." << std::endl;
+	outputFile << "    eval_with_revert 1000 environment code Stdlib.initial_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
@@ -848,7 +848,7 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "    |>." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result_state :=" << std::endl;
-	outputFile << "    eval 1000 environment code initial_state." << std::endl;
+	outputFile << "    eval_with_revert 1000 environment code initial_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;

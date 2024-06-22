@@ -436,6 +436,18 @@ Proof.
   }
 Qed. *)
 
+Definition eval_with_revert
+    (fuel : nat)
+    (environment : Environment.t)
+    (e : M.t BlockUnit.t)
+    (state : State.t) :
+    (Result.t BlockUnit.t + string) * State.t :=
+  let '(output, state') := eval fuel environment e state in
+  match output with
+  | inl (Result.Revert _ _) => (output, state' <| State.storage := state.(State.storage) |>)
+  | _ => (output, state')
+  end.
+
 Module Stdlib.
   Definition stop : M.t unit :=
     LowM.Pure (Result.Return 0 0).
@@ -937,6 +949,9 @@ Module Test.
       end.
 End Test.
 
+Definition declared_vars (state : State.t) : list (list (string * U256.t)) :=
+  List.map (fun locals => locals.(Locals.variables)) state.(State.stack).
+
 (*
 Require test.libsolidity.semanticTests.various.erc20.ERC20.
 
@@ -953,9 +968,6 @@ Compute fst foo.
 
 Compute "stack length".
 Compute List.length (snd foo).(State.stack).
-
-Definition declared_vars (state : State.t) : list (list (string * U256.t)) :=
-  List.map (fun locals => locals.(Locals.variables)) state.(State.stack).
 
 Compute "declared_vars".
 Compute declared_vars (snd foo).

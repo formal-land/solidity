@@ -17,7 +17,7 @@ Module Constructor.
     test.libsolidity.semanticTests.array.push.push_no_args_2d.C.C.code.
 
   Definition result_state :=
-    eval 1000 environment code Stdlib.initial_state.
+    eval_with_revert 1000 environment code Stdlib.initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -48,7 +48,7 @@ Module Step1.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -85,7 +85,7 @@ Module Step2.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -119,7 +119,7 @@ Module Step3.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -153,7 +153,7 @@ Module Step4.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -187,7 +187,7 @@ Module Step5.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -224,7 +224,7 @@ Module Step6.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -258,7 +258,7 @@ Module Step7.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -292,7 +292,7 @@ Module Step8.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -326,7 +326,7 @@ Module Step9.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -360,7 +360,7 @@ Module Step10.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -394,7 +394,7 @@ Module Step11.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -428,7 +428,7 @@ Module Step12.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

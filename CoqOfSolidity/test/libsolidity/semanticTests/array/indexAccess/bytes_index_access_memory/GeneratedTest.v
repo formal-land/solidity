@@ -17,7 +17,7 @@ Module Constructor.
     test.libsolidity.semanticTests.array.indexAccess.bytes_index_access_memory.Main.Main.code.
 
   Definition result_state :=
-    eval 1000 environment code Stdlib.initial_state.
+    eval_with_revert 1000 environment code Stdlib.initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -48,7 +48,7 @@ Module Step1.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

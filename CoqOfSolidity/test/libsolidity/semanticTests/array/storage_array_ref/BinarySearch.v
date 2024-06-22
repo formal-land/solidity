@@ -189,6 +189,6 @@ Module BinarySearch.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220348c4e65df1bdbbb307f49135352abba2b3c21ed4ce9da9a52ae54dcb26a172364736f6c634300081b0033".
+      "a2646970667358221220a2c35cdb9b4b2fe033e7b2ebab20522263aa995a6742be7c7fe3a5a58984fe3f64736f6c634300081b0033".
   End deployed.
 End BinarySearch.

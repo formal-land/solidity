@@ -4668,6 +4668,6 @@ Module buggystruct.
       M.close_scope.
 
     Definition data : string :=
-      "a2646970667358221220aaa279d0ce9108e00d838dc01b173758eb0974b5bcceed5131ce00958f9a153064736f6c634300081b0033".
+      "a2646970667358221220e8939e27ec8a7549d603987b66644b15fc5f8d3261a7fad8a7a16eac27da8f0764736f6c634300081b0033".
   End deployed.
 End buggystruct.

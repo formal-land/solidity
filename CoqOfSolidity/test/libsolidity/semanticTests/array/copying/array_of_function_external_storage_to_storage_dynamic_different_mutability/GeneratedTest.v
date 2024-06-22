@@ -17,7 +17,7 @@ Module Constructor.
     test.libsolidity.semanticTests.array.copying.array_of_function_external_storage_to_storage_dynamic_different_mutability.C.C.code.
 
   Definition result_state :=
-    eval 1000 environment code Stdlib.initial_state.
+    eval_with_revert 1000 environment code Stdlib.initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -51,7 +51,7 @@ Module Step1.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -86,7 +86,7 @@ Module Step2.
     |>.
 
   Definition result_state :=
-    eval 1000 environment code initial_state.
+    eval_with_revert 1000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

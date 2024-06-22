@@ -5296,7 +5296,7 @@ Module sender.
       M.close_scope.
 
     Definition data : string :=
-      "a264697066735822122044b948eb08ff54b0acc05a191cf5aedc425a7fe98bb577f26c1be8b774e34d3b64736f6c634300081b0033".
+      "a264697066735822122038a19597cc5428176a8ff055b4bcde63196929c46113bb5a384d286ef9e706c364736f6c634300081b0033".
   End deployed.
 
   Module receiver.
@@ -6803,7 +6803,7 @@ Module sender.
         M.close_scope.
 
       Definition data : string :=
-        "a2646970667358221220bd4d585cc948d0c34f5d7f562b38aa370e0207e44e2a355af7fa609ec7fddbf764736f6c634300081b0033".
+        "a264697066735822122017a0e2bc9e3347746632ff75b24c6121a7ba510f72a688e1c07225d28c9556af64736f6c634300081b0033".
     End deployed.
   End receiver.
 End sender.
