@@ -554,7 +554,7 @@ Module Stdlib.
     LowM.Impossible "pc".
 
   Definition pop (x : U256.t) : M.t unit :=
-    LowM.Impossible "pop".
+    M.pure tt.
 
   Definition mload (address : U256.t) : M.t U256.t :=
     let* bytes := LowM.Primitive (Primitive.MLoad address 32) M.pure in
