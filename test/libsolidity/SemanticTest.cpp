@@ -324,7 +324,8 @@ TestCase::TestResult SemanticTest::run(std::ostream& _stream, std::string const&
 		// result = runTest(_stream, _linePrefix, _formatted, false /* _isYulRun */);
 	}
 
-	if (m_testCaseWantsYulRun && result == TestResult::Success)
+	// We ignore tests without the revert strings mode as default
+	if (m_testCaseWantsYulRun && result == TestResult::Success && m_revertStrings == RevertStrings::Default)
 	{
 		if (solidity::test::CommonOptions::get().optimize)
 			result = runTest(_stream, _linePrefix, _formatted, true /* _isYulRun */);

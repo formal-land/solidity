@@ -1485,6 +1485,6 @@ Module C.
       ).
 
     Definition data : string :=
-      "a26469706673582212206b3a4d1fb8c5d98a15fff2037ae3fecc47455fd5bc94bc5b84cdb0e1f08fded364736f6c634300081b0033".
+      "a26469706673582212208559a4213ce8dc91d8a3043ffbfae356e48aeff1f2fe797ff193e39c19cfc2df64736f6c634300081b0033".
   End deployed.
 End C.

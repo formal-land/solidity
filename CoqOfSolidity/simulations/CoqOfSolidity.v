@@ -538,10 +538,10 @@ Module Stdlib.
       let sign_bit := byte / 128 in
       let extend_bit (bit size : Z) : Z :=
         if bit =? 1 then
-          - (2 ^ size)
+          (2 ^ 256) - (2 ^ size)
         else
           0 in
-      x mod 2 ^ size + extend_bit sign_bit size.
+      (x mod (2 ^ size)) + extend_bit sign_bit size.
 
   Definition keccak256 (p n : U256.t) : M.t U256.t :=
     let* bytes := LowM.Primitive (Primitive.MLoad p n) M.pure in
