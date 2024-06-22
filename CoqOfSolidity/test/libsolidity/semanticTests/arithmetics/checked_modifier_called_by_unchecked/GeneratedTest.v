@@ -59,7 +59,6 @@ Module Step1.
   Goal Test.extract_output result state true = inl expected_output.
   Proof.
     vm_compute.
-    Compute declared_vars state.
     reflexivity.
   Qed.
 End Step1.

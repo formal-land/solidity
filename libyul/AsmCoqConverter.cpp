@@ -31,7 +31,8 @@ namespace solidity::yul
 
 std::string AsmCoqConverter::operator()(Block const& _node)
 {
-	std::string ret = "do* M.open_scope in\n";
+	std::string ret = "M.scope (\n";
+	m_indent++;
 	ret += indent();
 
 	for (auto const& statement: _node.statements)
@@ -61,7 +62,9 @@ std::string AsmCoqConverter::operator()(Block const& _node)
 		}
 	}
 
-	ret += "M.close_scope";
+	ret += "M.pure BlockUnit.Tt\n";
+	m_indent--;
+	ret += indent() + ")";
 
 	return ret;
 }

@@ -177,11 +177,26 @@ Module M.
     | _ => pure output
     end).
 
-  Definition open_scope : t BlockUnit.t :=
-    LowM.Primitive Primitive.OpenScope (fun _ => pure BlockUnit.Tt).
+  (** We always close the scope that we opened, even if we reached some `leave` instructions or
+      similar. For that reason we write the definition in [LowM.t]. *)
+  Definition scope {A : Set} (e : t A) : t A :=
+    LowM.Primitive Primitive.OpenScope (fun _ =>
+    LowM.let_ e (fun output =>
+    LowM.Primitive Primitive.CloseScope (fun _ =>
+    LowM.Pure output))).
 
-  Definition close_scope : t BlockUnit.t :=
-    LowM.Primitive Primitive.CloseScope (fun _ => pure BlockUnit.Tt).
+  Definition log_call_stack {A : Set}
+      (name : string)
+      (arguments : list string)
+      (argument_values : list U256.t)
+      (e : t A)
+      : t A :=
+    LowM.Primitive (
+      Primitive.CallStackPush name (List.combine arguments argument_values)
+    ) (fun _ =>
+    LowM.let_ e (fun output =>
+    LowM.Primitive Primitive.CallStackPop (fun _ =>
+    LowM.Pure output))).
 
   Definition expr_stmt (_ : list U256.t) : t BlockUnit.t :=
     pure BlockUnit.Tt.
@@ -229,17 +244,14 @@ Module M.
       t BlockUnit.t :=
     let body : list U256.t -> t (list U256.t) :=
       fun argument_values =>
-        let_ (LowM.Primitive (
-          Primitive.CallStackPush name (List.combine arguments argument_values)
-        ) pure) (fun _ =>
-        let_ open_scope (fun _ =>
-        let_ (declare arguments (Some argument_values)) (fun _ =>
-        let_ (declare results None) (fun _ =>
-        let_ body (fun _ =>
-        let_ (get_vars results) (fun result_values =>
-        let_ close_scope (fun _ =>
-        let_ (LowM.Primitive Primitive.CallStackPop pure) (fun _ =>
-        pure result_values)))))))) in
+        log_call_stack name arguments argument_values (
+          scope (
+            let_ (declare arguments (Some argument_values)) (fun _ =>
+            let_ (declare results None) (fun _ =>
+            let_ body (fun _ =>
+            get_vars results)))
+          )
+        ) in
     LowM.DeclareFunction name body (pure BlockUnit.Tt).
 
   Fixpoint switch_aux (value : U256.t) (cases : list (option U256.t * t BlockUnit.t)) :
