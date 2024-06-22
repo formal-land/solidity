@@ -4,20 +4,34 @@ Require Import simulations.CoqOfSolidity.
 
 Require test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.
 
+Definition constructor_code : M.t BlockUnit.t :=
+  test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.code.
+
+Definition deployed_code : M.t BlockUnit.t :=
+  test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.deployed.code.
+
 Module Constructor.
   Definition environment : Environment.t :={|
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 0;
     Environment.calldata := [];
     Environment.codedata := Memory.hex_string_as_bytes "";
-    Environment.address := None;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.code.
+  Definition initial_state : State.t :=
+    let address := environment.(Environment.address) in
+    let account := {|
+      Account.balance := environment.(Environment.callvalue);
+      Account.code := deployed_code;
+      Account.storage := Memory.init;
+    |} in
+    Stdlib.initial_state <|
+      State.accounts := [(address, account)]
+    |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code Stdlib.initial_state.
+    eval_with_revert 1000 environment constructor_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -36,19 +50,16 @@ Module Step1.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "0002293b000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000004";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Constructor.state.(State.storage)
+      State.accounts := Constructor.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -73,19 +84,16 @@ Module Step2.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "31955a20";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step1.state.(State.storage)
+      State.accounts := Step1.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -107,19 +115,16 @@ Module Step3.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "b81bba790000000000000000000000000000000000000000000000000000000000000005";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step2.state.(State.storage)
+      State.accounts := Step2.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -141,19 +146,16 @@ Module Step4.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "0002293b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step3.state.(State.storage)
+      State.accounts := Step3.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -175,19 +177,16 @@ Module Step5.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "31955a20";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step4.state.(State.storage)
+      State.accounts := Step4.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -209,19 +208,16 @@ Module Step6.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "b81bba790000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.array.copying.array_copy_storage_storage_dyn_dyn.c.c.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step5.state.(State.storage)
+      State.accounts := Step5.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

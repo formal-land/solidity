@@ -4,20 +4,34 @@ Require Import simulations.CoqOfSolidity.
 
 Require test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.
 
+Definition constructor_code : M.t BlockUnit.t :=
+  test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.code.
+
+Definition deployed_code : M.t BlockUnit.t :=
+  test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
+
 Module Constructor.
   Definition environment : Environment.t :={|
     Environment.caller := 0x1212121212121212121212121212120000000012;
     Environment.callvalue := 0;
     Environment.calldata := [];
     Environment.codedata := Memory.hex_string_as_bytes "";
-    Environment.address := None;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
 
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.code.
+  Definition initial_state : State.t :=
+    let address := environment.(Environment.address) in
+    let account := {|
+      Account.balance := environment.(Environment.callvalue);
+      Account.code := deployed_code;
+      Account.storage := Memory.init;
+    |} in
+    Stdlib.initial_state <|
+      State.accounts := [(address, account)]
+    |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code Stdlib.initial_state.
+    eval_with_revert 1000 environment constructor_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -36,19 +50,16 @@ Module Step1.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "bcda696200000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Constructor.state.(State.storage)
+      State.accounts := Constructor.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -70,19 +81,16 @@ Module Step2.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "bcda6962000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step1.state.(State.storage)
+      State.accounts := Step1.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -104,19 +112,16 @@ Module Step3.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "bcda6962000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step2.state.(State.storage)
+      State.accounts := Step2.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -138,19 +143,16 @@ Module Step4.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "719a578700000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step3.state.(State.storage)
+      State.accounts := Step3.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -172,19 +174,16 @@ Module Step5.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "719a5787000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step4.state.(State.storage)
+      State.accounts := Step4.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -206,19 +205,16 @@ Module Step6.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "719a5787000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step5.state.(State.storage)
+      State.accounts := Step5.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -240,19 +236,16 @@ Module Step7.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "2486481900000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step6.state.(State.storage)
+      State.accounts := Step6.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -274,19 +267,16 @@ Module Step8.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "24864819000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step7.state.(State.storage)
+      State.accounts := Step7.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -308,19 +298,16 @@ Module Step9.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "24864819000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step8.state.(State.storage)
+      State.accounts := Step8.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -342,19 +329,16 @@ Module Step10.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "a89dbcd100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000008";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step9.state.(State.storage)
+      State.accounts := Step9.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -376,19 +360,16 @@ Module Step11.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "a89dbcd100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000008";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step10.state.(State.storage)
+      State.accounts := Step10.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -410,19 +391,16 @@ Module Step12.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "a89dbcd100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000008";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step11.state.(State.storage)
+      State.accounts := Step11.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -444,19 +422,16 @@ Module Step13.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "8b56c47800000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step12.state.(State.storage)
+      State.accounts := Step12.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -478,19 +453,16 @@ Module Step14.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "8b56c47800000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step13.state.(State.storage)
+      State.accounts := Step13.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -512,19 +484,16 @@ Module Step15.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "8b56c47800000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step14.state.(State.storage)
+      State.accounts := Step14.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -546,19 +515,16 @@ Module Step16.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "54beda0500000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step15.state.(State.storage)
+      State.accounts := Step15.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -580,19 +546,16 @@ Module Step17.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "54beda0500000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step16.state.(State.storage)
+      State.accounts := Step16.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -614,19 +577,16 @@ Module Step18.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "54beda0500000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step17.state.(State.storage)
+      State.accounts := Step17.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -648,19 +608,16 @@ Module Step19.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "77c5f29700000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000000";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step18.state.(State.storage)
+      State.accounts := Step18.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -682,19 +639,16 @@ Module Step20.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "77c5f29700000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step19.state.(State.storage)
+      State.accounts := Step19.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -716,19 +670,16 @@ Module Step21.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "77c5f29700000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step20.state.(State.storage)
+      State.accounts := Step20.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -750,19 +701,16 @@ Module Step22.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "ebdf680100000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000008";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step21.state.(State.storage)
+      State.accounts := Step21.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -784,19 +732,16 @@ Module Step23.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "ebdf680100000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000008";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step22.state.(State.storage)
+      State.accounts := Step22.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -818,19 +763,16 @@ Module Step24.
     Environment.callvalue := 0;
     Environment.calldata := Memory.hex_string_as_bytes "ebdf680100000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000009000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000007";
     Environment.codedata := [];
-    Environment.address := Some 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
+    Environment.address := HexString.of_Z 0xc06afe3a8444fc0004668591e8306bfb9968e79e;
   |}.
-
-  Definition code : M.t BlockUnit.t :=
-    test.libsolidity.semanticTests.abiEncoderV2.calldata_with_garbage.C.C.deployed.code.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state <|
-      State.storage := Step23.state.(State.storage)
+      State.accounts := Step23.state.(State.accounts)
     |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 1000 environment deployed_code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

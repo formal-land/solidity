@@ -43,8 +43,9 @@ Module Environment.
     (** When calling a constructor the parameters are concatenated to the code. We represent them
         here. *)
     codedata : list Z;
-    (** The address of the contract. *)
-    address : option U256.t;
+    (** The address of the contract. It should be in hex form as outputed by the [HexString.of_Z]
+        function. *)
+    address : string;
   }.
 End Environment.
 

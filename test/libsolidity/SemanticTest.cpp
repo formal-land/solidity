@@ -749,22 +749,35 @@ bool SemanticTest::deploy(
 		outputFile << "Require " << requirePath << "." << std::endl;
 	}
 	outputFile << std::endl;
-
 	std::string lastContractName = m_compiler.lastContractName(m_sources.mainSourceFile).substr(1);
+	outputFile << "Definition constructor_code : M.t BlockUnit.t :=" << std::endl;
+	outputFile << "  " << requirePathPrefix() << "." << lastContractName << "." << lastContractName << ".code." << std::endl;
+	outputFile << std::endl;
+	outputFile << "Definition deployed_code : M.t BlockUnit.t :=" << std::endl;
+	outputFile << "  " << requirePathPrefix() << "." << lastContractName << "." << lastContractName << ".deployed.code." << std::endl;
+	outputFile << std::endl;
 	outputFile << "Module Constructor." << std::endl;
 	outputFile << "  Definition environment : Environment.t :={|" << std::endl;
 	outputFile << "    Environment.caller := 0x" << m_sender << ";" << std::endl;
 	outputFile << "    Environment.callvalue := " << _value << ";" << std::endl;
 	outputFile << "    Environment.calldata := [];" << std::endl;
 	outputFile << "    Environment.codedata := Memory.hex_string_as_bytes \"" << util::toHex(_arguments) << "\";" << std::endl;
-	outputFile << "    Environment.address := None;" << std::endl;
+	outputFile << "    Environment.address := HexString.of_Z 0x" << m_contractAddress << ";" << std::endl;
 	outputFile << "  |}." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Definition code : M.t BlockUnit.t :=" << std::endl;
-	outputFile << "    " << requirePathPrefix() << "." << lastContractName << "." << lastContractName << ".code." << std::endl;
+	outputFile << "  Definition initial_state : State.t :=" << std::endl;
+	outputFile << "    let address := environment.(Environment.address) in" << std::endl;
+	outputFile << "    let account := {|" << std::endl;
+	outputFile << "      Account.balance := environment.(Environment.callvalue);" << std::endl;
+	outputFile << "      Account.code := deployed_code;" << std::endl;
+	outputFile << "      Account.storage := Memory.init;" << std::endl;
+	outputFile << "    |} in" << std::endl;
+	outputFile << "    Stdlib.initial_state <|" << std::endl;
+	outputFile << "      State.accounts := [(address, account)]" << std::endl;
+	outputFile << "    |>." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result_state :=" << std::endl;
-	outputFile << "    eval_with_revert 1000 environment code Stdlib.initial_state." << std::endl;
+	outputFile << "    eval_with_revert 1000 environment constructor_code initial_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
@@ -822,7 +835,6 @@ void SemanticTest::writeCoqCallTest(
 	// Re-open the output file
 	std::ofstream outputFile(testCoqFilename(), std::ios::app);
 
-	std::string lastContractName = m_compiler.lastContractName(m_sources.mainSourceFile).substr(1);
 	outputFile << std::endl;
 	outputFile << "(* " << asComment << " *)" << std::endl;
 	outputFile << "Module Step" << testIndex + 1 << "." << std::endl;
@@ -832,12 +844,8 @@ void SemanticTest::writeCoqCallTest(
 	bytes arguments = util::selectorFromSignatureH32(_signature).asBytes() + _arguments;
 	outputFile << "    Environment.calldata := Memory.hex_string_as_bytes \"" << util::toHex(arguments) << "\";" << std::endl;
 	outputFile << "    Environment.codedata := [];" << std::endl;
-	outputFile << "    Environment.address := Some 0x" << m_contractAddress << ";" << std::endl;
+	outputFile << "    Environment.address := HexString.of_Z 0x" << m_contractAddress << ";" << std::endl;
 	outputFile << "  |}." << std::endl;
-	outputFile << std::endl;
-	outputFile << "  Definition code : M.t BlockUnit.t :=" << std::endl;
-	outputFile << "    " << requirePathPrefix() << "." <<
-		lastContractName << "." << lastContractName << ".deployed.code." << std::endl;
 	outputFile << std::endl;
 	std::string initialState =
 		testIndex == 0 ?
@@ -845,11 +853,11 @@ void SemanticTest::writeCoqCallTest(
 			"Step" + std::to_string(testIndex) + ".state";
 	outputFile << "  Definition initial_state : State.t :=" << std::endl;
 	outputFile << "    Stdlib.initial_state <|" << std::endl;
-	outputFile << "      State.storage := " << initialState << ".(State.storage)" << std::endl;
+	outputFile << "      State.accounts := " << initialState << ".(State.accounts)" << std::endl;
 	outputFile << "    |>." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result_state :=" << std::endl;
-	outputFile << "    eval_with_revert 1000 environment code initial_state." << std::endl;
+	outputFile << "    eval_with_revert 1000 environment deployed_code initial_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;

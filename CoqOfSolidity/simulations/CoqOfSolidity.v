@@ -18,18 +18,21 @@ Module Dict.
   Definition declare {A : Set} (dict : t A) (name : string) (value : A) : t A :=
     (name, value) :: dict.
 
-  Fixpoint assign {A : Set} (dict : t A) (name : string) (value : A) : option (t A) :=
+  Fixpoint assign_function {A : Set} (dict : t A) (name : string) (f : A -> A) : option (t A) :=
     match dict with
     | [] => None
-    | ((name', _) as entry) :: dict =>
-      if String.eqb name name' then
-        Some ((name, value) :: dict)
+    | ((current_name, current_value) as entry) :: dict =>
+      if String.eqb current_name name then
+        Some ((current_name, f current_value) :: dict)
       else
-        match assign dict name value with
+        match assign_function dict name f with
         | None => None
         | Some dict => Some (entry :: dict)
         end
     end.
+
+  Definition assign {A : Set} (dict : t A) (name : string) (value : A) : option (t A) :=
+    assign_function dict name (fun _ => value).
 End Dict.
 
 Module Locals.
@@ -51,54 +54,88 @@ Module Stack.
   Definition open_scope (stack : t) : t :=
     Locals.empty :: stack.
 
-  Definition close_scope (stack : t) : t :=
+  Definition close_scope (stack : t) : t + string :=
     match stack with
-    | [] => stack
-    | _ :: stack => stack
+    | [] => inr "cannot close the last scope as there are none left"
+    | _ :: stack => inl stack
     end.
 
-  Fixpoint get_var (stack : t) (name : string) : U256.t :=
+  Fixpoint get_var (stack : t) (name : string) : U256.t + string :=
     match stack with
-    | [] =>
-      (* this case is not supposed to happen; we use a special value in order to see it in the logs
-         if we need to debug *)
-      42
+    | [] => inr ("variable '" ++ name ++ "' not found")%string
     | locals :: stack =>
       match Dict.get locals.(Locals.variables) name with
       | None => get_var stack name
-      | Some value => value
+      | Some value => inl value
       end
     end.
 
-  Definition declare_var (stack : t) (name : string) (value : U256.t) : t :=
+  Definition declare_var (stack : t) (name : string) (value : U256.t) : t + string :=
     match stack with
-    | [] => []
+    | [] => inr "no scope to declare the variable"
     | locals :: stack =>
-      locals <| Locals.variables := Dict.declare locals.(Locals.variables) name value |> :: stack
+      inl (
+        locals <| Locals.variables := Dict.declare locals.(Locals.variables) name value |> ::
+        stack
+      )
     end.
 
-  Fixpoint declare_vars (stack : t) (names : list string) (values : list U256.t) : t :=
+  Fixpoint declare_vars_aux (stack : t) (names : list string) (values : list U256.t) :
+      option (t + string) :=
     match names, values with
+    | [], [] => Some (inl stack)
     | name :: names, value :: values =>
-      declare_vars (declare_var stack name value) names values
-    | _, _ => stack
+      match declare_var stack name value with
+      | inl stack => declare_vars_aux stack names values
+      | inr error => Some (inr error)
+      end
+    | _, _ => None
     end.
 
-  Fixpoint assign_var (stack : t) (name : string) (value : U256.t) : t :=
+  Definition declare_vars (stack : t) (names : list string) (values : list U256.t) : t + string :=
+    match declare_vars_aux stack names values with
+    | Some result => result
+    | None =>
+      inr (
+        "declare: names and values have different lengths for names: " ++
+        String.concat ", " names
+      )%string
+    end.
+
+  Fixpoint assign_var (stack : t) (name : string) (value : U256.t) : t + string :=
     match stack with
-    | [] => []
+    | [] => inr ("variable '" ++ name ++ "' not found")%string
     | locals :: stack =>
       match Dict.assign locals.(Locals.variables) name value with
-      | None => locals :: assign_var stack name value
-      | Some variables => locals <| Locals.variables := variables |> :: stack
+      | None =>
+        match assign_var stack name value with
+        | inl stack => inl (locals :: stack)
+        | inr error => inr error
+        end
+      | Some variables => inl (locals <| Locals.variables := variables |> :: stack)
       end
     end.
 
-  Fixpoint assign_vars (stack : t) (names : list string) (values : list U256.t) : t :=
+  Fixpoint assign_vars_aux (stack : t) (names : list string) (values : list U256.t) :
+      option (t + string) :=
     match names, values with
+    | [], [] => Some (inl stack)
     | name :: names, value :: values =>
-      assign_vars (assign_var stack name value) names values
-    | _, _ => stack
+      match assign_var stack name value with
+      | inl stack => assign_vars_aux stack names values
+      | inr error => Some (inr error)
+      end
+    | _, _ => None
+    end.
+
+  Definition assign_vars (stack : t) (names : list string) (values : list U256.t) : t + string :=
+    match assign_vars_aux stack names values with
+    | Some result => result
+    | None =>
+      inr (
+        "assign: names and values have different lengths for names: " ++
+        String.concat ", " names
+      )%string
     end.
 
   Fixpoint get_function (stack : t) (name : string) : list U256.t -> M.t (list U256.t) :=
@@ -115,11 +152,14 @@ Module Stack.
       (stack : t)
       (name : string)
       (body : list U256.t -> M.t (list U256.t)) :
-      t :=
+      t + string :=
     match stack with
-    | [] => []
+    | [] => inr "no scope to declare the function"
     | locals :: stack =>
-      locals <| Locals.functions := Dict.declare locals.(Locals.functions) name body |> :: stack
+      inl (
+        locals <| Locals.functions := Dict.declare locals.(Locals.functions) name body |> ::
+        stack
+      )
     end.
 End Stack.
 
@@ -202,13 +242,21 @@ Module CallStack.
     list (string * list (string * U256.t)).
 End CallStack.
 
+Module Account.
+  Record t : Set := {
+    balance : U256.t;
+    code : M.t BlockUnit.t;
+    storage : Storage.t;
+  }.
+End Account.
+
 Module State.
   (** The state contains the various kinds of memory that we use in a smart contract. *)
   Record t : Set := {
     stack : Stack.t;
     memory : Memory.t;
-    storage : Storage.t;
     transientStorage : Storage.t;
+    accounts : list (string * Account.t);
     logs : list (list U256.t * list Z);
     (** This is only for debugging *)
     call_stack : CallStack.t;
@@ -219,86 +267,125 @@ End State.
 Definition eval_primitive {A : Set}
     (environment : Environment.t)
     (primitive : Primitive.t A) :
-    State.t -> A * State.t :=
+    State.t -> (A * State.t) + string :=
   fun state =>
   match primitive with
   | Primitive.OpenScope =>
-    (
+    inl (
       tt,
       state <| State.stack := Stack.open_scope state.(State.stack) |>
     )
   | Primitive.CloseScope =>
-    (
-      tt,
-      state <| State.stack := Stack.close_scope state.(State.stack) |>
-    )
+    let stack := Stack.close_scope state.(State.stack) in
+    match stack with
+    | inr error => inr error
+    | inl stack =>
+      inl (
+        tt,
+        state <| State.stack := stack |>
+      )
+    end
   | Primitive.GetVar name =>
-    (
-      Stack.get_var state.(State.stack) name,
-      state
-    )
+    let value := Stack.get_var state.(State.stack) name in
+    match value with
+    | inr error => inr error
+    | inl value =>
+      inl (
+        value,
+        state
+      )
+    end
   | Primitive.DeclareVars names values =>
-    (
-      tt,
-      state <| State.stack := Stack.declare_vars state.(State.stack) names values |>
-    )
+    let stack := Stack.declare_vars state.(State.stack) names values in
+    match stack with
+    | inr error => inr error
+    | inl stack =>
+      inl (
+        tt,
+        state <| State.stack := stack |>
+      )
+    end
   | Primitive.AssignVars names values =>
-    (
-      tt,
-      state <| State.stack := Stack.assign_vars state.(State.stack) names values |>
-    )
+    let stack := Stack.assign_vars state.(State.stack) names values in
+    match stack with
+    | inr error => inr error
+    | inl stack =>
+      inl (
+        tt,
+        state <| State.stack := stack |>
+      )
+    end
   | Primitive.MLoad address length =>
-    (
+    inl (
       Memory.get_bytes state.(State.memory) address length,
       state
     )
   | Primitive.MStore address bytes =>
-    (
+    inl (
       tt,
       state <| State.memory := Memory.update_bytes state.(State.memory) address bytes |>
     )
-  | Primitive.SLoad address =>
-    (
-      state.(State.storage) address,
-      state
-    )
-  | Primitive.SStore address value =>
-    (
-      tt,
-      state <| State.storage := Storage.update state.(State.storage) address value |>
-    )
+  | Primitive.SLoad slot =>
+    let address := environment.(Environment.address) in
+    let storage := Dict.get state.(State.accounts) address in
+    match storage with
+    | None => inr ("storage not found for the address " ++ address)%string
+    | Some account =>
+      inl (
+        account.(Account.storage) slot,
+        state
+      )
+    end
+  | Primitive.SStore slot value =>
+    let address := environment.(Environment.address) in
+    let accounts :=
+      Dict.assign_function state.(State.accounts) address (fun account =>
+        account <| Account.storage := Storage.update account.(Account.storage) slot value |>
+      ) in
+    match accounts with
+    | None => inr ("storage not found for the address " ++ address)%string
+    | Some accounts =>
+      inl (
+        tt,
+        state <| State.accounts := accounts |>
+      )
+    end
   | Primitive.TLoad address =>
-    (
+    inl (
       state.(State.transientStorage) address,
       state
     )
   | Primitive.TStore address value =>
-    (
+    inl (
       tt,
       state <| State.transientStorage :=
         Storage.update state.(State.transientStorage) address value
       |>
     )
   | Primitive.Log topics payload =>
-    (
+    inl (
       tt,
       state <| State.logs := (topics, payload) :: state.(State.logs) |>
     )
   | Primitive.GetEnvironment =>
-    (
+    inl (
       environment,
       state
     )
   | Primitive.CallStackPush name arguments =>
-    (
+    inl (
       tt,
       state <| State.call_stack := (name, arguments) :: state.(State.call_stack) |>
     )
   | Primitive.CallStackPop =>
-    (
-      tt,
-      state <| State.call_stack := List.tl state.(State.call_stack) |>
-    )
+    match state.(State.call_stack) with
+    | [] => inr "cannot pop the last element of the call stack"
+    | _ :: call_stack =>
+      inl (
+        tt,
+        state <| State.call_stack := call_stack |>
+      )
+    end
   end.
 
 Definition state_error_bind {S E A B : Set} (e1 : S -> (A + E) * S) (e2 : A -> S -> (B + E) * S) :
@@ -326,13 +413,19 @@ Fixpoint eval {A : Set}
     | LowM.Pure output => fun state => (inl output, state)
     | LowM.Primitive primitive k =>
       fun state =>
-      let '(value, state) := eval_primitive environment primitive state in
-      eval fuel environment (k value) state
+      let value_state := eval_primitive environment primitive state in
+      match value_state with
+      | inl (value, state) => eval fuel environment (k value) state
+      | inr error => (inr error, state)
+      end
     | LowM.DeclareFunction name body k =>
       fun state =>
-      let state :=
-        state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
-      eval fuel environment k state
+      let stack := Stack.declare_function state.(State.stack) name body in
+      match stack with
+      | inr error => (inr error, state)
+      | inl stack =>
+        eval fuel environment k (state <| State.stack := stack |>)
+      end
     | LowM.CallFunction name arguments k =>
       fun state =>
       let function := Stack.get_function state.(State.stack) name in
@@ -351,7 +444,7 @@ Fixpoint eval {A : Set}
     end
   end.
 
-Module Run.
+(* Module Run.
   Reserved Notation "{{ environment , state | e ⇓ output | state' }}"
     (at level 70, no associativity).
 
@@ -385,7 +478,7 @@ Module Run.
     (t environment state output e state').
 End Run.
 
-Import Run.
+Import Run. *)
 
 (** The [eval] function follows the semantics given by [Run.t]. *)
 (* Fixpoint eval_is_run {A : Set}
@@ -444,7 +537,7 @@ Definition eval_with_revert
     (Result.t BlockUnit.t + string) * State.t :=
   let '(output, state') := eval fuel environment e state in
   match output with
-  | inl (Result.Revert _ _) => (output, state' <| State.storage := state.(State.storage) |>)
+  | inl (Result.Revert _ _) => (output, state' <| State.accounts := state.(State.accounts) |>)
   | _ => (output, state')
   end.
 
@@ -588,10 +681,7 @@ Module Stdlib.
 
   Definition address : M.t U256.t :=
     let* environemnt := LowM.Primitive Primitive.GetEnvironment M.pure in
-    match environemnt.(Environment.address) with
-    | Some address => M.pure address
-    | None => LowM.Impossible "address not defined in the environment"
-    end.
+    M.pure (HexString.to_Z environemnt.(Environment.address)).
 
   Definition balance (a : U256.t) : M.t U256.t :=
     LowM.Impossible "balance".
@@ -910,8 +1000,8 @@ Module Stdlib.
     {|
       State.stack := init_stack;
       State.memory := Memory.init;
-      State.storage := Memory.init;
       State.transientStorage := Memory.init;
+      State.accounts := [];
       State.logs := [];
       State.call_stack := [];
     |}.
