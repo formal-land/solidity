@@ -2,122 +2,26 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 
 Module C.
-  Definition name : string := "C_5".
-
-  Definition code : M.t BlockUnit.t :=
-    M.scope (
-      do* ltac:(M.monadic (
-        M.function (|
-          "allocate_unbounded",
-          [],
-          ["memPtr"],
-          M.scope (
-            do* ltac:(M.monadic (
-              M.assign (|
-                ["memPtr"],
-                Some (M.call (|
-                  "mload",
-                  [
-                    [Literal.number 64]
-                  ]
-                |))
-              |)
-            )) in
-            M.pure BlockUnit.Tt
-          )
-        |)
-      )) in
-      do* ltac:(M.monadic (
-        M.scope (
-          do* ltac:(M.monadic (
-            M.expr_stmt (|
-              M.call (|
-                "mstore",
-                [
-                  [Literal.number 64];
-                  M.call (|
-                    "memoryguard",
-                    [
-                      [Literal.number 0x80]
-                    ]
-                  |)
-                ]
-              |)
-            |)
-          )) in
-          do* ltac:(M.monadic (
-            M.declare (|
-              ["_1"],
-              Some (M.call (|
-                "allocate_unbounded",
-                []
-              |))
-            |)
-          )) in
-          do* ltac:(M.monadic (
-            M.expr_stmt (|
-              M.call (|
-                "codecopy",
-                [
-                  M.get_var (| "_1" |);
-                  M.call (|
-                    "dataoffset",
-                    [
-                      [Literal.string 0x435f355f6465706c6f7965640000000000000000000000000000000000000000]
-                    ]
-                  |);
-                  M.call (|
-                    "datasize",
-                    [
-                      [Literal.string 0x435f355f6465706c6f7965640000000000000000000000000000000000000000]
-                    ]
-                  |)
-                ]
-              |)
-            |)
-          )) in
-          do* ltac:(M.monadic (
-            M.expr_stmt (|
-              M.call (|
-                "return",
-                [
-                  M.get_var (| "_1" |);
-                  M.call (|
-                    "datasize",
-                    [
-                      [Literal.string 0x435f355f6465706c6f7965640000000000000000000000000000000000000000]
-                    ]
-                  |)
-                ]
-              |)
-            |)
-          )) in
-          M.pure BlockUnit.Tt
-        )
-      )) in
-      M.pure BlockUnit.Tt
-    ).
-
-  Module deployed.
-    Definition name : string := "C_5_deployed".
-
-    Definition code : M.t BlockUnit.t :=
+  Definition code : Code.t := {|
+    Code.name := "C_5";
+    Code.hex_name := 0x435f350000000000000000000000000000000000000000000000000000000000;
+    Code.code :=
       M.scope (
         do* ltac:(M.monadic (
           M.function (|
-            "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
+            "allocate_unbounded",
             [],
-            [],
+            ["memPtr"],
             M.scope (
               do* ltac:(M.monadic (
-                M.expr_stmt (|
-                  M.call (|
-                    "revert",
+                M.assign (|
+                  ["memPtr"],
+                  Some (M.call (|
+                    "mload",
                     [
-                      [Literal.number 0];
-                      [Literal.number 0]
+                      [Literal.number 64]
                     ]
-                  |)
+                  |))
                 |)
               )) in
               M.pure BlockUnit.Tt
@@ -143,10 +47,49 @@ Module C.
               |)
             )) in
             do* ltac:(M.monadic (
+              M.declare (|
+                ["_1"],
+                Some (M.call (|
+                  "allocate_unbounded",
+                  []
+                |))
+              |)
+            )) in
+            do* ltac:(M.monadic (
               M.expr_stmt (|
                 M.call (|
-                  "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
-                  []
+                  "codecopy",
+                  [
+                    M.get_var (| "_1" |);
+                    M.call (|
+                      "dataoffset",
+                      [
+                        [Literal.string 0x435f355f6465706c6f7965640000000000000000000000000000000000000000]
+                      ]
+                    |);
+                    M.call (|
+                      "datasize",
+                      [
+                        [Literal.string 0x435f355f6465706c6f7965640000000000000000000000000000000000000000]
+                      ]
+                    |)
+                  ]
+                |)
+              |)
+            )) in
+            do* ltac:(M.monadic (
+              M.expr_stmt (|
+                M.call (|
+                  "return",
+                  [
+                    M.get_var (| "_1" |);
+                    M.call (|
+                      "datasize",
+                      [
+                        [Literal.string 0x435f355f6465706c6f7965640000000000000000000000000000000000000000]
+                      ]
+                    |)
+                  ]
                 |)
               |)
             )) in
@@ -154,9 +97,76 @@ Module C.
           )
         )) in
         M.pure BlockUnit.Tt
-      ).
+      );
+  |}.
+
+  Module deployed.
+    Definition code : Code.t := {|
+      Code.name := "C_5_deployed";
+      Code.hex_name := 0x435f355f6465706c6f7965640000000000000000000000000000000000000000;
+      Code.code :=
+        M.scope (
+          do* ltac:(M.monadic (
+            M.function (|
+              "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
+              [],
+              [],
+              M.scope (
+                do* ltac:(M.monadic (
+                  M.expr_stmt (|
+                    M.call (|
+                      "revert",
+                      [
+                        [Literal.number 0];
+                        [Literal.number 0]
+                      ]
+                    |)
+                  |)
+                )) in
+                M.pure BlockUnit.Tt
+              )
+            |)
+          )) in
+          do* ltac:(M.monadic (
+            M.scope (
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "mstore",
+                    [
+                      [Literal.number 64];
+                      M.call (|
+                        "memoryguard",
+                        [
+                          [Literal.number 0x80]
+                        ]
+                      |)
+                    ]
+                  |)
+                |)
+              )) in
+              do* ltac:(M.monadic (
+                M.expr_stmt (|
+                  M.call (|
+                    "revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74",
+                    []
+                  |)
+                |)
+              )) in
+              M.pure BlockUnit.Tt
+            )
+          )) in
+          M.pure BlockUnit.Tt
+        );
+    |}.
 
     Definition data : string :=
-      "a2646970667358221220aee7824fe04bfdcc1b21991fc593a3da16b6d16b7ac2cb7d32746cf3e35fb8b764736f6c634300081b0033".
+      "a26469706673582212202623042a24540c400f4acbb6a17bd46d374f71e1e024944d0a48bb233ca25da964736f6c634300081b0033".
   End deployed.
 End C.
+
+Definition codes : list (U256.t * M.t BlockUnit.t) :=
+  ltac2:(
+    let codes := Code.get_codes () in
+    exact $codes
+  ).

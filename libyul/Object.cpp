@@ -113,9 +113,13 @@ std::string Object::toCoq() const
 {
 	yulAssert(code, "No code");
 
-	std::string inner = "Definition name : string := \"" + name.str() + "\".\n\n";
-	inner += "Definition code : M.t BlockUnit.t :=\n";
-	inner += prefixLines(AsmCoqConverter(0)(*code), "  ") + ".";
+	std::string inner = "Definition code : Code.t := {|\n";
+	inner += "  Code.name := \"" + name.str() + "\";\n";
+	std::string hex_name = util::toHex(util::asBytes(name.str()));
+	inner += "  Code.hex_name := 0x" + hex_name + std::string(64 - hex_name.size(), '0') + ";\n";
+	inner += "  Code.code :=\n";
+	inner += prefixLines(AsmCoqConverter(0)(*code), "    ") + ";\n";
+	inner += "|}.";
 
 	for (auto const& subObject: subObjects)
 		inner += "\n\n" + subObject->toCoq();

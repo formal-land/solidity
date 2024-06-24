@@ -2,6 +2,7 @@ Require Export Coq.Strings.Ascii.
 Require Coq.Strings.HexString.
 Require Export Coq.Strings.String.
 Require Export Coq.ZArith.ZArith.
+From Ltac2 Require Export Ltac2.
 Require Export RecordUpdate.
 
 Require Export Lia.
@@ -40,12 +41,8 @@ Module Environment.
     (** Amount of wei sent to the current contract *)
     callvalue : U256.t;
     calldata : list Z;
-    (** When calling a constructor the parameters are concatenated to the code. We represent them
-        here. *)
-    codedata : list Z;
-    (** The address of the contract. It should be in hex form as outputed by the [HexString.of_Z]
-        function. *)
-    address : string;
+    (** The address of the contract. *)
+    address : U256.t;
   }.
 End Environment.
 
@@ -86,10 +83,15 @@ Module Primitive.
   | MStore (address : U256.t) (bytes : list Z) : t unit
   | SLoad (address : U256.t) : t U256.t
   | SStore (address value : U256.t) : t unit
+  | RLoad : t (list Z)
   | TLoad (address : U256.t) : t U256.t
   | TStore (address value : U256.t) : t unit
   | Log (topics : list U256.t) (payload : list Z) : t unit
   | GetEnvironment : t Environment.t
+  | GetNonce : t U256.t
+  | GetCodedata : t (list Z)
+  | CreateAccount (address code : U256.t) (codedata : list Z) : t unit
+  | UpdateCurrentCodeForDeploy (code : U256.t) : t unit
   (** The call stack is there to debug the semantics of Yul. *)
   | CallStackPush (name : string) (arguments : list (string * U256.t)) : t unit
   | CallStackPop : t unit.
@@ -114,6 +116,11 @@ Module LowM.
       (** The final value to return if we decide to break of the loop. *)
       (break_with : B -> option B)
       (k : B -> t A)
+  | CallContract
+      (address : U256.t)
+      (value : U256.t)
+      (input : list Z)
+      (k : U256.t -> t A)
   (** Explicit cut in the monadic expressions, to provide better composition for the proofs. *)
   | Let {B : Set} (e1 : t B) (k : B -> t A)
   | Impossible (message : string).
@@ -122,6 +129,7 @@ Module LowM.
   Arguments DeclareFunction {_}.
   Arguments CallFunction {_}.
   Arguments Loop {_ _}.
+  Arguments CallContract {_}.
   Arguments Let {_ _}.
   Arguments Impossible {_}.
 
@@ -137,6 +145,8 @@ Module LowM.
       CallFunction name arguments (fun result => let_ (k result) e2)
     | Loop body break_with k =>
       Loop body break_with (fun result => let_ (k result) e2)
+    | CallContract contract value input k =>
+      CallContract contract value input (fun result => let_ (k result) e2)
     | Let e1 k =>
       Let e1 (fun result => let_ (k result) e2)
     | Impossible message => Impossible message
@@ -258,7 +268,7 @@ Module M.
   Fixpoint switch_aux (value : U256.t) (cases : list (option U256.t * t BlockUnit.t)) :
       t BlockUnit.t :=
     match cases with
-    | [] => LowM.Impossible "switch must have at least one case"
+    | [] => pure BlockUnit.Tt
     | (None, body) :: _ => body
     | (Some current_value, body) :: cases =>
       if Z.eqb current_value value then
@@ -387,3 +397,32 @@ Module Literal.
   Definition string (z : Z) : U256.t :=
     z.
 End Literal.
+
+Module Code.
+  Record t : Set := {
+    name : string;
+    hex_name : U256.t;
+    code : M.t BlockUnit.t;
+  }.
+
+  Definition flatten (codes : list t) : list (U256.t * M.t BlockUnit.t) :=
+    List.map (fun x => (x.(hex_name), x.(code))) codes.
+
+  Ltac2 rec constr_of_list (l : constr list) : constr :=
+    match l with
+    | [] => '[]
+    | x :: xs =>
+      let rest := constr_of_list xs in
+      '($x :: $rest)
+    end.
+
+  Ltac2 get_codes () : constr :=
+    let codes := Env.expand [@code] in
+    let codes := List.map Env.instantiate codes in
+    let codes_of_right_type :=
+      List.filter (fun x =>
+        Constr.equal (Constr.type x) 't
+      ) codes in
+    let codes := constr_of_list codes_of_right_type in
+    '(flatten $codes).
+End Code.
