@@ -29,13 +29,14 @@ Module Constructor.
       Account.code := constructor_code.(Code.hex_name);
       Account.codedata := Memory.hex_string_as_bytes "";
       Account.storage := Memory.init;
+      Account.immutables := [];
     |} in
     Stdlib.initial_state
       <| State.accounts := [(address, account)] |>
       <| State.codes := codes |>.
 
   Definition result_state :=
-    eval_with_revert 1000 environment constructor_code.(Code.code) initial_state.
+    eval_with_revert 5000 environment constructor_code.(Code.code) initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -66,7 +67,7 @@ Module Step1.
     deployed_code.(Code.code).
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 5000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -74,7 +75,7 @@ Module Step1.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state true = inl expected_output.
+  Goal Test.extract_output result state Test.Status.Success = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -102,7 +103,7 @@ Module Step2.
     deployed_code.(Code.code).
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 5000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -110,7 +111,7 @@ Module Step2.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e00".
 
-  Goal Test.extract_output result state true = inl expected_output.
+  Goal Test.extract_output result state Test.Status.Success = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -138,7 +139,7 @@ Module Step3.
     deployed_code.(Code.code).
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 5000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -146,7 +147,7 @@ Module Step3.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f".
 
-  Goal Test.extract_output result state true = inl expected_output.
+  Goal Test.extract_output result state Test.Status.Success = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -174,7 +175,7 @@ Module Step4.
     deployed_code.(Code.code).
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 5000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -182,7 +183,7 @@ Module Step4.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000021000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state true = inl expected_output.
+  Goal Test.extract_output result state Test.Status.Success = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -210,7 +211,7 @@ Module Step5.
     deployed_code.(Code.code).
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 5000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -218,7 +219,7 @@ Module Step5.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e00".
 
-  Goal Test.extract_output result state true = inl expected_output.
+  Goal Test.extract_output result state Test.Status.Success = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -245,7 +246,7 @@ Module Step6.
     deployed_code.(Code.code).
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 5000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -253,7 +254,7 @@ Module Step6.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000c000102030405060708090a0b0000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state true = inl expected_output.
+  Goal Test.extract_output result state Test.Status.Success = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.
@@ -281,7 +282,7 @@ Module Step7.
     deployed_code.(Code.code).
 
   Definition result_state :=
-    eval_with_revert 1000 environment code initial_state.
+    eval_with_revert 5000 environment code initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -289,7 +290,7 @@ Module Step7.
   Definition expected_output : list Z :=
     Memory.hex_string_as_bytes "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000081000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f8000000000000000000000000000000000000000000000000000000000000000".
 
-  Goal Test.extract_output result state true = inl expected_output.
+  Goal Test.extract_output result state Test.Status.Success = inl expected_output.
   Proof.
     vm_compute.
     reflexivity.

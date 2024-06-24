@@ -4708,7 +4708,7 @@ Module Test.
     |}.
 
     Definition data : string :=
-      "a2646970667358221220d63d6b6feaacdff3148dd766fbad0a8b4261a4131bf271cd2fd10eccc2e5567f64736f6c634300081b0033".
+      "a2646970667358221220aef6fbd8e4c78f3e00b5ccddd6f0bbdf0124d87fcef0e183182a0ca48af84c4f64736f6c634300081b0033".
   End deployed.
 
   Module C.
@@ -7348,7 +7348,7 @@ Module Test.
       |}.
 
       Definition data : string :=
-        "a2646970667358221220a55768f8c5edaff0459186710198b645cc789bf7cabeef04c0d2053a08d51b7264736f6c634300081b0033".
+        "a2646970667358221220718940f299c6d24a2cb3d00d1cb01b6f0305cfb698bbd9339f5bc7ddb45b9bb364736f6c634300081b0033".
     End deployed.
   End C.
 End Test.

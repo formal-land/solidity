@@ -89,9 +89,11 @@ Module Primitive.
   | Log (topics : list U256.t) (payload : list Z) : t unit
   | GetEnvironment : t Environment.t
   | GetNonce : t U256.t
-  | GetCodedata : t (list Z)
+  | GetCodedata (address : U256.t) : t (list Z)
   | CreateAccount (address code : U256.t) (codedata : list Z) : t unit
-  | UpdateCurrentCodeForDeploy (code : U256.t) : t unit
+  | UpdateCodeForDeploy (address code : U256.t) : t unit
+  | LoadImmutable (name : U256.t) : t U256.t
+  | SetImmutable (name value : U256.t) : t unit
   (** The call stack is there to debug the semantics of Yul. *)
   | CallStackPush (name : string) (arguments : list (string * U256.t)) : t unit
   | CallStackPop : t unit.

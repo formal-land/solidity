@@ -99,7 +99,7 @@ public:
 		u256 const& _value,
 		bytes const& _arguments,
 		bytes const& _output,
-		bool success,
+		FunctionCallExpectations const& expectations,
 		size_t testIndex
 	) const;
 

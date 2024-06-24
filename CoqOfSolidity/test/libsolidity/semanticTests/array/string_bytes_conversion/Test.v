@@ -3870,7 +3870,7 @@ Module Test.
     |}.
 
     Definition data : string :=
-      "a2646970667358221220a13f3a43f3b51bd95bbf61770a68e58ba453ae76b2ab0aa5df3f22ef515fafa064736f6c634300081b0033".
+      "a26469706673582212200b1fec5c7f4affc2e79e5ba06ab7d1f218cf0b3507b5252b3d541a4ec51ebb9764736f6c634300081b0033".
   End deployed.
 End Test.
 

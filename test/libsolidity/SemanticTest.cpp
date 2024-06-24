@@ -459,7 +459,7 @@ TestCase::TestResult SemanticTest::runTest(
 					test.call().value.value,
 					test.call().arguments.rawBytes(),
 					output,
-					!test.call().expectations.failure,
+					test.call().expectations,
 					testIndex
 				);
 
@@ -775,13 +775,14 @@ bool SemanticTest::deploy(
 	outputFile << "      Account.code := constructor_code.(Code.hex_name);" << std::endl;
 	outputFile << "      Account.codedata := Memory.hex_string_as_bytes \"" << util::toHex(_arguments) << "\";" << std::endl;
 	outputFile << "      Account.storage := Memory.init;" << std::endl;
+	outputFile << "      Account.immutables := [];" << std::endl;
 	outputFile << "    |} in" << std::endl;
 	outputFile << "    Stdlib.initial_state" << std::endl;
 	outputFile << "      <| State.accounts := [(address, account)] |>" << std::endl;
 	outputFile << "      <| State.codes := codes |>." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result_state :=" << std::endl;
-	outputFile << "    eval_with_revert 1000 environment constructor_code.(Code.code) initial_state." << std::endl;
+	outputFile << "    eval_with_revert 5000 environment constructor_code.(Code.code) initial_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
@@ -832,7 +833,7 @@ void SemanticTest::writeCoqCallTest(
 	u256 const& _value,
 	bytes const& _arguments,
 	bytes const& _output,
-	bool success,
+	FunctionCallExpectations const& expectations,
 	size_t testIndex
 ) const
 {
@@ -856,7 +857,6 @@ void SemanticTest::writeCoqCallTest(
 			"Step" + std::to_string(testIndex) + ".state";
 	outputFile << "  Definition initial_state : State.t :=" << std::endl;
 	outputFile << "    Stdlib.initial_state" << std::endl;
-	// TODO: change the code of the current account
 	outputFile << "      <| State.accounts := " << initialState << ".(State.accounts) |>" << std::endl;
 	outputFile << "      <| State.codes := " << initialState << ".(State.codes) |>." << std::endl;
 	outputFile << std::endl;
@@ -868,7 +868,7 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "    deployed_code.(Code.code)." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result_state :=" << std::endl;
-	outputFile << "    eval_with_revert 1000 environment code initial_state." << std::endl;
+	outputFile << "    eval_with_revert 5000 environment code initial_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
@@ -876,7 +876,15 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "  Definition expected_output : list Z :=" << std::endl;
 	outputFile << "    Memory.hex_string_as_bytes \"" << util::toHex(_output) << "\"." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Goal Test.extract_output result state " << (success ? "true" : "false") << " = inl expected_output." << std::endl;
+	std::string status = expectations.failure ? "Failure" : "Success";
+	if (
+		expectations.comment == " Out-of-gas " ||
+		expectations.comment == " out-of-gas " ||
+		expectations.comment == " Out of gas "
+	)
+		status = "OutOfGas";
+	std::cout << "COMMENT: " << expectations.comment << std::endl;
+	outputFile << "  Goal Test.extract_output result state Test.Status." << status << " = inl expected_output." << std::endl;
 	outputFile << "  Proof." << std::endl;
 	outputFile << "    vm_compute." << std::endl;
 	outputFile << "    reflexivity." << std::endl;

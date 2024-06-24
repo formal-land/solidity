@@ -259,6 +259,7 @@ Module Account.
         here. *)
     codedata : list Z;
     storage : Storage.t;
+    immutables : Dict.t U256.t U256.t;
   }.
 End Account.
 
@@ -483,7 +484,9 @@ Module Stdlib.
     LowM.Primitive (Primitive.MStore t bytes) M.pure.
 
   Definition codesize : M.t U256.t :=
-    let* codedata := LowM.Primitive Primitive.GetCodedata M.pure in
+    let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
+    let address := environment.(Environment.address) in
+    let* codedata := LowM.Primitive (Primitive.GetCodedata address) M.pure in
     M.pure (32 + Z.of_nat (List.length codedata)).
 
   (** There are two kinds of code copy that we handle: either to copy actual code, or
@@ -501,7 +504,8 @@ Module Stdlib.
     (* codedata case *)
     else if f mod (2^256) =? 32 then
       let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
-      let* codedata := LowM.Primitive Primitive.GetCodedata M.pure in
+      let* codedata :=
+        LowM.Primitive (Primitive.GetCodedata environment.(Environment.address)) M.pure in
       if s =? Z.of_nat (List.length codedata) then
         LowM.Primitive (Primitive.MStore t codedata) M.pure
       else
@@ -510,7 +514,8 @@ Module Stdlib.
       LowM.Impossible "codecopy: f mod (2^256) must be 0 or 32".
 
   Definition extcodesize (a : U256.t) : M.t U256.t :=
-    LowM.Impossible "extcodesize".
+    let* codedata := LowM.Primitive (Primitive.GetCodedata a) M.pure in
+    M.pure (32 + Z.of_nat (List.length codedata)).
 
   Definition extcodecopy (a t f s : U256.t) : M.t unit :=
     LowM.Impossible "extcodecopy".
@@ -539,7 +544,7 @@ Module Stdlib.
 
   Definition create (v p n : U256.t) : M.t U256.t :=
     (* TODO: have the exact calculation of the address with RLP *)
-    let* address :=
+    let* created_address :=
       let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
       let address := environment.(Environment.address) in
       let* nonce := LowM.Primitive Primitive.GetNonce M.pure in
@@ -548,21 +553,27 @@ Module Stdlib.
       let bytes : list Nibble.byte := Memory.bytes_as_bytes bytes in
       let hash : list Nibble.byte := EVM.Crypto.Keccak.keccak_256 bytes in
       let hash : list Z := (List.map (fun byte => Z.of_N (Nibble.N_of_byte byte))) hash in
-      M.pure (Memory.bytes_as_u256 hash) in
+      M.pure (Z.land ((2 ^ 160) - 1) (Memory.bytes_as_u256 hash)) in
     if n <? 32 then
       LowM.Impossible "create with code of size lesser than a word"
     else
       let* code := mload p in
       let* codedata := LowM.Primitive (Primitive.MLoad (p + 32) (n - 32)) M.pure in
-      let* tt := LowM.Primitive (Primitive.CreateAccount address code codedata) M.pure in
+      let* tt := LowM.Primitive (Primitive.CreateAccount created_address code codedata) M.pure in
       (* The input during the call is empty as it is in the [codedata]. *)
-      let* output := LowM.CallContract address v [] M.pure in
+      let* call_contract_status := LowM.CallContract created_address v [] M.pure in
       (* Failure case *)
-      if output =? 0 then
+      if call_contract_status =? 0 then
         M.pure 0
       (* Success case *)
       else
-        M.pure address.
+        let* constructor_output := LowM.Primitive Primitive.RLoad M.pure in
+        if negb (Z.of_nat (List.length constructor_output) =? 32) then
+          LowM.Impossible "create: constructor_output must be a word"
+        else
+          let deployed_code := Memory.bytes_as_u256 constructor_output in
+          LowM.Primitive (Primitive.UpdateCodeForDeploy created_address deployed_code) (fun _ =>
+          M.pure created_address).
 
   Definition create2 (v p n s : U256.t) : M.t U256.t :=
     LowM.Impossible "create2".
@@ -654,6 +665,12 @@ Module Stdlib.
 
   Definition gaslimit : M.t U256.t :=
     LowM.Impossible "gaslimit".
+
+  Definition loadimmutable (name : U256.t) : M.t U256.t :=
+    LowM.Primitive (Primitive.LoadImmutable name) M.pure.
+
+  Definition setimmutable (_offset name value : U256.t) : M.t unit :=
+    LowM.Primitive (Primitive.SetImmutable name value) M.pure.
 
   (** Additional functions for the object mode of Yul. *)
   Module Object.
@@ -780,6 +797,8 @@ Module Stdlib.
     ("difficulty", fn [] => return_u256 difficulty);
     ("prevrandao", fn [] => return_u256 prevrandao);
     ("gaslimit", fn [] => return_u256 gaslimit);
+    ("loadimmutable", fn [name] => return_u256 (loadimmutable name));
+    ("setimmutable", fn [offset; name; value] => return_unit (setimmutable offset name value));
     ("memoryguard", fn [p] => return_u256 (Object.memoryguard p));
     ("dataoffset", fn [name] => return_u256 (Object.dataoffset name));
     ("datasize", fn [name] => return_u256 (Object.datasize name));
@@ -932,8 +951,7 @@ Definition eval_primitive {A : Set}
         state
       )
     end
-  | Primitive.GetCodedata =>
-    let address := environment.(Environment.address) in
+  | Primitive.GetCodedata address =>
     let accounts := state.(State.accounts) in
     match Dict.get Z.eqb accounts address with
     | None => inr ("codedata not found for the address " ++ HexString.of_Z address)%string
@@ -950,18 +968,46 @@ Definition eval_primitive {A : Set}
       Account.code := code;
       Account.codedata := codedata;
       Account.storage := Memory.init;
+      Account.immutables := [];
     |} in
     inl (
       tt,
       state <| State.accounts := Dict.declare state.(State.accounts) address account |>
     )
-  | Primitive.UpdateCurrentCodeForDeploy code =>
-    let address := environment.(Environment.address) in
+  | Primitive.UpdateCodeForDeploy address code =>
     let accounts := state.(State.accounts) in
     match Dict.assign_function Z.eqb accounts address (fun account =>
       account <| Account.code := code |>
     ) with
     | None => inr ("code not found for the address " ++ HexString.of_Z address)%string
+    | Some accounts =>
+      inl (
+        tt,
+        state <| State.accounts := accounts |>
+      )
+    end
+  | Primitive.LoadImmutable name =>
+    let address := environment.(Environment.address) in
+    let accounts := state.(State.accounts) in
+    match Dict.get Z.eqb accounts address with
+    | None => inr ("immutables not found for the address " ++ HexString.of_Z address)%string
+    | Some account =>
+      match Dict.get Z.eqb account.(Account.immutables) name with
+      | None => inr ("immutable not found for the name " ++ HexString.of_Z name)%string
+      | Some value =>
+        inl (
+          value,
+          state
+        )
+      end
+    end
+  | Primitive.SetImmutable name value =>
+    let address := environment.(Environment.address) in
+    let accounts := state.(State.accounts) in
+    match Dict.assign_function Z.eqb accounts address (fun account =>
+      account <| Account.immutables := Dict.declare account.(Account.immutables) name value |>
+    ) with
+    | None => inr ("immutables not found for the address " ++ HexString.of_Z address)%string
     | Some accounts =>
       inl (
         tt,
@@ -1208,7 +1254,9 @@ Definition eval_with_revert
   end.
 
 Definition update_current_code_for_deploy (hex_name : Z) : M.t BlockUnit.t :=
-  let* tt := LowM.Primitive (Primitive.UpdateCurrentCodeForDeploy hex_name) M.pure in
+  let* environment := LowM.Primitive Primitive.GetEnvironment M.pure in
+  let address := environment.(Environment.address) in
+  let* tt := LowM.Primitive (Primitive.UpdateCodeForDeploy address hex_name) M.pure in
   M.pure BlockUnit.Tt.
 
 (** We design the testing primitives so that, in case of error, we can see what was wrong. *)
@@ -1223,59 +1271,43 @@ Module Test.
     | _ => inr result
     end.
 
+  Module Status.
+    Inductive t : Set :=
+    | Success
+    | Failure
+    | OutOfGas.
+  End Status.
+
   (** Supposed to be equal to [inl expected_output]. *)
   Definition extract_output
       (result : Result.t BlockUnit.t + string)
       (state : State.t)
-      (success : bool) :
+      (status : Status.t) :
       list Z + (Result.t BlockUnit.t + string) :=
-    if success then
+    match status with
+    | Status.Success =>
       match result with
       | inl (Result.Return start length) =>
         let output := Memory.get_bytes state.(State.memory) start length in
         inl output
       | _ => inr result
       end
-    else
+    | Status.Failure =>
       match result with
       | inl (Result.Revert start length) =>
         let output := Memory.get_bytes state.(State.memory) start length in
         inl output
       | _ => inr result
-      end.
+      end
+    | Status.OutOfGas =>
+      (* We rely on the fact that most tests that end with an "out of gas" error also make
+         an "out of fuel" error, even if these two measures of the execution steps are different. *)
+      match result with
+      | inr "out of fuel" => inl []
+      | _ => inr result
+      end
+    end.
 End Test.
 
 Definition declared_vars (state : State.t) : list (list (string * U256.t)) :=
   List.map (fun locals => locals.(Locals.variables)) state.(State.stack).
-
-(*
-Require test.libsolidity.semanticTests.various.erc20.ERC20.
-
-Definition foo_env : Environment.t := {|
-  Environment.caller := 123;
-  Environment.callvalue := 0;
-  Environment.calldata := [];
-|}.
-
-Definition foo : _ * State.t := eval 200 foo_env ERC20.ERC20_403.code Stdlib.init_state.
-
-Compute "result".
-Compute fst foo.
-
-Compute "stack length".
-Compute List.length (snd foo).(State.stack).
-
-Compute "declared_vars".
-Compute declared_vars (snd foo).
-
-Compute "logs".
-Compute (snd foo).(State.logs).
-
-Compute "loaded codes".
-Compute (snd foo).(State.loaded_codes).
-
-Compute "call stack".
-Compute (snd foo).(State.call_stack).
-
-Require test.libsolidity.semanticTests.c99_scoping_activation.test.
-*)
