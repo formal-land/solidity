@@ -312,19 +312,18 @@ Module Stdlib.
   Definition mod_ (x y : U256.t) : U256.t :=
     if y =? 0 then 0 else x mod y.
 
-  Definition smod (x y : U256.t) : U256.t :=
-    if y =? 0 then
+  Definition smod (a b : Z) : Z :=
+    let a := get_signed_value a in
+    let b := get_signed_value b in
+    if b =? 0 then
       0
     else
-      let x := get_signed_value x in
-      let y := get_signed_value y in
-      let result := x mod y in
-      result mod (2 ^ 256).
+      (Z.rem a b) mod (2 ^ 256).
 
-  (* Goal List.map (fun '(x, y) => mod_ x y)
-    [(10, 3); (10, 0); (10, 10); (-8, -3); (7, -5)] =
-    [1; 0; 0; -2; 2].
-  Proof. vm_compute. reflexivity. Qed. *)
+  Goal List.map (fun '(x, y) => smod x y)
+    [(10, 3); (10, 0); (10, 10); (2^256 -8, 2^256 -3); (7, 5); (7, 2^256 -5)] =
+    [1; 0; 0; 2^256 -2; 2; 2].
+  Proof. vm_compute. reflexivity. Qed.
 
   Definition exp (x y : U256.t) : U256.t :=
     x ^ y.

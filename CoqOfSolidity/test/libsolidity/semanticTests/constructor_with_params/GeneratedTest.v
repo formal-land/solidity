@@ -46,6 +46,11 @@ Module Constructor.
     vm_compute.
     reflexivity.
   Qed.
+
+Definition final_state : State.t :=
+  snd (
+    eval 5000 environment (update_current_code_for_deploy deployed_code.(Code.hex_name)) state
+  ).
 End Constructor.
 
 (* // i() -> 2 *)
@@ -59,15 +64,11 @@ Module Step1.
 
   Definition initial_state : State.t :=
     Stdlib.initial_state
-      <| State.accounts := Constructor.state.(State.accounts) |>
-      <| State.codes := Constructor.state.(State.codes) |>.
-
-  Definition code : M.t BlockUnit.t :=
-    do* update_current_code_for_deploy deployed_code.(Code.hex_name) in
-    deployed_code.(Code.code).
+      <| State.accounts := Constructor.final_state.(State.accounts) |>
+      <| State.codes := Constructor.final_state.(State.codes) |>.
 
   Definition result_state :=
-    eval_with_revert 5000 environment code initial_state.
+    eval_with_revert 5000 environment deployed_code.(Code.code) initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.
@@ -96,11 +97,8 @@ Module Step2.
       <| State.accounts := Step1.state.(State.accounts) |>
       <| State.codes := Step1.state.(State.codes) |>.
 
-  Definition code : M.t BlockUnit.t :=
-    deployed_code.(Code.code).
-
   Definition result_state :=
-    eval_with_revert 5000 environment code initial_state.
+    eval_with_revert 5000 environment deployed_code.(Code.code) initial_state.
 
   Definition result := fst result_state.
   Definition state := snd result_state.

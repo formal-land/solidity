@@ -190,26 +190,27 @@ Module M.
     | _ => pure output
     end).
 
-  (** We always close the scope that we opened, even if we reached some `leave` instructions or
-      similar. For that reason we write the definition in [LowM.t]. *)
+  (** We sequence the scoping with the [let_] operator rather than with [do], so that we always
+      unscope on [leave] but still keep the scope stack on [return]. *)
   Definition scope {A : Set} (e : t A) : t A :=
-    LowM.Primitive Primitive.OpenScope (fun _ =>
-    LowM.let_ e (fun output =>
-    LowM.Primitive Primitive.CloseScope (fun _ =>
-    LowM.Pure output))).
+    let_ (LowM.Primitive Primitive.OpenScope pure) (fun _ =>
+    let_ e (fun output =>
+    let_ (LowM.Primitive Primitive.CloseScope pure) (fun _ =>
+    pure output))).
 
+  (** Same as for [scope], we use [let_] for sequencing. *)
   Definition log_call_stack {A : Set}
       (name : string)
       (arguments : list string)
       (argument_values : list U256.t)
       (e : t A)
       : t A :=
-    LowM.Primitive (
-      Primitive.CallStackPush name (List.combine arguments argument_values)
+    let_ (
+      LowM.Primitive (Primitive.CallStackPush name (List.combine arguments argument_values)) pure
     ) (fun _ =>
-    LowM.let_ e (fun output =>
-    LowM.Primitive Primitive.CallStackPop (fun _ =>
-    LowM.Pure output))).
+    let_ e (fun output =>
+    let_ (LowM.Primitive Primitive.CallStackPop pure) (fun _ =>
+    pure output))).
 
   Definition expr_stmt (_ : list U256.t) : t BlockUnit.t :=
     pure BlockUnit.Tt.

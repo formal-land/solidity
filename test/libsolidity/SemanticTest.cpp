@@ -792,6 +792,11 @@ bool SemanticTest::deploy(
 	outputFile << "    vm_compute." << std::endl;
 	outputFile << "    reflexivity." << std::endl;
 	outputFile << "  Qed." << std::endl;
+	outputFile << std::endl;
+	outputFile << "Definition final_state : State.t :=" << std::endl;
+	outputFile << "  snd (" << std::endl;
+	outputFile << "    eval 5000 environment (update_current_code_for_deploy deployed_code.(Code.hex_name)) state" << std::endl;
+	outputFile << "  )." << std::endl;
 	outputFile << "End Constructor." << std::endl;
 
 	// Close the output file
@@ -853,22 +858,15 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << std::endl;
 	std::string initialState =
 		testIndex == 0 ?
-			"Constructor.state" :
+			"Constructor.final_state" :
 			"Step" + std::to_string(testIndex) + ".state";
 	outputFile << "  Definition initial_state : State.t :=" << std::endl;
 	outputFile << "    Stdlib.initial_state" << std::endl;
 	outputFile << "      <| State.accounts := " << initialState << ".(State.accounts) |>" << std::endl;
 	outputFile << "      <| State.codes := " << initialState << ".(State.codes) |>." << std::endl;
 	outputFile << std::endl;
-	outputFile << "  Definition code : M.t BlockUnit.t :=" << std::endl;
-	if (testIndex == 0)
-	{
-		outputFile << "    do* update_current_code_for_deploy deployed_code.(Code.hex_name) in" << std::endl;
-	}
-	outputFile << "    deployed_code.(Code.code)." << std::endl;
-	outputFile << std::endl;
 	outputFile << "  Definition result_state :=" << std::endl;
-	outputFile << "    eval_with_revert 5000 environment code initial_state." << std::endl;
+	outputFile << "    eval_with_revert 5000 environment deployed_code.(Code.code) initial_state." << std::endl;
 	outputFile << std::endl;
 	outputFile << "  Definition result := fst result_state." << std::endl;
 	outputFile << "  Definition state := snd result_state." << std::endl;
@@ -877,6 +875,7 @@ void SemanticTest::writeCoqCallTest(
 	outputFile << "    Memory.hex_string_as_bytes \"" << util::toHex(_output) << "\"." << std::endl;
 	outputFile << std::endl;
 	std::string status = expectations.failure ? "Failure" : "Success";
+	// These three kinds of comments can appear in the expectations
 	if (
 		expectations.comment == " Out-of-gas " ||
 		expectations.comment == " out-of-gas " ||
