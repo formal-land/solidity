@@ -1155,24 +1155,20 @@ Fixpoint eval {A : Set}
     end
   end.
 
-(* Module Run.
+Module Run.
   Reserved Notation "{{ environment , state | e ⇓ output | state' }}"
     (at level 70, no associativity).
 
   Inductive t {A : Set} (environment : Environment.t) (state : State.t) (output : A) :
       LowM.t A -> State.t -> Prop :=
   | Pure : {{ environment, state | LowM.Pure output ⇓ output | state }}
-  | Primitive {B : Set} (primitive : Primitive.t B) (k : B -> LowM.t A) state' :
-    let value_state_inter := eval_primitive environment primitive state in
-    (* Because we are not allowed to destructure a value in an inductive definition, so we use
-       the [fst] and [snd] functions instead of a pattern. *)
-    let value := fst value_state_inter in
-    let state_inter := snd value_state_inter in
+  | Primitive {B : Set} (primitive : Primitive.t B) (k : B -> LowM.t A) value state_inter state' :
+    inl (value, state_inter) = eval_primitive environment primitive state ->
     {{ environment, state_inter | k value ⇓ output | state' }} ->
     {{ environment, state | LowM.Primitive primitive k ⇓ output | state' }}
-  | DeclareFunction name body k state' :
-    let state_inter :=
-      state <| State.stack := Stack.declare_function state.(State.stack) name body |> in
+  | DeclareFunction name body k stack_inter state' :
+    inl stack_inter = Stack.declare_function state.(State.stack) name body ->
+    let state_inter := state <| State.stack := stack_inter |> in
     {{ environment, state_inter | k ⇓ output | state' }} ->
     {{ environment, state | LowM.DeclareFunction name body k ⇓ output | state' }}
   | CallFunction name arguments k results state_inter state' :
@@ -1189,7 +1185,7 @@ Fixpoint eval {A : Set}
     (t environment state output e state').
 End Run.
 
-Import Run. *)
+Import Run.
 
 (** The [eval] function follows the semantics given by [Run.t]. *)
 (* Fixpoint eval_is_run {A : Set}
