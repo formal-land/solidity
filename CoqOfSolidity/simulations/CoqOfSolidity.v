@@ -1256,7 +1256,7 @@ Definition update_current_code_for_deploy (hex_name : Z) : M.t BlockUnit.t :=
 
 (** We design the testing primitives so that, in case of error, we can see what was wrong. *)
 Module Test.
-  (** Supposed to be equal to [None]. *)
+  (** Supposed to be equal to [inl]. *)
   Definition is_return (result : Result.t BlockUnit.t + string) (state : State.t) :
       list Z + (Result.t BlockUnit.t + string) :=
     match result with
@@ -1273,7 +1273,7 @@ Module Test.
     | OutOfGas.
   End Status.
 
-  (** Supposed to be equal to [inl expected_output]. *)
+  (** Supposed to be equal to [inl]. *)
   Definition extract_output
       (result : Result.t BlockUnit.t + string)
       (state : State.t)
