@@ -6,7 +6,7 @@
 # Display the commands being run.
 set -x
 
-coqc -R . CoqOfSolidity -impredicative-set CoqOfSolidity.v
-coqc -R . CoqOfSolidity -impredicative-set test/libsolidity/semanticTests/constructor/bytes_in_constructors_unpacker/Test.v
-coqc -R . CoqOfSolidity -impredicative-set simulations/CoqOfSolidity.v
-coqc -R . CoqOfSolidity -impredicative-set test/libsolidity/semanticTests/constructor/bytes_in_constructors_unpacker/GeneratedTest.v
+#coqc -R . CoqOfSolidity -impredicative-set CoqOfSolidity.v
+#coqc -R . CoqOfSolidity -impredicative-set test/libsolidity/semanticTests/various/erc20/ERC20.v
+#coqc -R . CoqOfSolidity -impredicative-set simulations/CoqOfSolidity.v
+coqc -R . CoqOfSolidity -impredicative-set simulations/erc20.v

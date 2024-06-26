@@ -1,6 +1,10 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 Require Import simulations.CoqOfSolidity.
 
+Require Import test.libsolidity.semanticTests.various.erc20.ERC20.
+
+Import Run.
+
 Module Address.
   Definition t : Set :=
     U256.t.
@@ -12,6 +16,12 @@ Module State.
     allowances : Address.t -> Address.t -> U256.t;
     total_supply : U256.t;
   }.
+
+  Definition init : t := {|
+    balances := fun _ => 0;
+    allowances := fun _ _ => 0;
+    total_supply := 0;
+  |}.
 End State.
 
 Definition constructor (sender : Address.t) : State.t :=
@@ -24,6 +34,37 @@ Definition constructor (sender : Address.t) : State.t :=
     State.allowances := fun _ _ => 0;
     State.total_supply := 20;
   |}.
+
+Parameter contract_address : Address.t.
+
+Definition get_environment (sender : Address.t) : Environment.t := {|
+  Environment.caller := sender;
+  Environment.callvalue := 0;
+  Environment.calldata := [];
+  Environment.address := contract_address;
+|}.
+
+Parameter get_storage : forall (state : State.t), Storage.t.
+
+Definition get_state (state : State.t) : CoqOfSolidity.State.t :=
+  let account := {|
+    Account.balance := 0;
+    Account.nonce := 0;
+    Account.code := ERC20.deployed.code.(Code.hex_name);
+    Account.codedata := [];
+    Account.storage := get_storage state;
+    Account.immutables := [];
+  |} in
+  Stdlib.initial_state
+    <| State.accounts := [(contract_address, account)] |>
+    <| State.codes := ERC20.codes |>.
+
+Lemma run_constructor (sender : Address.t) :
+  let environment := get_environment sender in
+  let state := get_state State.init in
+  {{ environment, state |
+    ERC20.code.(Code.code) ⇓ Result.Return ERC20.code.(Code.hex_name) 32
+  | get_state (constructor sender) }}.
 
 Definition totalSupply (s : State.t) : U256.t :=
   s.(State.total_supply).
