@@ -3,14 +3,16 @@
 
 _Disclaimer: work in progress on the proofs side_
 
-Formal verification is about verifying code for all possible inputs. It goes further than traditional testing that only covers a finite amount of cases. Formal verification relies on using mathematical methods to analyze the code.
+The `coq-of-solidity` project is a tool to automatically translate Solidity smart contracts to the Coq proof system. This allows to formally verify the correctness of the smart contracts.
 
-Formal verification provides:
+Formal verification is about verifying code for all possible input, and goes further than traditional testing that only covers a finite amount of cases. Formal verification relies on mathematical methods to analyze the code.
+
+This project provides:
 
 1. **More security for code audits:** all the combination of inputs are covered, in contrast to testing.
 2. **Reusable audits** for future code changes: we can re-run the proofs as the code evolves.
 
-The `coq-of-solidity` project is open-source and uses the interactive theorem prover Coq to check arbitrarily complex properties of Solidity smart contracts.
+The `coq-of-solidity` tool is open-source and uses an interactive theorem prover (Coq) to be able to check arbitrarily complex code properties and business rules.
 
 ## 🙏 Thanks
 
