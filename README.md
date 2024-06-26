@@ -57,3 +57,105 @@ To prevent mistakes in our Coq definitions, we also translate the `semanticTests
 ## 📝 License
 
 The code of the translation is under the GPL-3.0 license as this is a fork of the Solidity compiler. The code of the Coq semantics is under the MIT license.
+
+## 📚 Example
+
+The following Solidity code:
+
+```solidity
+function balanceOf(address owner) public view returns (uint256) {
+  return _balances[owner];
+}
+```
+
+translates in Coq to:
+
+```coq
+M.function (|
+  "fun_balanceOf",
+  ["var_owner"],
+  ["var"],
+  M.scope (
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["zero_t_uint256"],
+        Some (M.call (|
+          "zero_value_for_split_uint256",
+          []
+        |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.assign (|
+        ["var"],
+        Some (M.get_var (| "zero_t_uint256" |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["_28_slot"],
+        Some ([Literal.number 0x00])
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["expr_54_slot"],
+        Some (M.get_var (| "_28_slot" |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["_1"],
+        Some (M.get_var (| "var_owner" |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["expr"],
+        Some (M.get_var (| "_1" |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["_2"],
+        Some (M.call (|
+          "mapping_index_access_mapping_address_uint256_of_address",
+          [
+            M.get_var (| "expr_54_slot" |);
+            M.get_var (| "expr" |)
+          ]
+        |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["_3"],
+        Some (M.call (|
+          "read_from_storage_split_offset_uint256",
+          [
+            M.get_var (| "_2" |)
+          ]
+        |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.declare (|
+        ["expr_1"],
+        Some (M.get_var (| "_3" |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.assign (|
+        ["var"],
+        Some (M.get_var (| "expr_1" |))
+      |)
+    )) in
+    do* ltac:(M.monadic (
+      M.leave (||)
+    )) in
+    M.pure BlockUnit.Tt
+  )
+|)
+```
+
+The output is much more verbose and must be simplified in a first proof step.
