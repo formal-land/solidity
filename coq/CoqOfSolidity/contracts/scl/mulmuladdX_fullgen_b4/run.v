@@ -1,8 +1,8 @@
 Require Import CoqOfSolidity.CoqOfSolidity.
 Require Import CoqOfSolidity.proofs.CoqOfSolidity.
 Require Import CoqOfSolidity.simulations.CoqOfSolidity.
-Require Import CoqOfSolidity.contracts.scl.mulmuladdX_fullgen_b4.contract_shallow.
 Require Import CoqOfSolidity.contracts.scl.mulmuladdX_fullgen_b4.curve.
+Require Import CoqOfSolidity.contracts.scl.mulmuladdX_fullgen_b4.shallow.
 Import Stdlib.
 Import RunO.
 
