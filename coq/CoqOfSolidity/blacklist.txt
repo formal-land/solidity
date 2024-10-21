@@ -1,0 +1,3 @@
+contracts/erc20/proofs/contract.v
+contracts/erc20/shallow.v
+contracts/morpho/morpho_functional.v
