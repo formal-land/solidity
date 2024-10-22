@@ -2,9 +2,7 @@
 
 In this folder is our formal verification project to verify the correctness of the library [Smoo.th](https://smoo.th/). This is still an ongoing work. You can find the code we are verifying on [github.com/get-smooth/crypto-lib/blob/main/src/elliptic/SCL_mulmuladdX_fullgen_b4.sol](https://github.com/get-smooth/crypto-lib/blob/main/src/elliptic/SCL_mulmuladdX_fullgen_b4.sol).
 
-## 🔍 What
-
-### 📚 Library
+## 📚 Library
 
 The Smoo.th library is an optimized implementation in [Solidity](https://soliditylang.org/) of the [elliptic curve](https://en.wikipedia.org/wiki/Elliptic_curve) operations of addition and scalar multiplication, which are at the basis of most of the authentication algorithms in the blockchain or the Web2 space. The code is carefully optimized by hand using:
 
@@ -15,7 +13,7 @@ The [audit report from CryptoExperts](https://github.com/get-smooth/crypto-lib/b
 
 When looking exclusively at [SCL_mulmuladdX_fullgen_b4.sol](https://github.com/get-smooth/crypto-lib/blob/main/src/elliptic/SCL_mulmuladdX_fullgen_b4.sol) (there is also [SCL_mulmuladdX_fullgenW.sol](https://github.com/get-smooth/crypto-lib/blob/main/src/elliptic/SCL_mulmuladdX_fullgenW.sol) giving a similar implementation), the library is composed of one main function composed of more than 200 lines of Yul code. We want to show that all this code is equivalent to the basic but unoptimized implementation of the elliptic curve operations (addition and scalar multiplication).
 
-### ✅ Formal verification
+## ✅ Formal verification
 
 Our verification is not complete as of today. We have verified the following:
 
