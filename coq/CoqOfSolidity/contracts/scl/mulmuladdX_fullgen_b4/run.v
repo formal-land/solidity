@@ -330,25 +330,43 @@ Module MostSignificantBit.
      destructuring [index]. *)
   Reserved Notation "'get".
 
-  Fixpoint get_aux (u_low u_high v_low v_high : U256.t) (index : nat) {struct index} :
+  (* Fixpoint get_aux (u_low u_high v_low v_high : U256.t) (over_index : nat) {struct over_index} :
       PointsSelector.t * nat :=
-    match index with
+    match over_index with
     | O =>
       (* we should never reach this case if the values are not all zero *)
-      let impossible_case := (PointsSelector.Build_t false false false false, index) in
+      let impossible_case := (PointsSelector.Build_t false false false false, O) in
       impossible_case
-    | S index' => 'get u_low u_high v_low v_high index'
+    | S index => 'get u_low u_high v_low v_high index
     end
 
     where "'get" := (fun u_low u_high v_low v_high index =>
       let selector := HighLow.get_selector u_low u_high v_low v_high (Z.of_nat index) in
       if PointsSelector.is_zero selector then
-        get_aux u_low u_high v_low v_high index
+        let new_over_index := index in
+        get_aux u_low u_high v_low v_high new_over_index
       else
-        (selector, index)
+        let next_over_index := index in
+        (selector, next_over_index)
     ).
 
-    Definition get := 'get.
+    Definition get := 'get. *)
+
+    Fixpoint get (u_low u_high v_low v_high : U256.t) (over_index : nat) :
+      PointsSelector.t * nat :=
+      match over_index with
+      | O =>
+        (* we should never reach this case if the values are not all zero *)
+        (PointsSelector.Build_t false false false false, O)
+      | S index =>
+        let selector := HighLow.get_selector u_low u_high v_low v_high (Z.of_nat index) in
+        if PointsSelector.is_zero selector then
+          let new_over_index := index in
+          get u_low u_high v_low v_high new_over_index
+        else
+          let next_over_index := index in
+          (selector, next_over_index)
+      end.
 
   (** The [index] corresponds to the mask's bit position *)
   (* Fixpoint get_until (u_low u_high v_low v_high : U256.t)
@@ -718,19 +736,19 @@ Proof.
       match goal with
       | |- context[RunO.t _ _ _ ?state _ _] => set (current_state := state)
       end.
-      set (over_index := 128%nat).
-      apply RunO.Let with
-          (output_inter := Result.Ok (BlockUnit.Tt,
-            let '(selector, index) :=
-              MostSignificantBit.get u_low u_high v_low v_high 127 in
-            (PointsSelector.to_Z selector, Z.of_nat index)
-          ))
-          (state_inter := current_state). {
-        set (mask_of_over_index := fun (over_index : nat) =>
+      set (next_over_index := 128%nat).
+      set (mask_of_over_index := fun (over_index : nat) =>
           (2 ^ Z.of_nat over_index) / 2
         ).
-        set (body := fun selector over_index =>
-          let mask := mask_of_over_index over_index in
+      apply RunO.Let with
+          (output_inter := Result.Ok (BlockUnit.Tt,
+            let '(selector, next_over_index) :=
+              MostSignificantBit.get u_low u_high v_low v_high (S 127) in
+            (PointsSelector.to_Z selector, mask_of_over_index next_over_index)
+          ))
+          (state_inter := current_state). {
+        set (body := fun selector next_over_index =>
+          let mask := mask_of_over_index next_over_index in
           if selector =? 0 then
             let selector := HighLow.get_raw_selector u v mask in
             let mask := mask / 2 in
@@ -738,11 +756,17 @@ Proof.
           else
             (BlockUnit.Break, (selector, mask))
         ).
-        set (mask := mask_of_over_index over_index).
-        change 170141183460469231731687303715884105728 with mask.
-        set (selector := HighLow.get_raw_selector u v (mask_of_over_index (S over_index))).
-        assert (H_first_selctor_is_zero : selector = 0) by admit.
-        replace 0 with selector in |- * by assumption.
+        set (next_mask := mask_of_over_index next_over_index).
+        change 170141183460469231731687303715884105728 with next_mask.
+        set (selector_of_over_index := fun over_index =>
+          HighLow.get_raw_selector u v (mask_of_over_index over_index)
+        ).
+        set (selector := selector_of_over_index (S next_over_index)).
+        replace 0 with selector in |- *. 2: {
+          unfold selector.
+          unfold next_over_index.
+          admit.
+        }
         (*
         (* We will unroll the loop 127 times! *)
         eapply RunO.LoopStep with
@@ -750,10 +774,10 @@ Proof.
           (state_inter := current_state).
         *)
         assert (H_was_zero_before :
-          MostSignificantBit.get u_low u_high v_low v_high 127 =
-          MostSignificantBit.get u_low u_high v_low v_high (Nat.pred over_index)
-        ) by reflexivity.
-        induction over_index; intros.
+          MostSignificantBit.get u_low u_high v_low v_high (S 127) =
+          MostSignificantBit.get u_low u_high v_low v_high (S next_over_index)
+        ) by admit.
+        induction next_over_index as [|next_over_index']; intros.
         { (* Base case *)
           (* We admit that we must terminate, so that this case is not reachable. *)
           admit.
@@ -767,7 +791,7 @@ Proof.
         }
         { (* Inductive case *)
           eapply RunO.LoopStep with
-            (output_inter := Result.Ok (body selector (S over_index)))
+            (output_inter := Result.Ok (body selector (S next_over_index')))
             (state_inter := current_state).
           { lu; cu.
             s.
@@ -776,31 +800,85 @@ Proof.
             { l. {
                 load_store_line.
               }
-              fold (HighLow.get_raw_selector u v mask).
+              fold (HighLow.get_raw_selector u v next_mask).
               lu; cu; p.
             }
             { p. }
           }
-          { unfold body, MostSignificantBit.get.
-            change (Nat.pred (S over_index)) with over_index.
+          { unfold body.
             destruct (selector =? 0) eqn:H_selector_eq in |- *.
             { (* We continue the loop *)
-              unfold Shallow.for_ in IHover_index.
-              replace (mask_of_over_index (S over_index) / 2)
-                with (mask_of_over_index over_index). 2: {
+              unfold Shallow.for_ in IHnext_over_index'.
+              replace (mask_of_over_index (S next_over_index') / 2)
+                with (mask_of_over_index next_over_index'). 2: {
                 unfold mask_of_over_index.
-                replace (Z.of_nat (S over_index)) with (1 + Z.of_nat over_index) by lia.
+                replace (Z.of_nat (S next_over_index')) with (1 + Z.of_nat next_over_index') by lia.
                 rewrite Zpower_exp by lia.
                 lia.
               }
-              apply IHover_index.
+              apply IHnext_over_index'.
+              rewrite H_was_zero_before.
+              unfold selector in H_selector_eq.
+              set (next_over_index := S next_over_index') in *.
+              unfold MostSignificantBit.get at 1; fold MostSignificantBit.get.
+              unfold selector_of_over_index, mask_of_over_index in H_selector_eq.
+              replace (Z.of_nat (S next_over_index))
+                with (1 + Z.of_nat next_over_index)
+                in H_selector_eq
+                by lia.
+              rewrite Zpower_exp in H_selector_eq by lia.
+              replace (2 ^ 1 * 2 ^ Z.of_nat next_over_index / 2)
+                with (2 ^ Z.of_nat next_over_index)
+                in H_selector_eq
+                by lia.
+              rewrite PointsSelector.is_zero_to_Z_eq.
+              rewrite HighLow.get_selector_eq by (try assumption; admit).
+              unfold u, v in H_selector_eq.
+              now rewrite H_selector_eq.
+
+              (* rewrite PointsSelector.is_zero_to_Z_eq.
+              rewrite HighLow.get_selector_eq by (try assumption; admit).
+              (* rewrite H_selector_eq. *)
+              unfold selector_of_over_index in H_selector_eq.
+              replace (Z.of_nat (S (S next_over_index')))
+                with (1 + Z.of_nat (S next_over_index'))
+                in H_selector_eq
+                by lia.
+              rewrite Zpower_exp in H_selector_eq by lia.
+              unfold u, v in H_selector_eq.
+              replace (2 ^ 1 * 2 ^ Z.of_nat (S next_over_index') / 2)
+                with (2 ^ Z.of_nat (S next_over_index'))
+                in H_selector_eq
+                by lia.
+              rewrite H_selector_eq.
+              reflexivity. *)
             }
             { (* We stop the loop *)
-              unfold selector in *.
+              rewrite H_was_zero_before.
+              set (next_over_index := S next_over_index') in *.
+              unfold selector, selector_of_over_index in *.
+              unfold MostSignificantBit.get; fold MostSignificantBit.get.
               rewrite PointsSelector.is_zero_to_Z_eq.
-              rewrite HighLow.get_selector_eq by (try assumption; lia).
-              pe; repeat f_equal.
+              rewrite HighLow.get_selector_eq by (try assumption; admit).
+              unfold u, v in H_selector_eq |- *.
+              replace (2 ^ Z.of_nat next_over_index)
+                with (mask_of_over_index (S next_over_index)). 2: {
+                unfold mask_of_over_index.
+                replace (Z.of_nat (S next_over_index)) with (1 + Z.of_nat next_over_index) by lia.
+                rewrite Zpower_exp by lia.
+                lia.
+              }
+              rewrite H_selector_eq.
+              rewrite HighLow.get_selector_eq by (try assumption; admit).
+              pe; repeat f_equal; try reflexivity.
+              unfold mask_of_over_index.
+              replace (Z.of_nat (S next_over_index)) with (1 + Z.of_nat next_over_index) by lia.
+              rewrite Zpower_exp by lia.
+              lia.
             }
+          }
+        }
+      }
             unfold selector.
             rewrite <- HighLow.get_selector_eq by (try assumption; admit).
             destruct (Pure.iszero previous_selector =? 0) eqn:H_previous_selector.
