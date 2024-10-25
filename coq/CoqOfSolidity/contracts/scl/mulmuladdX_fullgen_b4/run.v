@@ -174,6 +174,15 @@ Module PointsSelector.
     let 'Build_t u_low u_high v_low v_high := selector in
     Z.b2z u_low + 2 * Z.b2z u_high + 4 * Z.b2z v_low + 8 * Z.b2z v_high.
 
+  Lemma is_zero_to_Z_eq (selector : t) :
+    is_zero selector =
+    (to_Z selector =? 0).
+  Proof.
+    destruct selector as [u_low u_high v_low v_high].
+    unfold is_zero, to_Z.
+    now destruct u_low, u_high, v_low, v_high.
+  Qed.
+
   (** We make explicit the list of points that we add to be sure to be in the same order as in the
     source code. *)
   Definition get_points (p : U256.t) (Q Q' G G' : PA.t) (selector : PointsSelector.t) :
@@ -263,7 +272,7 @@ Module HighLow.
     lia.
   Qed.
 
-  Definition raw_get_selector (u v mask : U256.t) : U256.t :=
+  Definition get_raw_selector (u v mask : U256.t) : U256.t :=
     Pure.add
       (Pure.add
         (Pure.sub 1 (Pure.iszero (Pure.and u mask)))
@@ -289,9 +298,9 @@ Module HighLow.
       (H_v_high : U128.Valid.t v_high)
       (H_index : 0 <= index < 128) :
     PointsSelector.to_Z (get_selector u_low u_high v_low v_high index) =
-    raw_get_selector (merge u_high u_low) (merge v_high v_low) (2 ^ index).
+    get_raw_selector (merge u_high u_low) (merge v_high v_low) (2 ^ index).
   Proof.
-    unfold PointsSelector.to_Z, raw_get_selector, get_selector, merge.
+    unfold PointsSelector.to_Z, get_raw_selector, get_selector, merge.
     unfold Pure.and, Pure.add, Pure.sub, Pure.iszero, Pure.shl, Pure.shr.
     unfold U128.Valid.t in *.
     assert (H_land_eq :
@@ -317,37 +326,56 @@ Module HighLow.
 End HighLow.
 
 Module MostSignificantBit.
-  Fixpoint get (u_low u_high v_low v_high : U256.t) (index : nat) :
-      option PointsSelector.t :=
-    let selector := HighLow.get_selector u_low u_high v_low v_high (Z.of_nat index) in
-    if PointsSelector.is_zero selector then
+  (* We define [get] together with a notation to enable a beginning of reduction without
+     destructuring [index]. *)
+  Reserved Notation "'get".
+
+  Fixpoint get_aux (u_low u_high v_low v_high : U256.t) (index : nat) {struct index} :
+      PointsSelector.t * nat :=
+    match index with
+    | O =>
+      (* we should never reach this case if the values are not all zero *)
+      let impossible_case := (PointsSelector.Build_t false false false false, index) in
+      impossible_case
+    | S index' => 'get u_low u_high v_low v_high index'
+    end
+
+    where "'get" := (fun u_low u_high v_low v_high index =>
+      let selector := HighLow.get_selector u_low u_high v_low v_high (Z.of_nat index) in
+      if PointsSelector.is_zero selector then
+        get_aux u_low u_high v_low v_high index
+      else
+        (selector, index)
+    ).
+
+    Definition get := 'get.
+
+  (** The [index] corresponds to the mask's bit position *)
+  (* Fixpoint get_until (u_low u_high v_low v_high : U256.t)
+      (previous_selector : PointsSelector.t)
+      (index until_index : nat) {struct index} :
+      bool * (PointsSelector.t * nat) :=
+    if PointsSelector.is_zero previous_selector then
+      let selector := HighLow.get_selector u_low u_high v_low v_high (Z.of_nat index) in
       match index with
-      | O => None (* we should never reach this case is the values are not all zero *)
-      | S index' => get u_low u_high v_low v_high index'
+      | O =>
+        let impossible_case := (false, (previous_selector, index)) in
+        impossible_case
+      | S index =>
+        if (index =? until_index)%nat then
+          (false, (selector, index))
+        else
+          get_until u_low u_high v_low v_high selector index until_index
       end
     else
-      Some selector.
+      (true, (previous_selector, index)). *)
 
-  Fixpoint get_until (u_low u_high v_low v_high : U256.t) (index until_index : nat) :
-      option PointsSelector.t :=
-    if (index <? until_index)%nat then
-      None
-    else
-    let selector := HighLow.get_selector u_low u_high v_low v_high (Z.of_nat index) in
-    if PointsSelector.is_zero selector then
-      match index with
-      | O => None
-      | S index' => get_until u_low u_high v_low v_high index' until_index
-      end
-    else
-      Some selector.
-
-  Lemma get_until_eq (u_low u_high v_low v_high : U256.t) (index : nat) :
+  (* Lemma get_until_eq (u_low u_high v_low v_high : U256.t) (index : nat) :
     get_until u_low u_high v_low v_high index 0 =
     get u_low u_high v_low v_high index.
   Proof.
     induction index; cbn; hauto lq: on.
-  Qed.
+  Qed. *)
 End MostSignificantBit.
 
 Ltac load_store_line :=
@@ -457,15 +485,15 @@ Proof.
     apply_run_mload.
 Qed.
 
-Lemma run_zero_value_for_split_t_uint256 codes environment state :
-  {{? codes, environment, state |
-    Contract_91.Contract_91_deployed.zero_value_for_split_t_uint256 ⇓
-    Result.Ok 0
-  | state ?}}.
-Proof.
-  unfold Contract_91.Contract_91_deployed.zero_value_for_split_t_uint256.
-  repeat lu; p.
-Qed.
+Definition fun_ecGenMulmuladdX_store_90 (params : Params.t) (u_low u_high v_low v_high : U128.t) :
+    option U256.t :=
+  let u := HighLow.merge u_high u_low in
+  let v := HighLow.merge v_high v_low in
+  if (u =? 0) && (v =? 0) then
+    None
+  else Some (
+    0
+  ).
 
 Lemma run_fun_ecGenMulmuladdX_store_2814 codes environment state
     (
@@ -473,7 +501,7 @@ Lemma run_fun_ecGenMulmuladdX_store_2814 codes environment state
       mem11 mem12 mem13 mem14 :
       U256.t
     )
-    (Q Q' G G' : PA.t) (p a : Z) (u_low u_high v_low v_high : U256.t)
+    (Q Q' G G' : PA.t) (p a : Z) (u_low u_high v_low v_high : U128.t)
     (H_u_low : U128.Valid.t u_low)
     (H_u_high : U128.Valid.t u_high)
     (H_v_low : U128.Valid.t v_low)
@@ -515,15 +543,21 @@ Lemma run_fun_ecGenMulmuladdX_store_2814 codes environment state
     [1; 2; 3; 4; 5; 6] in
   let state_end :=
     make_state environment state memory_end [] in
-  (* let output := sim_fun_ecGenMulmuladdX_store_2814_beginning Q scalar_u scalar_v in *)
-  let output := Result.Ok 12 in
+  let output := fun_ecGenMulmuladdX_store_90 params u_low u_high v_low v_high in
   {{? codes, environment, Some state_start |
     Contract_91.Contract_91_deployed.fun_ecGenMulmuladdX_store_90 params_offset u v ⇓
-    output
-  | Some state_end ?}}.
+    match output with
+    | Some output => Result.Ok output
+    | None => Result.Revert 0 0
+    end
+  | match output with
+    | Some _ => Some state_end
+    | None => None
+    end ?}}.
 Proof.
   intros u v; simpl.
   unfold Contract_91.Contract_91_deployed.fun_ecGenMulmuladdX_store_90.
+  unfold fun_ecGenMulmuladdX_store_90.
   l. {
     l. {
       repeat (cu || lu); p.
@@ -681,9 +715,121 @@ Proof.
         p.
       }
       (* For loop for the most significant bit *)
+      match goal with
+      | |- context[RunO.t _ _ _ ?state _ _] => set (current_state := state)
+      end.
+      set (over_index := 128%nat).
+      apply RunO.Let with
+          (output_inter := Result.Ok (BlockUnit.Tt,
+            let '(selector, index) :=
+              MostSignificantBit.get u_low u_high v_low v_high 127 in
+            (PointsSelector.to_Z selector, Z.of_nat index)
+          ))
+          (state_inter := current_state). {
+        set (mask_of_over_index := fun (over_index : nat) =>
+          (2 ^ Z.of_nat over_index) / 2
+        ).
+        set (body := fun selector over_index =>
+          let mask := mask_of_over_index over_index in
+          if selector =? 0 then
+            let selector := HighLow.get_raw_selector u v mask in
+            let mask := mask / 2 in
+            (BlockUnit.Tt, (selector, mask))
+          else
+            (BlockUnit.Break, (selector, mask))
+        ).
+        set (mask := mask_of_over_index over_index).
+        change 170141183460469231731687303715884105728 with mask.
+        set (selector := HighLow.get_raw_selector u v (mask_of_over_index (S over_index))).
+        assert (H_first_selctor_is_zero : selector = 0) by admit.
+        replace 0 with selector in |- * by assumption.
+        (*
+        (* We will unroll the loop 127 times! *)
+        eapply RunO.LoopStep with
+          (output_inter := Result.Ok (body selector (S 127)))
+          (state_inter := current_state).
+        *)
+        assert (H_was_zero_before :
+          MostSignificantBit.get u_low u_high v_low v_high 127 =
+          MostSignificantBit.get u_low u_high v_low v_high (Nat.pred over_index)
+        ) by reflexivity.
+        induction over_index; intros.
+        { (* Base case *)
+          (* We admit that we must terminate, so that this case is not reachable. *)
+          admit.
+          (* eapply RunO.LoopStep.
+          { repeat (cu || lu). pe. }
+          { fold (HighLow.get_raw_selector u v (2 ^ Z.of_nat 0)).
+            unfold u, v.
+            rewrite <- HighLow.get_selector_eq by (try assumption; lia).
+            admit.
+          } *)
+        }
+        { (* Inductive case *)
+          eapply RunO.LoopStep with
+            (output_inter := Result.Ok (body selector (S over_index)))
+            (state_inter := current_state).
+          { lu; cu.
+            s.
+            unfold body, Pure.iszero.
+            destruct (selector =? 0) in |- *.
+            { l. {
+                load_store_line.
+              }
+              fold (HighLow.get_raw_selector u v mask).
+              lu; cu; p.
+            }
+            { p. }
+          }
+          { unfold body, MostSignificantBit.get.
+            change (Nat.pred (S over_index)) with over_index.
+            destruct (selector =? 0) eqn:H_selector_eq in |- *.
+            { (* We continue the loop *)
+              unfold Shallow.for_ in IHover_index.
+              replace (mask_of_over_index (S over_index) / 2)
+                with (mask_of_over_index over_index). 2: {
+                unfold mask_of_over_index.
+                replace (Z.of_nat (S over_index)) with (1 + Z.of_nat over_index) by lia.
+                rewrite Zpower_exp by lia.
+                lia.
+              }
+              apply IHover_index.
+            }
+            { (* We stop the loop *)
+              unfold selector in *.
+              rewrite PointsSelector.is_zero_to_Z_eq.
+              rewrite HighLow.get_selector_eq by (try assumption; lia).
+              pe; repeat f_equal.
+            }
+            unfold selector.
+            rewrite <- HighLow.get_selector_eq by (try assumption; admit).
+            destruct (Pure.iszero previous_selector =? 0) eqn:H_previous_selector.
+            { admit. }
+            { admit. }
+            fold (HighLow.get_raw_selector u v (2 ^ Z.of_nat (S index))).
+            unfold u, v.
+            rewrite <- HighLow.get_selector_eq by (try assumption; admit).
+            replace (Pure.shr 1 (2 ^ Z.of_nat (S index))) with (2 ^ Z.of_nat index) by admit.
+          }
+        }
+        revert index.
+        eapply RunO.LoopStep.
+        { 
+
+        }
+      }
       l. {
+
+        eapply RunO.LoopStep. {
+
+        } with
+          (output_inter := MostSignificantBit.get_until
+            u_low u_high v_low v_high
+            (PointsSelector.Build_t false false false false)
+            127 0).
+          ).
         eapply RunO.LoopOneStepUnsafe with (default_output := Result.Ok (BlockUnit.Tt, (
-          HighLow.raw_get_selector u v (2 ^ 127),
+          HighLow.get_raw_selector u v (2 ^ 127),
           2 ^ 126
         ))). {
           l. {
@@ -738,7 +884,7 @@ Proof.
             load_store_line.
             match goal with
             | |- context[Stdlib.iszero ?selector] =>
-              change selector with (HighLow.raw_get_selector u v (2 ^ 126))
+              change selector with (HighLow.get_raw_selector u v (2 ^ 126))
             end.
             l. {
               c; [p|].
@@ -751,7 +897,7 @@ Proof.
             }
             load_store_line.
             2: {
-              unfold HighLow.raw_get_selector.
+              unfold HighLow.get_raw_selector.
             }
             l. {
 
@@ -968,7 +1114,7 @@ Proof.
         apply_memory_update_at mask_address (2 ^ 126). {
           reflexivity.
         }
-        apply_memory_update_at ZZZ_address (HighLow.raw_get_selector u v (2 ^ 127)). {
+        apply_memory_update_at ZZZ_address (HighLow.get_raw_selector u v (2 ^ 127)). {
           reflexivity.
         }
         p.
@@ -1021,7 +1167,7 @@ Proof.
                 apply_run_mload ||
                 p
               |]).
-              change (Result.Ok _) with (Result.Ok (HighLow.raw_get_selector u v (2 ^ 126))).
+              change (Result.Ok _) with (Result.Ok (HighLow.get_raw_selector u v (2 ^ 126))).
               unfold u, v.
               rewrite <- HighLow.get_selector_eq by (try assumption; lia).
               p.
