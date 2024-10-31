@@ -732,6 +732,7 @@ Proof.
       l. {
         p.
       }
+      change (Pure.add 0 2048) with 2048.
       (* For loop for the most significant bit *)
       match goal with
       | |- context[RunO.t _ _ _ ?state _ _] => set (current_state := state)
@@ -763,31 +764,38 @@ Proof.
         ).
         set (selector := selector_of_over_index (S next_over_index)).
         replace 0 with selector in |- *. 2: {
-          unfold selector.
-          unfold next_over_index.
+          unfold selector, next_over_index, selector_of_over_index, mask_of_over_index.
           admit.
         }
-        (*
-        (* We will unroll the loop 127 times! *)
-        eapply RunO.LoopStep with
-          (output_inter := Result.Ok (body selector (S 127)))
-          (state_inter := current_state).
-        *)
         assert (H_was_zero_before :
           MostSignificantBit.get u_low u_high v_low v_high (S 127) =
           MostSignificantBit.get u_low u_high v_low v_high (S next_over_index)
         ) by admit.
         induction next_over_index as [|next_over_index']; intros.
         { (* Base case *)
-          (* We admit that we must terminate, so that this case is not reachable. *)
-          admit.
-          (* eapply RunO.LoopStep.
-          { repeat (cu || lu). pe. }
-          { fold (HighLow.get_raw_selector u v (2 ^ Z.of_nat 0)).
-            unfold u, v.
-            rewrite <- HighLow.get_selector_eq by (try assumption; lia).
-            admit.
-          } *)
+          unfold selector_of_over_index, mask_of_over_index in selector.
+          change (2 ^ Z.of_nat 1 / 2) with (2 ^ 0) in selector.
+          (* Because both [u) and [v] are not zero. *)
+          assert (selector <> 0) by admit.
+          eapply RunO.LoopStep with
+            (output_inter := Result.Ok (BlockUnit.Break, (selector, 0)))
+            (state_inter := current_state).
+          { unfold Stdlib.iszero, Pure.iszero.
+            replace (selector =? 0) with false by lia.
+            lu; cu; s.
+            p.
+          }
+          { pe; try reflexivity; repeat f_equal.
+            rewrite H_was_zero_before.
+            cbn.
+            rewrite PointsSelector.is_zero_to_Z_eq.
+            rewrite HighLow.get_selector_eq by (try assumption; lia).
+            replace (HighLow.get_raw_selector _ _ _ =? 0) with false. 2: {
+              unfold u, v in selector; lia.
+            }
+            rewrite HighLow.get_selector_eq by (try assumption; lia).
+            reflexivity.
+          }
         }
         { (* Inductive case *)
           eapply RunO.LoopStep with
@@ -835,23 +843,6 @@ Proof.
               rewrite HighLow.get_selector_eq by (try assumption; admit).
               unfold u, v in H_selector_eq.
               now rewrite H_selector_eq.
-
-              (* rewrite PointsSelector.is_zero_to_Z_eq.
-              rewrite HighLow.get_selector_eq by (try assumption; admit).
-              (* rewrite H_selector_eq. *)
-              unfold selector_of_over_index in H_selector_eq.
-              replace (Z.of_nat (S (S next_over_index')))
-                with (1 + Z.of_nat (S next_over_index'))
-                in H_selector_eq
-                by lia.
-              rewrite Zpower_exp in H_selector_eq by lia.
-              unfold u, v in H_selector_eq.
-              replace (2 ^ 1 * 2 ^ Z.of_nat (S next_over_index') / 2)
-                with (2 ^ Z.of_nat (S next_over_index'))
-                in H_selector_eq
-                by lia.
-              rewrite H_selector_eq.
-              reflexivity. *)
             }
             { (* We stop the loop *)
               rewrite H_was_zero_before.
@@ -879,554 +870,17 @@ Proof.
           }
         }
       }
-            unfold selector.
-            rewrite <- HighLow.get_selector_eq by (try assumption; admit).
-            destruct (Pure.iszero previous_selector =? 0) eqn:H_previous_selector.
-            { admit. }
-            { admit. }
-            fold (HighLow.get_raw_selector u v (2 ^ Z.of_nat (S index))).
-            unfold u, v.
-            rewrite <- HighLow.get_selector_eq by (try assumption; admit).
-            replace (Pure.shr 1 (2 ^ Z.of_nat (S index))) with (2 ^ Z.of_nat index) by admit.
-          }
-        }
-        revert index.
-        eapply RunO.LoopStep.
-        { 
-
-        }
-      }
-      l. {
-
-        eapply RunO.LoopStep. {
-
-        } with
-          (output_inter := MostSignificantBit.get_until
-            u_low u_high v_low v_high
-            (PointsSelector.Build_t false false false false)
-            127 0).
-          ).
-        eapply RunO.LoopOneStepUnsafe with (default_output := Result.Ok (BlockUnit.Tt, (
-          HighLow.get_raw_selector u v (2 ^ 127),
-          2 ^ 126
-        ))). {
-          l. {
-            cu; p.
-          }
-          l. {
-            l. {
-              repeat cu; p.
-            }
-            p.
-          }
-          repeat (lu || cu); p.
-        }
-        p.
-      }
-      unfold u, v.
-      change (Pure.add 0 2048) with 2048.
-      Ltac run_load_coordinate :=
-        l; [
-          repeat (c; [p || apply_run_mload|]);
-          c; [
-            rewrite <- HighLow.get_selector_eq by (try assumption; lia);
-            eapply run_get_point_coordinate; reflexivity
-          |];
-          p
-        |].
-      do 4 run_load_coordinate.
-      repeat load_store_line.
-      l. {
-        eapply RunO.LoopOneStepUnsafe with (default_output := Result.Ok (BlockUnit.Tt, (
-          0,
-          0,
-          0,
-          0,
-          0
-        ))). {
-          set (P_127 := PointsSelector.get_point p Q Q' G G' (HighLow.get_selector u_low u_high v_low v_high 127)).
-          load_store_line.
-          destruct (_ =? 0) in |- *; [p|].
-          l. {
-            l. {
-              repeat load_store_line.
-            }
-            set (dbl_neg_P_127 := ecDblNeg a p P_127).
-            match goal with
-            | |- context[Result.Ok (BlockUnit.Tt, (?X, ?Y, ?ZZZ, ?ZZ))] =>
-              replace X with dbl_neg_P_127.(PZZ.X) at 1 by reflexivity;
-              replace Y with dbl_neg_P_127.(PZZ.Y) at 1 by reflexivity;
-              replace ZZ with dbl_neg_P_127.(PZZ.ZZ) at 1 by reflexivity;
-              replace ZZZ with dbl_neg_P_127.(PZZ.ZZZ) at 1 by reflexivity
-            end.
-            load_store_line.
-            match goal with
-            | |- context[Stdlib.iszero ?selector] =>
-              change selector with (HighLow.get_raw_selector u v (2 ^ 126))
-            end.
-            l. {
-              c; [p|].
-              with_strategy opaque [Z.pow] s.
-              destruct (_ =? 0) in |- *. 2: {
-                load_store_line.
-              }
-              (* different end of branch *)
-              admit.
-            }
-            load_store_line.
-            2: {
-              unfold HighLow.get_raw_selector.
-            }
-            l. {
-
-            }
-            run_load_coordinate.
-          }
-        }
-      }
-      l. {
-        c. {
-          apply_run_mload.
-        }
-        p.
-      }
-      (* run_load_coordinate. *)
-      l. {
-        repeat (c; [p || apply_run_mload|]).
-        c. {
-          rewrite <- HighLow.get_selector_eq by (try assumption; lia).
-          eapply run_get_point_coordinate; reflexivity.
-        }
-        p.
-      }
-        c. {
-          apply_run_mload.
-        }
-        fold @LowM.let_.
-        c. {
-          p.
-        }
-        fold @LowM.let_.
-
-      }
-      (* l. {
-        try (c; [p || apply_run_mload|]; with_strategy opaque [Z.pow] s).
-      } *)
-      (* l. { *)
-        Ltac run_load_coordinate :=
-          l; [
-            try (c; [p || apply_run_mload|]; with_strategy opaque [Z.pow] s);
-            c; [
-              rewrite <- HighLow.get_selector_eq by (try assumption; lia);
-              eapply run_get_point_coordinate; reflexivity
-            |];
-            c; [
-              apply_run_mstore
-            |];
-            CanonizeState.execute;
-            p
-          |].
-        run_load_coordinate.
-      }
-        load_store_line.
-        unfold Contract_91.Contract_91_deployed.usrδmstore4 at 1.
-        load_store_line.
-      }
-    }
-    l. {
-      repeat (cu || lu); p.
-    }
-    l. {
-      repeat (cu || lu); p.
-    }
-    l. {
-      p.
-    }
-    l. {
-      p.
-    }
-    repeat (cu || lu); p.
-    end.
-    lu.
-    repeat load_store_line.
-    l. {
-      unfold Shallow.if_, Pure.iszero.
-      instantiate (2 := Result.Ok (BlockUnit.Tt, if u =? 0 then _ else _)).
-      destruct (u =? 0); s; [|p].
-      load_store_line.
-    }
-    s.
-    lu.
-    match goal with
-    | |- context [Shallow.if_ ?condition] =>
-      replace condition with (Z.b2z ((u =? 0) && (v =? 0)))
-    end. 2: {
-      unfold Pure.iszero.
-      now repeat destruct (_ =? 0).
-    }
-    match goal with
-    | |- context [Shallow.if_ (Z.b2z ?condition)] =>
-      destruct condition eqn:H_u_v_eq; s
-    end.
-    { load_store_line. }
-    { (* Here we fill the memory with all the possible combinations of additions *)
-      repeat load_store_line.
-      (* We simplify these additions that are a little bit too unfolded *)
-      repeat match goal with
-      | t := ecAddn2 _ ?P1 ?P2 : _ |- _ =>
-        match P1 with
-        | {| PZZ.X := ?P.(PA.X) |} =>
-          change P1 with (PZZ.of_PA P) in t
-        end ||
-        match goal with
-        | P := _ : _ |- _ =>
-          change P1 with P in t
-        end ||
-        match P2 with
-        | {| PA.X := ?P.(PA.X) |} =>
-          change P2 with P in t
-        end
-      end.
-      (* We flatten the additions *)
-      repeat match goal with
-      | _ := ?t : PZZ.t |- _ =>
-        let t' := eval cbv - [ecAddn2 PZZ.of_PA] in t in
-        progress change t with t' in * |-
-      end.
-      (* We show that the memory is equal to the description based on selectors *)
-      set (P0 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false false false false)).
-      set (P1 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true false false false)).
-      set (P2 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false true false false)).
-      set (P3 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true true false false)).
-      set (P4 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false false true false)).
-      set (P5 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true false true false)).
-      set (P6 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false true true false)).
-      set (P7 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true true true false)).
-      set (P8 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false false false true)).
-      set (P9 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true false false true)).
-      set (P10 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false true false true)).
-      set (P11 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true true false true)).
-      set (P12 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false false true true)).
-      set (P13 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true false true true)).
-      set (P14 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t false true true true)).
-      set (P15 := PointsSelector.get_point p Q Q' G G' (PointsSelector.Build_t true true true true)).
-      apply_memory_update_at (2048 + 0 * 32) P0.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 1 * 32) P0.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 2 * 32) P0.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 3 * 32) P0.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 4 * 32) P1.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 5 * 32) P1.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 6 * 32) P1.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 7 * 32) P1.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 8 * 32) P2.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 9 * 32) P2.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 10 * 32) P2.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 11 * 32) P2.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 12 * 32) P3.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 13 * 32) P3.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 14 * 32) P3.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 15 * 32) P3.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 16 * 32) P4.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 17 * 32) P4.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 18 * 32) P4.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 19 * 32) P4.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 20 * 32) P5.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 21 * 32) P5.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 22 * 32) P5.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 23 * 32) P5.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 24 * 32) P6.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 25 * 32) P6.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 26 * 32) P6.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 27 * 32) P6.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 28 * 32) P7.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 29 * 32) P7.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 30 * 32) P7.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 31 * 32) P7.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 32 * 32) P8.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 33 * 32) P8.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 34 * 32) P8.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 35 * 32) P8.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 36 * 32) P9.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 37 * 32) P9.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 38 * 32) P9.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 39 * 32) P9.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 40 * 32) P10.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 41 * 32) P10.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 42 * 32) P10.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 43 * 32) P10.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 44 * 32) P11.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 45 * 32) P11.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 46 * 32) P11.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 47 * 32) P11.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 48 * 32) P12.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 49 * 32) P12.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 50 * 32) P12.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 51 * 32) P12.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 52 * 32) P13.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 53 * 32) P13.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 54 * 32) P13.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 55 * 32) P13.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 56 * 32) P14.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 57 * 32) P14.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 58 * 32) P14.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 59 * 32) P14.(PZZ.ZZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 60 * 32) P15.(PZZ.X); [reflexivity|].
-      apply_memory_update_at (2048 + 61 * 32) P15.(PZZ.Y); [reflexivity|].
-      apply_memory_update_at (2048 + 62 * 32) P15.(PZZ.ZZ); [reflexivity|].
-      apply_memory_update_at (2048 + 63 * 32) P15.(PZZ.ZZZ); [reflexivity|].
-      (* Remove unused definitions *)
-      repeat match reverse goal with
-      | t := _ : PZZ.t |- _ => clear t
-      end.
-      set (mask_address := 0x01a0).
-      set (ZZZ_address := 0xe0).
-      (* Computation of the most-significant bit *)
-      l. {
-        eapply LoopOneStepUnsafe with (default_output := Result.Ok (BlockUnit.Tt, tt)). {
-          load_store_line.
-          l. {
-            load_store_line.
-          }
-          load_store_line.
-        }
-        apply_memory_update_at mask_address (2 ^ 126). {
-          reflexivity.
-        }
-        apply_memory_update_at ZZZ_address (HighLow.get_raw_selector u v (2 ^ 127)). {
-          reflexivity.
-        }
-        p.
-      }
-      repeat load_store_line.
-      unfold u, v.
-      Ltac run_load_coordinate :=
-        l; [
-          try (c; [p|]; with_strategy opaque [Z.pow] s);
-          c; [
-            rewrite <- HighLow.get_selector_eq by (try assumption; lia);
-            eapply run_get_point_coordinate; reflexivity
-          |];
-          c; [
-            apply_run_mstore
-          |];
-          CanonizeState.execute;
-          p
-        |].
-      do 4 run_load_coordinate.
-      load_store_line.
-      set (P_127 := PointsSelector.get_point p Q Q' G G' _) in |- *.
-      (* Main for loop *)
-      l. {
-        eapply LoopOneStepUnsafe with (default_output := Result.Ok (BlockUnit.Tt, tt)). {
-          load_store_line.
-          l. {
-            set (P_127_X_address := 5 * 32).
-            set (P_127_Y_address := 8 * 32).
-            set (P_127_ZZ_address := 14 * 32).
-            set (P_127_ZZZ_address := 7 * 32).
-            load_store_line.
-            load_store_line.
-            load_store_line.
-            load_store_line.
-            load_store_line.
-            load_store_line.
-            set (dbl_neg_P_127 := ecDblNeg a p P_127).
-            (* This special optimization is made by the Solidity compiler *)
-            replace (Pure.add p (Pure.not 1)) with (Pure.sub p 2). 2: {
-              unfold Pure.add, Pure.sub, Pure.not.
-              lia.
-            }
-            apply_memory_update_at P_127_X_address dbl_neg_P_127.(PZZ.X); [reflexivity|].
-            apply_memory_update_at P_127_Y_address dbl_neg_P_127.(PZZ.Y); [reflexivity|].
-            apply_memory_update_at P_127_ZZ_address dbl_neg_P_127.(PZZ.ZZ); [reflexivity|].
-            apply_memory_update_at P_127_ZZZ_address dbl_neg_P_127.(PZZ.ZZZ); [reflexivity|].
-            l. {
-              repeat (c; [
-                apply_run_mload ||
-                p
-              |]).
-              change (Result.Ok _) with (Result.Ok (HighLow.get_raw_selector u v (2 ^ 126))).
-              unfold u, v.
-              rewrite <- HighLow.get_selector_eq by (try assumption; lia).
-              p.
-            }
-            (* We flatten the control flow because there is going to be an `if` with a `continue` *)
-            lu.
-            c; [p|].
-            with_strategy opaque [Z.pow] s.
-            match goal with
-            | |- context[Shallow.if_ ?condition] =>
-              let condition' := eval unfold Pure.iszero in condition in
-              change condition with condition'
-            end.
-            destruct (PointsSelector.to_Z _ =? 0) eqn:H_is_selector_zero.
-            { (* The selector is zero *)
-              load_store_line.
-            }
-            { (* The selector is not zero *)
-              l. {
-                repeat (c; [
-                  apply_run_mload ||
-                  p
-                |]).
-                with_strategy opaque [Z.pow] s.
-                c. {
-                  eapply run_get_point_coordinate; reflexivity.
-                }
-                p.
-              }
-              set (P_126 := PointsSelector.get_point p Q Q' G G' _) in |- *.
-              load_store_line.
-              l. {
-                c. {
-                  eapply run_get_point_coordinate; reflexivity.
-                }
-                p.
-              }
-              fold P_126.
-              load_store_line.
-              (* Flattening the control flow to anticipate an `if` *)
-              lu.
-              repeat (c; [
-                apply_run_mload ||
-                p
-              |]).
-              fold @LowM.let_.
-              unfold Pure.iszero at 1.
-              destruct (dbl_neg_P_127.(PZZ.ZZ) =? 0).
-              { (* Case is zero *)
-                load_store_line.
-                l. {
-                  repeat (c; [
-                    apply_run_mload ||
-                    p
-                  |]).
-                  s.
-                  c. {
-                    eapply run_get_point_coordinate; reflexivity.
-                  }
-                  c. {
-                    apply_run_mstore.
-                  }
-                  CanonizeState.execute.
-                  p.
-                }
-                l. {
-                  repeat (c; [
-                    apply_run_mload ||
-                    p
-                  |]).
-                  s.
-                  c. {
-                    eapply run_get_point_coordinate; reflexivity.
-                  }
-                  c. {
-                    apply_run_mstore.
-                  }
-                  CanonizeState.execute.
-                  p.
-                }
-                l. {
-                  repeat (c; [
-                    apply_run_mload ||
-                    p
-                  |]).
-                  s.
-                  c. {
-                    eapply run_get_point_coordinate; reflexivity.
-                  }
-                  c. {
-                    apply_run_mstore.
-                  }
-                  CanonizeState.execute.
-                  p.
-                }
-                fold @LowM.let_.
-                (* This is the end of a control-flow branch *)
-                admit.
-              }
-              { (* Case is not zero *)
-                l. {
-                  repeat (c; [
-                    apply_run_mload ||
-                    p
-                  |]).
-                  s.
-                  c. {
-                    eapply run_get_point_coordinate; reflexivity.
-                  }
-                  fold P_126.
-                  repeat (c; [
-                    apply_run_mload ||
-                    p
-                  |]).
-                  p.
-                }
-                l. {
-                  repeat (c; [
-                    apply_run_mload ||
-                    p
-                  |]).
-                  c. {
-                    apply_run_mstore.
-                  }
-                  CanonizeState.execute.
-                  p.
-                }
-                l. {
-                  repeat (c; [
-                    apply_run_mload ||
-                    p
-                  |]).
-                  c. {
-                    eapply run_get_point_coordinate; reflexivity.
-                  }
-                  fold P_126.
-                  p.
-                }
-                load_store_line.
-                (* `if continue` *)
-                lu.
-                c. {
-                  p.
-                }
-                fold @LowM.let_.
-                unfold Pure.iszero at 1.
-                match goal with
-                | |- context[if ?condition then _ else _] => destruct condition
-                end.
-                { lu.
-                  c. {
-                    p.
-                  }
-                  fold @LowM.let_.
-                  unfold Pure.iszero at 1.
-                  match goal with
-                  | |- context[if ?condition then _ else _] => destruct condition
-                  end.
-                  { load_store_line.
-                    load_store_line.
-                    load_store_line.
-                    (* Too slow, we should factorize the expressions *)
-                    admit.
-                  }
-                  { load_store_line.
-                    load_store_line.
-                    load_store_line.
-                    (* Too slow, we should factorize the expressions *)
-                    admit.
-                  }
-                }
-                admit.
-              }
-            }
-          }
-          admit.
-        }
-        admit.
-      }
-      admit.
-    }
-  }
-  admit.
+      unfold mask_of_over_index.
+      clear next_over_index mask_of_over_index.
+      destruct (MostSignificantBit.get _ _ _ _ _) as [selector next_over_index] eqn:H_selector_eq.
+      unfold current_state; clear current_state.
+      do 4 (l; [
+        repeat (c; [p || apply_run_mload|]);
+        c; [
+          eapply run_get_point_coordinate; reflexivity
+        |];
+        p
+      |]).
+      do 2 load_store_line.
+      (* Main `for` loop *)
 Admitted.
