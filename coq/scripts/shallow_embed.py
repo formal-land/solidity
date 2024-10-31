@@ -27,8 +27,9 @@ def name_to_coq(name: str) -> str:
     if name in reserved_names:
         return name + "_"
 
-    # We do this replacement to get the name accepted in Coq
-    return name.replace("$", "δ")
+    # We do this replacement to get the name accepted in Coq while still keeping a code
+    # which is readable.
+    return name.replace("usr$", "ᵤ").replace("$", "ₓ")
 
 
 def names_to_coq(as_pattern: bool, names: list[str]) -> str:

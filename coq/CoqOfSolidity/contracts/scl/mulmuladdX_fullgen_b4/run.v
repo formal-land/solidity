@@ -83,7 +83,7 @@ Definition ecAddn2 (p : U256.t) (P1 : PZZ.t) (P2 : PA.t) : PZZ.t :=
     PZZ.ZZZ := usr_zzz
   |}.
 
-Lemma run_usrδecAddn2 codes environment state
+Lemma run_ᵤecAddn2 codes environment state
     (P1_X P1_Y P1_ZZ P1_ZZZ P2_X P2_Y : U256.t) (p : U256.t) :
   let output :=
     ecAddn2 p
@@ -91,12 +91,12 @@ Lemma run_usrδecAddn2 codes environment state
       {| PA.X := P2_X; PA.Y := P2_Y |} in
   let output := Result.Ok (output.(PZZ.X), output.(PZZ.Y), output.(PZZ.ZZ), output.(PZZ.ZZZ)) in
   {{? codes, environment, Some state |
-    Contract_91.Contract_91_deployed.usrδecAddn2 P1_X P1_Y P1_ZZ P1_ZZZ P2_X P2_Y p ⇓
+    Contract_91.Contract_91_deployed.ᵤecAddn2 P1_X P1_Y P1_ZZ P1_ZZZ P2_X P2_Y p ⇓
     output
   | Some state ?}}.
 Proof.
   simpl.
-  unfold Contract_91.Contract_91_deployed.usrδecAddn2.
+  unfold Contract_91.Contract_91_deployed.ᵤecAddn2.
   l. {
     repeat (l; [repeat cu; p|]).
     p.
@@ -352,11 +352,11 @@ Module MostSignificantBit.
 
     Definition get := 'get. *)
 
-    Fixpoint get (u_low u_high v_low v_high : U256.t) (over_index : nat) :
+    Fixpoint get (u_low u_high v_low v_high : U128.t) (over_index : nat) :
       PointsSelector.t * nat :=
       match over_index with
       | O =>
-        (* we should never reach this case if the values are not all zero *)
+        (* We should never reach this case if the values are not all zero *)
         (PointsSelector.Build_t false false false false, O)
       | S index =>
         let selector := HighLow.get_selector u_low u_high v_low v_high (Z.of_nat index) in
@@ -405,7 +405,7 @@ Ltac load_store_line :=
         p ||
         apply_run_mload ||
         apply_run_mstore ||
-        apply run_usrδecAddn2 ||
+        apply run_ᵤecAddn2 ||
         (* For mstore4 *)
         (l; [repeat load_store_line |])
       |];
