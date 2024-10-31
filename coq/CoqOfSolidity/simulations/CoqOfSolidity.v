@@ -1551,7 +1551,8 @@ Module RunO.
       (body : In -> LowM.t Out)
       (break_with : Out -> In + Out)
       (k : Out -> LowM.t Out)
-      output output_inter state state_inter state'
+      (output output_inter : Out)
+      state state_inter state'
       (H_body : {{? codes, environment, state | body init ⇓ output_inter | state_inter ?}})
       (H_break_with :
         match break_with output_inter with
