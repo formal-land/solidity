@@ -50,6 +50,7 @@ For more information, you can read our blog post:
 
 - [🪁 Enhancements to coq-of-solidity – 1](https://formal.land/blog/2024/10/16/coq-of-solidity-enhanced-version-1)
 - [⚈ Verification of the Smoo.th library – 1](https://formal.land/blog/2024/10/21/verification-smooth-library-1)
+- [⚈ Verification of the Smoo.th library – 2](https://formal.land/blog/2024/10/28/verification-smooth-library-2)
 
 ## 💌 Contact
 
