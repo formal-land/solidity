@@ -20,7 +20,7 @@ jobs:
       run: git submodule update --init --recursive
     - uses: coq-community/docker-coq-action@v1
       with:
-        custom_image: coqorg/coq:8.17-ocaml-4.14-flambda
+        custom_image: coqorg/coq:8.20-ocaml-4.14-flambda
         custom_script: |
           startGroup "Install dependencies"
             sudo apt-get update
@@ -37,13 +37,6 @@ jobs:
           endGroup
           startGroup "Check that the diff is empty (excluding submodules)"
             git -c color.ui=always diff --exit-code --ignore-submodules=dirty
-          endGroup
-          startGroup "Install Coq dependencies"
-            cd coq/third-party/coq-evm
-            ./configure
-            make
-            make install
-            cd ../../..
           endGroup
           startGroup "Compile Coq project"
             cd coq/CoqOfSolidity

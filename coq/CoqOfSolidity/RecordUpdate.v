@@ -15,7 +15,7 @@ Ltac2 rec strip_foralls (t : constr) :=
 
 Ltac2 app_arg_count (t : constr) :=
   match Constr.Unsafe.kind t with
-  | Constr.Unsafe.App f args => Array.length args
+  | Constr.Unsafe.App _ args => Array.length args
   | _ => 0
   end.
 
@@ -31,7 +31,7 @@ Ltac2 field_names (ctor_ref : Std.reference) :=
 
 Ltac2 constructor_of_record (t : constr) :=
   match Constr.Unsafe.kind t with
-  | Constr.Unsafe.Ind ind inst =>
+  | Constr.Unsafe.Ind ind _ =>
     Std.ConstructRef (Constr.Unsafe.constructor ind 0)
   | _ => Control.throw (Invalid_argument (Some (Message.of_constr t)))
   end.
@@ -44,7 +44,7 @@ Ltac2 record_with_set_val (ty : constr) (record : constr)
   let (h, args) :=
     match Constr.Unsafe.kind ty with
     | Constr.Unsafe.App h args => (h, args)
-    | _ => (ty, Array.empty ())
+    | _ => (ty, Array.empty)
     end in
   let ctor := constructor_of_record h in
   let getters := List.map (fun getterRef =>
